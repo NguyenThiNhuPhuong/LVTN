@@ -1,0 +1,55 @@
+.slider-container {
+  margin: 0 auto;
+  width: 1480px;
+  color: #333;
+  background: white;
+}
+.slick-prev:before,
+.slick-next:before {
+  font-family: "slick";
+  font-size: 20px;
+  line-height: 1;
+  opacity: 0.75;
+  color: black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.title {
+  width: 100px;
+  height: 50px;
+  background-color: black;
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 30px;
+  font-weight: 300;
+  text-transform: uppercase;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 4;
+}
+@media (max-width: 650px) {
+  .slider-container {
+    margin: 0 auto;
+    padding: 10px;
+    width: 370px;
+    color: #333;
+    background: white;
+  }
+  .title {
+    width: 70px;
+    height: 30px;
+    font-size: 20px;
+    font-weight: 300;
+  }
+  img {
+    height: 250px;
+  }
+}
