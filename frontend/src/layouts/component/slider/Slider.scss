@@ -41,6 +41,11 @@
   text-align: center;
   z-index: 4;
 }
+@media (max-width: 1024px) {
+  .slider-container {
+    width: 820px;
+  }
+}
 @media (max-width: 650px) {
   .slider-container {
     margin: 0 auto;

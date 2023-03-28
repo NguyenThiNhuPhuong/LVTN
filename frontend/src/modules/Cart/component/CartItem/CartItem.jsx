@@ -13,7 +13,12 @@ function CartItem() {
   const cart = useSelector((state) => state.cart.listCart);
 
   const dispatch = useDispatch();
-
+  const decreaseCartItem = (item, e) => {
+    return e.defaultPrevented(), dispatch(decreaseCart(item));
+  };
+  const increaseCartItem = (item, e) => {
+    return e.defaultPrevented(), dispatch(increaseCart(item));
+  };
   return (
     <>
       {cart?.map((item, index) => (
@@ -52,26 +57,12 @@ function CartItem() {
             </td>
             <td className="cart__row--amount">
               <div>
-                <button
-                  onClick={(e) => {
-                    e.defaultPrevented();
-                    dispatch(decreaseCart(item));
-                  }}
-                >
-                  -
-                </button>
+                <button onClick={() => decreaseCartItem(item)}>-</button>
                 <span>{item.cartNum}</span>
-                <button
-                  onClick={(e) => {
-                    e.defaultPrevented();
-                    dispatch(increaseCart(item));
-                  }}
-                >
-                  +
-                </button>
+                <button onClick={() => increaseCartItem(item)}>+</button>
               </div>
             </td>
-            <td className="cart-product-price text-right">
+            <td className="cart__row--price">
               <span style={{ color: "black", fontSize: "2rem" }}>
                 {(item.price_sale > 0
                   ? item.price_sale * item.cartNum

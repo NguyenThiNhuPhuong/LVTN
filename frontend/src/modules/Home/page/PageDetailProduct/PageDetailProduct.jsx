@@ -89,13 +89,13 @@ export default function PageDetailProduct() {
           <p>{selectProductShow?.content}</p>
         </div>
       </div>
-      <div className="slider__container">
+      {/* <div className="slider__container">
         <Slider {...Settings}>
           {relatedProductList?.map((product, index) => {
             return <Products product={product} key={index} />;
           })}
         </Slider>
-      </div>
+      </div> */}
     </>
   ) : (
     <Loading />

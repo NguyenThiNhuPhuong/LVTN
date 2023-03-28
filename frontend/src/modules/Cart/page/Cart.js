@@ -43,7 +43,7 @@ function Cart(props) {
             <table className="cart__table">
               <thead className="cart__row cart__header-labels">
                 <tr>
-                  <th colspan="2" className="text-center">
+                  <th colSpan="2" className="text-center">
                     Thông tin chi tiết sản phẩm
                   </th>
                   <th className="text-center">Đơn giá</th>
@@ -55,11 +55,9 @@ function Cart(props) {
             </table>
             <div className="cart__row">
               <div className="cart__footer">
-                <div class="cart__footer--note">
-                  <label for="CartSpecialInstructions">
-                    Chú thích cho cửa hàng
-                  </label>
-                  <textarea id="CartSpecialInstructions" />
+                <div className="cart__footer--note">
+                  <label>Chú thích cho cửa hàng</label>
+                  <textarea />
                 </div>
 
                 <div className="cart__footer--total">
