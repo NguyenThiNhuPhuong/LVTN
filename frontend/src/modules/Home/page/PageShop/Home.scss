@@ -1,9 +1,9 @@
 .product {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  column-gap: 40px;
-  row-gap: 20px;
-  padding: 20px 85px;
+  column-gap: 10px;
+  row-gap: 10px;
+  padding: 20px 120px;
 }
 .pagination {
   padding: 20px;

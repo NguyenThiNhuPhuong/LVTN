@@ -1,8 +1,15 @@
 .slider-container {
   margin: 0 auto;
-  width: 1480px;
+  width: 1510px;
   color: #333;
   background: white;
+  z-index: 30;
+}
+.slick-next {
+  right: 10px;
+}
+.slick-prev {
+  left: 10px;
 }
 .slick-prev:before,
 .slick-next:before {

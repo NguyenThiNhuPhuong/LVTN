@@ -5,10 +5,10 @@
   align-items: center;
   &__noSale {
     display: block;
-    font-size: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
     padding-left: 0;
     margin-left: 0;
-    color: red;
   }
   &__sale {
     display: block;
