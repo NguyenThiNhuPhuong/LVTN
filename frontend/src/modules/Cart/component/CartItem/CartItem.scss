@@ -1,0 +1,52 @@
+.cart__row {
+  &--image {
+    img {
+      display: block;
+      width: 200px;
+      height: 200px;
+    }
+  }
+  &--product {
+    .h4 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #666666;
+      text-transform: uppercase;
+    }
+  }
+  &--remove {
+    display: block;
+    font-size: 1.5rem;
+    margin-left: 0;
+    background-color: white;
+    span {
+      font-size: 2rem;
+      color: red;
+      margin-left: 0;
+    }
+  }
+  &--amount {
+    height: 30px;
+    div {
+      border: 1px solid gray;
+      display: flex;
+      width: 200px;
+    }
+    button {
+      width: 70px;
+      height: 30px;
+      text-align: center;
+    }
+    span {
+      height: 30px;
+      width: 200px;
+      color: black;
+      font-weight: 700;
+      font-size: 18px;
+      text-align: center;
+      margin-left: 0px;
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+    }
+  }
+}
