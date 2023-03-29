@@ -23,16 +23,19 @@ export default function AllPrice(props) {
 
   return (
     <div className="price">
-      <span className="price__noSale">
-        <FormatNumber price={price} />
-      </span>
-
       {price_sale > 0 ? (
-        <del className="price__sale">
-          <FormatNumber price={price_sale} />
-        </del>
+        <>
+          <span className="price__noSale">
+            <FormatNumber price={price_sale} />
+          </span>
+          <del className="price__sale">
+            <FormatNumber price={price} />
+          </del>
+        </>
       ) : (
-        ""
+        <span className="price__noSale">
+          <FormatNumber price={price} />
+        </span>
       )}
     </div>
   );

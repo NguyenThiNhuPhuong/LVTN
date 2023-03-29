@@ -11,11 +11,7 @@ import {
 } from "~/redux/slice/product/ProductSlice";
 import Loading from "../../component/loading/Loading";
 import { Price } from "../../component/products/component/Price/Price";
-import Products from "../../component/products/Products";
 import "./PageDetailProduct.scss";
-
-import Slider from "react-slick";
-import { Settings } from "~/components/constant/settings";
 
 export default function PageDetailProduct() {
   const selectProductShow = useSelector(

@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 
 const cartSlice = createSlice({
@@ -11,7 +11,7 @@ const cartSlice = createSlice({
   reducers: {
     addCart: (state, action) => {
       const indexCart = state.listCart?.findIndex(
-        (val) => val._id === action.payload._id
+        (val) => val?._id === action.payload?._id
       );
       if (indexCart === -1) {
         state.listCart.push({ ...action.payload, cartNum: 1 });
@@ -23,8 +23,8 @@ const cartSlice = createSlice({
         );
       } else {
         state.listCart[indexCart].cartNum < state.listCart[indexCart].num
-          ? (state.listCart[indexCart].cartNum +=
-              1 && localStorage.setItem("cart", JSON.stringify(state.listCart)))
+          ? state.listCart[indexCart].cartNum++ &&
+            localStorage.setItem("cart", JSON.stringify(state.listCart))
           : Swal.fire(
               "The Internet?",
               "Rất tiếc sản phẩm để hết số lượng",
@@ -34,28 +34,32 @@ const cartSlice = createSlice({
     },
     removeCart: (state, action) => {
       const removeCart = action.payload;
-      return state.listCart.filter((cart) => cart._id !== removeCart._id);
+      console.log("lenght", JSON.stringify(state.listCart.length));
+
+      state.listCart.filter((cart) => cart._id !== removeCart._id) &&
+        localStorage.setItem("cart", JSON.stringify(state.listCart));
+      console.log("lenght", JSON.stringify(state.listCart.length));
     },
     increaseCart: (state, action) => {
       const indexCart = state.listCart?.findIndex(
-        (val) => val._id === action.payload._id
+        (val) => val._id === action.payload?._id
       );
-      state.listCart[indexCart].cartNum < state.listCart[indexCart].num
-        ? (state.listCart[indexCart].cartNum +=
-            1 && localStorage.setItem("cart", JSON.stringify(state.listCart)))
+      state.listCart[indexCart]?.cartNum < state.listCart[indexCart]?.num
+        ? state.listCart[indexCart].cartNum++ &&
+          localStorage.setItem("cart", JSON.stringify(state.listCart))
         : Swal.fire(
             "The Internet?",
-            "Rất tiếc sản phẩm chỉ conf 1 cái ",
+            `Rất tiếc sản phẩm chỉ còn ${state.listCart[indexCart].cartNum} cái `,
             "question"
           );
     },
     decreaseCart: (state, action) => {
       const indexCart = state.listCart?.findIndex(
-        (val) => val._id === action.payload._id
+        (val) => val._id === action.payload?._id
       );
-      state.listCart[indexCart].cartNum > 1
-        ? (state.listCart[indexCart].cartNum +=
-            1 && localStorage.setItem("cart", JSON.stringify(state.listCart)))
+      state.listCart[indexCart]?.cartNum > 0
+        ? state.listCart[indexCart].cartNum-- &&
+          localStorage.setItem("cart", JSON.stringify(state.listCart))
         : state.listCart.filter((cart) => cart._id !== action.payload._id);
     },
   },

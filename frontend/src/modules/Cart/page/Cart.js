@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
 import NoProduct from "~/modules/Home/component/noproduct/NoProduct";
+import { FormatNumber } from "~/modules/Home/component/products/component/Price/Price";
 import CartItem from "../component/CartItem/CartItem";
 import "./Cart.scss";
 
@@ -63,7 +64,9 @@ function Cart(props) {
                 <div className="cart__footer--total">
                   <p className="cart__footer--total--title">
                     <span>Tổng tiền:</span>
-                    <span className="h3">259,000₫</span>
+                    <span className="h3">
+                      <FormatNumber price={total} />
+                    </span>
                   </p>
                   <div className="cart__footer--total--btn">
                     <button type="submit" className="btnCart update-cart">
