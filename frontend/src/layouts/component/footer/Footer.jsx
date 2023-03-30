@@ -22,7 +22,7 @@ function Footer() {
           <h4 className={cx("footer-title")}>Giới thiệu</h4>
           <div className={cx("footer-content")}>
             <div className={cx("logo-footer")}>
-              <a href="/" target="_blank" rel="nofollow noreferrer">
+              <a href="/" target="_blank">
                 <img
                   src="https://file.hstatic.net/1000300454/file/logo_bct_019590229b4c4dfda690236b67f7aff4.png"
                   alt="Bộ Công Thương"
@@ -52,48 +52,26 @@ function Footer() {
         <div className={cx("footer-col", "footer-content2")}>
           <h4 className={cx("footer-title")}>Liên kết</h4>
           <div className={cx("footer-content", "toggle-footer")}>
-            <ul className="tree-menu">
-              <li className="active">
-                <NavLink
-                  className={(nav) =>
-                    cx("item", (nav) => ({ active: nav.isActive }))
-                  }
-                  //   to={config.routes.about}
-                >
+            <ul>
+              <li>
+                <NavLink className={cx("item")} to="/about">
                   Giới thiệu
                 </NavLink>
               </li>
-
-              <li className="">
-                <NavLink
-                  className={(nav) =>
-                    cx("item", (nav) => ({ active: nav.isActive }))
-                  }
-                  //   to={config.routes.returnPolicy}
-                >
+              <li>
+                <NavLink className={cx("item")} to="/about/returnPolicy">
                   Chính sách đổi trả
                 </NavLink>
               </li>
 
-              <li className="">
-                <NavLink
-                  className={(nav) =>
-                    cx("item", (nav) => ({ active: nav.isActive }))
-                  }
-                  //   to={config.routes.privacyPolicy}
-                >
+              <li>
+                <NavLink className={cx("item")} to="/about/privacyPolicy">
                   Chính sách bảo mật
                 </NavLink>
               </li>
 
-              <li className="">
-                <span></span>
-                <NavLink
-                  className={(nav) =>
-                    cx("item", (nav) => ({ active: nav.isActive }))
-                  }
-                  //   to={config.routes.termsService}
-                >
+              <li>
+                <NavLink className={cx("item")} to="/about/termsService">
                   Điều khoản dịch vụ
                 </NavLink>
               </li>
@@ -116,6 +94,19 @@ function Footer() {
                 </a>
               </li>
             </ul>
+          </div>
+        </div>
+        <div className={cx("footer-col", "footer-content4")}>
+          <h4 className={cx("footer-title")}>Địa chỉ trên gg map</h4>
+          <div className={cx("footer-content footer-contact")}>
+            <iframe
+              title="gg map"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15672.929867181434!2d106.61615137036135!3d10.869915500000745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752a086747c709%3A0xc52ebc55a579f3fc!2zQ8O0bmcgVHkgVE5ISCBUw6JuIEhvw6BuZyBHaWE!5e0!3m2!1svi!2s!4v1680148641074!5m2!1svi!2s"
+              width="300px"
+              height="200px"
+              loading="lazy"
+              style={{ border: "none" }}
+            />
           </div>
         </div>
       </div>

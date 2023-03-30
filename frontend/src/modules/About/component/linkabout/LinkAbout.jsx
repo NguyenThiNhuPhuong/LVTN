@@ -5,7 +5,7 @@ import styles from "./LinkAbout.module.scss";
 
 export default function LinkAbout() {
   const cx = classNames.bind(styles);
-  const [block, setBlock] = useState(false);
+  const [block, setBlock] = useState(true);
   return (
     <div className={cx("sidebar-page")}>
       <div className={cx("group-menu")}>
@@ -21,19 +21,19 @@ export default function LinkAbout() {
         >
           <ul>
             <li className={cx("active")}>
-              <NavLink>Giới thiệu</NavLink>
+              <NavLink to="/about">Giới thiệu</NavLink>
             </li>
 
             <li className={cx("")}>
-              <NavLink>Chính sách đổi trả</NavLink>
+              <NavLink to="/about/returnPolicy">Chính sách đổi trả</NavLink>
             </li>
 
             <li className={cx("")}>
-              <NavLink>Chính sách bảo mật</NavLink>
+              <NavLink to="/about/privacyPolicy">Chính sách bảo mật</NavLink>
             </li>
 
             <li className={cx("")}>
-              <NavLink>Điều khoản dịch vụ</NavLink>
+              <NavLink to="/about/termsService">Điều khoản dịch vụ</NavLink>
             </li>
           </ul>
         </div>

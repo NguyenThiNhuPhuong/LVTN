@@ -5,7 +5,7 @@ function PrivacyPolicy() {
   TabTitle("PrivacyPolicy");
   return (
     <div className="about">
-      <div className="container-fluid">
+      <div className="about__container">
         <div>
           <LinkAbout />
         </div>
@@ -30,17 +30,13 @@ function PrivacyPolicy() {
                 Quý khách yêu cầu.
               </p>
               <p>
-                <span className="wysiwyg-font-size-medium">
-                  Trang web của chúng tôi coi trọng việc bảo mật thông tin và sử
-                  dụng các biện pháp tốt nhất để bảo vệ thông tin cũng như việc
-                  thanh toán của khách hàng.&nbsp;
-                </span>
+                Trang web của chúng tôi coi trọng việc bảo mật thông tin và sử
+                dụng các biện pháp tốt nhất để bảo vệ thông tin cũng như việc
+                thanh toán của khách hàng.&nbsp;
               </p>
               <p>
-                <span className="wysiwyg-font-size-medium">
-                  Mọi thông tin giao dịch sẽ được bảo mật ngoại trừ trong trường
-                  hợp cơ quan pháp luật yêu cầu.
-                </span>
+                Mọi thông tin giao dịch sẽ được bảo mật ngoại trừ trong trường
+                hợp cơ quan pháp luật yêu cầu.
               </p>
             </div>
           </div>

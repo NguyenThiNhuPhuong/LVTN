@@ -15,7 +15,7 @@ const routeClient = {
   about: "/about",
   aboutPrivacyPolicy: "/about/privacyPolicy",
   aboutReturnPolicy: "/about/returnPolicy",
-  aboutTermsService: "/about/TermsService",
+  aboutTermsService: "/about/termsService",
 
   accountInfo: "/account/info",
   accountEdit: "/account/edit",

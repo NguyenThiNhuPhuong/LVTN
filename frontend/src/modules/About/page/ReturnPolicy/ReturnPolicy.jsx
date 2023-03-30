@@ -5,7 +5,7 @@ function ReturnPolicy() {
   TabTitle("ReturnPolicy");
   return (
     <div className="about">
-      <div className="container-fluid">
+      <div className="about__container">
         <div>
           <LinkAbout />
         </div>
