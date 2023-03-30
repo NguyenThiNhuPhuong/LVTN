@@ -59,7 +59,7 @@ function CartItem() {
                   -
                 </button>
                 <span>{item.cartNum}</span>
-                <button type="button" onClick={(e) => increaseCartItem(item)}>
+                <button type="button" onClick={() => increaseCartItem(item)}>
                   +
                 </button>
               </div>

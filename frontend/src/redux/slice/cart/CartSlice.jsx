@@ -34,11 +34,11 @@ const cartSlice = createSlice({
     },
     removeCart: (state, action) => {
       const removeCart = action.payload;
-      console.log("lenght", JSON.stringify(state.listCart.length));
-
+      //   const newCart = state.listCart.filter(
+      //     (cart) => cart._id !== removeCart._id
+      //   );
       state.listCart.filter((cart) => cart._id !== removeCart._id) &&
         localStorage.setItem("cart", JSON.stringify(state.listCart));
-      console.log("lenght", JSON.stringify(state.listCart.length));
     },
     increaseCart: (state, action) => {
       const indexCart = state.listCart?.findIndex(

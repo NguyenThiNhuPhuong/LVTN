@@ -8,6 +8,7 @@ import ReturnPolicy from "~/modules/About/page/ReturnPolicy/ReturnPolicy";
 import TermsService from "~/modules/About/page/TermsService/TermsService";
 import Register from "~/modules/Auth/page/register/Register";
 import Cart from "~/modules/Cart/page/Cart";
+import Contact from "~/modules/Contact/page/Contact";
 import PageDetailProduct from "~/modules/Home/page/PageDetailProduct/PageDetailProduct";
 import Home from "~/modules/Home/page/PageShop/Home";
 import Payment from "~/modules/Payment/page/Payment";
@@ -48,6 +49,8 @@ const PUBLICROUTES = [
     component: TermsService,
     layout: LayoutNoSlider,
   },
+  { path: routeClient.contact, component: Contact, layout: LayoutNoSlider },
+
   { path: routeClient.payment, component: Payment, layout: LayoutNoSlider },
 ];
 export default PUBLICROUTES;
