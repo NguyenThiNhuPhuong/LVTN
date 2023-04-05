@@ -26,17 +26,17 @@ function CartItem() {
   return (
     <>
       {cart?.map((item, index) => (
-        <tbody key={index}>
-          <tr className="cart__row table__section">
-            <td className="cart__row--image">
+        <div className="cart__row table__section" key={index}>
+          <div className="colspan">
+            <div className="cart__row--image">
               <NavLink to={`/product/detail/${item._id}`}>
                 <Image
                   cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
                   publicId={item.images[0]}
                 />
               </NavLink>
-            </td>
-            <td className="cart__row--product">
+            </div>
+            <div className="cart__row--product">
               <NavLink to={`/product/detail/${item._id}`} className="h4">
                 {item.name}
               </NavLink>
@@ -49,31 +49,31 @@ function CartItem() {
               >
                 <DeleteOutlined />
               </button>
-            </td>
-            <td className="cart__row--price">
-              <Price price={item.price} price_sale={item.price_sale} />
-            </td>
-            <td className="cart__row--amount">
-              <div>
-                <button type="button" onClick={() => decreaseCartItem(item)}>
-                  -
-                </button>
-                <span>{item.cartNum}</span>
-                <button type="button" onClick={() => increaseCartItem(item)}>
-                  +
-                </button>
-              </div>
-            </td>
-            <td className="cart__row--price">
-              <span style={{ color: "black", fontSize: "2rem" }}>
-                <Price
-                  price={item.price * item.cartNum}
-                  price_sale={item.price_sale * item.cartNum}
-                />
-              </span>
-            </td>
-          </tr>
-        </tbody>
+            </div>
+          </div>
+          <div className="cart__row--price">
+            <Price price={item.price} price_sale={item.price_sale} />
+          </div>
+          <div className="cart__row--amount">
+            <div>
+              <button type="button" onClick={() => decreaseCartItem(item)}>
+                -
+              </button>
+              <span>{item.cartNum}</span>
+              <button type="button" onClick={() => increaseCartItem(item)}>
+                +
+              </button>
+            </div>
+          </div>
+          <div className="cart__row--price">
+            <span style={{ color: "black", fontSize: "2rem" }}>
+              <Price
+                price={item.price * item.cartNum}
+                price_sale={item.price_sale * item.cartNum}
+              />
+            </span>
+          </div>
+        </div>
       ))}
     </>
   );

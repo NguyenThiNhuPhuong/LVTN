@@ -23,14 +23,8 @@
 @media (max-width: 1024px) {
   .sidebar-page {
     .group-menu {
-      padding: 20px;
-      border: 1px solid #e3e5ec;
+      margin-bottom: 0px;
       &__title {
-        text-transform: uppercase;
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-        border-bottom: 2px solid #000;
-        text-align: center;
         h2 {
           font-size: 1.4rem;
         }
@@ -42,7 +36,6 @@
 @media (max-width: 650px) {
   .sidebar-page {
     .group-menu {
-      margin: 0 0 30px;
       position: relative;
       padding: 20px;
       border: 1px solid #e3e5ec;

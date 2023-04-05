@@ -4,7 +4,6 @@
   padding: 0 15px;
   font-size: 1.6rem;
   .header {
-    padding: 30px 0;
     &__breadcrumb {
       a {
         display: inline-block;
@@ -22,73 +21,64 @@
   }
   .cart {
     &__table {
-      td,
-      th {
-        padding: 30px 15px;
-        border: none;
-      }
+      border: none;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      border-spacing: 0;
-      th {
-        padding: 30px 15px;
-        border: none;
-      }
-    }
+
     &__row {
       position: relative;
       margin-top: 30px;
       padding-top: 30px;
       border-top: 1px solid #f0f0f0;
-      &:first-child {
-        padding-top: 0;
-        margin-top: 0;
-      }
-      .cart__footer {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        column-gap: 20px;
-        &--note {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
 
-          textarea {
-            height: 100px;
-            padding: 10px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      padding: 30px;
+      .text-center {
+        text-align: center;
+      }
+    }
+    &__footer {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      column-gap: 20px;
+      &--note {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        textarea {
+          height: 100px;
+          padding: 10px;
+        }
+      }
+      &--total {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        &--title {
+          font-size: 2rem;
+          .h3 {
+            color: #facd7e;
+            padding-left: 5px;
+            font-size: 3rem;
           }
         }
-        &--total {
+        &--btn {
           display: grid;
-          grid-template-columns: 1fr;
-          gap: 10px;
-          &--title {
-            font-size: 2rem;
-            .h3 {
-              color: #facd7e;
-              padding-left: 5px;
-              font-size: 3rem;
-            }
-          }
-          &--btn {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            .btnCart {
-              width: 150px;
-              height: 50px;
-              background-color: #666666;
-              height: 40px;
-              line-height: 40px;
-              border-radius: 3px;
-              margin-bottom: 10px;
+          grid-template-columns: 1fr 1fr;
+          .btnCart {
+            width: 150px;
+            height: 50px;
+            background-color: #666666;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 3px;
+            margin-bottom: 10px;
 
-              a {
-                width: 100%;
-                color: #f0f0f0;
-                font-size: 1.4rem;
-              }
+            a {
+              width: 100%;
+              color: #f0f0f0;
+              font-size: 1.4rem;
             }
           }
         }

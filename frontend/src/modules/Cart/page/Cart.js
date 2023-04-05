@@ -42,40 +42,34 @@ function Cart(props) {
           </div>
           <form className="cart">
             <table className="cart__table">
-              <thead className="cart__row cart__header-labels">
-                <tr>
-                  <th colSpan="2" className="text-center">
-                    Thông tin chi tiết sản phẩm
-                  </th>
-                  <th className="text-center">Đơn giá</th>
-                  <th className="text-center">Số lượng</th>
-                  <th className="text-center">Tổng giá</th>
-                </tr>
-              </thead>
+              <div className="cart__row cart__header-labels">
+                <div className="text-center">Thông tin chi tiết sản phẩm</div>
+                <div className="text-center">Đơn giá</div>
+                <div className="text-center">Số lượng</div>
+                <div className="text-center">Tổng giá</div>
+              </div>
               <CartItem cart={cart} />
             </table>
-            <div className="cart__row">
-              <div className="cart__footer">
-                <div className="cart__footer--note">
-                  <label>Chú thích cho cửa hàng</label>
-                  <textarea />
-                </div>
+            <div className="cart__footer">
+              <div className="cart__footer--note">
+                <label>Chú thích cho cửa hàng</label>
+                <textarea />
+              </div>
 
-                <div className="cart__footer--total">
-                  <p className="cart__footer--total--title">
-                    <span>Tổng tiền:</span>
-                    <span className="h3">
-                      <FormatNumber price={total} />
-                    </span>
-                  </p>
-                  <div className="cart__footer--total--btn">
-                    <button type="submit" className="btnCart update-cart">
-                      <NavLink to="/product/shop"> Cập nhật</NavLink>
-                    </button>
-                    <button type="submit" className="btnCart">
-                      <NavLink to="/payment"> Thanh toán</NavLink>
-                    </button>
-                  </div>
+              <div className="cart__footer--total">
+                <p className="cart__footer--total--title">
+                  <span>Tổng tiền:</span>
+                  <span className="h3">
+                    <FormatNumber price={total} />
+                  </span>
+                </p>
+                <div className="cart__footer--total--btn">
+                  <button type="submit" className="btnCart update-cart">
+                    <NavLink to="/product/shop"> Cập nhật</NavLink>
+                  </button>
+                  <button type="submit" className="btnCart">
+                    <NavLink to="/payment"> Thanh toán</NavLink>
+                  </button>
                 </div>
               </div>
             </div>
