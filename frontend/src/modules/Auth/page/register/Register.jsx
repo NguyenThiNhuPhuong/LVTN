@@ -1,12 +1,11 @@
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { signUpRegister } from "~/redux/slice/auth/AuthSlice";
-import { MENU_REGISTER } from "../../component/constant";
 import FormRegister from "../../component/FormRegister/FormRegister";
-import styles from "./Register.module.scss";
+import styles from "../../component/Auth.module.scss";
+import { MENU_REGISTER } from "~/components/constant/Menu";
+import { signUpUser } from "~/redux/slice/auth/AuthSlice";
 
 const cx = classNames.bind(styles);
 
@@ -26,7 +25,7 @@ export default function Register() {
       password_confirm: "",
     },
     onSubmit: async (values, actions) => {
-      await dispatch(signUpRegister(values));
+      await dispatch(signUpUser(values));
 
       // isSuccess === true
       //   ? Swal.fire("Vui lòng Kiểm tra email để lấy mã xác nhận") &&

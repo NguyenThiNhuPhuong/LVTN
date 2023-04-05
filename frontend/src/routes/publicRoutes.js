@@ -6,6 +6,7 @@ import About from "~/modules/About/page/about/About";
 import PrivacyPolicy from "~/modules/About/page/PrivacyPolicy/PrivacyPolicy";
 import ReturnPolicy from "~/modules/About/page/ReturnPolicy/ReturnPolicy";
 import TermsService from "~/modules/About/page/TermsService/TermsService";
+import Login from "~/modules/Auth/page/login/Login";
 import Register from "~/modules/Auth/page/register/Register";
 import Cart from "~/modules/Cart/page/Cart";
 import Contact from "~/modules/Contact/page/Contact";
@@ -21,6 +22,11 @@ const PUBLICROUTES = [
   {
     path: routeClient.userRegister,
     component: Register,
+    layout: LayoutNoSlider,
+  },
+  {
+    path: routeClient.userLogin,
+    component: Login,
     layout: LayoutNoSlider,
   },
   {

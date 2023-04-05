@@ -2,7 +2,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import httpRequest from "~/httpRequest/httpRequest";
 
-export const signUpRegister = async ({
+export const signUpUser = async ({
   fullName,
   email,
   phoneNumber,
@@ -27,7 +27,7 @@ export const signUpRegister = async ({
     });
   }
 };
-export const signInRegister = async ({ email, password }) => {
+export const signInUser = async ({ email, password }) => {
   try {
     const res = await axios
       .create({
