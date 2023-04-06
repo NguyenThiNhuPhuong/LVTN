@@ -9,12 +9,12 @@ const MENU_ITEMS = [
   {
     icon: <UserOutlined />,
     title: "Đăng Ký",
-    to: "/user/register",
+    to: "/register",
   },
   {
     icon: <UserOutlined />,
     title: "Đăng nhập",
-    to: "/user/login",
+    to: "/login",
   },
 ];
 const USER_MENU = [

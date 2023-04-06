@@ -23,10 +23,10 @@ const routeClient = {
   orderDetail: "/order/:id",
   viewOrder: "/viewOrder",
 
-  userLogin: "/user/login",
-  userRegister: "/user/register",
-  userForgetPassword: "/user/forgetPassword",
-  userVerifyEmail: "/user/verifyEmail",
+  userLogin: "/login",
+  userRegister: "/register",
+  userForgetPassword: "/forgetPassword",
+  userVerifyEmail: "/verifyEmail",
 
   pageNotFound: "*",
 };
