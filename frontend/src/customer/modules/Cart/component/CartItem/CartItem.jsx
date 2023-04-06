@@ -2,13 +2,13 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { Image } from "cloudinary-react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { Price } from "~/modules/Home/component/products/component/Price/Price";
 import {
   decreaseCart,
   increaseCart,
   removeCart,
 } from "~/redux/slice/cart/CartSlice";
 import "./CartItem.scss";
+import { Price } from "~/customer/modules/Home/component/products/component/Price/Price";
 
 function CartItem() {
   const cart = useSelector((state) => state.cart.listCart);

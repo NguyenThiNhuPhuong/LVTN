@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 function Logo(props) {
   return (
     <div className={cx("logo")}>
-      <NavLink className={cx("logo--link")} to="/shop">
+      <NavLink className={cx("logo--link")} to="/product/shop">
         <Image src={images.logo} alt="Outerity" className={cx("logo--img")} />
       </NavLink>
     </div>

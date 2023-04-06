@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 
+const listCartFromLocalStorage = localStorage.getItem("cart")
+  ? JSON.parse(localStorage.getItem("cart"))
+  : [];
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    listCart: localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
-      : [],
+    listCart: listCartFromLocalStorage,
   },
   reducers: {
     addCart: (state, action) => {

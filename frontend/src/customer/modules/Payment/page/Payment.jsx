@@ -5,11 +5,12 @@ import "./Payment.scss";
 import { useSelector } from "react-redux";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
 import Field from "../component/Field/Field";
+
+import Address from "../component/address/Address";
 import {
   FormatNumber,
   Price,
-} from "~/modules/Home/component/products/component/Price/Price";
-import Address from "../component/address/Address";
+} from "../../Home/component/products/component/Price/Price";
 
 export default function Payment() {
   TabTitle("Thanh toán");
@@ -89,26 +90,6 @@ export default function Payment() {
                         type={"text"}
                       />
                       <Address />
-                      {/* <Field
-                        className={"field-third"}
-                        label={"Thành Phố"}
-                        type={"text"}
-                      />
-                      <Field
-                        className={"field-third"}
-                        label={"Huyện "}
-                        type={"text"}
-                      />
-                      <Field
-                        className={"field-third"}
-                        label={"Xã"}
-                        type={"text"}
-                      />
-                      <Field
-                        className={"field__required"}
-                        label={"Địa chỉ"}
-                        type={"text"}
-                      /> */}
                     </div>
                   </div>
                   <div className="section">

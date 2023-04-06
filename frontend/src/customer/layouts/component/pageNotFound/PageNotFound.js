@@ -1,6 +1,6 @@
 import React from "react";
-import images from "../../../ultil/images/index";
 import "./PageNotFound.scss";
+import images from "~/ultil/images";
 const PageNotFound = () => {
   return (
     <div className="imgError">

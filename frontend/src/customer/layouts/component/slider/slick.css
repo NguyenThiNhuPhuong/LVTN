@@ -2,7 +2,16 @@
   grid-area: slider;
   width: 1520px;
 }
-
+@media (max-width: 1024px) {
+  .slider-container {
+    width: 820px;
+  }
+}
+@media (max-width: 650px) {
+  .slider-container {
+    width: 400px;
+  }
+}
 /* css default */
 /* Slider */
 .slick-slider {

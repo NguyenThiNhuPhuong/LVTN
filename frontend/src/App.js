@@ -1,6 +1,4 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import PageNotFound from "./layouts/component/pageNotFound/PageNotFound";
-import DefaultLayout from "./layouts/defaultLayout";
 import PUBLICROUTES from "./routes/publicRoutes";
 
 function App() {

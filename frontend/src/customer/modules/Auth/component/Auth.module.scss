@@ -45,13 +45,19 @@
     }
   }
 }
-@media (max-width: 650px) {
-  .formRegister {
-    padding: 50px;
-  }
-}
 @media (max-width: 1024px) {
   .formRegister {
     padding: 50px;
+    &__bottom {
+      width: 500px;
+    }
+  }
+}
+@media (max-width: 650px) {
+  .formRegister {
+    padding: 30px;
+    &__bottom {
+      width: 350px;
+    }
   }
 }

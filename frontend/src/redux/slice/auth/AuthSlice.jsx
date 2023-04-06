@@ -21,11 +21,14 @@ export const signInUser = createAsyncThunk("user/userLogin", async (user) => {
     console.log(e);
   }
 });
+//login
+const userInfoFromLocalStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : {};
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: "",
-    token: "",
+    userInfo: userInfoFromLocalStorage,
     err: "",
     isSusses: false,
     isLoading: false,

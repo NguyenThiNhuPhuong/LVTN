@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
-import NoProduct from "~/modules/Home/component/noproduct/NoProduct";
-import { FormatNumber } from "~/modules/Home/component/products/component/Price/Price";
-import CartItem from "../component/CartItem/CartItem";
 import "./Cart.scss";
+import NoProduct from "../../Home/component/noproduct/NoProduct";
+import CartItem from "../component/CartItem/CartItem";
+import { FormatNumber } from "../../Home/component/products/component/Price/Price";
 
 function Cart(props) {
   TabTitle("Giỏ hàng");

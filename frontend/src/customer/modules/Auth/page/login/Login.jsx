@@ -1,15 +1,24 @@
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { MENU_LOGIN } from "~/components/constant/Menu";
 import { signInUser } from "~/redux/slice/auth/AuthSlice";
 import FormRegister from "../../component/FormRegister/FormRegister";
 import styles from "../../component/Auth.module.scss";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 export default function Login() {
+  const navigate = useNavigate();
+  const useInfo = useSelector((state) => state.Auth);
+  useEffect(() => {
+    if (useInfo) {
+      navigate("/");
+    }
+  }, [useInfo, navigate]);
   const dispatch = useDispatch();
 
   const password = `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
@@ -48,9 +57,7 @@ export default function Login() {
         <button type="submit" className={cx("formRegister__bottom--btn")}>
           Đăng Nhập
         </button>
-        <span className={cx("formRegister__bottom--title")}>
-          Bạn đã có tài khoản !
-        </span>
+        <span className={cx("formRegister__bottom--title")}>Đăng ký</span>
         {/* <NavLink
             to="/sign-in"
             style={{ color: "blue", textDecoration: "underline" }}
