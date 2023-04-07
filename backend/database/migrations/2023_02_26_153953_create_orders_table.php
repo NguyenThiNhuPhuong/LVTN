@@ -28,8 +28,8 @@ return new class extends Migration
             $table->string('address');
             $table->string('note')->nullable();
             $table->bigInteger('order_status_id')->unsigned();
-            $table->bigInteger('created_by')->default(0)->unsigned();
-            $table->bigInteger('updated_by')->default(0)->unsigned();
+            $table->bigInteger('created_by')->unsigned()->nullable();
+            $table->bigInteger('updated_by')->unsigned()->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

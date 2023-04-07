@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('avatar')->nullable();
             $table->string('email')->unique();
+            $table->bigInteger('type')->unsigned();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone')->nullable();
@@ -24,8 +25,8 @@ return new class extends Migration
             $table->bigInteger('ward_id')->nullable()->unsigned();
             $table->string('address')->nullable();
             $table->rememberToken();
-            $table->bigInteger('created_by')->default(0)->unsigned();
-            $table->bigInteger('updated_by')->default(0)->unsigned();
+            $table->bigInteger('created_by')->unsigned()->nullable();
+            $table->bigInteger('updated_by')->unsigned()->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class OrderRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'code' => 'required',
+            'name' => 'required',
+            'date' => 'required|date',
+            'email' => 'email',
+            'phone' => 'required',
+            'province_id' => 'required',
+            'district_id' => 'required',
+            'ward_id' => 'required',
+            'address' => 'required',
+            'discount_id' => '',
+            'price_al' => 'required',
+            'price_product' => 'required',
+            'price_ship' => 'required',
+
+        ];
+    }
+}

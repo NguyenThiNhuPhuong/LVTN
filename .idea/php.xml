@@ -109,6 +109,10 @@
       <path value="$PROJECT_DIR$/backend/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/backend/vendor/psr/http-message" />
       <path value="$PROJECT_DIR$/backend/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/backend/vendor/tymon/jwt-auth" />
+      <path value="$PROJECT_DIR$/backend/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/backend/vendor/lcobucci/clock" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/clock" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

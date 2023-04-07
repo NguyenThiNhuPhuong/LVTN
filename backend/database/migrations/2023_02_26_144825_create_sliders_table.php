@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('link')->nullable();
             $table->integer('active');
-            $table->bigInteger('created_by')->default(0)->unsigned();
-            $table->bigInteger('updated_by')->default(0)->unsigned();
+            $table->bigInteger('created_by')->unsigned()->nullable();
+            $table->bigInteger('updated_by')->unsigned()->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });
