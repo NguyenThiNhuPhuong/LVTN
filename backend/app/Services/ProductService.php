@@ -37,12 +37,41 @@ class ProductService
                 $path = $file->store('products', 'public');
                 $images[] = asset('storage/' . $path);
             }
-            $request['images']=$images;
+            $request['images'] = $images;
         }
+        $dataProduct = [
+            "name" => $request->name,
+            "category_id" => $request->category_id,
+            "price" => $request->price,
+            "price_sale" => $request->price_sale,
+            "num" => $request->num,
+            "num_buy" => 0,
+            "description" => $request->description,
+            "active" => 1,
+            "created_by" => Auth::user()->id,
+            "updated_by" => Auth::user()->id,
+        ];
 
-        $product = $this->prouctRepository->createProduct($request);
+        $rresult = DB::transaction(function () use ($dataProduct, $request) {
 
-        return $product;
+            $product = $this->productRepository->createProduct($dataProduct);
+            $dataImage = [];
+
+            foreach ($request->images as $image) {
+                $dataImage[] = [
+                    "product_id" => $product->id,
+                    "url" => $image,
+                    "created_by" => Auth::user()->id,
+                    "updated_by" => Auth::user()->id,
+                ];
+            }
+
+            $this->imageRepository->insertImage($dataImage);
+
+            return $product;
+        });
+
+        return $rresult;
     }
 
     public function updateProduct($id, $data)
@@ -52,8 +81,7 @@ class ProductService
         return $category;
     }
 
-    public
-    function repariDataProduct($product, $images)
+    public function repariDataProduct($product, $images)
     {
         $product['category_name'] = $this->categoryRepository->getCategory($product['category_id'])->name;
         foreach ($images as $image) {
@@ -63,8 +91,7 @@ class ProductService
         return $product;
     }
 
-    public
-    function repariListDataProduct($products)
+    public function repariListDataProduct($products)
     {
         $newProducts = [];
         foreach ($products as $product) {

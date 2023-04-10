@@ -11,7 +11,7 @@ class OrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,20 +22,17 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required',
             'name' => 'required',
-            'date' => 'required|date',
             'email' => 'email',
             'phone' => 'required',
+            'cart'=>'required',
             'province_id' => 'required',
             'district_id' => 'required',
             'ward_id' => 'required',
             'address' => 'required',
-            'discount_id' => '',
             'price_al' => 'required',
             'price_product' => 'required',
             'price_ship' => 'required',
-
         ];
     }
 }

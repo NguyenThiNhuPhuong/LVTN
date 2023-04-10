@@ -9,6 +9,12 @@ class Sliders extends Model
 {
     use HasFactory;
     protected $table="sliders";
+    protected $fillable = [
+        'name',
+        'link',
+        'image',
+        'active',
+    ];
     protected $hidden = [
         'created_by',
         'updated_by',

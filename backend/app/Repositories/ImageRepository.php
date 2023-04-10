@@ -20,11 +20,12 @@ class ImageRepository
         return  $this->modelClass::where('product_id',$productId)->get()->toArray();
     }
 
-    public function createImage($data)
+    public function insertImage($data)
     {
-        return $this->modelClass::create($data);
+        return $this->modelClass::insert($data);
 
     }
+
     public function updateImage($id, $data)
     {
         $image = $this->modelClass::findOrFail($id);

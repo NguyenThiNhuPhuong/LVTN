@@ -6,7 +6,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Support\Facades\Auth;
 
-class CategoryService
+class DiscountService
 {
     protected $categoryRepository;
     protected $prouctRepository;

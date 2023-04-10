@@ -14,12 +14,18 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            'name' =>'System Admin',
-            'email' => 'admin@gmail.com',
-            'type' => 1,
-            'password' => Hash::make('lvtn@123'),
 
-        ]);
+        $listUser= [
+            [
+                'name' =>'System Admin',
+                'email' => 'admin@gmail.com',
+                'type' => 1,
+                'password' => Hash::make('lvtn@123'),
+            ]
+        ];
+
+        foreach ($listUser as $user) {
+            DB::table('users')->updateOrInsert($user);
+        }
     }
 }

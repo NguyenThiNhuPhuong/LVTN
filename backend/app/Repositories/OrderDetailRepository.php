@@ -2,38 +2,46 @@
 
 namespace App\Repositories;
 use App\Models\Categories;
+use App\Models\OrderDetail;
 
-class CategoryRepository
+class OrderDetailRepository
 {
 
-    protected $modelClass = Categories::class;
+    protected $modelClass = OrderDetail::class;
 
 
-    public function getAllCategory()
+    public function getAllOrderDetail()
     {
         return  $this->modelClass::all();
     }
 
-    public function getCategory($categoryId)
+    public function getOrderDetail($id)
     {
-        return  $this->modelClass::find($categoryId);
+        return  $this->modelClass::find($id);
     }
 
-    public function createCategory($data)
+    public function createOrderDetail($data)
     {
         return $this->modelClass::create($data);
 
     }
-    public function updateCategory($id, $data)
+    public function updateOrderDetail($id, $data)
     {
         $user = $this->modelClass::findOrFail($id);
         $user->update($data);
         return $user;
     }
 
-    public function deleteCategory($id){
+    public function deleteOrderDetail($id){
         $user = $this->modelClass::findOrFail($id);
         $user->delete();
         return $user;
+    }
+
+    public function getOrderDetailByOrderId(string $orderId)
+    {
+        $listOrderDetail = $this->modelClass::where('order_id',$orderId)
+            ->get()->toArray();
+        return $listOrderDetail;
     }
 }

@@ -1,39 +1,39 @@
 <?php
 
 namespace App\Repositories;
-use App\Models\Discounts;
+use App\Models\OrderStatus;
 
-class DiscountRepository
+class OrderStatusRepository
 {
 
-    protected $modelClass = Discounts::class;
+    protected $modelClass = OrderStatus::class;
 
 
-    public function getAllDiscount()
+    public function getAllOrderStatus()
     {
         return  $this->modelClass::all();
     }
 
-    public function getDiscount($discountId)
+    public function getOrderStatus($orderStatusId)
     {
-        return  $this->modelClass::find($discountId);
+        return  $this->modelClass::find($orderStatusId);
     }
 
-    public function createDiscount($data)
+    public function createOrderStatus($data)
     {
         return $this->modelClass::create($data);
 
     }
-    public function updateDiscount($id, $data)
+    public function updateOrderStatus($id, $data)
     {
-        $discount = $this->modelClass::findOrFail($id);
-        $discount->update($data);
-        return $discount;
+        $orderStatus = $this->modelClass::findOrFail($id);
+        $orderStatus->update($data);
+        return $orderStatus;
     }
 
-    public function deleteDiscount($id){
-        $discount = $this->modelClass::findOrFail($id);
-        $discount->delete();
-        return $discount;
+    public function deleteOrderStatus($id){
+        $orderStatus = $this->modelClass::findOrFail($id);
+        $orderStatus->delete();
+        return $orderStatus;
     }
 }

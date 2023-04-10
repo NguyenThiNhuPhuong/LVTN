@@ -13,8 +13,6 @@ class ProductRepository
 {
 
     protected $modelClass = Products::class;
-    protected $modelImageClass = Images::class;
-    protected $productService = ProductService::class;
 
     public function getAllProduct()
     {
@@ -33,35 +31,7 @@ class ProductRepository
 
     public function createProduct($data)
     {
-
-        $dataProduct = [
-            "name" => $data->name,
-            "category_id" => $data->category_id,
-            "price" => $data->price,
-            "price_sale" => $data->price_sale,
-            "num" => $data->num,
-            "num_buy" => 1,
-            "description" => $data->description,
-            "active" => 1,
-            "created_by" => Auth::user()->id,
-            "updated_by" => Auth::user()->id,
-        ];
-        $rresult = DB::transaction(function () use ($dataProduct, $data) {
-            $product = $this->modelClass::create($dataProduct);
-            $dataImage = [];
-            foreach ($data->images as $image) {
-                $dataImage[] = [
-                    "product_id" => $product->id,
-                    "url" => $image,
-                    "created_by" => Auth::user()->id,
-                    "updated_by" => Auth::user()->id,
-                ];
-            }
-            $this->modelImageClass::insert($dataImage);
-            return $product;
-        });
-        return $rresult;
-
+        return $this->modelClass::create($data);
     }
 
     public function updateProduct($id, $data)
@@ -77,4 +47,11 @@ class ProductRepository
         $user->delete();
         return $user;
     }
+
+    public function updateNumBuy($productId, $numBuy)
+    {
+        return $this->modelClass::where('id',$productId)
+            ->update(['num_buy' => $numBuy]);
+    }
+
 }

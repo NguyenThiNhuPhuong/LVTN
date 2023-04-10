@@ -14,14 +14,14 @@ class UserTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $list_user_type=[
+        $listUserType = [
             ['name' => 'Admin'],
             ['name' => 'User'],
             ['name' => 'Shipper']
         ];
-        foreach ($list_user_type as $type){
-            DB::table('user_type')->updateOrInsert($type);
-        }
 
+        foreach ($listUserType as $userType) {
+            DB::table('user_type')->updateOrInsert($userType);
+        }
     }
 }

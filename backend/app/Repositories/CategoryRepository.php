@@ -26,14 +26,14 @@ class CategoryRepository
     }
     public function updateCategory($id, $data)
     {
-        $user = $this->modelClass::findOrFail($id);
-        $user->update($data);
-        return $user;
+        $category = $this->modelClass::findOrFail($id);
+        $category->update($data);
+        return $category;
     }
 
     public function deleteCategory($id){
-        $user = $this->modelClass::findOrFail($id);
-        $user->delete();
-        return $user;
+        $category = $this->modelClass::findOrFail($id);
+        $category->delete();
+        return $category;
     }
 }

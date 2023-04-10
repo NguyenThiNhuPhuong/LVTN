@@ -18,10 +18,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('email')->nullable();
+            $table->date('date')->useCurrent();
             $table->integer('price_product');
             $table->integer('price_ship');
             $table->integer('price_all');
-            $table->bigInteger('discount_id')->unsigned();
+            $table->bigInteger('discount_id')->unsigned()->nullable();
             $table->bigInteger('province_id')->unsigned();
             $table->bigInteger('district_id')->unsigned();
             $table->bigInteger('ward_id')->unsigned();

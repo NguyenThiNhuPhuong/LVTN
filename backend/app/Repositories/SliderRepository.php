@@ -2,38 +2,40 @@
 
 namespace App\Repositories;
 use App\Models\Categories;
+use App\Models\Sliders;
 
-class CategoryRepository
+class SliderRepository
 {
 
-    protected $modelClass = Categories::class;
+    protected $modelClass = Sliders::class;
 
 
-    public function getAllCategory()
+    public function getAllSlider()
     {
         return  $this->modelClass::all();
     }
 
-    public function getCategory($categoryId)
+    public function getSlider($sliderId)
     {
-        return  $this->modelClass::find($categoryId);
+        return  $this->modelClass::find($sliderId);
     }
 
-    public function createCategory($data)
+    public function createSlider($data)
     {
         return $this->modelClass::create($data);
-
     }
-    public function updateCategory($id, $data)
+
+    public function updateSlider($id, $data)
     {
-        $user = $this->modelClass::findOrFail($id);
-        $user->update($data);
-        return $user;
+        $slider = $this->modelClass::findOrFail($id);
+        $slider->update($data);
+        return $slider;
     }
 
-    public function deleteCategory($id){
-        $user = $this->modelClass::findOrFail($id);
-        $user->delete();
-        return $user;
+    public function deleteSlider($id){
+        $slider = $this->modelClass::findOrFail($id);
+        $slider->delete();
+        return $slider;
     }
+
 }

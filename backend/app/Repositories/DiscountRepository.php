@@ -1,39 +1,39 @@
 <?php
 
 namespace App\Repositories;
-use App\Models\Categories;
+use App\Models\Discounts;
 
-class CategoryRepository
+class DiscountRepository
 {
 
-    protected $modelClass = Categories::class;
+    protected $modelClass = Discounts::class;
 
 
-    public function getAllCategory()
+    public function getAllDiscount()
     {
         return  $this->modelClass::all();
     }
 
-    public function getCategory($categoryId)
+    public function getDiscount($discountId)
     {
-        return  $this->modelClass::find($categoryId);
+        return  $this->modelClass::find($discountId);
     }
 
-    public function createCategory($data)
+    public function createDiscount($data)
     {
         return $this->modelClass::create($data);
 
     }
-    public function updateCategory($id, $data)
+    public function updateDiscount($id, $data)
     {
-        $user = $this->modelClass::findOrFail($id);
-        $user->update($data);
-        return $user;
+        $discount = $this->modelClass::findOrFail($id);
+        $discount->update($data);
+        return $discount;
     }
 
-    public function deleteCategory($id){
-        $user = $this->modelClass::findOrFail($id);
-        $user->delete();
-        return $user;
+    public function deleteDiscount($id){
+        $discount = $this->modelClass::findOrFail($id);
+        $discount->delete();
+        return $discount;
     }
 }
