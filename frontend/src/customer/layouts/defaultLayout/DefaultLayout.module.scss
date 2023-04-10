@@ -1,0 +1,5 @@
+.wrapper {
+  display: grid;
+  grid-template-areas: "header" "slider" "content" "footer";
+  position: relative;
+}

@@ -1,0 +1,26 @@
+.logo {
+  grid-area: logo;
+
+  &--link {
+    .logo--img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
+@media (max-width: 650px) {
+  .logo {
+    justify-content: center;
+
+    &--link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .logo--img {
+        width: 70px;
+        height: 70px;
+      }
+    }
+  }
+}

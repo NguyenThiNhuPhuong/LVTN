@@ -1,0 +1,27 @@
+.imgError {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px;
+  img {
+    width: 1500px;
+    height: fit-content;
+    object-fit: cover;
+  }
+}
+@media (max-width: 1024px) {
+  .imgError {
+    padding: 50px;
+    img {
+      width: 800px;
+    }
+  }
+}
+@media (max-width: 650px) {
+  .imgError {
+    padding: 0px;
+    img {
+      width: 250px;
+    }
+  }
+}
