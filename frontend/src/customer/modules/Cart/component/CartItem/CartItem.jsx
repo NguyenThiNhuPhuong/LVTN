@@ -1,4 +1,6 @@
 import { DeleteOutlined } from "@ant-design/icons";
+import ClearIcon from "@mui/icons-material/Clear";
+
 import { Image } from "cloudinary-react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -27,29 +29,36 @@ function CartItem() {
     <>
       {cart?.map((item, index) => (
         <div className="cart__row table__section" key={index}>
-          <div className="colspan">
-            <div className="cart__row--image">
-              <NavLink to={`/product/detail/${item._id}`}>
-                <Image
-                  cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                  publicId={item.images[0]}
-                />
-              </NavLink>
-            </div>
-            <div className="cart__row--product">
-              <NavLink to={`/product/detail/${item._id}`} className="h4">
-                {item.name}
-              </NavLink>
-              <button
-                className="cart__row--remove"
-                type="button"
-                onClick={() => {
-                  removeCartItem(item);
-                }}
-              >
-                <DeleteOutlined />
-              </button>
-            </div>
+          <div className="cart__row--image">
+            <NavLink to={`/product/detail/${item._id}`}>
+              <Image
+                cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
+                publicId={item.images[0]}
+              />
+            </NavLink>
+          </div>
+          <div className="cart__row--product">
+            <NavLink to={`/product/detail/${item._id}`} className="h4">
+              {item.name}
+            </NavLink>
+            <button
+              className="cart__row--remove"
+              type="button"
+              onClick={() => {
+                removeCartItem(item);
+              }}
+            >
+              <DeleteOutlined />
+            </button>
+            <button
+              className="cart__row--remove-icon"
+              type="button"
+              onClick={() => {
+                removeCartItem(item);
+              }}
+            >
+              <ClearIcon />
+            </button>
           </div>
           <div className="cart__row--price">
             <Price price={item.price} price_sale={item.price_sale} />
@@ -65,13 +74,11 @@ function CartItem() {
               </button>
             </div>
           </div>
-          <div className="cart__row--price">
-            <span style={{ color: "black", fontSize: "2rem" }}>
-              <Price
-                price={item.price * item.cartNum}
-                price_sale={item.price_sale * item.cartNum}
-              />
-            </span>
+          <div className="cart__row--total">
+            <Price
+              price={item.price * item.cartNum}
+              price_sale={item.price_sale * item.cartNum}
+            />
           </div>
         </div>
       ))}
