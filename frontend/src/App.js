@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import PUBLICROUTES from "./routes/publicRoutes";
-import PRIVATEROUTES from "./routes/privateRoutes";
+import PUBLIC_ROUTES from "./routes/publicRoutes";
+import PRIVATE_ROUTES from "./routes/privateRoutes";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {PUBLICROUTES.map((route, index) => {
+        {PUBLIC_ROUTES.map((route, index) => {
           const Page = route.component;
           const Layout = route.layout;
           return (
@@ -23,9 +23,9 @@ function App() {
             </>
           );
         })}
-        {PRIVATEROUTES.map((route, index) => {
+        {PRIVATE_ROUTES.map((route, index) => {
           const Page = route.component;
-          const Layout = route.layout;
+          const Layout = route.layoutOne;
           return (
             <>
               <Route

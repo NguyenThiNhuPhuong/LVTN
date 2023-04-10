@@ -21,38 +21,13 @@
         &__logo {
           display: block;
           font-size: 40px;
-          color: #009933;
+          color: var(--mainColor);
         }
       }
       .logo {
         font-size: 20px;
         font-weight: bold;
-        color: #009933;
-      }
-    }
-  }
-
-  .center {
-    .active {
-      .item {
-        background-color: #ccccff;
-        .icon {
-          color: #009933;
-        }
-      }
-    }
-    .item {
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      .icon {
-        font-size: 18px;
-        color: gray;
-      }
-      span {
-        font-size: 18px;
-        font-weight: bold;
+        color: var(--mainColor);
       }
     }
   }

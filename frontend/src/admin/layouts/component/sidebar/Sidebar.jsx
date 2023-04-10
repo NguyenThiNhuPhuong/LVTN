@@ -9,6 +9,7 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
 import "./Sidebar.scss";
+import Item from "./component/Item/Item";
 
 const Sidebar = () => {
   return (
@@ -28,74 +29,21 @@ const Sidebar = () => {
         </div>
       </NavLink>
       <div className="center">
-        <NavLink
-          //   to="/users"
-          className={(navData) => (navData.isActive ? "active" : "")}
-        >
-          <div className="item">
-            <DashboardIcon className="icon" />
-            <span>Dashboard</span>
-          </div>
-        </NavLink>
-
-        <NavLink
-          to="/"
-          className={(navData) => (navData.isActive ? "active" : "")}
-        >
-          <div className="item">
-            <PersonOutlineIcon className="icon" />
-            <span>Users</span>
-          </div>
-        </NavLink>
-
-        <NavLink
-          to="/products"
-          className={(navData) => (navData.isActive ? "active" : "")}
-        >
-          <div className="item">
-            <StoreIcon className="icon" />
-            <span>Products</span>
-          </div>
-        </NavLink>
-        <NavLink
-          to="/users"
-          className={(navData) => (navData.isActive ? "active" : "")}
-        >
-          <div className="item">
-            <CreditCardIcon className="icon" />
-            <span>Orders</span>
-          </div>
-        </NavLink>
-
-        <NavLink
-          to="/users"
-          className={(navData) => (navData.isActive ? "active" : "")}
-        >
-          <div className="item">
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </div>
-        </NavLink>
-
-        <NavLink
-          to="/users"
-          className={(navData) => (navData.isActive ? "active" : "")}
-        >
-          <div className="item">
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
-          </div>
-        </NavLink>
-
-        <NavLink
-          to="/users"
-          className={(navData) => (navData.isActive ? "active" : "")}
-        >
-          <div className="item">
-            <ExitToAppIcon className="icon" />
-            <span>Logout</span>
-          </div>
-        </NavLink>
+        <Item to="admin/product" icon={<DashboardIcon />} title="Dashboard" />
+        <Item to="admin/listUser" icon={<PersonOutlineIcon />} title="Users" />
+        <Item to="admin/listProduct" icon={<StoreIcon />} title="Products" />
+        <Item to="admin/listOrder" icon={<CreditCardIcon />} title="Orders" />
+        <Item
+          to="admin/Delivery"
+          icon={<LocalShippingIcon />}
+          title="Delivery"
+        />
+        <Item
+          to="admin/profile"
+          icon={<AccountCircleOutlinedIcon />}
+          title="Profile"
+        />
+        <Item to="admin/logout" icon={<ExitToAppIcon />} title="Logout" />
       </div>
     </div>
   );

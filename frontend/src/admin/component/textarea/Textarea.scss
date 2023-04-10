@@ -1,0 +1,12 @@
+.formDesc {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+  label {
+    font-weight: bolder;
+  }
+  textarea {
+    border: 1px solid rgb(202, 197, 197);
+    padding: 10px;
+  }
+}

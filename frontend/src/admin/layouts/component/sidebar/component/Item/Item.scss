@@ -1,0 +1,22 @@
+.item-link {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  svg {
+    font-size: 18px;
+    color: gray;
+  }
+  span {
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+.active {
+  .item-link {
+    background-color: #ccccff;
+    svg {
+      color: #009933;
+    }
+  }
+}

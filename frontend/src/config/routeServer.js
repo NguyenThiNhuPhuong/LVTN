@@ -1,20 +1,20 @@
 const routeServer = {
   //user
-  listuser: "/admin/user",
-  newuser: "/admin/user/newuser",
-  edituser: "/admin/user/edituser/:id",
+  listUser: "/admin/user",
+  newUser: "/admin/user/newuser",
+  editUser: "/admin/user/edituser/:id",
 
   //Product
   listProduct: "/admin/product",
   singleProduct: "/admin/product/:id",
-  newProduct: "/admin/product/newproduct",
-  editProduct: "/admin/product/editproduct/:id",
+  newProduct: "/admin/product/newProduct",
+  editProduct: "/admin/product/editProduct/:id",
   detailProduct: "/product/detail/:id",
 
   //category
   listCategory: "/admin/category",
-  newCategory: "/admin/category/newcategory",
-  editCategory: "/admin/category/editcategory/:id",
+  newCategory: "/admin/category/newCategory",
+  editCategory: "/admin/category/editCategory/:id",
 
   //order
   listOrder: "/admin/order",
@@ -24,16 +24,16 @@ const routeServer = {
 
   //Slider
   listSlider: "/admin/slider",
-  newSlider: "/admin/slider/newslider",
-  editSlider: "/admin/slider/editslider/:id",
+  newSlider: "/admin/slider/newSlider",
+  editSlider: "/admin/slider/editSlider/:id",
 
   //feedback
   listFeedback: "/admin/feedback",
 
   //discount
   listDiscount: "/admin/discount",
-  newDiscount: "/admin/discount/newdiscount",
-  editDiscount: "/admin/discount/editdiscount/:id",
+  newDiscount: "/admin/discount/newDiscount",
+  editDiscount: "/admin/discount/editDiscount/:id",
 
   //
   singleProfile: "/admin/profile",

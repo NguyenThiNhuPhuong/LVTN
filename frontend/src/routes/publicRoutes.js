@@ -15,7 +15,7 @@ import PageDetailProduct from "~/customer/modules/Home/page/PageDetailProduct/Pa
 import Home from "~/customer/modules/Home/page/PageShop/Home";
 import Payment from "~/customer/modules/Payment/page/Payment";
 
-const PUBLICROUTES = [
+const PUBLIC_ROUTES = [
   { path: routeClient.home, component: Home, layout: DefaultLayout },
   { path: routeClient.cart, component: Cart, layout: LayoutNoSlider },
 
@@ -60,4 +60,4 @@ const PUBLICROUTES = [
 
   { path: routeClient.payment, component: Payment, layout: LayoutNoSlider },
 ];
-export default PUBLICROUTES;
+export default PUBLIC_ROUTES;

@@ -67,7 +67,7 @@ export default function PageDetailProduct() {
             price={selectProductShow.price}
             price_sale={selectProductShow.price_sale}
           />
-
+          <p>{selectProductShow?.content}</p>
           <button
             className="detailProduct__box--btn"
             onClick={() => dispatch(addCart(selectProductShow))}
@@ -81,8 +81,6 @@ export default function PageDetailProduct() {
           >
             <NavLink to="/payment">Mua Ngay</NavLink>
           </button>
-
-          <p>{selectProductShow?.content}</p>
         </div>
       </div>
       {/* <div className="slider__container">

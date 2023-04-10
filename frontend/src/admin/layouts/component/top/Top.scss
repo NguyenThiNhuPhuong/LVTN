@@ -1,0 +1,22 @@
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .title {
+    font-size: 30px;
+    font-weight: bolder;
+    padding-left: 20px;
+  }
+  .btn {
+    width: 120px;
+    height: 40px;
+    border-radius: 3px;
+    background-color: var(--mainColor);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: bolder;
+  }
+}

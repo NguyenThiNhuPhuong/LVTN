@@ -1,13 +1,19 @@
 import DefaultLayoutAdmin from "~/admin/layouts/defaultLayoutAdmin";
 import DashBoard from "~/admin/modules/dashboard/pages/DashBoard";
+import ListProduct from "~/admin/modules/products/pages/listProduct/ListProduct";
+import NewProduct from "~/admin/modules/products/pages/newProduct/NewProduct";
+import routeServer from "~/config/routeServer";
 
-const { default: routeServer } = require("~/config/routeServer");
-
-const PRIVATEROUTES = [
+const PRIVATE_ROUTES = [
   {
     path: routeServer.listProduct,
-    component: DashBoard,
-    layout: DefaultLayoutAdmin,
+    component: ListProduct,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  {
+    path: routeServer.newProduct,
+    component: NewProduct,
+    layoutOne: DefaultLayoutAdmin,
   },
 ];
-export default PRIVATEROUTES;
+export default PRIVATE_ROUTES;
