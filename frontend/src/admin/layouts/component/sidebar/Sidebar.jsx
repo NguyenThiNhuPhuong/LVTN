@@ -29,10 +29,14 @@ const Sidebar = () => {
         </div>
       </NavLink>
       <div className="center">
-        <Item to="admin/product" icon={<DashboardIcon />} title="Dashboard" />
-        <Item to="admin/listUser" icon={<PersonOutlineIcon />} title="Users" />
-        <Item to="admin/listProduct" icon={<StoreIcon />} title="Products" />
-        <Item to="admin/listOrder" icon={<CreditCardIcon />} title="Orders" />
+        <Item
+          to="/admin/dashboard"
+          icon={<DashboardIcon />}
+          title="Dashboard"
+        />
+        <Item to="/admin/user" icon={<PersonOutlineIcon />} title="Users" />
+        <Item to="/admin/product" icon={<StoreIcon />} title="Products" />
+        <Item to="/admin/order" icon={<CreditCardIcon />} title="Orders" />
         <Item
           to="admin/Delivery"
           icon={<LocalShippingIcon />}

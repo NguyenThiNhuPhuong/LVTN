@@ -6,6 +6,11 @@ import routeServer from "~/config/routeServer";
 
 const PRIVATE_ROUTES = [
   {
+    path: routeServer.dashboard,
+    component: DashBoard,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  {
     path: routeServer.listProduct,
     component: ListProduct,
     layoutOne: DefaultLayoutAdmin,

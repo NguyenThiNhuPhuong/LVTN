@@ -1,7 +1,7 @@
 import { Image } from "cloudinary-react";
 import { useSelector } from "react-redux";
 import Slider from "react-slick";
-import "./slick.css";
+import "./slick.scss";
 import "./slick-theme.css";
 
 function Slide(props) {
@@ -19,9 +19,8 @@ function Slide(props) {
         {slideList?.map((slider, index) => {
           return (
             <Image
+              className="slider-container__img"
               key={index}
-              height="500px"
-              width="500px"
               cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
               publicId={slider.image}
             />

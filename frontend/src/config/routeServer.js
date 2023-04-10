@@ -1,4 +1,5 @@
 const routeServer = {
+  dashboard: "/admin/dashboard",
   //user
   listUser: "/admin/user",
   newUser: "/admin/user/newuser",
