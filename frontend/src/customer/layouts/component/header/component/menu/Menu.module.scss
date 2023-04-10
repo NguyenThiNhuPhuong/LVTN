@@ -41,6 +41,7 @@
 @media (max-width: 1024px) {
   .menu {
     grid-template-columns: repeat(5, 1fr);
+    padding: 0px;
   }
 }
 @media (max-width: 650px) {

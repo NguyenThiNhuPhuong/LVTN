@@ -19,13 +19,16 @@ export function Price(props) {
 }
 
 export default function AllPrice(props) {
-  const { price, price_sale } = props;
+  const { price, price_sale, color } = props;
 
   return (
     <div className="price">
       {price_sale > 0 ? (
         <>
-          <span className="price__noSale">
+          <span
+            className="price__noSale"
+            style={{ color: color ? color : "black" }}
+          >
             <FormatNumber price={price_sale} />
           </span>
           <del className="price__sale">
@@ -33,7 +36,10 @@ export default function AllPrice(props) {
           </del>
         </>
       ) : (
-        <span className="price__noSale">
+        <span
+          className="price__noSale"
+          style={{ color: color ? color : "black" }}
+        >
           <FormatNumber price={price} />
         </span>
       )}
