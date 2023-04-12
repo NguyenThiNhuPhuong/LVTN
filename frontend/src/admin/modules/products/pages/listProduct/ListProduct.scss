@@ -82,6 +82,7 @@
           }
           &--update {
             color: var(--mainColor);
+            background: var(--backgroundIcon);
 
             &:hover {
               background-color: var(--mainColor);
@@ -89,6 +90,7 @@
           }
           &--delete {
             color: red;
+            background-color: rgb(226, 175, 175);
 
             &:hover {
               background-color: red;

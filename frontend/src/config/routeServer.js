@@ -2,7 +2,7 @@ const routeServer = {
   dashboard: "/admin/dashboard",
   //user
   listUser: "/admin/user",
-  newUser: "/admin/user/newuser",
+  newUser: "/admin/user/newUser",
   editUser: "/admin/user/edituser/:id",
 
   //Product

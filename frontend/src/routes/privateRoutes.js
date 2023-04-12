@@ -6,6 +6,7 @@ import ListProduct from "~/admin/modules/products/pages/listProduct/ListProduct"
 import NewProduct from "~/admin/modules/products/pages/newProduct/NewProduct";
 import Profile from "~/admin/modules/profile/page/Profile/Profile";
 import ListUser from "~/admin/modules/users/pages/listUsers/ListUser";
+import NewUser from "~/admin/modules/users/pages/newUser/NewUser";
 import routeServer from "~/config/routeServer";
 
 const PRIVATE_ROUTES = [
@@ -42,6 +43,11 @@ const PRIVATE_ROUTES = [
   {
     path: routeServer.singleProfile,
     component: Profile,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  {
+    path: routeServer.newUser,
+    component: NewUser,
     layoutOne: DefaultLayoutAdmin,
   },
 ];

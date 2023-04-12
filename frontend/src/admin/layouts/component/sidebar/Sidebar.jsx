@@ -15,7 +15,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <NavLink
-        to="/admin"
+        to="/admin/dashboard"
         className={(navData) => (navData.isActive ? "active" : "")}
       >
         <div className="top">

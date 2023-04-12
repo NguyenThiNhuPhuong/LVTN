@@ -5,7 +5,7 @@ import "./ListUser.scss";
 function ListUser() {
   return (
     <div className="ListUserContainer">
-      <Top title="Danh sách người dùng" to="" />
+      <Top title="Danh sách người dùng" to="newUser" />
       <div className="user">
         <div className="user__row user__header-labels">
           <div className="text-center">ID</div>
