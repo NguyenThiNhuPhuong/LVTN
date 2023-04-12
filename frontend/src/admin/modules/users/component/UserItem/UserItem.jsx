@@ -11,7 +11,14 @@ function UserItem() {
       <div className="user__row--role text">4</div>
       <div className="user__row--createAt text">5</div>
       <div className="user__row--updateAt text">6</div>
-      <div className="user__row--action text">7</div>
+      <div className="user__row--action text">
+        <section>
+          <div class="input-wrap">
+            <input id="input-6" type="checkbox" />
+            <label for="input-6">Select</label>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

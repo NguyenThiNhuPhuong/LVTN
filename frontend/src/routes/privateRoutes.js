@@ -4,6 +4,7 @@ import ListOrder from "~/admin/modules/orders/pages/listOrder/ListOrder";
 import OrderDetail from "~/admin/modules/orders/pages/orderDetail/OrderDetail";
 import ListProduct from "~/admin/modules/products/pages/listProduct/ListProduct";
 import NewProduct from "~/admin/modules/products/pages/newProduct/NewProduct";
+import Profile from "~/admin/modules/profile/page/Profile/Profile";
 import ListUser from "~/admin/modules/users/pages/listUsers/ListUser";
 import routeServer from "~/config/routeServer";
 
@@ -36,6 +37,11 @@ const PRIVATE_ROUTES = [
   {
     path: routeServer.singleOrder,
     component: OrderDetail,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  {
+    path: routeServer.singleProfile,
+    component: Profile,
     layoutOne: DefaultLayoutAdmin,
   },
 ];
