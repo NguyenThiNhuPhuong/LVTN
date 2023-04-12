@@ -19,6 +19,7 @@ export default function Login() {
       navigate("/");
     }
   }, [useInfo, navigate]);
+
   const dispatch = useDispatch();
 
   const password = `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;

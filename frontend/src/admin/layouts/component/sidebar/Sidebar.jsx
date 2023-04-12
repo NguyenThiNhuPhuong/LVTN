@@ -38,16 +38,16 @@ const Sidebar = () => {
         <Item to="/admin/product" icon={<StoreIcon />} title="Products" />
         <Item to="/admin/order" icon={<CreditCardIcon />} title="Orders" />
         <Item
-          to="admin/Delivery"
+          to="/admin/Delivery"
           icon={<LocalShippingIcon />}
           title="Delivery"
         />
         <Item
-          to="admin/profile"
+          to="/admin/profile"
           icon={<AccountCircleOutlinedIcon />}
           title="Profile"
         />
-        <Item to="admin/logout" icon={<ExitToAppIcon />} title="Logout" />
+        <Item to="/admin/logout" icon={<ExitToAppIcon />} title="Logout" />
       </div>
     </div>
   );
