@@ -1,0 +1,13 @@
+.defaultLayoutShipper {
+  display: grid;
+  grid-template-columns: 1fr;
+  .content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    column-gap: 20px;
+    &__children {
+      background-color: #f9fafe;
+      margin: 30px;
+    }
+  }
+}
