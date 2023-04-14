@@ -1,0 +1,119 @@
+.OrderDetailContainer {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 20px;
+  .top {
+    width: 150px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: black;
+    a {
+      color: white;
+    }
+  }
+  .OrderDetail {
+    border: 1px solid gray;
+    .header {
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      background-color: var(--mainColor);
+      color: white;
+      &__time {
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 5px;
+        &--date {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          svg {
+            color: black;
+          }
+        }
+      }
+      &__status {
+        width: 200px;
+        height: 40px;
+        background-color: white;
+        color: gray;
+        border-radius: 5px;
+
+        select {
+          width: 100%;
+          height: 100%;
+          padding: 5px;
+          border-radius: 5px;
+        }
+      }
+    }
+    .content {
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 20px;
+      .info {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        &__item {
+          display: grid;
+          grid-template-columns: 50px 1fr;
+          column-gap: 5px;
+          &--icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--backgroundIcon);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            svg {
+              font-size: 20px;
+              color: var(--mainColor);
+            }
+          }
+          &--deliver {
+            display: grid;
+            grid-template-columns: 1fr;
+            row-gap: 5px;
+          }
+          &--label {
+            font-weight: bold;
+          }
+          &--email {
+            color: blue;
+          }
+        }
+      }
+      .order {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        column-gap: 30px;
+        &__product {
+        }
+        &__footer {
+          &--total {
+            padding: 10px;
+            border: 1px solid gray;
+            display: grid;
+            grid-template-columns: 1fr;
+            row-gap: 10px;
+
+            &--title {
+              display: flex;
+              justify-content: space-between;
+              span {
+                font-weight: bold;
+              }
+              .h3 {
+                font-size: 2rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

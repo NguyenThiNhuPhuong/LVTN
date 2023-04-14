@@ -44,6 +44,8 @@ function Cart(props) {
             <table className="cart__table">
               <div className="cart__row cart__header-labels">
                 <div className="text-center">Thông tin chi tiết sản phẩm</div>
+                <div className="text-center"></div>
+
                 <div className="text-center">Đơn giá</div>
                 <div className="text-center">Số lượng</div>
                 <div className="text-center">Tổng giá</div>

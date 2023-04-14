@@ -1,0 +1,38 @@
+.order {
+  &__row {
+    display: grid;
+    grid-template-columns: 3fr 5fr 2fr 2fr 2fr 3fr 2fr;
+
+    .text {
+      display: flex;
+      align-items: center;
+      font-size: 1.6rem;
+      padding: 10px;
+      border-right: 1px solid black;
+    }
+    &--status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &--btn {
+        width: 100px;
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: 5px;
+
+        text-align: center;
+      }
+    }
+    &--action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      a {
+        svg {
+          color: var(--mainColor);
+        }
+      }
+    }
+  }
+}

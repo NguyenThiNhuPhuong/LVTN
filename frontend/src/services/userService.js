@@ -1,4 +1,6 @@
-import * as httpRequest from "~/admin/utils/httpRequest";
+// import * as httpRequest from "../httpRequest";
+
+import httpRequest from "~/httpRequest/httpRequest";
 
 export const getUser = async (page) => {
   try {

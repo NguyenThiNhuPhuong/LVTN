@@ -1,0 +1,80 @@
+.headerContainer {
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background);
+  color: var(--white);
+  padding: 0px 40px;
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    column-gap: 20px;
+    font-weight: bold;
+    .info {
+      &__logo {
+        display: flex;
+        justify-content: space-between;
+
+        svg {
+          font-size: 5rem;
+          height: 100%;
+        }
+      }
+      &__content {
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 5px;
+        div {
+          display: flex;
+          column-gap: 10px;
+        }
+        &--title {
+          font-size: 2.5rem;
+          letter-spacing: 3px;
+          line-height: 1.15;
+        }
+        &--phone,
+        &--mail {
+          font-weight: normal;
+          font-size: 1.4rem;
+          letter-spacing: 1px;
+        }
+      }
+    }
+  }
+  &__right {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  &__search {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+    span {
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      svg {
+        color: black;
+        font-size: 2rem;
+      }
+    }
+  }
+  &__account {
+    width: 100px;
+    select {
+      width: 100%;
+      text-align: center;
+      padding: 5px;
+    }
+  }
+}

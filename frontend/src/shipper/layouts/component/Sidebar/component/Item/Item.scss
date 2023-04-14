@@ -1,0 +1,25 @@
+.item-link {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  svg {
+    font-size: 18px;
+    color: gray;
+  }
+  span {
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+}
+.active {
+  .item-link {
+    background-color: lightgray;
+    border-radius: 5px;
+
+    svg {
+      color: var(--mainColor);
+    }
+  }
+}

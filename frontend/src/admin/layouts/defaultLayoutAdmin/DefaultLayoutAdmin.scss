@@ -1,0 +1,17 @@
+:root {
+  --mainColor: #009933;
+  --white: #ffffff;
+  --backgroundIcon: darkseagreen;
+  --background: rgb(38, 134, 25);
+}
+.AdminContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+
+  .main {
+    display: grid;
+
+    grid-template-rows: 90px 1fr;
+  }
+}

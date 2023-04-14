@@ -1,0 +1,135 @@
+.ProfileContainer {
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 30px;
+  .header {
+    display: grid;
+    grid-template-columns: 120px 300px;
+    column-gap: 20px;
+    &__img {
+      img {
+        display: block;
+        width: 120px;
+        height: 120px;
+        border-radius: 5px;
+      }
+    }
+    &__content {
+      display: grid;
+      grid-template-columns: 1fr;
+      &-top {
+        display: grid;
+        align-items: center;
+        grid-template-columns: 170px 80px;
+        column-gap: 20px;
+      }
+      &--btn {
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        font-size: 1.4rem;
+        font-weight: bold;
+        width: 100%;
+      }
+      .btn-update {
+        background-color: var(--backgroundIcon);
+        color: var(--mainColor);
+      }
+      .btn-reset {
+        background-color: white;
+        border: 1px solid red;
+        color: red;
+      }
+      &-bottom {
+        font-size: 1.4rem;
+        span {
+          display: block;
+        }
+      }
+    }
+  }
+  .content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 30px;
+    row-gap: 20px;
+    &__input {
+      position: relative;
+      padding-top: 13px;
+
+      input {
+        border: 1px solid lightgrey;
+        border-radius: 5px;
+        outline: none;
+        width: 100%;
+        padding: 15px 20px;
+        font-size: 16px;
+        transition: all 0.1s linear;
+        -webkit-transition: all 0.1s linear;
+        -moz-transition: all 0.1s linear;
+        -webkit-appearance: none;
+        &:focus {
+          border: 2px solid #3951b2;
+        }
+        &:focus + label,
+        &:not(:placeholder-shown) + label {
+          font-size: 14px;
+          top: 0;
+          color: var(--mainColor);
+        }
+        &::placeholder {
+          color: transparent;
+        }
+        &:required:invalid + label {
+          color: red;
+          &:before {
+            content: "*";
+          }
+        }
+        &:focus:required:invalid {
+          border: 2px solid red;
+        }
+      }
+      label {
+        pointer-events: none;
+        position: absolute;
+        top: calc(50% - 8px);
+        left: 15px;
+        transition: all 0.1s linear;
+        -webkit-transition: all 0.1s linear;
+        -moz-transition: all 0.1s linear;
+        background-color: white;
+        padding: 5px;
+        box-sizing: border-box;
+      }
+    }
+  }
+  .bottom {
+    display: grid;
+    grid-template-columns: 200px 150px;
+    column-gap: 20px;
+    &--btn {
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      width: 100%;
+      text-transform: uppercase;
+    }
+    .btn-save {
+      background-color: var(--backgroundIcon);
+      color: var(--mainColor);
+    }
+    .btn-reset {
+      background-color: white;
+      border: 1px solid gray;
+      color: gray;
+    }
+  }
+}

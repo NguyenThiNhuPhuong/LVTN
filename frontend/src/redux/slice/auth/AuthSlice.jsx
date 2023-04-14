@@ -22,13 +22,13 @@ export const signInUser = createAsyncThunk("user/userLogin", async (user) => {
   }
 });
 //login
-const userInfoFromLocalStorage = localStorage.getItem("userInfo")
-  ? JSON.parse(localStorage.getItem("userInfo"))
-  : {};
+// const userInfoFromLocalStorage = localStorage.getItem("userInfo")
+//   ? JSON.parse(localStorage.getItem("userInfo"))
+//   : {};
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    userInfo: userInfoFromLocalStorage,
+    userInfo: {},
     err: "",
     isSusses: false,
     isLoading: false,
@@ -39,14 +39,16 @@ const authSlice = createSlice({
     },
     [signUpUser.fulfilled]: (state, action) => {
       state.isLoading = true;
-      state.isSuccess = action.payload;
+      state.userInfo = action.payload;
     },
     [signInUser.pending]: (state) => {
       state.isLoading = false;
     },
     [signInUser.fulfilled]: (state, action) => {
       state.isLoading = true;
-      state.isSuccess = action.payload;
+      console.log(action);
+
+      state.userInfo = action.payload;
     },
   },
 });

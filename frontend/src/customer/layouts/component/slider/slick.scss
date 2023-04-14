@@ -1,6 +1,11 @@
 .slider-container {
   grid-area: slider;
   width: 1520px;
+  &__img {
+    display: block;
+    height: 500px;
+    width: 100%;
+  }
 }
 @media (max-width: 1024px) {
   .slider-container {

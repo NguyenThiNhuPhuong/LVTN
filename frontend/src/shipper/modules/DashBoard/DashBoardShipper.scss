@@ -1,0 +1,16 @@
+.dashBoardContainer {
+  grid-template-columns: 1fr;
+  row-gap: 20px;
+
+  .title {
+    font-size: 30px;
+    font-weight: bolder;
+  }
+  .widgets {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 40px;
+    row-gap: 40px;
+    padding: 20px;
+  }
+}

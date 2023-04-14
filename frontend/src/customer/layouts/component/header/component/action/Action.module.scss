@@ -71,9 +71,15 @@
     }
   }
 }
-@media (max-width: 650px) {
+@media (max-width: 1024px) {
   .action {
     gap: 10px;
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 650px) {
+  .action {
+    gap: 20px;
     &__dropdown {
       &:hover .action__dropdown--content {
         display: none;

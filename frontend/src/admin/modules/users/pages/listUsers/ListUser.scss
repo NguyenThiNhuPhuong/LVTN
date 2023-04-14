@@ -1,0 +1,24 @@
+.ListUserContainer {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 20px;
+  .user {
+    border: 1px solid gray;
+    &__row {
+      display: grid;
+      grid-template-columns: 1fr 3fr 5fr 2fr 2fr 2fr 3fr;
+      .text-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--mainColor);
+        font-size: 1.6rem;
+        font-weight: bold;
+        height: 50px;
+
+        border-right: 1px solid black;
+      }
+    }
+  }
+}
