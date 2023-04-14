@@ -48,3 +48,11 @@
 .field-third {
   width: 33.33333% !important;
 }
+@media (max-width: 650px) {
+  .field-two-thirds {
+    width: 100% !important;
+  }
+  .field-third {
+    width: 100% !important;
+  }
+}

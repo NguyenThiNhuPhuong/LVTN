@@ -8,13 +8,14 @@ import { Link, NavLink } from "react-router-dom";
 import { addCart } from "~/redux/slice/cart/CartSlice";
 import ButtonPriceSale from "./component/ButtonPriceSale/ButtonPriceSale";
 import AllPrice from "./component/Price/Price";
+import Loading from "../loading/Loading";
 
 const cx = classNames.bind(styles);
 
 function Products({ product, key }) {
   const dispatch = useDispatch();
 
-  return (
+  return product ? (
     <div className={cx("product__item")} key={key}>
       <ButtonPriceSale price={product.price} price_sale={product.price_sale} />
 
@@ -44,6 +45,8 @@ function Products({ product, key }) {
         </button>
       </div>
     </div>
+  ) : (
+    <Loading />
   );
 }
 

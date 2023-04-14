@@ -1,41 +1,15 @@
-// Bootstrap Loading Skeleton
-%loading-skeleton {
-  color: transparent;
-  appearance: none;
-  -webkit-appearance: none;
-  background-color: #eee;
-  border-color: #eee;
-
-  &::placeholder {
-    color: transparent;
-  }
-}
-@keyframes loading-skeleton {
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 1;
-  }
-}
-.loading-skeleton {
-  pointer-events: none;
-  animation: loading-skeleton 1s infinite alternate;
-
-  img {
-    filter: grayscale(100) contrast(0%) brightness(1.8);
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  li,
-  .btn,
-  label,
-  .form-control {
-    @extend %loading-skeleton;
+.Loading {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 10px;
+  row-gap: 10px;
+  padding: 20px;
+  border: none !important;
+  &__img {
+    width: 100%;
+    height: 300px;
+    display: block;
+    object-fit: cover;
+    position: relative;
   }
 }

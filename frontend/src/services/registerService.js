@@ -11,7 +11,7 @@ export const signUpUser = async ({
   role = "user",
 }) => {
   try {
-    const res = await httpRequest.post(`auth/signUp`, {
+    const res = await httpRequest.post(`auth/register`, {
       fullName,
       email,
       phoneNumber,

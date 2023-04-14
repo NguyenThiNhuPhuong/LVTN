@@ -15,10 +15,6 @@
   background-color: var(--background);
 
   padding: 0px 80px;
-  .iconMenu {
-    grid-area: iconMenu;
-    display: none;
-  }
 }
 @media (max-width: 1024px) {
   .wrapper {

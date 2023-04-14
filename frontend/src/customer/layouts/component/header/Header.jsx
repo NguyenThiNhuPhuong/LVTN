@@ -5,15 +5,14 @@ import Action from "./component/action/Action";
 import Logo from "./component/logo/Logo";
 import Menu from "./component/menu/Menu";
 import Search from "./component/search/Search";
-
-import { MenuOutlined } from "@ant-design/icons";
+import Drawer from "./component/drawer/Drawer";
 
 const cx = classNames.bind(styles);
 
 function Header(props) {
   return (
     <header className={cx("wrapper")}>
-      <MenuOutlined className={cx("iconMenu")} />
+      <Drawer />
       <Logo />
       <Menu />
       <Search />

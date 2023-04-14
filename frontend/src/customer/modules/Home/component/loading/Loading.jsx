@@ -1,19 +1,17 @@
 import React from "react";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import Skeleton from "@mui/material/Skeleton";
 
 import "./Loading.scss";
 export default function Loading() {
   return (
-    <div style={{ display: "flex", margin: 50 }}>
-      <Skeleton height={300} width={300} />
-      <div style={{ display: "flex", direction: "column" }}>
-        <Skeleton
-          count={5}
-          height={30}
-          width={250}
-          style={{ marginBottom: 20 }}
-        />
+    <div className="LoadingContainer">
+      <div className="Loading">
+        <Skeleton variant="rounded" height={300} />
+        <div className="Loading__content">
+          <Skeleton width="60%" />
+          <Skeleton width="60%" />
+          <Skeleton variant="rounded" height={35} />
+        </div>
       </div>
     </div>
   );

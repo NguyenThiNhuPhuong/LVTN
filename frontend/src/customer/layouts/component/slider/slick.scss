@@ -7,14 +7,29 @@
     width: 100%;
   }
 }
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
+  .slider-container {
+    width: 1280px;
+  }
+}
+@media (max-width: 900px) {
   .slider-container {
     width: 820px;
   }
 }
-@media (max-width: 650px) {
+@media (max-width: 768px) {
   .slider-container {
-    width: 400px;
+    width: 768px;
+  }
+}
+@media (max-width: 400px) {
+  .slider-container {
+    width: 390px;
+  }
+}
+@media (max-width: 320px) {
+  .slider-container {
+    width: 320px;
   }
 }
 /* css default */

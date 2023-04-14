@@ -5,6 +5,11 @@ import {
   PhoneOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import HomeIcon from "@mui/icons-material/Home";
+import FiberNewIcon from "@mui/icons-material/FiberNew";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+import CrisisAlertIcon from "@mui/icons-material/CrisisAlert";
+import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 const MENU_ITEMS = [
   {
     icon: <UserOutlined />,
@@ -34,23 +39,28 @@ const MENU_HEADER = [
   {
     title: "SHOP",
     to: "/product/shop",
+    icon: <HomeIcon />,
     dropdown: true,
   },
   {
     title: "NEW",
     to: "/product/new",
+    icon: <FiberNewIcon />,
   },
   {
     title: "ABOUT",
     to: "/about",
+    icon: <AnalyticsIcon />,
   },
   {
     title: "SALE",
     to: "/product/sale",
+    icon: <CrisisAlertIcon />,
   },
   {
     title: "CONTACT",
     to: "/contact",
+    icon: <ContactPhoneIcon />,
   },
 ];
 

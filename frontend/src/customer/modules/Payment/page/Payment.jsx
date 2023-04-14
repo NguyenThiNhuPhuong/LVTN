@@ -229,7 +229,7 @@ export default function Payment() {
             <div className="sidebar-content">
               <table className="product-table">
                 <tbody>
-                  <tr className="productItem">
+                  <tr className="productItem__total">
                     <td className="total-line-name">Tạm tính</td>
                     <td className="total-line-price">
                       <div>
@@ -238,7 +238,7 @@ export default function Payment() {
                     </td>
                   </tr>
 
-                  <tr className="productItem">
+                  <tr className="productItem__total">
                     <td className="total-line-name">Phí vận chuyển</td>
                     <td className="total-line-price">
                       <div>
@@ -246,7 +246,7 @@ export default function Payment() {
                       </div>
                     </td>
                   </tr>
-                  <tr className="productItem">
+                  <tr className="productItem__total">
                     <td className="total-line-name">Discount</td>
                     <td className="total-line-price">
                       <div>
@@ -256,7 +256,7 @@ export default function Payment() {
                   </tr>
                 </tbody>
                 <tfoot>
-                  <tr className="productItem">
+                  <tr className="productItem__total">
                     <td>
                       <strong>Tổng cộng:</strong>
                     </td>

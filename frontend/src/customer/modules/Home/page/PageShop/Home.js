@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getCategory } from "~/redux/slice/category/CategorySlice";
@@ -9,9 +9,8 @@ import { getSlider } from "~/redux/slice/slider/SliderSlice";
 import NoProduct from "../../component/noproduct/NoProduct";
 // import Products from "../../component/products/Products";
 import Pagination from "@mui/material/Pagination";
+import Products from "../../component/products/Products";
 import "./Home.scss";
-import Loading from "../../component/loading/Loading";
-const Products = React.lazy(() => import("../../component/products/Products"));
 export default function Home() {
   const dispatch = useDispatch();
 
@@ -22,28 +21,28 @@ export default function Home() {
     dispatch(getDiscounts());
   }, [dispatch]);
   const listProduct = useSelector((state) => state.product.productList);
-
+  const loading = false;
   return (
     <div>
       {listProduct?.length === 0 || listProduct?.length === undefined ? (
         <NoProduct />
       ) : (
         <>
-          <Suspense fallback={<Loading />}>
-            <div className="product">
-              {listProduct?.map((product, index) => {
+          <div className="product">
+            {(loading ? Array.from(new Array(10)) : listProduct).map(
+              (product, index) => {
                 return <Products product={product} key={index} />;
-              })}
-            </div>
-            <div className="pagination">
-              <Pagination
-                count={10}
-                variant="outlined"
-                shape="rounded"
-                size="large"
-              />
-            </div>
-          </Suspense>
+              }
+            )}
+          </div>
+          <div className="pagination">
+            <Pagination
+              count={10}
+              variant="outlined"
+              shape="rounded"
+              size="large"
+            />
+          </div>
         </>
       )}
     </div>

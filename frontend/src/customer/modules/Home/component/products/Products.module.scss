@@ -66,6 +66,11 @@
   }
 }
 @media (max-width: 1024px) {
+  .product__item {
+    &--img {
+      height: 250px;
+    }
+  }
 }
 
 @media (max-width: 650px) {
