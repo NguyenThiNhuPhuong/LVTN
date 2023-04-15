@@ -44,7 +44,7 @@ export default function Payment() {
     setTotal(res);
   }, [cart]);
   return (
-    <>
+    <div className="PaymentContainer">
       <div className="row">
         <div className="main">
           <div className="header">
@@ -140,46 +140,44 @@ export default function Payment() {
         <div className="container">
           <div className="sidebar">
             {cart.map((item) => (
-              <div key={item._id}>
-                <div className="sidebar-content">
-                  <table className="product-table">
-                    <tbody>
-                      <tr className="productItem">
-                        <td className="productItem__thumbnail">
-                          <Image
-                            className="productItem__thumbnail--image"
-                            cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                            publicId={item.images[1]}
-                          />
-                          <div className="productItem__thumbnail--quantity">
-                            {item.cartNum}
+              <div className="sidebar-content" key={item._id}>
+                <table className="product-table">
+                  <tbody>
+                    <tr className="productItem">
+                      <td className="productItem__thumbnail">
+                        <Image
+                          className="productItem__thumbnail--image"
+                          cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
+                          publicId={item.images[1]}
+                        />
+                        <div className="productItem__thumbnail--quantity">
+                          {item.cartNum}
+                        </div>
+                      </td>
+                      <td className="productItem__descriptions">
+                        <div className="productItem__description">
+                          <div className="productItem__description--name">
+                            {item.name}
                           </div>
-                        </td>
-                        <td className="productItem__descriptions">
-                          <div className="productItem__description">
-                            <div className="productItem__description--name">
-                              {item.name}
-                            </div>
-                            <div className="productItem__description--price">
-                              <Price
-                                price={item.price}
-                                price_sale={item.price_sale}
-                              />
-                            </div>
-                          </div>
-                        </td>
-                        <td className="productItem__price">
-                          <div className="productItem__price--des">
+                          <div className="productItem__description--price">
                             <Price
-                              price={item.price * item.cartNum}
-                              price_sale={item.price_sale * item.cartNum}
+                              price={item.price}
+                              price_sale={item.price_sale}
                             />
                           </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                        </div>
+                      </td>
+                      <td className="productItem__price">
+                        <div className="productItem__price--des">
+                          <Price
+                            price={item.price * item.cartNum}
+                            price_sale={item.price_sale * item.cartNum}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             ))}
             <div className="sidebar-content">
@@ -276,6 +274,6 @@ export default function Payment() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
 .formGroup {
-  width: 600px;
+  width: 500px;
   font-size: 1.6rem;
   border: 1px solid white;
   margin-top: 15px;
@@ -21,7 +21,7 @@
       svg {
         width: 100%;
         height: 100%;
-        color: gray;
+        color: var(--backgroundIcon);
       }
     }
   }

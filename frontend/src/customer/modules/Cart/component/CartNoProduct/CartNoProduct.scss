@@ -1,0 +1,58 @@
+.CartContainer {
+  .container__wrapper {
+    box-shadow: none;
+    //css in file Cart scss Header
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &__noProduct {
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+        img {
+          width: 500px;
+          height: 300px;
+        }
+        &--btn {
+          display: flex;
+          justify-content: center;
+
+          button {
+            width: 300px;
+            height: 50px;
+            background-color: black;
+            border-radius: 30px;
+            a {
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+}
+@media (max-width: 650px) {
+  .CartContainer {
+    .container__wrapper {
+      .content {
+        &__noProduct {
+          img {
+            width: 200px;
+            height: 200px;
+          }
+          &--btn {
+            button {
+              width: 200px;
+              height: 30px;
+              border-radius: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

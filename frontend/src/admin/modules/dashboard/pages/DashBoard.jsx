@@ -5,7 +5,7 @@ function DashBoard() {
   return (
     <div className="dashBoardContainer">
       <div className="title">DashBoard</div>
-      <div className="widgets">
+      <div className="widgetAdmin">
         <Widget type="user" />
         <Widget type="order" />
         <Widget type="earning" />

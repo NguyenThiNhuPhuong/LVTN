@@ -79,20 +79,22 @@ const Widget = ({ type }) => {
   }
 
   return (
-    <div className="widget">
-      <div className="left">
-        <span className="title">{data.title}</span>
-        <span className="counter">
+    <div className="widgetAdminContainer">
+      <div className="widgetAdminContainer__left">
+        <span className="widgetAdminContainerContainer__left--title">
+          {data.title}
+        </span>
+        <span className="widgetAdminContainer__left--counter">
           {data.isMoney && "$"} {amount}
         </span>
-        <span className="link">{data.link}</span>
+        <span className="widgetAdminContainer__left--link">{data.link}</span>
       </div>
-      <div className="right">
-        <div className="percentage positive">
+      <div className="widgetAdminContainer__right">
+        <div className="widgetAdminContainer__right--percentage">
           <KeyboardArrowUpIcon />
           {diff} %
         </div>
-        {data.icon}
+        <div className="widgetAdminContainer__right--icon">{data.icon}</div>
       </div>
     </div>
   );

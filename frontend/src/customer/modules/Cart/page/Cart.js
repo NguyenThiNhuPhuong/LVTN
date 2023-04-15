@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
-import "./Cart.scss";
-import NoProduct from "../../Home/component/noproduct/NoProduct";
-import CartItem from "../component/CartItem/CartItem";
 import { FormatNumber } from "../../Home/component/products/component/Price/Price";
+import CartItem from "../component/CartItem/CartItem";
+import CartNoProduct from "../component/CartNoProduct/CartNoProduct";
+import "./Cart.scss";
 
 function Cart(props) {
   TabTitle("Giỏ hàng");
@@ -26,10 +26,10 @@ function Cart(props) {
   }, [cart]);
 
   if (cart.length === 0) {
-    return <NoProduct />;
+    return <CartNoProduct />;
   } else {
     return (
-      <>
+      <div className="CartContainer">
         <div className="container__wrapper">
           <div className="header">
             <a href="/" className="header__logo">
@@ -77,7 +77,7 @@ function Cart(props) {
             </div>
           </form>
         </div>
-      </>
+      </div>
     );
   }
 }

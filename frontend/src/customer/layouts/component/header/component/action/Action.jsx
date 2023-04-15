@@ -11,16 +11,16 @@ import AvatarUser from "./component/avatarUser/AvatarUser";
 import MenuList from "./component/menuList/MenuList";
 function Action() {
   const cx = classNames.bind(styles);
-  const [auth, setAuth] = useState("Anh");
-  const [currentUser, setCurrentUser] = useState(false);
+
+  const Name = useSelector((state) => state.auth.userInfo.name);
   const cartQuantity = useSelector((state) => state.cart.listCart.length);
 
   return (
     <div className={cx("action")}>
       <div className={cx("action__dropdown")}>
         <button>
-          {currentUser ? (
-            <AvatarUser Auth={auth} />
+          {Name ? (
+            <AvatarUser Auth={Name} />
           ) : (
             <Image
               className={cx("action__dropdown--avatar")}
@@ -30,7 +30,7 @@ function Action() {
           )}
 
           <div className={cx("action__dropdown--content")}>
-            <MenuList items={currentUser ? USER_MENU : MENU_ITEMS} />
+            <MenuList items={Name ? USER_MENU : MENU_ITEMS} />
           </div>
         </button>
       </div>

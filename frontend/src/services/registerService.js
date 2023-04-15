@@ -3,21 +3,19 @@ import Swal from "sweetalert2";
 import httpRequest from "~/httpRequest/httpRequest";
 
 export const signUpUser = async ({
-  fullName,
+  name,
   email,
-  phoneNumber,
   password,
-  address,
-  role = "user",
+  confirmPassword,
+  type = 2,
 }) => {
   try {
     const res = await httpRequest.post(`auth/register`, {
-      fullName,
+      name,
       email,
-      phoneNumber,
       password,
-      address,
-      role,
+      confirmPassword,
+      type,
     });
     return res.data;
   } catch (error) {
@@ -36,7 +34,7 @@ export const signInUser = async ({ email, password }) => {
           "Content-Type": "application/json",
         },
       })
-      .post(`auth/signIn`, { email, password });
+      .post(`auth/login`, { email, password });
     return res;
   } catch (error) {
     if (error.response.data.message === "Login failed") {

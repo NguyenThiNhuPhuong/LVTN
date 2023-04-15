@@ -1,9 +1,23 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import PUBLIC_ROUTES from "./routes/publicRoutes";
+import { useSelector } from "react-redux";
+import {
+  NavLink,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
+import Login from "./customer/modules/Auth/page/login/Login";
 import PRIVATE_ROUTES from "./routes/privateRoutes";
+import PUBLIC_ROUTES from "./routes/publicRoutes";
 import SHIPPER_ROUTES from "./routes/shipperRoutes";
 
 function App() {
+  const role = useSelector((state) => state.auth.role);
+  const token = useSelector((state) => state.auth.token);
+
+  //   if (token === "{}") {
+  //     return <NavLink to="/login"></NavLink>;
+  //   }
   return (
     <Router>
       <Routes>
@@ -33,9 +47,11 @@ function App() {
                 key={index}
                 path={route.path}
                 element={
-                  <Layout>
-                    <Page />
-                  </Layout>
+                  role === 1 && (
+                    <Layout>
+                      <Page />
+                    </Layout>
+                  )
                 }
               />
             </>

@@ -1,36 +1,55 @@
 import classNames from "classnames/bind";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
-import FormRegister from "../../component/FormRegister/FormRegister";
-import styles from "../../component/Auth.module.scss";
 import { MENU_REGISTER } from "~/components/constant/Menu";
 import { signUpUser } from "~/redux/slice/auth/AuthSlice";
-
+import styles from "../../component/Auth.module.scss";
+import FormRegister from "../../component/FormRegister/FormRegister";
+import { useEffect } from "react";
 const cx = classNames.bind(styles);
 
 export default function Register() {
   const dispatch = useDispatch();
-  //   const phoneRegExp =
-  //     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+  const navigate = useNavigate();
 
+  const success = useSelector((state) => state.auth.isSusses);
+  useEffect(() => {
+    // redirect user to login page if registration was successful
+    if (success)
+      toast.success("User successfully registered", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        data:
+          {
+            title: "Success toast",
+            text: "This is a success message",
+          } && navigate("/login"),
+      });
+    // redirect authenticated user to profile screen
+  }, [navigate, success]);
   const password = `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
-      //   phoneNumber: "",
       password: "",
-      //   address: "",
       confirmPassword: "",
     },
-    onSubmit: async (values, actions) => {
-      await dispatch(signUpUser(values));
+    onSubmit: async (values) => {
+      dispatch(signUpUser(values));
 
-      // isSuccess === true
-      //   ? Swal.fire("Vui lòng Kiểm tra email để lấy mã xác nhận") &&
-      //     navigate("/veryfyEmail")
-      //   : navigate("/user/register");
+      success === true &&
+        toast.success("User successfully registered", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          data: {
+            title: "Success toast",
+            text: "This is a success message",
+          },
+        });
+      success === true && setTimeout(() => navigate("/login"), 3000);
 
       //   actions.resetForm();
     },
@@ -59,32 +78,32 @@ export default function Register() {
   });
 
   return (
-    <form className={cx("formRegister")} onSubmit={formik.handleSubmit}>
-      <h3 className={cx("formRegister__heading")}>ĐĂNG KÝ THÀNH VIÊN MỚI </h3>
-      {MENU_REGISTER.map((input) => (
-        <FormRegister
-          key={input.id}
-          {...input}
-          onChange={formik.handleChange}
-          value={formik.values[input.name]}
-          errors={formik.errors[input.name]}
-          touched={formik.touched[input.name]}
-        />
-      ))}
-      <div className={cx("formRegister__bottom")}>
-        <button type="submit" className={cx("formRegister__bottom--btn")}>
-          Đăng ký
-        </button>
-        <span className={cx("formRegister__bottom--title")}>
-          Bạn đã có tài khoản !
-        </span>
-        {/* <NavLink
-            to="/sign-in"
-            style={{ color: "blue", textDecoration: "underline" }}
-          >
-            Đăng nhập
-          </NavLink> */}
-      </div>
-    </form>
+    <div className={cx("formRegisterContainer")}>
+      <ToastContainer />
+      <form className={cx("formRegister")} onSubmit={formik.handleSubmit}>
+        <h3 className={cx("formRegister__heading")}>ĐĂNG KÝ THÀNH VIÊN MỚI </h3>
+        {MENU_REGISTER.map((input) => (
+          <FormRegister
+            key={input.id}
+            {...input}
+            onChange={formik.handleChange}
+            value={formik.values[input.name]}
+            errors={formik.errors[input.name]}
+            touched={formik.touched[input.name]}
+          />
+        ))}
+        <div className={cx("formRegister__bottom")}>
+          <button type="submit" className={cx("formRegister__bottom--btn")}>
+            Đăng ký
+          </button>
+          <div className={cx("formRegister__bottom--newAccount")}>
+            <label> Bạn đã có tài khoản ! </label>
+            <NavLink to="/login" className={cx("formRegister__bottom--title")}>
+              Đăng Nhập
+            </NavLink>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }

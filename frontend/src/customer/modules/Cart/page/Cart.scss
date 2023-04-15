@@ -1,87 +1,103 @@
-.container__wrapper {
-  *zoom: 1;
-  margin: 20px 120px;
-  padding: 0 15px;
-  font-size: 1.6rem;
-  .header {
-    &__breadcrumb {
-      a {
-        display: inline-block;
-        color: #facd7e;
-      }
-      span {
-        display: inline-block;
-        color: #666666;
-        margin: 0px 5px;
-        &:last-child {
-          margin: 0px;
+.CartContainer {
+  padding: 20px 120px;
+
+  .container__wrapper {
+    *zoom: 1;
+    padding: 15px;
+    font-size: 1.6rem;
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    .header {
+      &__logo {
+        &--text {
+          font-size: 1.6rem;
         }
       }
-    }
-  }
-  .cart {
-    &__table {
-      border: none;
-    }
-
-    &__row {
-      position: relative;
-      margin-top: 30px;
-      padding-top: 30px;
-      border-top: 1px solid #f0f0f0;
-
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-      grid-template-areas: "img name price quantity total";
-      column-gap: 10px;
-      padding: 30px;
-      .text-center {
-        text-align: center;
-      }
-    }
-    &__footer {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      column-gap: 20px;
-      &--note {
-        display: grid;
-        grid-template-columns: 1fr;
-        row-gap: 10px;
-
-        textarea {
-          height: 100px;
-          padding: 10px;
-          border: 1px solid gray;
+      &__breadcrumb {
+        a {
+          display: inline-block;
+          color: var(--backgroundIcon);
+          font-weight: bold;
         }
-      }
-      &--total {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-        &--title {
-          font-size: 2rem;
-          .h3 {
-            color: #facd7e;
-            padding-left: 5px;
-            font-size: 3rem;
+        span {
+          display: inline-block;
+          color: #666666;
+          margin: 0px 5px;
+          &:last-child {
+            margin: 0px;
           }
         }
-        &--btn {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          column-gap: 10px;
-          .btnCart {
-            height: 50px;
-            background-color: #666666;
-            height: 40px;
-            line-height: 40px;
-            border-radius: 3px;
-            margin-bottom: 10px;
+      }
+    }
+    .cart {
+      &__table {
+        border: none;
+      }
 
-            a {
-              width: 100%;
-              color: #f0f0f0;
-              font-size: 1.4rem;
+      &__row {
+        position: relative;
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid #f0f0f0;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-areas: "img name price quantity total";
+        column-gap: 10px;
+        .text-center {
+          text-align: center;
+          background-color: var(--backgroundIcon);
+          color: var(--mainColor);
+          font-weight: bold;
+        }
+      }
+      .cart__header-labels {
+        column-gap: 0px;
+      }
+      &__footer {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        column-gap: 20px;
+        &--note {
+          display: grid;
+          grid-template-columns: 1fr;
+          row-gap: 10px;
+
+          textarea {
+            height: 100px;
+            padding: 10px;
+            border: 1px solid gray;
+          }
+        }
+        &--total {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 10px;
+          &--title {
+            font-size: 2rem;
+            .h3 {
+              color: var(--background);
+              padding-left: 5px;
+              font-size: 3rem;
+            }
+          }
+          &--btn {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 10px;
+            .btnCart {
+              height: 50px;
+              background-color: #666666;
+              height: 40px;
+              line-height: 40px;
+              border-radius: 3px;
+              margin-bottom: 10px;
+
+              a {
+                width: 100%;
+                color: #f0f0f0;
+                font-size: 1.4rem;
+              }
             }
           }
         }
@@ -90,31 +106,32 @@
   }
 }
 @media (max-width: 1024px) {
-  .container__wrapper {
-    margin: 20px;
-    padding: 0 5px;
-    font-size: 1.6rem;
+  .CartContainer {
+    .container__wrapper {
+      padding: 20px;
+      font-size: 1.6rem;
 
-    .cart {
-      &__row {
-        padding: 15px;
-        .text-center {
-          text-align: center;
-        }
-      }
-      &__footer {
-        grid-template-columns: 1fr 1fr;
-        &--note {
-          textarea {
-            height: 100px;
-            padding: 10px;
+      .cart {
+        &__row {
+          padding: 15px;
+          .text-center {
+            text-align: center;
           }
         }
-        &--total {
-          &--title {
-            font-size: 1.6rem;
-            .h3 {
-              font-size: 2rem;
+        &__footer {
+          grid-template-columns: 1fr 1fr;
+          &--note {
+            textarea {
+              height: 100px;
+              padding: 10px;
+            }
+          }
+          &--total {
+            &--title {
+              font-size: 1.6rem;
+              .h3 {
+                font-size: 2rem;
+              }
             }
           }
         }
@@ -123,24 +140,27 @@
   }
 }
 @media (max-width: 650px) {
-  .container__wrapper {
-    margin: 10px;
+  .CartContainer {
+    padding: 0px;
 
-    .cart {
-      &__row {
-        position: relative;
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas: "img name " "img price" "img quantity" "img total";
-        margin-top: 0px;
-        padding: 5px;
-        .text-center {
-          display: none;
+    .container__wrapper {
+      padding: 10px 20px;
+      .cart {
+        &__row {
+          position: relative;
+          grid-template-columns: 1fr 1fr;
+          grid-template-areas: "img name " "img price" "img quantity" "img total";
+          margin-top: 0px;
+          padding: 5px;
+          .text-center {
+            display: none;
+          }
         }
-      }
-      &__footer {
-        display: grid;
-        grid-template-columns: 1fr;
-        row-gap: 20px;
+        &__footer {
+          display: grid;
+          grid-template-columns: 1fr;
+          row-gap: 20px;
+        }
       }
     }
   }

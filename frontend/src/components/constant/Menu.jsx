@@ -31,7 +31,7 @@ const USER_MENU = [
   {
     icon: <UserOutlined />,
     title: "Log out",
-    to: "/user/login",
+    to: "/login",
     separate: true,
   },
 ];
@@ -67,7 +67,7 @@ const MENU_HEADER = [
 const MENU_REGISTER = [
   {
     id: 1,
-    name: "fullName",
+    name: "name",
     type: "text",
     placeholder: "Username",
     errorMessage: "Tên người dùng phải từ 3-16 ký tự! ",
@@ -86,18 +86,9 @@ const MENU_REGISTER = [
     required: true,
     icon: <MailOutlined />,
   },
+
   {
     id: 3,
-    name: "phoneNumber",
-    type: "tel",
-    placeholder: "Số điện thoại",
-    errorMessage: "Phải là số điện thoại hợp lệ!",
-    label: "Số điện thoại",
-    required: true,
-    icon: <PhoneOutlined />,
-  },
-  {
-    id: 4,
     name: "password",
     type: "password",
     placeholder: "Password",
@@ -107,24 +98,14 @@ const MENU_REGISTER = [
     required: true,
     icon: <LockOutlined />,
   },
-  {
-    id: 5,
-    name: "address",
-    type: "text",
-    placeholder: "Địa chỉ",
-    errorMessage: "Phải nhập địa chỉ!",
-    label: "Địa chỉ",
-    required: true,
-    icon: <AndroidOutlined />,
-  },
 
   {
-    id: 6,
-    name: "password_confirm",
+    id: 4,
+    name: "confirmPassword",
     type: "password",
     placeholder: "Confirm Password",
     errorMessage: "Mật khẩu không khớp!",
-    label: "Confirm Password",
+    label: "confirmPassword",
     required: true,
     icon: <LockOutlined />,
   },
