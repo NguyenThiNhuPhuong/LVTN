@@ -12,7 +12,7 @@ import MenuList from "./component/menuList/MenuList";
 function Action() {
   const cx = classNames.bind(styles);
 
-  const Name = useSelector((state) => state.auth.userInfo.name);
+  const Name = useSelector((state) => state.auth.userInfo?.name);
   const cartQuantity = useSelector((state) => state.cart.listCart.length);
 
   return (

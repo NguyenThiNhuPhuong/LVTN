@@ -8,21 +8,19 @@ import { signInUser } from "~/redux/slice/auth/AuthSlice";
 import styles from "../../component/Auth.module.scss";
 import FormRegister from "../../component/FormRegister/FormRegister";
 import { useEffect } from "react";
-
 const cx = classNames.bind(styles);
 
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const role = useSelector((state) => state.auth.role);
   const password = `^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
 
   useEffect(() => {
     if (role === 1) {
       navigate("/admin/dashboard");
-    } else if (role === 1) {
-      navigate("/shop/product");
+    } else if (role === 2) {
+      navigate("/product/shop");
     } else {
       navigate("/login");
     }

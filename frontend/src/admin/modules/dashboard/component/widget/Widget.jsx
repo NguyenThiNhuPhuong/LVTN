@@ -79,7 +79,7 @@ const Widget = ({ type }) => {
   }
 
   return (
-    <div className="widgetAdminContainer">
+    <div className="widgetAdminContainer" key={data.title}>
       <div className="widgetAdminContainer__left">
         <span className="widgetAdminContainerContainer__left--title">
           {data.title}

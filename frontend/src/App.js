@@ -12,9 +12,9 @@ import PUBLIC_ROUTES from "./routes/publicRoutes";
 import SHIPPER_ROUTES from "./routes/shipperRoutes";
 
 function App() {
-  const role = useSelector((state) => state.auth.role);
-  const token = useSelector((state) => state.auth.token);
+  const role = useSelector((state) => state.auth.userInfo?.type);
 
+  const token = useSelector((state) => state.auth.token);
   //   if (token === "{}") {
   //     return <NavLink to="/login"></NavLink>;
   //   }
@@ -47,6 +47,7 @@ function App() {
                 key={index}
                 path={route.path}
                 element={
+                  token &&
                   role === 1 && (
                     <Layout>
                       <Page />

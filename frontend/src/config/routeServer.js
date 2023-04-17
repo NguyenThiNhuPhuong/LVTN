@@ -15,7 +15,7 @@ const routeServer = {
   //category
   listCategory: "/admin/category",
   newCategory: "/admin/category/newCategory",
-  editCategory: "/admin/category/editCategory/:id",
+  Category: "/admin/category/:id",
 
   //order
   listOrder: "/admin/order",

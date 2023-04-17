@@ -1,4 +1,7 @@
 import DefaultLayoutAdmin from "~/admin/layouts/defaultLayoutAdmin";
+import SingleCategory from "~/admin/modules/category/pages/SingleCategory/SingleCategory";
+import listCategory from "~/admin/modules/category/pages/listCategory/listCategory";
+import NewCategory from "~/admin/modules/category/pages/newCategory/NewCategory";
 import DashBoard from "~/admin/modules/dashboard/pages/DashBoard";
 import ListOrder from "~/admin/modules/orders/pages/listOrder/ListOrder";
 import OrderDetail from "~/admin/modules/orders/pages/orderDetail/OrderDetail";
@@ -15,6 +18,7 @@ const PRIVATE_ROUTES = [
     component: DashBoard,
     layoutOne: DefaultLayoutAdmin,
   },
+
   {
     path: routeServer.listProduct,
     component: ListProduct,
@@ -23,6 +27,21 @@ const PRIVATE_ROUTES = [
   {
     path: routeServer.newProduct,
     component: NewProduct,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  {
+    path: routeServer.listCategory,
+    component: listCategory,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  {
+    path: routeServer.newCategory,
+    component: NewCategory,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  {
+    path: routeServer.Category,
+    component: SingleCategory,
     layoutOne: DefaultLayoutAdmin,
   },
   {

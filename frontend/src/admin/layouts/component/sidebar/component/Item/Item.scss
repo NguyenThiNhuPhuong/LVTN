@@ -1,22 +1,30 @@
-.item-link {
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  svg {
-    font-size: 18px;
-    color: gray;
+.ItemContainer {
+  button {
+    display: inherit;
+    width: 100%;
+    background: white;
   }
-  span {
-    font-size: 18px;
-    font-weight: bold;
-  }
-}
-.active {
-  .item-link {
-    background-color: #ccccff;
+  &__link {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     svg {
-      color: #009933;
+      font-size: 18px;
+      color: gray;
+    }
+    span {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  .active {
+    .ItemContainer__link {
+      background-color: #ccccff;
+      svg {
+        color: #009933;
+      }
     }
   }
 }

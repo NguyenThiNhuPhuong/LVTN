@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
 import { MENU_REGISTER } from "~/components/constant/Menu";
-import { signUpUser } from "~/redux/slice/auth/AuthSlice";
+import { resetRegister, signUpUser } from "~/redux/slice/auth/AuthSlice";
 import styles from "../../component/Auth.module.scss";
 import FormRegister from "../../component/FormRegister/FormRegister";
 import { useEffect } from "react";
@@ -17,17 +17,18 @@ export default function Register() {
   const navigate = useNavigate();
 
   const success = useSelector((state) => state.auth.isSusses);
+
   useEffect(() => {
     // redirect user to login page if registration was successful
-    if (success)
+    if (success === true)
       toast.success("User successfully registered", {
         position: toast.POSITION.BOTTOM_RIGHT,
-        data:
-          {
-            title: "Success toast",
-            text: "This is a success message",
-          } && navigate("/login"),
+        data: {
+          title: "Success toast",
+          text: "This is a success message",
+        },
       });
+    setTimeout(() => navigate("/login"), 3000);
     // redirect authenticated user to profile screen
   }, [navigate, success]);
   const password = `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
@@ -40,18 +41,9 @@ export default function Register() {
     },
     onSubmit: async (values) => {
       dispatch(signUpUser(values));
+      dispatch(resetRegister());
 
-      success === true &&
-        toast.success("User successfully registered", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          data: {
-            title: "Success toast",
-            text: "This is a success message",
-          },
-        });
-      success === true && setTimeout(() => navigate("/login"), 3000);
-
-      //   actions.resetForm();
+      // actions.resetForm();
     },
     validationSchema: Yup.object({
       name: Yup.string()

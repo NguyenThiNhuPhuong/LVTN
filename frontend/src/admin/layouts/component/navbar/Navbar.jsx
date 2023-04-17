@@ -3,8 +3,13 @@ import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import "./Navbar.scss";
+import AvatarUser from "./avatarUser/AvatarUser";
+import Image from "~/components/image/Image";
+import images from "~/ultil/images";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const Name = useSelector((state) => state.auth.userInfo?.name);
   return (
     <div className="navbar">
       <div className="wrapper">
@@ -25,11 +30,15 @@ const Navbar = () => {
             <ListOutlinedIcon className="icon" />
           </div>
           <div className="item">
-            <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="avatar"
-            />
+            {Name ? (
+              <AvatarUser Auth={Name} />
+            ) : (
+              <Image
+                src={images.noImage}
+                alt="Nguyen Van A"
+                className="avatar"
+              />
+            )}
           </div>
         </div>
       </div>

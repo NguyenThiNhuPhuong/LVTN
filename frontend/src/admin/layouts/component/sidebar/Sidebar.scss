@@ -4,30 +4,34 @@
   min-height: 100vh;
   background-color: white;
 
-  .top {
-    height: 90px;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    div {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .icon {
-        font-size: 25px;
-        color: gray;
+  &-top {
+    .top {
+      &__content {
+        height: 90px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .icon {
+            font-size: 25px;
+            color: gray;
 
-        &__logo {
-          display: block;
-          font-size: 40px;
-          color: var(--mainColor);
+            &__logo {
+              display: block;
+              font-size: 40px;
+              color: var(--mainColor);
+            }
+          }
+          .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--mainColor);
+          }
         }
-      }
-      .logo {
-        font-size: 20px;
-        font-weight: bold;
-        color: var(--mainColor);
       }
     }
   }
