@@ -14,6 +14,7 @@ function InputForm({
   return (
     <div className={classNameContent ? classNameContent : ""}>
       <input
+        id={name}
         type={type}
         name={name}
         onChange={onChange}
@@ -22,7 +23,7 @@ function InputForm({
         className={className ? className : ""}
         checked={checked}
       />
-      <label>{label}</label>
+      <label for={name}>{label}</label>
       {/* <p>{errorMessage}</p> */}
     </div>
   );

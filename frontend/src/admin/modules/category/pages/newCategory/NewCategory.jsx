@@ -46,6 +46,7 @@ function NewCategory() {
       description: "",
     },
     onSubmit: async (values) => {
+      console.log(values);
       dispatch(newCategory(values));
     },
     validationSchema: Yup.object({

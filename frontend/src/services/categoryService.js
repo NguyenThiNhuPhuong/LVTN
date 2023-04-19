@@ -23,7 +23,6 @@ export const newCategory = async ({ name, description }) => {
     const res = await httpRequest.post(`categories`, { name, description });
     return res;
   } catch (error) {
-    console.log(error.response);
     Swal.fire(`${error.response.data.message}😥`);
   }
 };
@@ -36,7 +35,7 @@ export const updateCategory = async ({ id, name, description, active }) => {
     });
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
 export const getACategory = async (id) => {

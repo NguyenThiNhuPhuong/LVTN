@@ -3,9 +3,9 @@ import * as httpRequest from "~/httpRequest/httpRequest";
 //ADMIN
 
 export const apiProduct = {
-  getListHomeProduct: `product/homeProductList`,
+  getListHomeProduct: `products`,
   getListProduct: (pageIndex) => {
-    return `product?pageSize=12&pageIndex=${pageIndex}`;
+    return `products`;
   },
   getAProduct: (id) => {
     return `product/${id}`;
@@ -105,27 +105,10 @@ export const removeProduct = async (id) => {
     console.log(error);
   }
 };
-export const newProduct = async (
-  name,
-  category_id,
-  content,
-  price,
-  price_sale,
-  num,
-  active,
-  imgList
-) => {
+//
+export const newProduct = async (values) => {
   try {
-    const res = await httpRequest.post(`product/add`, {
-      name,
-      category_id,
-      content,
-      price,
-      price_sale,
-      num,
-      active,
-      imgList,
-    });
+    const res = await httpRequest.postFormData(`products`, values);
     return res;
   } catch (error) {
     Swal.fire(`${error.response.data.message}😥`);

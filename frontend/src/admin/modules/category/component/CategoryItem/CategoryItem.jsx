@@ -19,7 +19,6 @@ function CategoryItem() {
   const { categoryList, alertDeleteSuccess } = useSelector(
     (state) => state.category
   );
-
   useEffect(() => {
     if (alertDeleteSuccess !== "") {
       dispatch(getCategory());

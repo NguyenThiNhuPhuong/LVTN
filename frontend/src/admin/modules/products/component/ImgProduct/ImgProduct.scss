@@ -1,0 +1,25 @@
+.imgContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+}
+.cellImg {
+  display: block;
+  height: 500px;
+  width: 100%;
+  img {
+    border-radius: 20px;
+  }
+}
+.thumbImg {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 10px;
+  height: 80px;
+}
+img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}

@@ -1,18 +1,19 @@
 import React from "react";
 import "./Select.scss";
-function Select({ setCategory_id }) {
+import { useSelector } from "react-redux";
+function Select({ onChange }) {
+  const { categoryList } = useSelector((state) => state.category);
   return (
     <div className="formCategory">
-      <select
-        required
-        onChange={(e) => {
-          setCategory_id(e.target.value);
-        }}
-      >
+      <select required onChange={onChange}>
         <option value="">Chọn danh mục sản phẩm</option>
-        {/* {listCategory.map((category) => (
-                    <option value={category._id}>{category.name}</option>
-                  ))} */}
+        {categoryList?.map((category) => {
+          return (
+            <option value={category.id} key={category.id}>
+              {category.name}
+            </option>
+          );
+        })}
       </select>
     </div>
   );

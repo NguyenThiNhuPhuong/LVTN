@@ -60,6 +60,9 @@ const categorySlice = createSlice({
     alertDeleteSuccess: "",
   },
   reducers: {
+    setSingleCategory(state, action) {
+      state.categorySingle = action.payload;
+    },
     resetNewCategory: (state) => {
       state.categoryNew = {};
     },
@@ -122,4 +125,5 @@ export const {
   resetACategory,
   resetUpdateCategory,
   resetRemoveCategory,
+  setSingleCategory,
 } = categorySlice.actions;

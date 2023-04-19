@@ -1,132 +1,146 @@
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-
 import classNames from "classnames/bind";
 import styles from "./NewProduct.scss";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import productInputs from "~/admin/constant/productInputs";
-import arrActive from "~/admin/constant/arrActive";
-import Radio from "~/admin/component/radio/radio";
-import Textarea from "~/admin/component/textarea/Textarea";
+import { useDispatch, useSelector } from "react-redux";
 import FormInput from "~/admin/component/FormInput/FormInput";
 import Select from "~/admin/component/select/Select";
+import Textarea from "~/admin/component/textarea/Textarea";
+import productInputs from "~/admin/constant/productInputs";
+import {
+  newProduct,
+  resetNewProduct,
+  setNewProduct,
+} from "~/redux/slice/product/ProductSlice";
+import { getCategory } from "~/redux/slice/category/CategorySlice";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { addFile } from "~/redux/slice/file/FileSlice";
+import ImgProduct from "../../component/ImgProduct/ImgProduct";
+import { ToastContainer, toast } from "react-toastify";
+
+const uploadFiles = createAsyncThunk(
+  "files/uploadFiles",
+  async (files, { dispatch }) => {
+    // Loop through selected files and add them to the store
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      dispatch(addFile(file));
+    }
+  }
+);
 
 function NewProduct(props) {
   const cx = classNames.bind(styles);
-  const imgDiv = useRef();
+  const { productNew, isSuccessNew } = useSelector((state) => state.product);
+  const { fileList } = useSelector((state) => state.file);
 
-  const [index, setIndex] = useState(0);
-  const [focused, setFocused] = useState(false);
-  const [content, setContent] = useState("");
-  const [active, setActive] = useState(true);
-  const [listCategory, setListCategory] = useState([]);
-  const [category_id, setCategory_id] = useState(0);
-  const [imgList, setImgList] = useState([]);
-  const [imageURLS, setImageURLS] = useState([]);
-  const [imgListApi, setImgListApi] = useState([]);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [values, setValues] = useState({
-    name: "",
-    price: "",
-    price_sale: "",
-    num: "",
-  });
-
-  const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  const handleFileInputChange = (e) => {
-    setImgList([...e.target.files]);
-  };
-
   useEffect(() => {
-    if (imgList.length < 1) return;
-    const newImageUrls = [];
-    imgList.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
-    setImageURLS(newImageUrls);
-  }, [imgList]);
+    dispatch(getCategory());
 
-  useEffect(() => {
-    if (!imgList) return;
-    const newImage = [];
-    imgList.forEach((image) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onloadend = () => {
-        newImage.push(reader.result);
+    if (isSuccessNew) {
+      toast.success(`Bạn đã tạo thành công product `, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      const timeout = setTimeout(() => navigate("/admin/product"), 3000);
+      return () => {
+        dispatch(resetNewProduct());
+        clearTimeout(timeout);
       };
-    });
-    setImgListApi(newImage);
-  }, [imgList]);
+    }
+  }, [dispatch, isSuccessNew, navigate]);
+
+  function handleFileChange(event) {
+    const files = event.target.files;
+    dispatch(uploadFiles(files));
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    function getFormData(object) {
+      const formData = new FormData();
+      Object.keys(object).forEach((key) => {
+        formData.append(key, object[key]);
+      });
+      fileList.forEach((file, index) => {
+        formData.append(`files[${index}]`, file);
+      });
+      return formData;
+    }
+
+    const data = getFormData(productNew);
+    dispatch(newProduct(data));
+  };
 
   return (
-    <div className={cx("container")}>
-      <div className={cx("left")}>
-        <div className={cx("left-imgContainer")}>
-          <img
-            className={cx("cellImg")}
-            src={
-              imageURLS.length > 0
-                ? imageURLS[index]
-                : "https://vsam1040chicago.com/noimage.png"
-            }
-            ref={imgDiv}
-            alt=""
-          />
-          <div className={cx("thumbImg")}>
-            {imageURLS.length <= 4 &&
-              imageURLS.map((img, index) => (
-                <img
-                  src={img}
-                  alt=""
-                  key={index}
-                  onClick={() => setIndex(index)}
-                />
-              ))}
+    <>
+      <ToastContainer />
+      <div className={cx("container")}>
+        <div className={cx("left")}>
+          <div>
+            <ImgProduct />
           </div>
         </div>
-      </div>
 
-      <div className={cx("right")}>
-        <form className={cx("right-form")}>
-          <div className={cx("formImg")}>
-            <label htmlFor="file">Image: </label>
-            <DriveFolderUploadOutlinedIcon />
-            <input
-              type="file"
-              id="file"
-              onChange={handleFileInputChange}
-              style={{ display: "none" }}
-              multiple
-            />
-          </div>
-          <Select setCategory_id={setCategory_id} />
+        <div className={cx("right")}>
+          <form className={cx("right-form")} onSubmit={(e) => handleSubmit(e)}>
+            <div className="all">
+              <div className="upload-btn-wrapper">
+                <button className="btn">Upload a file</button>
+                <input
+                  type="file"
+                  multiple
+                  name="myfile"
+                  onChange={handleFileChange}
+                />
+              </div>
 
-          {productInputs.map((input) => (
-            <FormInput
-              key={input.id}
-              {...input}
-              value={values[input.name]}
-              onChange={onChange}
+              <Select
+                onChange={(e) =>
+                  dispatch(
+                    setNewProduct({
+                      ...productNew,
+                      category_id: e.target.value,
+                    })
+                  )
+                }
+              />
+            </div>
+
+            {productInputs.map((input) => (
+              <FormInput
+                key={input.id}
+                {...input}
+                value={productNew ? productNew[input?.name] : ""}
+                onChange={(e) =>
+                  dispatch(
+                    setNewProduct({
+                      ...productNew,
+                      [input.name]: e.target.value,
+                    })
+                  )
+                }
+              />
+            ))}
+            <Textarea
+              onChange={(e) =>
+                dispatch(
+                  setNewProduct({ ...productNew, description: e.target.value })
+                )
+              }
             />
-          ))}
-          <Textarea setContent={setContent} />
-          {arrActive.map((input) => (
-            <Radio
-              setActive={setActive}
-              active={active}
-              input={input}
-              key={input.id}
-            />
-          ))}
-          <button>Send</button>
-        </form>
+            <button className="btn__submit" type="submit">
+              Send
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import {
   getACategory,
   resetUpdateCategory,
+  setSingleCategory,
   updateCategory,
 } from "~/redux/slice/category/CategorySlice";
 import InputForm from "../../component/InputForm/InputForm";
@@ -19,24 +20,9 @@ function SingleCategory() {
   const { categorySingle, categoryUpdate, isLoading, isLoadingUpdate } =
     useSelector((state) => state.category);
 
-  const [data, setData] = useState({
-    name: "",
-    description: "",
-    active: "",
-  });
   useEffect(() => {
     dispatch(getACategory(id));
   }, [dispatch, id]);
-
-  useEffect(() => {
-    if (categorySingle) {
-      setData({
-        name: categorySingle.name,
-        description: categorySingle.description,
-        active: categorySingle.active,
-      });
-    }
-  }, [categorySingle]);
 
   useEffect(() => {
     if (isLoadingUpdate === false && JSON.stringify(categoryUpdate) !== "{}") {
@@ -50,7 +36,8 @@ function SingleCategory() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateCategory({ ...data, id }));
+    console.log(categorySingle);
+    dispatch(updateCategory({ ...categorySingle, id }));
   };
   return isLoading ? (
     <Loading />
@@ -68,8 +55,12 @@ function SingleCategory() {
               label="Name"
               name="name"
               type="text"
-              onChange={(e) => setData({ ...data, name: e.target.value })}
-              value={data.name}
+              onChange={(e) =>
+                dispatch(
+                  setSingleCategory({ ...categorySingle, name: e.target.value })
+                )
+              }
+              value={categorySingle.name}
               classNameContent="content__input"
             />
             <InputForm
@@ -77,9 +68,14 @@ function SingleCategory() {
               type="text"
               name="description"
               onChange={(e) =>
-                setData({ ...data, description: e.target.value })
+                dispatch(
+                  setSingleCategory({
+                    ...categorySingle,
+                    description: e.target.value,
+                  })
+                )
               }
-              value={data.description}
+              value={categorySingle.description}
               className="content__input--des"
               classNameContent="content__input"
             />
@@ -88,13 +84,15 @@ function SingleCategory() {
               type="checkbox"
               name="active"
               onClick={(e) =>
-                setData({
-                  ...data,
-                  active: !e.target.checked === true ? 1 : 0,
-                })
+                dispatch(
+                  setSingleCategory({
+                    ...categorySingle,
+                    active: e.target.checked ? 1 : 0,
+                  })
+                )
               }
-              value={data.active}
-              checked={data.active === 1 ? true : false}
+              value={categorySingle.active}
+              checked={categorySingle.active === 1 ? true : false}
               className="content__input--checkbox"
               classNameContent="content__checkbox"
             />

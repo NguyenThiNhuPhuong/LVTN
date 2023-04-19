@@ -13,11 +13,11 @@ import SHIPPER_ROUTES from "./routes/shipperRoutes";
 
 function App() {
   const role = useSelector((state) => state.auth.userInfo?.type);
-
   const token = useSelector((state) => state.auth.token);
-  //   if (token === "{}") {
-  //     return <NavLink to="/login"></NavLink>;
+  //   if (token === undefined) {
+  //     return navigate("/login");
   //   }
+  console.log(token);
   return (
     <Router>
       <Routes>
@@ -47,11 +47,12 @@ function App() {
                 key={index}
                 path={route.path}
                 element={
-                  token &&
-                  role === 1 && (
+                  token && role === 1 ? (
                     <Layout>
                       <Page />
                     </Layout>
+                  ) : (
+                    <Login />
                   )
                 }
               />

@@ -4,6 +4,7 @@ import authReducer from "./auth/AuthSlice";
 import sliderReducer from "./slider/SliderSlice";
 import cartReducer from "./cart/CartSlice";
 import discountReducer from "./discount/DiscountSlice";
+import filesReducer from "./file/FileSlice";
 
 import { combineReducers } from "@reduxjs/toolkit";
 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   slider: sliderReducer,
   discount: discountReducer,
+  file: filesReducer,
 });
 
 export { rootReducer };

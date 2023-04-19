@@ -1,6 +1,14 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
+const httpRequestFormData = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL,
+  headers: {
+    "Content-Type": "multipart/form-data",
+    Authorization: Cookies.get("token") ? "Bearer " + Cookies.get("token") : "",
+  },
+});
+
 const httpRequest = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
@@ -8,7 +16,12 @@ const httpRequest = axios.create({
     Authorization: Cookies.get("token") ? "Bearer " + Cookies.get("token") : "",
   },
 });
-console.log(Cookies.get("token"));
+
+export const postFormData = async (path, options) => {
+  const response = await httpRequestFormData.post(path, options);
+  return response;
+};
+
 export const get = async (path, options = {}) => {
   const response = await httpRequest.get(path, options);
   return response.data;

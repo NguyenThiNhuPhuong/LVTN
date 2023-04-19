@@ -40,6 +40,9 @@ const authSlice = createSlice({
     resetRegister: (state) => {
       state.isSusses = false;
     },
+    getToken: (state) => {
+      state.token = Cookies.get("token");
+    },
   },
   extraReducers: {
     [signUpUser.pending]: (state) => {
@@ -64,4 +67,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { logoutUser, resetRegister } = authSlice.actions;
+export const { logoutUser, resetRegister, getToken } = authSlice.actions;
