@@ -40,4 +40,14 @@ class AddressRepository
     {
         return  $this->modelWard::find($wardId);
     }
+
+    public function getDistrictByProvince(string $provinceId)
+    {
+        return $this->modelDistrict::where('province_id',$provinceId)->get();
+    }
+
+    public function getWardByDistrict(string $districtId)
+    {
+        return $this->modelWard::where('district_id',$districtId)->get();
+    }
 }

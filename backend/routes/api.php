@@ -43,8 +43,8 @@ Route::group([
     'prefix' => 'address'
 ], function ($router) {
     Route::get('/provinces', [AddressController::class, 'getListProvince']);
-    Route::get('/districts', [AddressController::class, 'getListDistrict']);
-    Route::get('/wards', [AddressController::class, 'getListWard']);
+    Route::get('provinces-districts/{id}', [AddressController::class, 'getListDistrict']);
+    Route::get('/districts-wards/{id}', [AddressController::class, 'getListWard']);
     Route::get('/provinces/{id}', [AddressController::class, 'getProvince']);
     Route::get('/districts/{id}', [AddressController::class, 'getDistrict']);
     Route::get('/wards/{id}', [AddressController::class, 'getWard']);

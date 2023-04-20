@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Services\CategoryService;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
@@ -56,7 +57,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryRequest $request, string $id)
+    public function update(UpdateCategoryRequest $request, string $id)
     {
         $category=$this->categoryService->repariDataRequest($request,'update');
         $result = $this->categoryService->updateCategory($id, $category);
