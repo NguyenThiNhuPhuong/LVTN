@@ -26,18 +26,18 @@ class AddressController extends Controller
         ]);
     }
 
-    public function getListDistrict()
+    public function getListDistrict(String $id)
     {
-        $result = $this->addressRepository->getAllDistrict();
+        $result = $this->addressRepository->getDistrictByProvince($id);
         return response()->json([
             'total'=>count($result),
             'rows' => $result
         ]);
     }
 
-    public function getListWard()
+    public function getListWard(String $id)
     {
-        $result = $this->addressRepository->getAllWard();
+        $result = $this->addressRepository->getWardByDistrict($id);
         return response()->json([
             'total'=>count($result),
             'rows' => $result
