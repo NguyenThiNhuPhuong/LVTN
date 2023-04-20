@@ -9,8 +9,8 @@ import {
   updateCategory,
 } from "~/redux/slice/category/CategorySlice";
 import InputForm from "../../component/InputForm/InputForm";
-import Loading from "../../component/Loading/Loading";
 import "./SingleCategory.scss";
+import Loading from "~/admin/component/Loading/Loading";
 
 function SingleCategory() {
   const { id } = useParams();

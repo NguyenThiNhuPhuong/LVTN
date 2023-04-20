@@ -19,7 +19,7 @@ function Products({ product, key }) {
     <div className={cx("product__item")} key={key}>
       <ButtonPriceSale price={product.price} price_sale={product.price_sale} />
 
-      <NavLink to={`/product/${product._id}`}>
+      <NavLink to={`/product/${product.id}`}>
         <Image
           className={cx("product__item--img")}
           cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
@@ -30,7 +30,7 @@ function Products({ product, key }) {
       <div className={cx("product__item--content")}>
         <Link
           className={cx("product__item--title")}
-          to={`/product/detail/${product._id}`}
+          to={`/product/detail/${product.id}`}
         >
           {product.name}
         </Link>

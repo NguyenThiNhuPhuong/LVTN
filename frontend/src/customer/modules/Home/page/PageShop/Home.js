@@ -20,16 +20,17 @@ export default function Home() {
     dispatch(getCategory());
     dispatch(getDiscounts());
   }, [dispatch]);
-  const listProduct = useSelector((state) => state.product.productList);
+  const { productList } = useSelector((state) => state.product);
   const loading = false;
+  console.log(productList);
   return (
     <div>
-      {listProduct?.length === 0 || listProduct?.length === undefined ? (
+      {productList?.length === 0 || productList?.length === undefined ? (
         <NoProduct />
       ) : (
         <>
           <div className="product">
-            {(loading ? Array.from(new Array(10)) : listProduct).map(
+            {(loading ? Array.from(new Array(10)) : productList).map(
               (product, index) => {
                 return <Products product={product} key={index} />;
               }

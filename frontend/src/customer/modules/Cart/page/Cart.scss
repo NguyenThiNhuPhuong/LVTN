@@ -2,11 +2,9 @@
   padding: 20px 120px;
 
   .container__wrapper {
-    *zoom: 1;
-    padding: 15px;
+    padding: 30px;
     font-size: 1.6rem;
     background-color: white;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     .header {
       &__logo {
         &--text {
@@ -32,6 +30,7 @@
     .cart {
       &__table {
         border: none;
+        width: 100%;
       }
 
       &__row {

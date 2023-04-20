@@ -1,35 +1,29 @@
 import axiosDefault from "axios";
+import Swal from "sweetalert2";
+import httpRequest from "~/httpRequest/httpRequest";
 
 export const apiGetPublicProvinces = async () => {
   try {
-    const res = await axiosDefault({
-      method: "get",
-      url: "https://vapi.vnappmob.com/api/province/",
-    });
+    const res = await httpRequest.post(`/address/provinces`);
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
 export const apiGetPublicDistrict = async (provinceId) => {
   try {
-    const response = await axiosDefault({
-      method: "get",
-      url: `https://vapi.vnappmob.com/api/province/district/${provinceId}`,
-    });
-    return response;
+    const res = await httpRequest.post(`/address/provinces/${provinceId}`);
+    return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
+
 export const apiGetPublicWard = async (districtId) => {
   try {
-    const response = await axiosDefault({
-      method: "get",
-      url: `https://vapi.vnappmob.com/api/province/ward/${districtId}`,
-    });
-    return response;
+    const res = await httpRequest.post(`/address/provinces/${districtId}`);
+    return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };

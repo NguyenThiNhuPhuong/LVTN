@@ -12,7 +12,7 @@ const cartSlice = createSlice({
   reducers: {
     addCart: (state, action) => {
       const indexCart = state.listCart?.findIndex(
-        (val) => val?._id === action.payload?._id
+        (val) => val?.id === action.payload?.id
       );
       if (indexCart === -1) {
         state.listCart.push({ ...action.payload, cartNum: 1 });

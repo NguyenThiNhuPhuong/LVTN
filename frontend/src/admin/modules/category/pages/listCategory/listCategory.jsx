@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Top from "~/admin/layouts/component/top/Top";
 import { getCategory } from "~/redux/slice/category/CategorySlice";
 import CategoryItem from "../../component/CategoryItem/CategoryItem";
-import Loading from "../../component/Loading/Loading";
 import "./listCategory.scss";
+import Loading from "~/admin/component/Loading/Loading";
 
 const ListCategory = () => {
   const { isLoading } = useSelector((state) => state.category);

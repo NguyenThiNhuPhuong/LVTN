@@ -24,26 +24,11 @@ const userInfoFromLocalStorage = localStorage.getItem("userInfo")
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    userInfo: userInfoFromLocalStorage,
-    err: "",
-    isSusses: false,
-    isLoading: false,
-    role: "",
-    token: Cookies.get("token"),
+    provincesList: [],
+    districtList: [],
+    wardList: [],
   },
-  reducers: {
-    logoutUser: (state) => {
-      state.userInfo = localStorage.removeItem("userInfo");
-      state.role = "";
-      state.token = Cookies.remove("token");
-    },
-    resetRegister: (state) => {
-      state.isSusses = false;
-    },
-    getToken: (state) => {
-      state.token = Cookies.get("token");
-    },
-  },
+  reducers: {},
   extraReducers: {
     [signUpUser.pending]: (state) => {
       state.isLoading = false;
