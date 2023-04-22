@@ -19,7 +19,7 @@ export const signInUser = createAsyncThunk("user/userLogin", async (user) => {
   }
 });
 const userInfoFromLocalStorage = localStorage.getItem("userInfo")
-  ? JSON.parse(localStorage.getItem("userInfo"))
+  ? Cookies.get("token") && JSON.parse(localStorage.getItem("userInfo"))
   : {};
 const authSlice = createSlice({
   name: "auth",
@@ -42,6 +42,9 @@ const authSlice = createSlice({
     },
     getToken: (state) => {
       state.token = Cookies.get("token");
+    },
+    setUserInfo(state, action) {
+      state.userInfo = action.payload;
     },
   },
   extraReducers: {
@@ -69,4 +72,5 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { logoutUser, resetRegister, getToken } = authSlice.actions;
+export const { logoutUser, resetRegister, getToken, setUserInfo } =
+  authSlice.actions;

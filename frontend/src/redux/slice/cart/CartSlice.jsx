@@ -4,18 +4,27 @@ import Swal from "sweetalert2";
 const listCartFromLocalStorage = localStorage.getItem("cart")
   ? JSON.parse(localStorage.getItem("cart"))
   : [];
+console.log("listCartFromLocalStorage", listCartFromLocalStorage);
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
     listCart: listCartFromLocalStorage,
+    priceCart: 0,
+    priceAllCart: 0,
+    priceShip: 30000,
   },
   reducers: {
     addCart: (state, action) => {
       const indexCart = state.listCart?.findIndex(
-        (val) => val?.id === action.payload?.id
+        (val) => val?.product_id === action.payload?.id
       );
+      const product = action.payload;
       if (indexCart === -1) {
-        state.listCart.push({ ...action.payload, cartNum: 1 });
+        state.listCart.push({
+          ...product,
+          product_id: product.id,
+          num: 1,
+        });
         localStorage.setItem("cart", JSON.stringify(state.listCart));
         Swal.fire(
           "Thank You!",
@@ -23,27 +32,32 @@ const cartSlice = createSlice({
           "success"
         );
       } else {
-        state.listCart[indexCart].cartNum < state.listCart[indexCart].num
-          ? state.listCart[indexCart].cartNum++ &&
-            localStorage.setItem("cart", JSON.stringify(state.listCart))
-          : Swal.fire(
-              "The Internet?",
-              "Rất tiếc sản phẩm để hết số lượng",
-              "question"
-            );
+        if (state.listCart[indexCart].num < product.num_buy) {
+          state.listCart[indexCart].cartNum++;
+          localStorage.setItem("cart", JSON.stringify(state.listCart));
+        } else {
+          Swal.fire(
+            "The Internet?",
+            "Rất tiếc sản phẩm để hết số lượng",
+            "question"
+          );
+        }
       }
     },
     removeCart: (state, action) => {
       const removeCart = action.payload;
-      //   const newCart = state.listCart.filter(
-      //     (cart) => cart._id !== removeCart._id
-      //   );
-      state.listCart.filter((cart) => cart._id !== removeCart._id) &&
+      const removedIndex = state.listCart.findIndex(
+        (cart) => cart.product_id === removeCart.product_id
+      );
+      if (removedIndex !== -1) {
+        state.listCart.splice(removedIndex, 1);
         localStorage.setItem("cart", JSON.stringify(state.listCart));
+      }
     },
+
     increaseCart: (state, action) => {
       const indexCart = state.listCart?.findIndex(
-        (val) => val._id === action.payload?._id
+        (val) => val.product_id === action.payload?.product_id
       );
       state.listCart[indexCart]?.cartNum < state.listCart[indexCart]?.num
         ? state.listCart[indexCart].cartNum++ &&
@@ -56,16 +70,30 @@ const cartSlice = createSlice({
     },
     decreaseCart: (state, action) => {
       const indexCart = state.listCart?.findIndex(
-        (val) => val._id === action.payload?._id
+        (val) => val.product_id === action.payload?.product_id
       );
       state.listCart[indexCart]?.cartNum > 0
         ? state.listCart[indexCart].cartNum-- &&
           localStorage.setItem("cart", JSON.stringify(state.listCart))
-        : state.listCart.filter((cart) => cart._id !== action.payload._id);
+        : state.listCart.filter(
+            (cart) => cart.product_id !== action.payload.product_id
+          );
+    },
+    totalCart(state, action) {
+      state.priceCart = action.payload;
+    },
+    totalAllCart(state, action) {
+      state.priceAllCart = action.payload;
     },
   },
 });
 
 export default cartSlice.reducer;
-export const { addCart, removeCart, increaseCart, decreaseCart } =
-  cartSlice.actions;
+export const {
+  addCart,
+  removeCart,
+  increaseCart,
+  decreaseCart,
+  totalCart,
+  totalAllCart,
+} = cartSlice.actions;

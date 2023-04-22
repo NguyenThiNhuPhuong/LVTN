@@ -1,124 +1,98 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
 import {
   apiGetPublicDistrict,
   apiGetPublicProvinces,
   apiGetPublicWard,
-} from "~/services/addressService";
+  setValueDistrict,
+  setValueProvince,
+  setValueWard,
+} from "~/redux/slice/address/AddressSlice";
 import Field from "../Field/Field";
-import Select from "../Select/Select";
+import { setUserInfo } from "~/redux/slice/auth/AuthSlice";
 
-const Address = ({ setPayload }) => {
-  const [provinces, setProvinces] = useState([]);
-  const [districts, setDistricts] = useState([]);
-  const [wards, setWards] = useState([]);
-
-  const [province, setProvince] = useState("");
-  const [district, setDistrict] = useState("");
-  const [ward, setWard] = useState("");
-
-  const [reset, setReset] = useState(false);
-
+const Address = () => {
+  const dispatch = useDispatch();
+  const { provincesList, districtList, wardList, province, district, ward } =
+    useSelector((state) => state.address);
+  const { userInfo } = useSelector((state) => state.auth);
   useEffect(() => {
-    const fetchPublicProvince = async () => {
-      const response = await apiGetPublicProvinces();
-      if (response.status === 200) {
-        setProvinces(response?.data.results);
-      }
-    };
-    fetchPublicProvince();
-  }, []);
+    dispatch(apiGetPublicProvinces());
+  }, [dispatch]);
   useEffect(() => {
-    setDistrict(null);
-    const fetchPublicDistrict = async () => {
-      const response = await apiGetPublicDistrict(province);
-      if (response.status === 200) {
-        setDistricts(response.data?.results);
-      }
-    };
-    province && fetchPublicDistrict();
-    !province ? setReset(true) : setReset(false);
-    !province && setDistricts([]);
-  }, [province]);
-  useEffect(() => {
-    setWard(null);
-    const fetchPublicWard = async () => {
-      const response = await apiGetPublicWard(district);
-      if (response.status === 200) {
-        setWards(response.data?.results);
-      }
-    };
-
-    district && fetchPublicWard();
-    !district ? setReset(true) : setReset(false);
-    !district && setWards([]);
-  }, [district]);
-  //   useEffect(() => {
-  //     setPayload((prev) => ({
-  //       ...prev,
-  //       address: `${
-  //         district
-  //           ? `${
-  //               districts?.find((item) => item.district_id === district)
-  //                 ?.district_name
-  //             },`
-  //           : ""
-  //       } ${
-  //         province
-  //           ? provinces?.find((item) => item.province_id === province)
-  //               ?.province_name
-  //           : ""
-  //       }`,
-  //       province: province
-  //         ? provinces?.find((item) => item.province_id === province)
-  //             ?.province_name
-  //         : "",
-  //     }));
-  //   }, [province, district]);
+    dispatch(
+      setUserInfo({ ...userInfo, address: `${ward} ${district} ${province}` })
+    );
+  }, [dispatch, district, province, ward]);
   return (
     <div>
-      <Select
-        type="province"
-        value={province}
-        setValue={setProvince}
-        options={provinces}
-        label="Tỉnh/Thành phố"
-      />
-      <Select
-        reset={reset}
-        type="district"
-        value={district}
-        setValue={setDistrict}
-        options={districts}
-        label="Quận/Huyện"
-      />
-      <Select
-        reset={reset}
-        type="ward"
-        value={ward}
-        setValue={setWard}
-        options={wards}
-        label="Xã"
-      />
-      <Field
-        label="Địa chỉ chính xác"
-        value={`${
-          ward
-            ? `${wards?.find((item) => item.ward_id === ward)?.ward_name},`
-            : ""
-        }${
-          district
-            ? `${
-                districts?.find((item) => item.district_id === district)
-                  ?.district_name
-              },`
-            : ""
-        }${
-          province
-            ? provinces?.find((item) => item.province_id === province)
-                ?.province_name
-            : ""
-        }`}
-      />
+      <div className="field field-third">
+        <select
+          onChange={(e) => {
+            const selectedOption = e.target.options[e.target.selectedIndex];
+            dispatch(setValueProvince(selectedOption.getAttribute("name")));
+            dispatch(setUserInfo({ ...userInfo, province_id: e.target.value }));
+            dispatch(apiGetPublicDistrict(e.target.value));
+          }}
+          className="field__input"
+        >
+          <option value="">{`--Chọn Tỉnh/Thành phố--`}</option>
+          {provincesList?.map((province, index) => {
+            return (
+              <option key={index} name={province.name} value={province.id}>
+                {province.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+
+      <div className="field field-third">
+        <select
+          onChange={(e) => {
+            const selectedOption = e.target.options[e.target.selectedIndex];
+            dispatch(
+              setValueDistrict(`${selectedOption.getAttribute("name")},`)
+            );
+            dispatch(setUserInfo({ ...userInfo, district_id: e.target.value }));
+
+            dispatch(apiGetPublicWard(e.target.value));
+          }}
+          className="field__input"
+        >
+          <option value="">{`--Chọn Quận/Huyện--`}</option>
+          {districtList?.map((district, index) => {
+            return (
+              <option key={index} value={district.id} name={district.name}>
+                {district.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+
+      <div className="field field-third">
+        <select
+          onChange={(e) => {
+            const selectedOption = e.target.options[e.target.selectedIndex];
+            dispatch(setUserInfo({ ...userInfo, ward_id: e.target.value }));
+            dispatch(setValueWard(`${selectedOption.getAttribute("name")},`));
+          }}
+          className="field__input"
+        >
+          <option value="">{`--Chọn thôn/xã--`}</option>
+          {wardList?.map((ward, index) => {
+            return (
+              <option key={index} value={ward.id} name={ward.name}>
+                {ward.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+
+      <Field label="Địa chỉ chính xác" value={userInfo.address} />
     </div>
   );
 };

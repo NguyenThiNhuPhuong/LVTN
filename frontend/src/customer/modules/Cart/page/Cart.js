@@ -18,8 +18,8 @@ function Cart() {
       return (
         total +
         (item.price_sale > 0
-          ? item.price_sale * item.cartNum
-          : item.price * item.cartNum)
+          ? item.price_sale * item.num
+          : item.price * item.num)
       );
     }, 0);
     setTotal(res);

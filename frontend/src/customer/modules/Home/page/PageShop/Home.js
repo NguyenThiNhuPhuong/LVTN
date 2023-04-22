@@ -11,6 +11,8 @@ import NoProduct from "../../component/noproduct/NoProduct";
 import Pagination from "@mui/material/Pagination";
 import Products from "../../component/products/Products";
 import "./Home.scss";
+import Loading from "../../component/loading/Loading";
+import { Skeleton } from "@mui/material";
 export default function Home() {
   const dispatch = useDispatch();
 
@@ -20,32 +22,35 @@ export default function Home() {
     dispatch(getCategory());
     dispatch(getDiscounts());
   }, [dispatch]);
-  const { productList } = useSelector((state) => state.product);
-  const loading = false;
-  console.log(productList);
+  const { isLoading } = useSelector((state) => state.product);
+
   return (
     <div>
-      {productList?.length === 0 || productList?.length === undefined ? (
-        <NoProduct />
-      ) : (
-        <>
-          <div className="product">
-            {(loading ? Array.from(new Array(10)) : productList).map(
-              (product, index) => {
-                return <Products product={product} key={index} />;
-              }
-            )}
-          </div>
-          <div className="pagination">
-            <Pagination
-              count={10}
-              variant="outlined"
-              shape="rounded"
-              size="large"
-            />
-          </div>
-        </>
-      )}
+      <>
+        <div className="HomeContainer">
+          {isLoading ? (
+            <>
+              <Skeleton height={400} sx={{ mt: "-70px" }} />
+
+              <div className="product">
+                {Array.from(new Array(10)).map((item, index) => {
+                  return <Loading index={index} />;
+                })}
+              </div>
+            </>
+          ) : (
+            <Products />
+          )}
+        </div>
+        <div className="pagination">
+          <Pagination
+            count={10}
+            variant="outlined"
+            shape="rounded"
+            size="large"
+          />
+        </div>
+      </>
     </div>
   );
 }

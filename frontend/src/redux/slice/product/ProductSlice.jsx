@@ -44,12 +44,6 @@ export const getAProduct = createAsyncThunk(
   async (id) => {
     const response = await productService.getAProduct(id);
     return response.product;
-    //   return {
-    //     relatedProductList: await productService.getProductByCategoryId(
-    //       response.product[0].category
-    //     ),
-    //     productSingle: response.product[0],
-    //   };
   }
 );
 const productSlice = createSlice({

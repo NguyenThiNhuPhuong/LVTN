@@ -89,7 +89,7 @@ function ListProduct() {
             </div>
           </div>
           <hr />
-          {productList.length > 0 ? (
+          {productList?.length > 0 ? (
             <div className="content">
               {(query ? searchResults : productList).map((product, index) => {
                 return (

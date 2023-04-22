@@ -1,5 +1,5 @@
-import * as httpRequest from "~/admin/utils/httpRequest";
 import Swal from "sweetalert2";
+import * as httpRequest from "~/httpRequest/httpRequest";
 
 export const getOrder = async (pageIndex) => {
   try {
@@ -10,44 +10,28 @@ export const getOrder = async (pageIndex) => {
   }
 };
 export const listPendingOrder = async () => {
-    try {
-      const res = await httpRequest.get(`order/listPendingOrder`);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  
-export const newOrder = async (
-  orderProducts,
-  phone,
-  address,
-  note,
-  discount,
-  transportFee,
-  totalPrice
-) => {
   try {
-    const res = await httpRequest.post(`order/add`, {
-        orderProducts,
-        phone,
-        address,
-        note,
-        discount,
-        transportFee,
-        totalPrice
-    });
+    const res = await httpRequest.get(`order/listPendingOrder`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const newOrder = async (values) => {
+  try {
+    const res = await httpRequest.post(`orders`, values);
     return res;
   } catch (error) {
     Swal.fire({
-        icon: "error",
-        text: `${error.response.data.message} 🙌👀`,
-      });
+      icon: "error",
+      text: `${error.response.data.message} 🙌👀`,
+    });
   }
 };
 export const editOrder = async (id, status) => {
   try {
-    const res = await httpRequest.post(`order/update`,{ id,status});
+    const res = await httpRequest.post(`order/update`, { id, status });
     return res;
   } catch (error) {
     // await Swal.fire({
@@ -58,21 +42,21 @@ export const editOrder = async (id, status) => {
   }
 };
 export const cancelOrder = async (order_id) => {
-    try {
-      const res = await httpRequest.post(`order/cancel`, {order_id});
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  export const receivedOrder = async (order_id) => {
-    try {
-      const res = await httpRequest.post(`order/receivedOrder`, {order_id});
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  try {
+    const res = await httpRequest.post(`order/cancel`, { order_id });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const receivedOrder = async (order_id) => {
+  try {
+    const res = await httpRequest.post(`order/receivedOrder`, { order_id });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const getAOrder = async (id) => {
   try {
     const res = await httpRequest.get(`order/${id}`);
