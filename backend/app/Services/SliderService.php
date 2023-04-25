@@ -8,6 +8,7 @@ use App\Repositories\ProductRepository;
 use App\Repositories\SliderRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class SliderService
 {
@@ -46,21 +47,23 @@ class SliderService
 
     public function updateSlider($id, $request)
     {
-        $dataSlider=[
-            'name'=> $request->name,
-            'link'=> $request->link,
-            'active'=> $request->active
+        $dataSlider = [
+            'name' => $request->name,
+            'link' => $request->link,
+            'active' => $request->active
         ];
 
-        if ($request->hasFile('file')) {
-            $path = $request['file']->store('sliders', 'public');
-            $image = asset('storage/' . $path);
+        $rresult = DB::transaction(function () use ($dataSlider, $id, $request) {
 
-            $dataSlider['image'] =  $image;
-        }
+            if ($request->hasFile('file')) {
+                $path = $request['file']->store('sliders', 'public');
+                $image = asset('storage/' . $path);
+                $dataSlider['image'] = $image;
 
-
-        $rresult = DB::transaction(function () use ($dataSlider, $id) {
+                $oldImage = $this->sliderRepository->getSlider($id)->image;
+                $filename = basename($oldImage);
+                Storage::delete('public/sliders/'.$filename);
+            }
 
             $slider = $this->sliderRepository->updateSlider($id, $dataSlider);
 
@@ -70,20 +73,18 @@ class SliderService
         return $rresult;
 
 
-
-
     }
 
     public function deleteSlider($id)
     {
         $result = "";
 
-            $isDelete = $this->sliderRepository->deleteSlider($id);
+        $isDelete = $this->sliderRepository->deleteSlider($id);
 
-            if ($isDelete) {
-                return $result = "Delete slider successful! ";
-            } else {
-                return $result = "Delete slider error, please try again!";
-            }
+        if ($isDelete) {
+            return $result = "Delete slider successful! ";
+        } else {
+            return $result = "Delete slider error, please try again!";
+        }
     }
 }

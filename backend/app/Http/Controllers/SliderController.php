@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SliderRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Repositories\ImageRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\SliderRepository;
@@ -65,6 +66,7 @@ class SliderController extends Controller
             'slider' => $result
         ]);
     }
+
 
     /**
      * Remove the specified resource from storage.
