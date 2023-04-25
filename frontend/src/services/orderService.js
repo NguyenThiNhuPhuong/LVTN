@@ -1,9 +1,30 @@
 import Swal from "sweetalert2";
 import * as httpRequest from "~/httpRequest/httpRequest";
-
-export const getOrder = async (pageIndex) => {
+//waiting order list for confirmation
+export const getListOrder = async () => {
   try {
-    const res = await httpRequest.get(`order?pageIndex=${pageIndex}`);
+    const res = await httpRequest.get(`orders`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+//CREATE ORDER
+export const newOrder = async (values) => {
+  try {
+    const res = await httpRequest.post(`orders`, values);
+    return res;
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      text: `${error.response.data.message} 🙌👀`,
+    });
+  }
+};
+//GET A ORDER
+export const getAOrder = async (id) => {
+  try {
+    const res = await httpRequest.get(`orders/${id}`);
     return res;
   } catch (error) {
     console.log(error);
@@ -18,17 +39,6 @@ export const listPendingOrder = async () => {
   }
 };
 
-export const newOrder = async (values) => {
-  try {
-    const res = await httpRequest.post(`orders`, values);
-    return res;
-  } catch (error) {
-    Swal.fire({
-      icon: "error",
-      text: `${error.response.data.message} 🙌👀`,
-    });
-  }
-};
 export const editOrder = async (id, status) => {
   try {
     const res = await httpRequest.post(`order/update`, { id, status });
@@ -52,22 +62,6 @@ export const cancelOrder = async (order_id) => {
 export const receivedOrder = async (order_id) => {
   try {
     const res = await httpRequest.post(`order/receivedOrder`, { order_id });
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const getAOrder = async (id) => {
-  try {
-    const res = await httpRequest.get(`order/${id}`);
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const getListOrder = async () => {
-  try {
-    const res = await httpRequest.get(`order/listOrderByUser`);
     return res;
   } catch (error) {
     console.log(error);

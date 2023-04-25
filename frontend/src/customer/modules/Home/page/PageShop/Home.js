@@ -4,31 +4,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategory } from "~/redux/slice/category/CategorySlice";
 import { getDiscounts } from "~/redux/slice/discount/DiscountSlice";
 import { getAllProducts } from "~/redux/slice/product/ProductSlice";
-import { getSlider } from "~/redux/slice/slider/SliderSlice";
+import { getListSlider } from "~/redux/slice/slider/SliderSlice";
 
-import NoProduct from "../../component/noproduct/NoProduct";
 // import Products from "../../component/products/Products";
+import { Skeleton } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
+import Loading from "../../component/loading/Loading";
 import Products from "../../component/products/Products";
 import "./Home.scss";
-import Loading from "../../component/loading/Loading";
-import { Skeleton } from "@mui/material";
 export default function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllProducts());
-    dispatch(getSlider());
+    dispatch(getListSlider());
     dispatch(getCategory());
     dispatch(getDiscounts());
   }, [dispatch]);
-  const { isLoading } = useSelector((state) => state.product);
+  const LoadingProduct = useSelector((state) => state.product.isLoading);
+  const LoadingSlider = useSelector((state) => state.slider.isLoading);
 
   return (
     <div>
       <>
         <div className="HomeContainer">
-          {isLoading ? (
+          {LoadingProduct && LoadingSlider ? (
             <>
               <Skeleton height={400} sx={{ mt: "-70px" }} />
 

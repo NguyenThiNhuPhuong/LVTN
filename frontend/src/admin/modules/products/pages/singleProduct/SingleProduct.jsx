@@ -32,7 +32,7 @@ const uploadFiles = createAsyncThunk(
   }
 );
 
-function SingleProduct(props) {
+function SingleProduct() {
   const { id } = useParams();
   const cx = classNames.bind(styles);
   const { productSingle, productUpdate, isSuccessNew } = useSelector(
@@ -44,9 +44,9 @@ function SingleProduct(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getCategory());
-
     dispatch(getAProduct(id));
+
+    dispatch(getCategory());
 
     if (isSuccessNew) {
       toast.success(`Bạn đã tạo thành công product `, {

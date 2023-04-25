@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import Loading from "~/admin/component/Loading/Loading";
 import {
   getACategory,
   resetUpdateCategory,
@@ -10,7 +11,6 @@ import {
 } from "~/redux/slice/category/CategorySlice";
 import InputForm from "../../component/InputForm/InputForm";
 import "./SingleCategory.scss";
-import Loading from "~/admin/component/Loading/Loading";
 
 function SingleCategory() {
   const { id } = useParams();

@@ -1,0 +1,20 @@
+.LoadingDetailProduct {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 20px;
+  padding: 40px 150px;
+  .Loading {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    padding: 0px;
+    &__listImg {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, 1fr);
+      row-gap: 10px;
+    }
+    span {
+      transform: scale(1);
+    }
+  }
+}

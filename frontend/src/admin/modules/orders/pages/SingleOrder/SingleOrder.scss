@@ -1,4 +1,4 @@
-.OrderDetailContainer {
+.SingleOrderContainer {
   padding: 20px;
   display: grid;
   grid-template-columns: 1fr;
@@ -12,7 +12,7 @@
       color: white;
     }
   }
-  .OrderDetail {
+  .SingleOrder {
     border: 1px solid gray;
     .header {
       padding: 10px;

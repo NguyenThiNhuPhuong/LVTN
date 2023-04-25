@@ -1,18 +1,25 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import Loading from "~/admin/component/Loading/Loading";
 import Top from "~/admin/layouts/component/top/Top";
-import { getAllProducts } from "~/redux/slice/product/ProductSlice";
 import OrderItem from "../../component/OrderItem/OrderItem";
+
+import { getListOrder } from "~/redux/slice/order/OrderSlice";
+
 import "./ListOrder.scss";
+
 function ListOrder() {
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.order);
 
   useEffect(() => {
-    dispatch(getAllProducts());
+    dispatch(getListOrder());
   }, [dispatch]);
 
-  const listProduct = useSelector((state) => state.product.productList);
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="ListOrderContainer">
       <Top title="Orders" to="/admin/product/newProduct" />
       <div className="main">

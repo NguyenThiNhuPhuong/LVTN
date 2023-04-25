@@ -28,10 +28,11 @@ export const editUser = async (id, name, active) => {
     console.log(error);
   }
 };
+//GET USER PROFILE
 export const getAUser = async (id) => {
   try {
-    const res = await httpRequest.get(`user/${id}`);
-    return res;
+    const res = await httpRequest.get(`auth/user-profile`);
+    return res.data;
   } catch (error) {
     console.log(error);
   }

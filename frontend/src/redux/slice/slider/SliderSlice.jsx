@@ -1,29 +1,108 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as sliderService from "../../../services/sliderService";
-export const getSlider = createAsyncThunk("slider/getSlider", async () => {
-  try {
-    const response = await sliderService.getListSlider();
-    return response.sliders;
-  } catch (e) {
-    console.log(e);
-  }
-});
 
+export const getListSlider = createAsyncThunk(
+  "slider/getListSlider",
+  async () => {
+    const response = await sliderService.getListSlider();
+    return response.rows;
+  }
+);
+export const getASlider = createAsyncThunk("slider/getASlider", async (id) => {
+  const response = await sliderService.getASlider(id);
+  return response.slider;
+});
+export const removeSlider = createAsyncThunk(
+  "slider/removeSlider",
+  async (id) => {
+    const response = await sliderService.removeSlider(id);
+    return response;
+  }
+);
+export const updateSlider = createAsyncThunk(
+  "slider/updateSlider",
+  async (sliderUpdate) => {
+    const response = await sliderService.updateSlider(sliderUpdate);
+    return response.category;
+  }
+);
+export const newSlider = createAsyncThunk(
+  "slider/newSlider",
+  async (newSlider) => {
+    const response = await sliderService.newSlider(newSlider);
+    return response.slider;
+  }
+);
 const sliderSlice = createSlice({
   name: "slider",
   initialState: {
     sliderList: [],
     isLoading: false,
+    isLoadingRemove: false,
+    alertDeleteSuccess: "",
+    sliderSingle: {},
+    sliderUpdate: {},
+    sliderNew: {},
+  },
+  reducers: {
+    resetRemoveSlider: (state) => {
+      state.alertDeleteSuccess = "";
+    },
+    setSingleSlider(state, action) {
+      state.sliderSingle = action.payload;
+    },
+    resetUpdateSlider: (state) => {
+      state.sliderUpdate = {};
+    },
+    resetNewSlider: (state) => {
+      state.sliderNew = {};
+      state.sliderSingle = {};
+    },
   },
   extraReducers: {
-    [getSlider.pending]: (state, action) => {
-      state.isLoading = false;
-    },
-    [getSlider.fulfilled]: (state, action) => {
+    [getListSlider.pending]: (state, action) => {
       state.isLoading = true;
+    },
+    [getListSlider.fulfilled]: (state, action) => {
+      state.isLoading = false;
       state.sliderList = action.payload;
+    },
+    [getASlider.pending]: (state) => {
+      state.isLoading = true;
+      state.sliderSingle = {};
+    },
+    [getASlider.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.sliderSingle = action.payload;
+    },
+    [removeSlider.pending]: (state) => {
+      state.isLoadingRemove = true;
+    },
+    [removeSlider.fulfilled]: (state, action) => {
+      state.isLoadingRemove = false;
+      state.alertDeleteSuccess = action.payload;
+    },
+
+    [updateSlider.pending]: (state) => {
+      state.isLoadingUpdate = true;
+    },
+    [updateSlider.fulfilled]: (state, action) => {
+      state.isLoadingUpdate = false;
+      state.sliderUpdate = action.payload;
+    },
+    [newSlider.pending]: (state) => {
+      state.isSuccessNew = false;
+    },
+    [newSlider.fulfilled]: (state, action) => {
+      state.sliderNew = action.payload;
     },
   },
 });
+export const {
+  resetRemoveSlider,
+  setSingleSlider,
+  resetUpdateSlider,
+  resetNewSlider,
+} = sliderSlice.actions;
 
 export default sliderSlice.reducer;

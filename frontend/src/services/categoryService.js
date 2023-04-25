@@ -18,6 +18,7 @@ export const removeCategory = async (id) => {
     console.log(error);
   }
 };
+//CREATE CATEGORY
 export const newCategory = async ({ name, description }) => {
   try {
     const res = await httpRequest.post(`categories`, { name, description });
@@ -26,6 +27,7 @@ export const newCategory = async ({ name, description }) => {
     Swal.fire(`${error.response.data.message}😥`);
   }
 };
+//UPDATE CATEGORY
 export const updateCategory = async ({ id, name, description, active }) => {
   try {
     const res = await httpRequest.put(`categories/${id}`, {
@@ -38,6 +40,7 @@ export const updateCategory = async ({ id, name, description, active }) => {
     Swal.fire(`${error.response.data.message}😥`);
   }
 };
+//GET A CATEGORY
 export const getACategory = async (id) => {
   try {
     const res = await httpRequest.get(`categories/${id}`);

@@ -5,7 +5,8 @@ import "./slick.scss";
 import "./slick-theme.css";
 
 function Slide(props) {
-  const slideList = useSelector((state) => state.slider.sliderList);
+  const sliderList = useSelector((state) => state.slider.sliderList);
+  console.log(sliderList);
   const settings = {
     dots: true,
     infinite: true,
@@ -15,7 +16,33 @@ function Slide(props) {
   };
   return (
     <div className="slider-container">
-      <Slider {...settings}>
+      <div
+        id="banner"
+        style={{ backgroundImage: `url(${sliderList[0]?.image})` }}
+      >
+        <div className="box-left">
+          <h2>
+            <span>THỨC ĂN</span>
+            <br />
+            <span>THƯỢNG HẠNG</span>
+          </h2>
+          <p>
+            Chuyên cung cấp các món ăn đảm bảo dinh dưỡng hợp vệ sinh đến người
+            dùng,phục vụ người dùng 1 cái hoàn hảo nhất
+          </p>
+          <button>Mua ngay</button>
+        </div>
+        <div className="box-right">
+          {sliderList.map((slider, index) => {
+            return <img src={slider?.image} alt="" key={index} />;
+          })}
+        </div>
+        <div className="to-bottom">
+          <a href="">{/* <img src="assets/to_bottom.png" alt="" /> */}</a>
+        </div>
+      </div>
+
+      {/* <Slider {...settings}>
         {slideList?.map((slider, index) => {
           return (
             <Image
@@ -26,7 +53,7 @@ function Slide(props) {
             />
           );
         })}
-      </Slider>
+      </Slider> */}
     </div>
   );
 }

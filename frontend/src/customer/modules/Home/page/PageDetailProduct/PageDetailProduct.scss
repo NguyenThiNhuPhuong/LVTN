@@ -1,13 +1,18 @@
 .PageDetail {
-  padding: 40px 200px;
+  padding: 20px 150px;
   display: grid;
   grid-template-columns: 1fr;
+  background: #f0f0f0;
+
   row-gap: 20px;
   .header {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 10px;
     &__breadcrumb {
       a {
         display: inline-block;
-        color: #facd7e;
+        color: var(--mainColor);
       }
       span {
         display: inline-block;
@@ -20,14 +25,17 @@
   .detailProduct {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 2fr 1fr;
     column-gap: 40px;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
 
     &__img {
       display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: 500px 100px;
-      row-gap: 10px;
+      grid-template-columns: 150px 1fr;
+      grid-template-rows: 500px;
+      column-gap: 10px;
       &--container {
         display: block;
         width: 100%;
@@ -36,13 +44,13 @@
 
       &--listImg {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        column-gap: 10px;
+        grid-template-rows: repeat(4, 1fr);
+        row-gap: 10px;
         cursor: pointer;
 
         img {
           width: 100%;
-          height: 100px;
+          height: 100%;
           display: block;
           object-fit: cover;
           overflow: hidden;
@@ -53,9 +61,12 @@
     &__box {
       display: grid;
       grid-template-columns: 1fr;
+      grid-auto-rows: 40px 40px 40px 1fr 100px;
       row-gap: 10px;
       h2 {
         font-size: 25px;
+        line-height: 40px;
+        letter-spacing: 2px;
         font-weight: bold;
         height: 40px;
         text-transform: uppercase;
@@ -85,22 +96,44 @@
           border-right: 1px solid black;
         }
       }
+
       &--btn {
-        width: 300px;
-        height: 40px;
-        background-color: white;
-        color: black;
-        text-transform: uppercase;
-        border: 1px solid black;
-        border-radius: 4px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 10px;
+        padding: 10px 0px;
+        &--add,
+        &--BuyNow {
+          height: 40px;
+          display: grid;
+          grid-template-columns: 40px 1fr;
+          align-items: center;
+          color: white;
+          font-size: 16px;
+          font-weight: 600;
+          text-transform: uppercase;
+        }
+        &--add {
+          grid-template-columns: 40px 1fr;
+          background: #629978;
+        }
+        &--BuyNow {
+          background-color: rgb(231, 101, 101);
+          a {
+            display: block;
+            color: white !important;
+          }
+        }
       }
-      &--btnBuyNow {
-        background-color: black;
-        border: 1px solid white;
-        margin-bottom: 10px;
-        a {
-          display: block;
-          color: white !important;
+      &--icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(0, 0, 0, 0.2);
+        svg {
+          font-size: 25px;
         }
       }
       p {
@@ -272,14 +305,14 @@
         &--btn {
           width: 300px;
           height: 40px;
-          background-color: white;
+          background-color: var(--backgroundIcon);
           color: black;
           text-transform: uppercase;
           border: 1px solid black;
           border-radius: 4px;
         }
         &--btnBuyNow {
-          background-color: black;
+          background-color: rgb(231, 101, 101);
           border: 1px solid white;
           margin-bottom: 10px;
           a {

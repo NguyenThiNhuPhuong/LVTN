@@ -1,45 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useParams } from "react-router-dom";
 
 import DateRangeIcon from "@mui/icons-material/DateRange";
-import PersonIcon from "@mui/icons-material/Person";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PersonIcon from "@mui/icons-material/Person";
 
-import ProductItem from "../../component/ProductItem/ProductItem";
 import { FormatNumber } from "~/customer/modules/Home/component/products/component/Price/Price";
+import ProductItem from "../../component/ProductItem/ProductItem";
 
-import "./OrderDetail.scss";
-function OrderDetail() {
-  const cart = useSelector((state) => state.cart.listCart);
+import { getAOrder } from "~/redux/slice/order/OrderSlice";
+import "./SingleOrder.scss";
 
-  const [total, setTotal] = useState(0);
-  /// total bill
+const SingleOrder = () => {
+  const { id } = useParams();
+
+  const dispatch = useDispatch();
+  const { orderSingle } = useSelector((state) => state.order);
+
   useEffect(() => {
-    const res = cart.reduce((total, item) => {
-      return (
-        total +
-        (item.price_sale > 0
-          ? item.price_sale * item.cartNum
-          : item.price * item.cartNum)
-      );
-    }, 0);
-    setTotal(res);
-  }, [cart]);
+    dispatch(getAOrder(id));
+  }, [dispatch, id]);
   return (
-    <div className="OrderDetailContainer">
+    <div className="SingleOrderContainer">
       <div className="top">
         <NavLink to="/admin/order">Back to Orders</NavLink>
       </div>
-      <div className="OrderDetail">
+      <div className="SingleOrder">
         <div className="header">
           <div className="header__time">
             <div className="header__time--date">
               <DateRangeIcon />
-              <span>Thus,Jan 11,2022 7:52 PM</span>
+              <span>{orderSingle.date}</span>
             </div>
-            <div className="header__time--Id">Order ID:111111111</div>
+            <div className="header__time--Id">Order ID:{orderSingle.code}</div>
           </div>
           <div className="header__status">
             <select>
@@ -55,8 +50,8 @@ function OrderDetail() {
               </div>
               <div className="info__item--user">
                 <div className="info__item--label">Customer</div>
-                <div className="info__item--name">Admin</div>
-                <div className="info__item--email">Admin@gmail.com</div>
+                <div className="info__item--name">{orderSingle.name}</div>
+                <div className="info__item--email">{orderSingle.email}</div>
               </div>
             </div>
             <div className="info__item">
@@ -76,8 +71,8 @@ function OrderDetail() {
               </div>
               <div className="info__item--deliver">
                 <div className="info__item--label">Deliver to</div>
-                <div className="info__item--address">Thon thong nhat</div>
-                <div className="info__item--pox">009090909</div>
+                <div className="info__item--address">{orderSingle.address}</div>
+                <div className="info__item--pox">{orderSingle.phone}</div>
               </div>
             </div>
           </div>
@@ -97,13 +92,13 @@ function OrderDetail() {
                 <p className="order__footer--total--title">
                   <span>Phí vận chuyển:</span>
                   <span>
-                    <FormatNumber price={total} />
+                    <FormatNumber price={orderSingle.price_ship} />
                   </span>
                 </p>
                 <p className="order__footer--total--title">
                   <span>Tổng tiền:</span>
                   <span className="h3">
-                    <FormatNumber price={total} />
+                    <FormatNumber price={orderSingle.price_all} />
                   </span>
                 </p>
               </div>
@@ -113,6 +108,6 @@ function OrderDetail() {
       </div>
     </div>
   );
-}
+};
 
-export default OrderDetail;
+export default SingleOrder;

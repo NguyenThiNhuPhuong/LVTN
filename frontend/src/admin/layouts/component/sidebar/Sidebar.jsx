@@ -1,13 +1,13 @@
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import BrokenImageIcon from "@mui/icons-material/BrokenImage";
+import CategoryIcon from "@mui/icons-material/Category";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import StoreIcon from "@mui/icons-material/Store";
-import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import MenuIcon from "@mui/icons-material/Menu";
-import CategoryIcon from "@mui/icons-material/Category";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import StoreIcon from "@mui/icons-material/Store";
 import { NavLink } from "react-router-dom";
 import "./Sidebar.scss";
 import Item from "./component/Item/Item";
@@ -41,11 +41,7 @@ const Sidebar = () => {
         <Item to="/admin/product" icon={<StoreIcon />} title="Products" />
         <Item to="/admin/category" icon={<CategoryIcon />} title="Category" />
         <Item to="/admin/order" icon={<CreditCardIcon />} title="Orders" />
-        <Item
-          to="/admin/Delivery"
-          icon={<LocalShippingIcon />}
-          title="Delivery"
-        />
+        <Item to="/admin/slider" icon={<BrokenImageIcon />} title="Slider" />
         <Item
           to="/admin/profile"
           icon={<AccountCircleOutlinedIcon />}

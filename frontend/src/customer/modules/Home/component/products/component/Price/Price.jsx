@@ -19,7 +19,7 @@ export function Price(props) {
 }
 
 export default function AllPrice(props) {
-  const { price, price_sale, color } = props;
+  const { price, price_sale, color, fontSize } = props;
 
   return (
     <div className="price">
@@ -27,7 +27,10 @@ export default function AllPrice(props) {
         <>
           <span
             className="price__noSale"
-            style={{ color: color ? color : "black" }}
+            style={{
+              color: color ? color : "black",
+              fontSize: fontSize ? fontSize : "16px",
+            }}
           >
             <FormatNumber price={price_sale} />
           </span>

@@ -1,27 +1,31 @@
-import React, { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import "./OrderItem.scss";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import "./OrderItem.scss";
 function OrderItem() {
-  const [data, setData] = useState([]);
+  const { orderList } = useSelector((state) => state.order);
 
-  return (
-    <div className="order__row">
-      <div className="order__row--name text">2</div>
-      <div className="order__row--email text">3</div>
-      <div className="order__row--total text">4</div>
-      <div className="order__row--paid text">5</div>
-      <div className="order__row--date text">6</div>
-      <div className="order__row--status text">
-        <div className="order__row--status--btn">nananan</div>
+  return orderList.map((orderItem, index) => {
+    return (
+      <div className="order__row" key={index}>
+        <div className="order__row--name text">{orderItem.name}</div>
+        <div className="order__row--email text">{orderItem.email}</div>
+        <div className="order__row--total text">{orderItem.price_all}</div>
+        <div className="order__row--paid text">5</div>
+        <div className="order__row--date text">{orderItem.date}</div>
+        <div className="order__row--status text">
+          <div className="order__row--status--btn">
+            {orderItem.order_status_id}
+          </div>
+        </div>
+        <div className="order__row--action text">
+          <NavLink to={`/admin/order/detailOrder/${orderItem.id}`}>
+            <VisibilityIcon />
+          </NavLink>
+        </div>
       </div>
-      <div className="order__row--action text">
-        <NavLink to="/admin/order/detailOrder">
-          <VisibilityIcon />
-        </NavLink>
-      </div>
-    </div>
-  );
+    );
+  });
 }
 
 export default OrderItem;

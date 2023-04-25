@@ -23,7 +23,7 @@ function InputForm({
         className={className ? className : ""}
         checked={checked}
       />
-      <label for={name}>{label}</label>
+      <label htmlFor={name}>{label}</label>
       {/* <p>{errorMessage}</p> */}
     </div>
   );

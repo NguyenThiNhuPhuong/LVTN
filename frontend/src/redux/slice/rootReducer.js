@@ -7,6 +7,7 @@ import discountReducer from "./discount/DiscountSlice";
 import filesReducer from "./file/FileSlice";
 import addressReducer from "./address/AddressSlice";
 import orderReducer from "./order/OrderSlice";
+import userReducer from "./user/UserSlice";
 
 import { combineReducers } from "@reduxjs/toolkit";
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   category: categoryReducer,
   auth: authReducer,
+  user: userReducer,
   slider: sliderReducer,
   discount: discountReducer,
   file: filesReducer,

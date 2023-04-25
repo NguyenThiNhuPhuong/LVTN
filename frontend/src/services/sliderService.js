@@ -1,52 +1,34 @@
 import Swal from "sweetalert2";
-import httpRequest from "~/httpRequest/httpRequest";
+import * as httpRequest from "~/httpRequest/httpRequest";
 
 export const getListSlider = async () => {
   try {
-    const res = await httpRequest.get(`slider/`);
-    return res.data;
+    const res = await httpRequest.get(`sliders`);
+    return res;
   } catch (error) {
     console.log(error);
   }
 };
 export const removeSlider = async (id) => {
   try {
-    const res = await httpRequest.post(`slider/delete`, { id });
+    const res = await httpRequest.remove(`sliders/${id}`);
     return res;
   } catch (error) {
     console.log(error);
   }
 };
-export const newSlider = async (name, content, active, image) => {
+export const newSlider = async (newSlider) => {
   try {
-    const res = await httpRequest.post(`slider/add`, {
-      name,
-      content,
-      active,
-      image,
-    });
+    const res = await httpRequest.postFormData(`sliders`, newSlider);
     return res;
   } catch (error) {
     Swal.fire(`${error.response.data.message}😥`);
   }
 };
-export const editSlider = async (
-  id,
-  name,
-  content,
-  active,
-  changedImg,
-  image
-) => {
+
+export const updateSlider = async (values, id) => {
   try {
-    const res = await httpRequest.post(`slider/update`, {
-      id,
-      name,
-      content,
-      active,
-      changedImg,
-      image,
-    });
+    const res = await httpRequest.postFormData(`slider/${id}`, values);
     return res;
   } catch (error) {
     console.log(error);
@@ -54,8 +36,8 @@ export const editSlider = async (
 };
 export const getASlider = async (id) => {
   try {
-    const res = await httpRequest.get(`slider/${id}`);
-    return res;
+    const res = await httpRequest.get(`sliders/${id}`);
+    return res.data;
   } catch (error) {
     console.log(error);
   }

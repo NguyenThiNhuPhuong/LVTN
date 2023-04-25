@@ -21,7 +21,7 @@ const routeServer = {
   listOrder: "/admin/order",
   pendingOrder: "/admin/pendingOrder",
   singlePendingOrder: "/admin/pendingOrder/:id",
-  singleOrder: "/admin/order/detailOrder",
+  singleOrder: "/admin/order/detailOrder/:id",
 
   //Slider
   listSlider: "/admin/slider",

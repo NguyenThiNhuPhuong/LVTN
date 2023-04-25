@@ -126,6 +126,7 @@ export const {
   setUpdateProduct,
   resetNewProduct,
   resetRemoveProduct,
+  resetUpdateProduct,
   setSearchResults,
 } = productSlice.actions;
 

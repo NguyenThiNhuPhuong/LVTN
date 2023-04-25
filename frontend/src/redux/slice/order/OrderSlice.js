@@ -1,19 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as orderService from "../../../services/orderService";
 
-// API CREATE GET LIST PRODUCT
-// export const getAllProducts = createAsyncThunk(
-//   "product/getAllProducts",
-//   async () => {
-//     try {
-//       const response = await productService.getListHomeProduct();
-//       return response.rows;
-//     } catch (e) {
-//       console.log(e);
-//     }
-//   }
-// );
-
+// API CREATE GET LIST ORDER
+export const getListOrder = createAsyncThunk("order/getListOrder", async () => {
+  const response = await orderService.getListOrder();
+  return response.rows;
+});
+// API CREATE GET A ORDER
+export const getAOrder = createAsyncThunk("order/getAOrder", async (id) => {
+  const response = await orderService.getAOrder(id);
+  return response.order;
+});
 // API CREATE NEW ORDER
 export const newOrder = createAsyncThunk("order/newOrder", async (orderNew) => {
   const response = await orderService.newOrder(orderNew);
@@ -47,12 +44,12 @@ export const newOrder = createAsyncThunk("order/newOrder", async (orderNew) => {
 const orderSlice = createSlice({
   name: "order",
   initialState: {
-    // productList: [],
+    orderList: [],
     // searchResults: [],
     // relatedProductList: [],
     // isLoading: false,
 
-    // productSingle: {},
+    orderSingle: {},
     // isSuccessSingle: false,
 
     // productUpdate: {},
@@ -66,7 +63,7 @@ const orderSlice = createSlice({
   },
   reducers: {
     setNewOrder(state, action) {
-      state.productNew = action.payload;
+      state.orderNew = action.payload;
     },
     // setUpdateProduct(state, action) {
     //   state.productUpdate = action.payload;
@@ -85,20 +82,20 @@ const orderSlice = createSlice({
     // },
   },
   extraReducers: {
-    // [getAllProducts.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [getAllProducts.fulfilled]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.productList = action.payload;
-    // },
-    // [getAProduct.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [getAProduct.fulfilled]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.productSingle = action.payload;
-    // },
+    [getListOrder.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getListOrder.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.orderList = action.payload;
+    },
+    [getAOrder.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getAOrder.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.orderSingle = action.payload;
+    },
     [newOrder.pending]: (state) => {
       state.isLoading = true;
     },

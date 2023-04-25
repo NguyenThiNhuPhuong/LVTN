@@ -1,13 +1,29 @@
 import React from "react";
 import "./Profile.scss";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAUser } from "~/redux/slice/user/UserSlice";
+import Loading from "~/admin/component/Loading/Loading";
 function Profile() {
-  return (
+  const dispatch = useDispatch();
+  const { userProfile, isLoading } = useSelector((state) => state.user);
+  console.log(userProfile);
+  useEffect(() => {
+    dispatch(getAUser());
+  }, [dispatch]);
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="ProfileContainer">
       <div className="header">
         <div className="header__img">
           <img
             alt="avatar"
-            src="https://demos.themeselection.com/materio-mui-react-nextjs-admin-template-free/images/avatars/1.png"
+            src={
+              userProfile.avatar
+                ? userProfile.avatar
+                : "https://demos.themeselection.com/materio-mui-react-nextjs-admin-template-free/images/avatars/1.png"
+            }
           ></img>
         </div>
         <div className="header__content">
@@ -26,12 +42,20 @@ function Profile() {
       </div>
       <div className="content">
         <div class="content__input">
-          <input type="text" value="0343803696" />
+          <input type="text" value={userProfile.phone} />
           <label>Phone</label>
         </div>
         <div class="content__input">
-          <input type="text" value="Nabeo123? " />
+          <input type="text" value={userProfile.email} />
           <label>Mail</label>
+        </div>
+        <div class="content__input">
+          <input type="text" value={userProfile.name} />
+          <label>Name</label>
+        </div>
+        <div class="content__input">
+          <input type="text" value={userProfile.address} />
+          <label>Address</label>
         </div>
       </div>
       <div className="bottom">
