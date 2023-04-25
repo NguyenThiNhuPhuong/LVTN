@@ -1,8 +1,8 @@
 import classNames from "classnames/bind";
-import styles from "./NewProduct.scss";
+import styles from "./SingleProduct.scss";
 
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import FormInput from "~/admin/component/FormInput/FormInput";
@@ -10,13 +10,14 @@ import Select from "~/admin/component/select/Select";
 import Textarea from "~/admin/component/textarea/Textarea";
 import productInputs from "~/admin/constant/productInputs";
 import {
+  getAProduct,
   newProduct,
-  resetNewProduct,
-  setNewProduct,
+  resetUpdateProduct,
+  setUpdateProduct,
 } from "~/redux/slice/product/ProductSlice";
 import { getCategory } from "~/redux/slice/category/CategorySlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addFile, clearFiles } from "~/redux/slice/file/FileSlice";
+import { addFile } from "~/redux/slice/file/FileSlice";
 import ImgProduct from "../../component/ImgProduct/ImgProduct";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -31,9 +32,12 @@ const uploadFiles = createAsyncThunk(
   }
 );
 
-function NewProduct(props) {
+function SingleProduct(props) {
+  const { id } = useParams();
   const cx = classNames.bind(styles);
-  const { productNew, isSuccessNew } = useSelector((state) => state.product);
+  const { productSingle, productUpdate, isSuccessNew } = useSelector(
+    (state) => state.product
+  );
   const { fileList } = useSelector((state) => state.file);
 
   const dispatch = useDispatch();
@@ -42,19 +46,19 @@ function NewProduct(props) {
   useEffect(() => {
     dispatch(getCategory());
 
+    dispatch(getAProduct(id));
+
     if (isSuccessNew) {
       toast.success(`Bạn đã tạo thành công product `, {
         position: toast.POSITION.TOP_RIGHT,
       });
       const timeout = setTimeout(() => navigate("/admin/product"), 3000);
       return () => {
-        dispatch(resetNewProduct());
-        dispatch(clearFiles());
-
+        dispatch(resetUpdateProduct());
         clearTimeout(timeout);
       };
     }
-  }, [dispatch, isSuccessNew, navigate]);
+  }, [dispatch, id, isSuccessNew, navigate]);
 
   function handleFileChange(event) {
     const files = event.target.files;
@@ -75,7 +79,7 @@ function NewProduct(props) {
       return formData;
     }
 
-    const data = getFormData(productNew);
+    const data = getFormData(productUpdate);
     dispatch(newProduct(data));
   };
 
@@ -105,8 +109,8 @@ function NewProduct(props) {
               <Select
                 onChange={(e) =>
                   dispatch(
-                    setNewProduct({
-                      ...productNew,
+                    setUpdateProduct({
+                      ...productSingle,
                       category_id: e.target.value,
                     })
                   )
@@ -118,11 +122,11 @@ function NewProduct(props) {
               <FormInput
                 key={input.id}
                 {...input}
-                value={productNew ? productNew[input?.name] : ""}
+                value={productSingle ? productSingle[input?.name] : ""}
                 onChange={(e) =>
                   dispatch(
-                    setNewProduct({
-                      ...productNew,
+                    setUpdateProduct({
+                      ...productSingle,
                       [input.name]: e.target.value,
                     })
                   )
@@ -132,7 +136,10 @@ function NewProduct(props) {
             <Textarea
               onChange={(e) =>
                 dispatch(
-                  setNewProduct({ ...productNew, description: e.target.value })
+                  setUpdateProduct({
+                    ...productSingle,
+                    description: e.target.value,
+                  })
                 )
               }
             />
@@ -146,4 +153,4 @@ function NewProduct(props) {
   );
 }
 
-export default NewProduct;
+export default SingleProduct;

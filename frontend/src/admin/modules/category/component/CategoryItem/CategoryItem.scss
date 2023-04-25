@@ -2,6 +2,14 @@
 .order-1 {
   background-color: red !important;
 }
+.noCategory {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: large;
+}
 //css for category
 .category {
   &__row {

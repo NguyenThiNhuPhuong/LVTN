@@ -1,39 +1,51 @@
 import { Image } from "cloudinary-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import "./Payment.scss";
-import { useSelector } from "react-redux";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
 import Field from "../component/Field/Field";
+import "./Payment.scss";
 
-import Address from "../component/address/Address";
+import { totalAllCart, totalCart } from "~/redux/slice/cart/CartSlice";
+import { setCode } from "~/redux/slice/discount/DiscountSlice";
 import {
   FormatNumber,
   Price,
 } from "../../Home/component/products/component/Price/Price";
+import Address from "../component/address/Address";
+import Login from "../../Auth/page/login/Login";
+import { setUserInfo } from "~/redux/slice/auth/AuthSlice";
+import { newOrder } from "~/redux/slice/order/OrderSlice";
+import Swal from "sweetalert2";
 
 export default function Payment() {
   TabTitle("Thanh toán");
-  const cart = useSelector((state) => state.cart.listCart);
 
+  const { priceCart, listCart, priceShip, priceAllCart } = useSelector(
+    (state) => state.cart
+  );
+  const { code, discount } = useSelector((state) => state.discount);
+  const { isSuccessNew } = useSelector((state) => state.order);
+
+  const { token, userInfo } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [note, setNote] = useState("");
-
-  const [total, setTotal] = useState(0);
-  const [priceAll, setPriceall] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [search, setSearch] = useState();
-  const [code, setCode] = useState();
-  const [codeDiscount, setCodeDiscount] = useState();
-
-  const priceShip = 30000;
   useEffect(() => {
-    const res = cart.reduce((total, item) => {
+    if (isSuccessNew === true) {
+      localStorage.removeItem("cart");
+      Swal.fire({
+        title: "Thank You!",
+        text: "Bạn đã đặt hàng thành công!",
+        icon: "success",
+        onClose: () => {
+          navigate("/product/shop");
+        },
+      });
+    }
+  }, [isSuccessNew, navigate]);
+  useEffect(() => {
+    const res = listCart.reduce((total, item) => {
       return (
         total +
         (item.price_sale > 0
@@ -41,9 +53,22 @@ export default function Payment() {
           : item.price * item.cartNum)
       );
     }, 0);
-    setTotal(res);
-  }, [cart]);
-  return (
+    dispatch(totalCart(res));
+    dispatch(totalAllCart(res + priceShip - discount));
+  }, [discount, dispatch, listCart, priceShip]);
+  const handelSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      newOrder({
+        ...userInfo,
+        price_product: priceCart,
+        price_ship: priceShip,
+        price_all: priceAllCart,
+        cart: listCart,
+      })
+    );
+  };
+  return token ? (
     <div className="PaymentContainer">
       <div className="row">
         <div className="main">
@@ -61,7 +86,7 @@ export default function Payment() {
               </li>
             </ul>
           </div>
-          <div className="content">
+          <form className="content" onSubmit={(e) => handelSubmit(e)}>
             <div className="step">
               <div className="step-sections">
                 <div className="section">
@@ -78,16 +103,34 @@ export default function Payment() {
                         className={"field__required"}
                         label={"Họ và tên"}
                         type={"text"}
+                        value={userInfo.name}
+                        onChange={(e) =>
+                          dispatch(
+                            setUserInfo({ ...userInfo, name: e.target.value })
+                          )
+                        }
                       />
                       <Field
                         className={"field-two-thirds"}
                         label={"Email"}
                         type={"text"}
+                        value={userInfo.email}
+                        onChange={(e) =>
+                          dispatch(
+                            setUserInfo({ ...userInfo, email: e.target.value })
+                          )
+                        }
                       />
                       <Field
                         className={"field-required field-third"}
                         label={"Số điện thoại"}
                         type={"text"}
+                        value={userInfo.phone}
+                        onChange={(e) =>
+                          dispatch(
+                            setUserInfo({ ...userInfo, phone: e.target.value })
+                          )
+                        }
                       />
                       <Address />
                     </div>
@@ -129,26 +172,26 @@ export default function Payment() {
               <div className="step-footer">
                 <NavLink to="/cart">Giỏ hàng</NavLink>
                 <div>
-                  <button className="btn">
+                  <button className="btn" type="submit">
                     <span className="btn__content">Hoàn tất đơn hàng</span>
                   </button>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
         <div className="container">
           <div className="sidebar">
-            {cart.map((item) => (
+            {listCart.map((item) => (
               <div className="sidebar-content" key={item._id}>
                 <table className="product-table">
                   <tbody>
                     <tr className="productItem">
                       <td className="productItem__thumbnail">
-                        <Image
+                        <img
+                          src={item.images[1]}
+                          alt=""
                           className="productItem__thumbnail--image"
-                          cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                          publicId={item.images[1]}
                         />
                         <div className="productItem__thumbnail--quantity">
                           {item.cartNum}
@@ -186,7 +229,7 @@ export default function Payment() {
                   className="discount__input"
                   placeholder="Nhập mã giảm giá"
                   value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  onChange={(e) => dispatch(setCode(e.target.value))}
                 />
                 <button className="discount__button">Áp dụng</button>
                 {/* {discount ? (
@@ -231,7 +274,7 @@ export default function Payment() {
                     <td className="total-line-name">Tạm tính</td>
                     <td className="total-line-price">
                       <div>
-                        <FormatNumber price={total} />
+                        <FormatNumber price={priceCart} />
                       </div>
                     </td>
                   </tr>
@@ -264,7 +307,9 @@ export default function Payment() {
                           fontSize: "1.6rem",
                         }}
                       >
-                        <FormatNumber price={total + priceShip - discount} />
+                        <FormatNumber
+                          price={priceCart + priceShip - discount}
+                        />
                       </strong>
                     </td>
                   </tr>
@@ -275,5 +320,7 @@ export default function Payment() {
         </div>
       </div>
     </div>
+  ) : (
+    <Login />
   );
 }

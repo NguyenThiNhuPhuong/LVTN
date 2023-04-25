@@ -49,45 +49,49 @@ function CategoryItem() {
     });
   };
 
-  return categoryList?.map((category, index) => {
-    return (
-      <div className="category__row" key={index}>
-        <div className="category__row--id text">{category.id}</div>
-        <div className="category__row--name text">{category.name}</div>
-        <div className="category__row--description text">
-          {category.description}
-        </div>
-        <div className="category__row--createdAt text">
-          {moment(category.created_at).format("YYYY-MM-DD")}
-        </div>
-        <div className="category__row--updateAt text">
-          {moment(category.updated_at).format("YYYY-MM-DD")}
-        </div>
-        <div className="category__row--action text">
-          <NavLink to={`/admin/category/${category.id}`}>
-            <VisibilityIcon />
-          </NavLink>
-          <button onClick={() => handelRemoveCategory(category.id)}>
-            <DeleteIcon />
-          </button>
-        </div>
+  return categoryList.length > 0 ? (
+    categoryList?.map((category, index) => {
+      return (
+        <div className="category__row" key={index}>
+          <div className="category__row--id text">{category.id}</div>
+          <div className="category__row--name text">{category.name}</div>
+          <div className="category__row--description text">
+            {category.description}
+          </div>
+          <div className="category__row--createdAt text">
+            {moment(category.created_at).format("YYYY-MM-DD")}
+          </div>
+          <div className="category__row--updateAt text">
+            {moment(category.updated_at).format("YYYY-MM-DD")}
+          </div>
+          <div className="category__row--action text">
+            <NavLink to={`/admin/category/${category.id}`}>
+              <VisibilityIcon />
+            </NavLink>
+            <button onClick={() => handelRemoveCategory(category.id)}>
+              <DeleteIcon />
+            </button>
+          </div>
 
-        <div className="category__row--active text">
-          <section>
-            <div className="input-wrap">
-              <input
-                id="input-6"
-                type="checkbox"
-                onChange={() => {}}
-                checked={category.active === 1 ? true : false}
-              />
-              <label htmlFor="input-6">Select</label>
-            </div>
-          </section>
+          <div className="category__row--active text">
+            <section>
+              <div className="input-wrap">
+                <input
+                  id="input-6"
+                  type="checkbox"
+                  onChange={() => {}}
+                  checked={category.active === 1 ? true : false}
+                />
+                <label htmlFor="input-6">Select</label>
+              </div>
+            </section>
+          </div>
         </div>
-      </div>
-    );
-  });
+      );
+    })
+  ) : (
+    <div className="noCategory">Hiện tại không có Category nào 😉 </div>
+  );
 }
 
 export default CategoryItem;

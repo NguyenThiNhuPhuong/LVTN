@@ -17,6 +17,13 @@ const discountSlice = createSlice({
   initialState: {
     discountList: [],
     isLoading: false,
+    code: "",
+    discount: 30000,
+  },
+  reducers: {
+    setCode(state, action) {
+      state.code = action.payload;
+    },
   },
   extraReducers: {
     [getDiscounts.pending]: (state) => {
@@ -28,6 +35,6 @@ const discountSlice = createSlice({
     },
   },
 });
-
+export const { setCode } = discountSlice.actions;
 export default discountSlice.reducer;
 //

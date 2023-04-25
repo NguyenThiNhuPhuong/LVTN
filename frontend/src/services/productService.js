@@ -8,7 +8,7 @@ export const apiProduct = {
     return `products`;
   },
   getAProduct: (id) => {
-    return `product/${id}`;
+    return `products/${id}`;
   },
   getProductByCategoryId: (id) => {
     return `product/listProductByCategoryId/${id}`;
@@ -99,10 +99,10 @@ export const getProductByCategoryId = async (id) => {
 
 export const removeProduct = async (id) => {
   try {
-    const res = await httpRequest.post(`product/delete`, { id });
+    const res = await httpRequest.remove(`products/${id}`);
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
 //
@@ -114,30 +114,10 @@ export const newProduct = async (values) => {
     Swal.fire(`${error.response.data.message}😥`);
   }
 };
-export const editProduct = async (
-  id,
-  changedImg,
-  name,
-  category_id,
-  content,
-  price,
-  price_sale,
-  num,
-  active,
-  imgList
-) => {
+export const updateProduct = async (values) => {
   try {
     const res = await httpRequest.post(`product/update`, {
-      id,
-      changedImg,
-      name,
-      category_id,
-      content,
-      price,
-      price_sale,
-      num,
-      active,
-      imgList,
+      values,
     });
     return res;
   } catch (error) {

@@ -7,7 +7,7 @@ import CartItem from "../component/CartItem/CartItem";
 import CartNoProduct from "../component/CartNoProduct/CartNoProduct";
 import "./Cart.scss";
 
-function Cart(props) {
+function Cart() {
   TabTitle("Giỏ hàng");
   const cart = useSelector((state) => state.cart.listCart);
 
@@ -18,8 +18,8 @@ function Cart(props) {
       return (
         total +
         (item.price_sale > 0
-          ? item.price_sale * item.cartNum
-          : item.price * item.cartNum)
+          ? item.price_sale * item.num
+          : item.price * item.num)
       );
     }, 0);
     setTotal(res);
@@ -50,7 +50,7 @@ function Cart(props) {
                 <div className="text-center">Số lượng</div>
                 <div className="text-center">Tổng giá</div>
               </div>
-              <CartItem cart={cart} />
+              <CartItem />
             </table>
             <div className="cart__footer">
               <div className="cart__footer--note">

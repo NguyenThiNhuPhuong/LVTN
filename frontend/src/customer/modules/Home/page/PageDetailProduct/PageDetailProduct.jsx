@@ -20,12 +20,8 @@ import AllPrice, {
 import "./PageDetailProduct.scss";
 
 export default function PageDetailProduct() {
-  const selectProductShow = useSelector(
-    (state) => state.product.selectProductShow
-  );
-  const relatedProductList = useSelector(
-    (state) => state.product.relatedProductList
-  );
+  const { productSingle } = useSelector((state) => state.product);
+
   const decreaseCartItem = (item) => {
     dispatch(decreaseCart(item));
   };
@@ -36,16 +32,13 @@ export default function PageDetailProduct() {
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
 
-  TabTitle(selectProductShow?.name || "Chi tiết sản phẩm");
+  TabTitle(productSingle?.name || "Chi tiết sản phẩm");
 
   useEffect(() => {
-    dispatch(getAProduct(id, dispatch));
-    return () => {
-      dispatch(removeLatedProductList());
-    };
+    dispatch(getAProduct(id));
   }, [dispatch, id]);
 
-  return selectProductShow ? (
+  return productSingle ? (
     <div className="PageDetail">
       <div className="header">
         <a href="/" class="header__logo">
@@ -55,29 +48,27 @@ export default function PageDetailProduct() {
           <a class="" href="/">
             Trang chủ /
           </a>
-          <span class="header__breadcrumb--text">
-            {selectProductShow?.name}
-          </span>
+          <span class="header__breadcrumb--text">{productSingle?.name}</span>
         </div>
       </div>
-      <div className="detailProduct" key={selectProductShow?.id}>
+      <div className="detailProduct" key={productSingle?.id}>
         <div className="detailProduct__img">
           <Image
             className="detailProduct__img--container"
-            cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-            publicId={
-              selectProductShow.images?.length
-                ? selectProductShow.images[index]
-                : selectProductShow.images
+            src={
+              productSingle.images?.length
+                ? productSingle.images[index]
+                : productSingle.images
             }
+            alt=""
           />
 
           <div className="detailProduct__img--listImg">
-            {selectProductShow.images?.map((img, index) => (
-              <Image
+            {productSingle.images?.map((img, index) => (
+              <img
+                src={img}
+                alt=""
                 className="detailProduct__img"
-                cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                publicId={img}
                 onClick={() => setIndex(index)}
               />
             ))}
@@ -85,41 +76,41 @@ export default function PageDetailProduct() {
         </div>
 
         <div className="detailProduct__box">
-          <h2>{selectProductShow?.name}</h2>
+          <h2>{productSingle?.name}</h2>
           <AllPrice
-            price={selectProductShow.price}
-            price_sale={selectProductShow.price_sale}
+            price={productSingle.price}
+            price_sale={productSingle.price_sale}
             color="red"
           />
           <div className="detailProduct__box--amount">
             <div>
               <button
                 type="button"
-                onClick={() => decreaseCartItem(selectProductShow)}
+                onClick={() => decreaseCartItem(productSingle)}
               >
                 -
               </button>
               <span>1</span>
               <button
                 type="button"
-                onClick={() => increaseCartItem(selectProductShow)}
+                onClick={() => increaseCartItem(productSingle)}
               >
                 +
               </button>
             </div>
           </div>
           <h4>Mô tả</h4>
-          <p>{selectProductShow?.content}</p>
+          <p>{productSingle?.description}</p>
           <button
             className="detailProduct__box--btn"
-            onClick={() => dispatch(addCart(selectProductShow))}
+            onClick={() => dispatch(addCart(productSingle))}
           >
             Thêm sản phẩm
           </button>
 
           <button
             className="detailProduct__box--btn detailProduct__box--btnBuyNow"
-            onClick={() => dispatch(addCart(selectProductShow))}
+            onClick={() => dispatch(addCart(productSingle))}
           >
             <NavLink to="/payment">Mua Ngay</NavLink>
           </button>
