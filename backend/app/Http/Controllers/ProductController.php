@@ -68,8 +68,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $product=$this->productService->repariDataRequest($request,'update');
-        $result = $this->productService->updateCategory($id, $product);
+        $result = $this->productService->updateProduct($id, $request);
         return response()->json([
             'product' => $result
         ]);
@@ -85,6 +84,23 @@ class ProductController extends Controller
 
         return response()->json([
             'message' => $result
+        ]);
+    }
+
+    public function listProductActive()
+    {
+        $products = $this->productRepository->getProductActive();
+        $result=$this->productService->repariListDataProduct($products);
+        return response()->json([
+            'rows' => $result
+        ]);
+    }
+    public function listActiveOutOfStock()
+    {
+        $products = $this->productRepository->getProductActiveOutOfStock();
+        $result=$this->productService->repariListDataProduct($products);
+        return response()->json([
+            'rows' => $result
         ]);
     }
 }
