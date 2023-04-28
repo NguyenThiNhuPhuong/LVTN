@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SliderRequest extends FormRequest
 {
@@ -14,13 +15,14 @@ class SliderRequest extends FormRequest
         return true;
     }
 
+
     /**
      *
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
-    public function rules(): array
+    public function addRules(): array
     {
         return  [
             'name' => 'required|string|max:255|unique:sliders',
@@ -29,4 +31,30 @@ class SliderRequest extends FormRequest
         ];
 
     }
+
+    public function updateRules($id): array
+    {
+
+        return [
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('sliders')->ignore($id),
+            ],
+            'link' => 'nullable|string',
+            'file' => 'image',
+        ];
+    }
+
+    public function rules(): array
+    {
+        if ($this->isMethod('post')) {
+            return $this->addRules();
+        } elseif ($this->isMethod('put')) {
+            return $this->updateRules($this->route('slider'));
+        }
+        return [];
+    }
+
 }
