@@ -23,7 +23,7 @@ const cartSlice = createSlice({
         state.listCart.push({
           ...product,
           product_id: product.id,
-          num: 1,
+          cartNum: 1,
         });
         localStorage.setItem("cart", JSON.stringify(state.listCart));
         Swal.fire(

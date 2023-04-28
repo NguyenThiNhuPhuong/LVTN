@@ -18,17 +18,17 @@ function Slide(props) {
     <div className="slider-container">
       <div
         id="banner"
-        style={{ backgroundImage: `url(${sliderList[0]?.image})` }}
+        // style={{ backgroundImage: `url(${sliderList[0]?.image})` }}
       >
         <div className="box-left">
           <h2>
-            <span>THỨC ĂN</span>
+            <span>ĐI CÓ ĐÔI</span>
             <br />
-            <span>THƯỢNG HẠNG</span>
+            <span>VỀ CÓ CẶP</span>
           </h2>
           <p>
-            Chuyên cung cấp các món ăn đảm bảo dinh dưỡng hợp vệ sinh đến người
-            dùng,phục vụ người dùng 1 cái hoàn hảo nhất
+            Chuyên cung cấp các mẫu balo , túi xách dinh dưỡng hợp vệ sinh đến
+            người dùng,phục vụ người dùng 1 cái hoàn hảo nhất
           </p>
           <button>Mua ngay</button>
         </div>
