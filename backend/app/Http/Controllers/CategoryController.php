@@ -6,6 +6,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Services\CategoryService;
 use App\Repositories\CategoryRepository;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,8 +35,9 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CategoryRequest $request)
+    public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), $this->addRules());
         $category=$this->categoryService->repariDataRequest($request,'add');
         $result = $this->categoryService->createCategory( $category);
         return response()->json([
@@ -57,7 +59,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoryRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
         $category=$this->categoryService->repariDataRequest($request,'update');
         $result = $this->categoryService->updateCategory($id, $category);

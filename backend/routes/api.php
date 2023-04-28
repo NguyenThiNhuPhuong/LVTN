@@ -59,7 +59,10 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('categories', CategoryController::class);
 
 /*----------------PRODUCT-------------------*/
+Route::get('/products/active', [ProductController::class, 'listProductActive']);
+Route::get('/products/active/out-of-stock', [ProductController::class, 'listActiveOutOfStock']);
 Route::apiResource('products', ProductController::class);
+
 
 /*----------------ODER-------------------*/
 Route::apiResource('orders', OrderController::class);

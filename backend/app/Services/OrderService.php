@@ -74,7 +74,7 @@ class OrderService
                 $dataOrderDetail = [
                     'order_id' => $order->id,
                     'product_id' => $item['product_id'],
-                    'num' => $item['num'],
+                    'num' => $item['cartNum'],
                     'price' => $item['price'],
                     'price_sale' => $item['price_sale']
                 ];
@@ -83,7 +83,7 @@ class OrderService
 
                 $product = $this->productRepository->getProduct($item['product_id']);
                 $num = $product['num'];
-                $numBuy =  $product['num_buy'] + $item['num'];
+                $numBuy =  $product['num_buy'] + $item['cartNum'];
 
                 if ($numBuy > $num) {
                     throw new \Exception('The product is out of stock!');
@@ -174,7 +174,7 @@ class OrderService
             $cart [] = [
                 "product_id" => $item['product_id'],
                 "product_name" => $productName,
-                "num" => $item['num'],
+                "cartNum" => $item['num'],
                 "price" => $item['price'],
                 "price_sale" => $item['price_sale']
             ];

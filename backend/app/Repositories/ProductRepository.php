@@ -18,7 +18,15 @@ class ProductRepository
     {
         return $this->modelClass::all()->toArray();
     }
-
+    public function getProductActive()
+    {
+        return $this->modelClass::where('active',1)->get()->toArray();
+    }
+    public function getProductActiveOutOfStock()
+    {
+        return $this->modelClass::where('active',1)
+            ->where('num',0)->get()->toArray();
+    }
     public function getProduct($id)
     {
         return $this->modelClass::find($id)->toArray();

@@ -42,7 +42,9 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $result = $this->orderService->createOrder($request);
+        $order = $this->orderService->createOrder($request);
+        $orderDetail = $this->orderDetailRepository->getOrderDetailByOrderId($order->id);
+        $result = $this->orderService->repariDataOrder($order,$orderDetail);
         return response()->json([
             'order' => $result
         ]);

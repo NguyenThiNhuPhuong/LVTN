@@ -20,7 +20,7 @@ class CategoryRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
-    public function rules(): array
+    public function addRules(): array
     {
         return  [
             'name' => 'required|string|max:255|unique:categories',
@@ -28,4 +28,11 @@ class CategoryRequest extends FormRequest
         ];
 
     }
+    public function updateRules()
+{
+    return [
+        'name' => 'required|string|max:255|unique:categories',
+        'description' => 'nullable|string',
+    ];
+}
 }

@@ -74,11 +74,37 @@ class ProductService
         return $rresult;
     }
 
-    public function updateProduct($id, $data)
+    public function updateProduct($id, $request)
     {
-        $category = $this->prouctRepository->updateProduct($id, $data);
+        $dataProduct = [
+            "name" => $request->name,
+            "category_id" => $request->category_id,
+            "price" => $request->price,
+            "price_sale" => $request->price_sale,
+            "num" => $request->num,
+            "num_buy" => 0,
+            "description" => $request->description,
+            "active" => $request->active,
+            "created_by" => Auth::user()->id,
+            "updated_by" => Auth::user()->id,
+        ];
 
-        return $category;
+        $rresult = DB::transaction(function () use ($dataProduct, $id, $request) {
+
+            if ($request->hasFile('file')) {
+                $path = $request['file']->store('sliders', 'public');
+                $image = asset('storage/' . $path);
+                $dataSlider['image'] = $image;
+
+                $oldImage = $this->sliderRepository->getSlider($id)->image;
+                $filename = basename($oldImage);
+                Storage::delete('public/sliders/' . $filename);
+            }
+
+            $product = $this->productRepository->updateProduct($id, $dataProduct);
+
+            return $product;
+        });
     }
 
     public function repariDataProduct($product, $images)
