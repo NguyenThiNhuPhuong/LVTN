@@ -60,6 +60,8 @@ Route::apiResource('categories', CategoryController::class);
 
 /*----------------PRODUCT-------------------*/
 Route::get('/products/active', [ProductController::class, 'listProductActive']);
+Route::get('/products/sale', [ProductController::class, 'listProductSale']);
+Route::get('/products/new', [ProductController::class, 'listProductNew']);
 Route::get('/products/active/out-of-stock', [ProductController::class, 'listActiveOutOfStock']);
 Route::apiResource('products', ProductController::class);
 

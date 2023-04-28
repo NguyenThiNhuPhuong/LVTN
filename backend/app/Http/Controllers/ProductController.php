@@ -33,8 +33,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = $this->productRepository->getAllProduct();
-        $result=$this->productService->repariListDataProduct($products);
+        $result = $this->productService->repariListDataProduct($products);
         return response()->json([
+            'total' => count($result),
             'rows' => $result
         ]);
     }
@@ -57,7 +58,7 @@ class ProductController extends Controller
     {
         $product = $this->productRepository->getProduct($id);
         $images = $this->imageRepository->getProductImage($id);
-        $result=$this->productService->repariDataProduct($product,$images);
+        $result = $this->productService->repariDataProduct($product, $images);
         return response()->json([
             'product' => $result
         ]);
@@ -90,16 +91,39 @@ class ProductController extends Controller
     public function listProductActive()
     {
         $products = $this->productRepository->getProductActive();
-        $result=$this->productService->repariListDataProduct($products);
+        $result = $this->productService->repariListDataProduct($products);
         return response()->json([
+            'total' => count($result),
             'rows' => $result
         ]);
     }
+
     public function listActiveOutOfStock()
     {
         $products = $this->productRepository->getProductActiveOutOfStock();
-        $result=$this->productService->repariListDataProduct($products);
+        $result = $this->productService->repariListDataProduct($products);
         return response()->json([
+            'total' => count($result),
+            'rows' => $result
+        ]);
+    }
+
+    public function listProductSale()
+    {
+        $products = $this->productRepository->getProductSale();
+        $result = $this->productService->repariListDataProduct($products);
+        return response()->json([
+            'total' => count($result),
+            'rows' => $result
+        ]);
+    }
+
+    public function listProductNew()
+    {
+        $products = $this->productRepository->getProductNew();
+        $result = $this->productService->repariListDataProduct($products);
+        return response()->json([
+            'total' => count($result),
             'rows' => $result
         ]);
     }

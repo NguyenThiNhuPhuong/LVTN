@@ -33,6 +33,7 @@ class OrderController extends Controller
         $orders = $this->orderRepository->getAllOrder();
         $result = $this->orderService->repariListDataOrder($orders);
         return response()->json([
+            'total'=>count($result),
             'rows' => $result
         ]);
     }
