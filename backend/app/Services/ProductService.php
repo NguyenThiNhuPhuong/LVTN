@@ -156,8 +156,13 @@ class ProductService
             return $result = "The order contains products that cannot be deleted!";
         } else {
             $isDelete = DB::transaction(function () use ($id) {
-                $this->productRepository->deleteProduct($id);
+                $listImage = $this->imageRepository->getProductImage($id);
+                foreach ($listImage as $image) {
+                    $filename = basename($image['url']);
+                    Storage::delete('public/products/' . $filename);
+                }
                 $this->imageRepository->deleteProductImage($id);
+                $this->productRepository->deleteProduct($id);
             });
             if ($isDelete) {
                 return $result = "Delete category successful! ";
