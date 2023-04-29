@@ -101,6 +101,15 @@ class ProductController extends Controller
             'rows' => $result
         ]);
     }
+    public function listProductByCategory( string $id)
+    {
+        $products = $this->productRepository->getProductByCategory( $id);
+        $result = $this->productService->repariListDataProduct($products);
+        return response()->json([
+            'total' => count($result),
+            'rows' => $result
+        ]);
+    }
 
     public function listActiveOutOfStock()
     {

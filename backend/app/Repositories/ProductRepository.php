@@ -23,7 +23,11 @@ class ProductRepository
     {
         return $this->modelClass::where('active', 1)->get()->toArray();
     }
-
+    public function getProductByCategory($category_id)
+    {
+        return $this->modelClass::where('active', 1)
+            ->where('category_id',$category_id)->get()->toArray();
+    }
     public function getProductActiveOutOfStock()
     {
         return $this->modelClass::where('active', 1)
