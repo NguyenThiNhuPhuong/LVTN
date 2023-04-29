@@ -9,6 +9,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
@@ -81,39 +82,57 @@ class ProductService
             "category_id" => $request->category_id,
             "price" => $request->price,
             "price_sale" => $request->price_sale,
-            "num" => $request->num,
-            "num_buy" => 0,
             "description" => $request->description,
             "active" => $request->active,
             "created_by" => Auth::user()->id,
             "updated_by" => Auth::user()->id,
         ];
 
-        $rresult = DB::transaction(function () use ($dataProduct, $id, $request) {
-
-            if ($request->hasFile('file')) {
-                $path = $request['file']->store('sliders', 'public');
-                $image = asset('storage/' . $path);
-                $dataSlider['image'] = $image;
-
-                $oldImage = $this->sliderRepository->getSlider($id)->image;
-                $filename = basename($oldImage);
-                Storage::delete('public/sliders/' . $filename);
-            }
+        if ($request->add_num) {
+            $oldProduct = $this->productRepository->getProduct($id);
+            $dataProduct['num'] = $oldProduct['num'] + $request->add_num;
+        }
+        $result = DB::transaction(function () use ($dataProduct, $id, $request) {
 
             $product = $this->productRepository->updateProduct($id, $dataProduct);
 
+            if ($request->hasFile('files')) {
+
+                $dataImage = [];
+                foreach ($request['files'] as $file) {
+                    $path = $file->store('products', 'public');
+                    $image = asset('storage/' . $path);
+                    $dataImage[] = [
+                        "product_id" => $id,
+                        "url" => $image,
+                        "created_by" => Auth::user()->id,
+                        "updated_by" => Auth::user()->id,
+                    ];
+                }
+
+                $listOldImage = $this->imageRepository->getProductImage($id);
+                foreach ($listOldImage as $oldImage) {
+
+                    $filename = basename($oldImage['url']);
+                    Storage::delete('public/products/' . $filename);
+                }
+                $this->imageRepository->deleteProductImage($id);
+                $this->imageRepository->insertImage($dataImage);
+            }
+
             return $product;
         });
+        return $result;
     }
 
     public function repariDataProduct($product, $images)
     {
         $product['category_name'] = $this->categoryRepository->getCategory($product['category_id'])->name;
+        $listImage = [];
         foreach ($images as $image) {
-            $product['images'][] = $image['url'];
+            $listImage[] = $image['url'];
         }
-
+        $product['images'] = $listImage;
         return $product;
     }
 

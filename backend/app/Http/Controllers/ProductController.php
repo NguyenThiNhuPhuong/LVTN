@@ -45,7 +45,9 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $result = $this->productService->createProduct($request);
+        $product = $this->productService->createProduct($request);
+        $images = $this->imageRepository->getProductImage($product->id);
+        $result = $this->productService->repariDataProduct($product, $images);
         return response()->json([
             'product' => $result
         ]);
@@ -67,9 +69,11 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductRequest $request, string $id)
     {
-        $result = $this->productService->updateProduct($id, $request);
+        $product = $this->productService->updateProduct($id, $request);
+        $images = $this->imageRepository->getProductImage($id);
+        $result = $this->productService->repariDataProduct($product, $images);
         return response()->json([
             'product' => $result
         ]);

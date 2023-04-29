@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
@@ -15,20 +16,57 @@ class ProductRequest extends FormRequest
     }
 
     /**
+     *
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
-    public function rules(): array
+    public function addRules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:categories',
-            'category_id' => 'required',
+            'category_id' => [
+                'required',
+                Rule::exists('categories', 'id'),
+            ],
+            'name' => 'required|string|max:255|unique:products',
             'description' => 'required',
             'num' => 'required',
-            'price_sale' => 'nullable|string',
+            'price_sale' => 'nullable',
             'price' => 'required',
             'files' => 'required|array'
         ];
+
     }
+
+    public function updateRules($id): array
+    {
+        return [
+            'category_id' => [
+                'required',
+                Rule::exists('categories', 'id'),
+            ],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('products')->ignore($id),
+            ],
+            'description' => 'required',
+            'price_sale' => 'nullable',
+            'price' => 'required',
+            'files' => 'array'
+        ];
+    }
+
+    public function rules(): array
+    {
+
+        if ($this->isMethod('post')) {
+            return $this->addRules();
+        } elseif ($this->isMethod('put')) {
+            return $this->updateRules($this->route('product'));
+        }
+        return [];
+    }
+
 }
