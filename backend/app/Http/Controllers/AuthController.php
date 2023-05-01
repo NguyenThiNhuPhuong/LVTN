@@ -23,7 +23,7 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
-        $this->userService= new UserService;
+        $this->userService = new UserService;
     }
 
     /**
@@ -102,7 +102,7 @@ class AuthController extends Controller
     public function userProfile()
     {
         $user = auth()->user()->toArray();
-        $userRepari=$this->userService->repariDataUser($user);
+        $userRepari = $this->userService->repariDataUser($user);
         return response()->json([
             'user' => $userRepari
         ]);
