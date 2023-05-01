@@ -16,7 +16,27 @@ class OrderStatusSeeder extends Seeder
         $listOrderStatus = [
             [
                 'name' => 'Chờ xác nhận',
-                'description' => 'Chờ shop xác nhận đủ điều kiện tiến hành giao hàng.'
+                'description' => 'Chờ shop xác nhận đủ điều kiện đặt hàng.'
+            ],
+            [
+                'name' => 'Chờ lấy hàng',
+                'description' => 'Đơn hàng  đang được chuẩn bị.'
+            ],
+            [
+                'name' => 'Đang giao',
+                'description' => 'Đơn hàng đang được giao đến khách hàng.'
+            ],
+            [
+                'name' => 'Đã giao',
+                'description' => 'Đơn hàng đã giao thành công.'
+            ],
+            [
+                'name' => 'Đã hủy',
+                'description' => 'Đơn hàng đã hủy.'
+            ],
+            [
+                'name' => 'Trả hàng',
+                'description' => 'Trả hàng Thành công.'
             ],
         ];
 
