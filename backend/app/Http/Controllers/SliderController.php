@@ -58,7 +58,7 @@ class SliderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SliderRequest $request, string $id)
     {
 
         $result = $this->sliderService->updateSlider($id, $request);

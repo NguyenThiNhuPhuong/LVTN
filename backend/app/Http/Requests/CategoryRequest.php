@@ -3,9 +3,12 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CategoryRequest extends FormRequest
 {
+
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,17 +25,35 @@ class CategoryRequest extends FormRequest
      */
     public function addRules(): array
     {
-        return  [
+        return [
             'name' => 'required|string|max:255|unique:categories',
             'description' => 'nullable|string',
         ];
 
     }
-    public function updateRules()
-{
-    return [
-        'name' => 'required|string|max:255|unique:categories',
-        'description' => 'nullable|string',
-    ];
-}
+
+    public function updateRules($id): array
+    {
+
+        return [
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('categories')->ignore($id),
+            ],
+            'description' => 'nullable|string',
+        ];
+    }
+
+    public function rules(): array
+    {
+
+        if ($this->isMethod('post')) {
+            return $this->addRules();
+        } elseif ($this->isMethod('put')) {
+            return $this->updateRules($this->route('category'));
+        }
+        return [];
+    }
 }

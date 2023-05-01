@@ -18,15 +18,33 @@ class ProductRepository
     {
         return $this->modelClass::all()->toArray();
     }
+
     public function getProductActive()
     {
-        return $this->modelClass::where('active',1)->get()->toArray();
+        return $this->modelClass::where('active', 1)->get()->toArray();
+    }
+    public function getProductByCategory($category_id)
+    {
+        return $this->modelClass::where('active', 1)
+            ->where('category_id',$category_id)->get()->toArray();
     }
     public function getProductActiveOutOfStock()
     {
-        return $this->modelClass::where('active',1)
-            ->where('num',0)->get()->toArray();
+        return $this->modelClass::where('active', 1)
+            ->where('num', 0)->get()->toArray();
     }
+
+    public function getProductSale()
+    {
+        return $this->modelClass::whereNotNull('price_sale')
+            ->where('num', '!=', 0)->get()->toArray();
+    }
+
+    public function getProductNew()
+    {
+        return $this->modelClass::latest('created_at')->limit(20)->get()->toArray();
+    }
+
     public function getProduct($id)
     {
         return $this->modelClass::find($id)->toArray();
@@ -58,7 +76,7 @@ class ProductRepository
 
     public function updateNumBuy($productId, $numBuy)
     {
-        return $this->modelClass::where('id',$productId)
+        return $this->modelClass::where('id', $productId)
             ->update(['num_buy' => $numBuy]);
     }
 

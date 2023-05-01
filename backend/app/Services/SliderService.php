@@ -53,7 +53,7 @@ class SliderService
             'active' => $request->active
         ];
 
-        $rresult = DB::transaction(function () use ($dataSlider, $id, $request) {
+        $result = DB::transaction(function () use ($dataSlider, $id, $request) {
 
             if ($request->hasFile('file')) {
                 $path = $request['file']->store('sliders', 'public');
@@ -70,7 +70,7 @@ class SliderService
             return $slider;
         });
 
-        return $rresult;
+        return $result;
 
 
     }
