@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories;
+
 use App\Models\Discounts;
 
 class DiscountRepository
@@ -11,12 +12,17 @@ class DiscountRepository
 
     public function getAllDiscount()
     {
-        return  $this->modelClass::all();
+        return $this->modelClass::all();
+    }
+
+    public function getDiscountByDate($date)
+    {
+        return $this->modelClass::whereDate('expiration_date', '>=', $date)->get();
     }
 
     public function getDiscount($discountId)
     {
-        return  $this->modelClass::find($discountId);
+        return $this->modelClass::find($discountId);
     }
 
     public function createDiscount($data)
@@ -24,6 +30,7 @@ class DiscountRepository
         return $this->modelClass::create($data);
 
     }
+
     public function updateDiscount($id, $data)
     {
         $discount = $this->modelClass::findOrFail($id);
@@ -31,7 +38,8 @@ class DiscountRepository
         return $discount;
     }
 
-    public function deleteDiscount($id){
+    public function deleteDiscount($id)
+    {
         $discount = $this->modelClass::findOrFail($id);
         $discount->delete();
         return $discount;

@@ -76,3 +76,5 @@ Route::apiResource('sliders', SliderController::class);
 /*----------------DISCOUNT-------------------*/
 Route::apiResource('discounts', DiscountController::class);
 
+
+
