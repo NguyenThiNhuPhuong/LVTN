@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
 import { FormatNumber } from "../../Home/component/products/component/Price/Price";
 import CartItem from "../component/CartItem/CartItem";
 import CartNoProduct from "../component/CartNoProduct/CartNoProduct";
 import "./Cart.scss";
+import { setUserInfo } from "~/redux/slice/auth/AuthSlice";
 
 function Cart() {
   TabTitle("Giỏ hàng");
   const cart = useSelector((state) => state.cart.listCart);
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const [total, setTotal] = useState(0);
   /// total bill
@@ -18,8 +21,8 @@ function Cart() {
       return (
         total +
         (item.price_sale > 0
-          ? item.price_sale * item.num
-          : item.price * item.num)
+          ? item.price_sale * item.cartNum
+          : item.price * item.cartNum)
       );
     }, 0);
     setTotal(res);
@@ -55,7 +58,12 @@ function Cart() {
             <div className="cart__footer">
               <div className="cart__footer--note">
                 <label>Chú thích cho cửa hàng</label>
-                <textarea />
+                <textarea
+                  value={userInfo.note}
+                  onChange={(e) =>
+                    dispatch(setUserInfo({ ...userInfo, note: e.target.value }))
+                  }
+                />
               </div>
 
               <div className="cart__footer--total">

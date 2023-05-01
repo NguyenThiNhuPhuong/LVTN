@@ -38,10 +38,8 @@ export default function Payment() {
         title: "Thank You!",
         text: "Bạn đã đặt hàng thành công!",
         icon: "success",
-        onClose: () => {
-          navigate("/product/shop");
-        },
       });
+      setTimeout(() => navigate("/product/shop"), 3000);
     }
   }, [isSuccessNew, navigate]);
   useEffect(() => {
@@ -56,6 +54,7 @@ export default function Payment() {
     dispatch(totalCart(res));
     dispatch(totalAllCart(res + priceShip - discount));
   }, [discount, dispatch, listCart, priceShip]);
+
   const handelSubmit = (e) => {
     e.preventDefault();
     dispatch(

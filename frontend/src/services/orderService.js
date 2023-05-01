@@ -13,7 +13,7 @@ export const getListOrder = async () => {
 export const newOrder = async (values) => {
   try {
     const res = await httpRequest.post(`orders`, values);
-    return res;
+    return res.data;
   } catch (error) {
     Swal.fire({
       icon: "error",

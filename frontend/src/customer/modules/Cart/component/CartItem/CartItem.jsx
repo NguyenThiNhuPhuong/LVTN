@@ -68,7 +68,7 @@ function CartItem() {
               <button type="button" onClick={() => decreaseCartItem(item)}>
                 -
               </button>
-              <span>{item.num}</span>
+              <span>{item.cartNum}</span>
               <button type="button" onClick={() => increaseCartItem(item)}>
                 +
               </button>
@@ -76,8 +76,8 @@ function CartItem() {
           </div>
           <div className="cart__row--total">
             <Price
-              price={item.price * item.num}
-              price_sale={item.price_sale * item.num}
+              price={item.price * item.cartNum}
+              price_sale={item.price_sale * item.cartNum}
             />
           </div>
         </div>
