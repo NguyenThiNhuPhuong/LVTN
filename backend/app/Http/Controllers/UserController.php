@@ -26,7 +26,7 @@ class UserController extends Controller
         $users = $this->userRepository->getAllUser();
         $result = $this->userService->repariListDataUser($users);
         return response()->json([
-            'total'=>count($result),
+            'total' => count($result),
             'rows' => $result
         ]);
     }
@@ -50,15 +50,24 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = $this->userRepository->getUser($id);
+        $result = $this->userService->repariDataUser($user);
+        return response()->json([
+            'user' => $result
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, string $id)
     {
-        //
+        $dataUser = $this->userService->repariDataRequest($request, 'update');
+        $user = $this->userService->updateUser($id,$dataUser)->toArray();
+        $userRepari = $this->userService->repariDataUser($user);
+        return response()->json([
+            'user' => $userRepari
+        ]);
     }
 
     /**
