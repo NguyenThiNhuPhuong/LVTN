@@ -69,12 +69,17 @@ Route::apiResource('products', ProductController::class);
 
 /*----------------ODER-------------------*/
 Route::apiResource('orders', OrderController::class);
+Route::put('/orders/status/{id}', [OrderController::class, 'updateByStatus']);
+
 
 /*----------------SLIDER-------------------*/
 Route::apiResource('sliders', SliderController::class);
 
 /*----------------DISCOUNT-------------------*/
 Route::apiResource('discounts', DiscountController::class);
+Route::get('/discounts/list/check-discount', [DiscountController::class, 'checkDiscount']);
+Route::get('/discounts/list/valid', [DiscountController::class, 'listDiscountValid']);
+
 
 
 

@@ -44,4 +44,25 @@ class DiscountRepository
         $discount->delete();
         return $discount;
     }
+
+    public function updatePurchaseCurrent($id, $purchaseCurrent)
+    {
+        $discount = $this->modelClass::findOrFail($id);
+        $discount->update([
+            'purchase_current' => $purchaseCurrent
+        ]);
+        return $discount;
+    }
+
+    public function getDiscountByCode($discount_code)
+    {
+        return $this->modelClass::where('code', $discount_code)->first();
+    }
+
+    public function getDiscountValid($dateTime, $priceProduct)
+    {
+        return $this->modelClass::where('expiration_date', '>=', $dateTime)
+            ->where('minium_order', '<=', $priceProduct)
+            ->get()->toArray();
+    }
 }
