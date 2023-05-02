@@ -36,4 +36,9 @@ class OrderRepository
         return $this->modelClass::create($data);
 
     }
+
+    public function getOrderByDiscount($discountId)
+    {
+        return  $this->modelClass::where('discount_id',$discountId)->get()->toArray();
+    }
 }

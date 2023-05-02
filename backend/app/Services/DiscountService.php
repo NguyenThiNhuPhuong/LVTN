@@ -1,80 +1,105 @@
 <?php
+
 namespace App\Services;
 
 
 use App\Repositories\CategoryRepository;
+use App\Repositories\DiscountRepository;
+use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Support\Facades\Auth;
 
 class DiscountService
 {
-    protected $categoryRepository;
-    protected $prouctRepository;
+
+    protected $discountRepository;
+    protected $orderRepository;
 
     public function __construct()
     {
-        $this->categoryRepository = new CategoryRepository;
-        $this->prouctRepository = new ProductRepository;
+        $this->discountRepository = new DiscountRepository;
+        $this->orderRepository = new OrderRepository;
+
     }
 
-    public function createCategory($data)
+    public function createDiscount($data)
     {
-        $category = $this->categoryRepository->createCategory($data);
+        $discount = $this->discountRepository->createDiscount($data);
+
+        return $discount;
+    }
+
+
+    public function updateDiscount($id, $data)
+    {
+        $category = $this->discountRepository->updateDiscount($id, $data);
 
         return $category;
     }
 
-    public function updateCategory($id, $data)
+    public function deleteDiscount($id)
     {
-        $category = $this->categoryRepository->updateCategory($id, $data);
-
-        return  $category;
-    }
-
-    public function deleteCategory($id)
-    {
-        $result="";
-        $listProductCategory=$this->prouctRepository->getProductCategory($id);
-        if(count($listProductCategory)>0){
-          return  $result="The category contains products that cannot be deleted!";
-        }else{
-            $isDelete=$this->categoryRepository->deleteCategory($id);
-            if($isDelete){
-                return   $result="Delete category successful! ";
-            }else{
-                return  $result="Delete category error, please try again!";
+        $result = "";
+        $listOrder = $this->orderRepository->getOrderByDiscount($id);
+        if (count($listOrder) > 0) {
+            return $result = "The discount contains products that cannot be deleted!";
+        } else {
+            $isDelete = $this->discountRepository->deleteDiscount($id);
+            if ($isDelete) {
+                return $result = "Delete discount successful! ";
+            } else {
+                return $result = "Delete discount error, please try again!";
             }
         }
 
 
     }
 
-    public function repariDataRequest($request,$action){
-        $category = [];
+    public function repariDataRequest($request, $action)
+    {
+        $discount = [];
         switch ($action) {
             case 'add':
-               $category = [
-                    'name' => $request->name,
+                $discount = [
+                    'code' => $request->code,
                     'description' => $request->description,
-                    'active' => 1,
-                    'created_by'=>Auth::user()->id,
-                    'updated_by'=>Auth::user()->id,
+                    'discount' => $request->discount,
+                    'expiration_date' => $request->expiration_date,
+                    'purchase_current' => 0,
+                    'purchase_limit' => $request->purchase_limit,
+                    'minium_order' => $request->minium_order,
+                    'created_by' => Auth::user()->id,
+                    'updated_by' => Auth::user()->id,
                 ];
                 break;
             case 'update':
-                $category = [
-                    'name' => $request->name,
+                $discount = [
+                    'code' => $request->code,
                     'description' => $request->description,
-                    'active' => $request->active ,
-                    'updated_by'=>Auth::user()->id,
+                    'discount' => $request->discount,
+                    'purchase_limit' => $request->purchase_limit,
+                    'expiration_date' => $request->expiration_date,
+                    'minium_order' => $request->minium_order,
+                    'updated_by' => Auth::user()->id,
                 ];
                 break;
 
             default:
                 break;
         }
-        return  $category;
+        return $discount;
 
     }
+
+    public function getListDiscount($date = null)
+    {
+
+        if ($date == null) {
+            return $this->discountRepository->getAllDiscount();
+
+        }
+        return $this->discountRepository->getDiscountByDate($date);
+    }
+
 
 }

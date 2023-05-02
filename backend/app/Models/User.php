@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +23,11 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'email',
         'name',
+        'avatar',
+        'address',
+        'district_id',
+        'province_id',
+        'ward_id',
         'phone',
         'type',
         'password',
@@ -36,6 +41,9 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
+        'created_by',
+        'updated_by',
+        'deleted_at',
     ];
 
     /**

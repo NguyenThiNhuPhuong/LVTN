@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Discounts extends Model
 {
     protected $table="discounts";
+    protected $fillable = [
+        'code',
+        'discount',
+        'description',
+        'expiration_date',
+        'purchase_current',
+        'purchase_limit',
+        'minium_order',
+    ];
     protected $hidden = [
         'created_by',
         'updated_by',
