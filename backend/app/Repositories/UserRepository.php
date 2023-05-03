@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories;
+
 use App\Models\Categories;
 use App\Models\User;
 
@@ -12,12 +13,12 @@ class UserRepository
 
     public function getAllUser()
     {
-        return  $this->modelClass::all()->toArray();
+        return $this->modelClass::all()->toArray();
     }
 
     public function getUser($userId)
     {
-        return  $this->modelClass::find($userId)->toArray();
+        return $this->modelClass::find($userId)->toArray();
     }
 
     public function createUser($data)
@@ -25,6 +26,7 @@ class UserRepository
         return $this->modelClass::create($data);
 
     }
+
     public function updateUser($id, $data)
     {
         $user = $this->modelClass::findOrFail($id);
@@ -32,7 +34,8 @@ class UserRepository
         return $user;
     }
 
-    public function deleteUser($id){
+    public function deleteUser($id)
+    {
         $user = $this->modelClass::findOrFail($id);
         $user->delete();
         return $user;

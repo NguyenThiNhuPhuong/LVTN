@@ -27,7 +27,7 @@ class OrderRepository
 
     public function getOrderProduct($productId)
     {
-        return  $this->modelClass::where('product_id',$productId)->get()->toArray();
+        return $this->modelClass::where('product_id', $productId)->get()->toArray();
     }
 
 
@@ -39,6 +39,12 @@ class OrderRepository
 
     public function getOrderByDiscount($discountId)
     {
-        return  $this->modelClass::where('discount_id',$discountId)->get()->toArray();
+        return $this->modelClass::where('discount_id', $discountId)->get()->toArray();
+    }
+
+    public function updateOrder($id, $data)
+    {
+        $order = $this->modelClass::findOrFail($id);
+        return $order->update($data);
     }
 }

@@ -7,6 +7,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\UserTypeRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
@@ -26,14 +27,23 @@ class UserService
         return $this->userRepository->createUser($data);
     }
 
+    public function updateUser($id, $data)
+    {
+        $oldImage = $this->userRepository->getUser($id)['avatar'];
+        $fileName = basename($oldImage);
+        Storage::delete('public/users/' . $fileName);
+
+        $user = $this->userRepository->updateUser($id, $data);
+        return $user;
+    }
+
     public function repariDataRequest($request, $action)
     {
-        $user = [];
+        $dataUser = [];
         switch ($action) {
             case 'add':
-                $user = [
+                $dataUser = [
                     'name' => $request->name,
-                    'avatar' => "https://tse2.mm.bing.net/th?id=OIP.lF8ztkPyzv_NrpD7V8YYVAHaHa&pid=Api&P=0",
                     'email' => $request->email,
                     'type' => $request->type,
                     'phone' => $request->phone,
@@ -47,18 +57,27 @@ class UserService
                 ];
                 break;
             case 'update':
-                $user = [
+                $dataUser = [
                     'name' => $request->name,
-                    'description' => $request->description,
-                    'active' => $request->active,
+                    'type' => $request->type,
+                    'phone' => $request->phone,
+                    'province_id' => $request->province_id,
+                    'district_id' => $request->district_id,
+                    'ward_id' => $request->ward_id,
+                    'address' => $request->address,
                     'updated_by' => Auth::user()->id,
                 ];
+                if ($request->hasFile('file')) {
+                    $path = $request['file']->store('users', 'public');
+                    $image = asset('storage/' . $path);
+                    $dataUser['avatar'] = $image;
+                }
                 break;
 
             default:
                 break;
         }
-        return $user;
+        return $dataUser;
 
     }
 
@@ -80,5 +99,6 @@ class UserService
 
         return $newUsers;
     }
+
 
 }

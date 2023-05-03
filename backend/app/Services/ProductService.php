@@ -127,6 +127,7 @@ class ProductService
 
     public function repariDataProduct($product, $images)
     {
+        $product['num_current'] = $product['num'] - $product['num_buy'];
         $product['category_name'] = $this->categoryRepository->getCategory($product['category_id'])->name;
         $listImage = [];
         foreach ($images as $image) {

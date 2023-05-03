@@ -52,7 +52,6 @@ class UserRequest extends FormRequest
 
         return [
             'name' => 'required|string',
-            'email' => 'required|string|email|max:100|unique:users',
             'type' => [
                 'required',
                 Rule::exists('user_type', 'id'),
@@ -67,8 +66,7 @@ class UserRequest extends FormRequest
             'ward_id' => [
                 Rule::exists('wards', 'id'),
             ],
-            'password' => 'required|string|min:6',
-            'confirmPassword'=> 'required|string|same:password|min:6',
+           'file'=>'image',
         ];
     }
 

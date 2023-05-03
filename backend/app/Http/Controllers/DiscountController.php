@@ -25,7 +25,7 @@ class DiscountController extends Controller
     {
         $result = $this->discountService->getListDiscount($request->date);
         return response()->json([
-            'total'=>count($result),
+            'total' => count($result),
             'rows' => $result
         ]);
     }
@@ -47,7 +47,7 @@ class DiscountController extends Controller
      */
     public function show(string $id)
     {
-        $discount=$this->discountRepository->getDiscount($id);
+        $discount = $this->discountRepository->getDiscount($id);
         return response()->json([
             'discount' => $discount
         ]);
@@ -58,7 +58,7 @@ class DiscountController extends Controller
      */
     public function update(DiscountRequest $request, string $id)
     {
-        $discount=$this->discountService->repariDataRequest($request,'update');
+        $discount = $this->discountService->repariDataRequest($request, 'update');
         $result = $this->discountService->updateDiscount($id, $discount);
         return response()->json([
             'discount' => $result
@@ -77,5 +77,21 @@ class DiscountController extends Controller
         ]);
     }
 
+    public function checkDiscount(Request $request)
+    {
+        $result = $this->discountService->checkDiscount($request->discount_code, $request->price_product);
+        return response()->json([
+            'message' => $result['message']
+        ], $result['status']);
+    }
+
+    public function listDiscountValid(Request $request)
+    {
+        $result = $this->discountService->getListDiscountValid($request->date_time,$request->price_product);
+        return response()->json([
+            'total' => count($result),
+            'rows' => $result
+        ]);
+    }
 
 }

@@ -33,7 +33,7 @@ class OrderController extends Controller
         $orders = $this->orderRepository->getAllOrder();
         $result = $this->orderService->repariListDataOrder($orders);
         return response()->json([
-            'total'=>count($result),
+            'total' => count($result),
             'rows' => $result
         ]);
     }
@@ -41,11 +41,11 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
         $order = $this->orderService->createOrder($request);
         $orderDetail = $this->orderDetailRepository->getOrderDetailByOrderId($order->id);
-        $result = $this->orderService->repariDataOrder($order,$orderDetail);
+        $result = $this->orderService->repariDataOrder($order, $orderDetail);
         return response()->json([
             'order' => $result
         ]);
@@ -58,7 +58,7 @@ class OrderController extends Controller
     {
         $order = $this->orderRepository->getOrder($id);
         $orderDetail = $this->orderDetailRepository->getOrderDetailByOrderId($id);
-        $result = $this->orderService->repariDataOrder($order,$orderDetail);
+        $result = $this->orderService->repariDataOrder($order, $orderDetail);
         return response()->json([
             'order' => $result
         ]);
@@ -70,6 +70,14 @@ class OrderController extends Controller
     public function update(Request $request, string $id)
     {
         //
+    }
+
+    public function updateByStatus(Request $request, string $id)
+    {
+        $result = $this->orderService->updateOrderByStatus($id, $request);
+        return response()->json([
+             'message' => $result
+        ]);
     }
 
     /**

@@ -81,16 +81,26 @@ class OrderService
 
                 $this->orderDetailRepository->createOrderDetail($dataOrderDetail);
 
-                $product = $this->productRepository->getProduct($item['product_id']);
-                $num = $product['num'];
-                $numBuy =  $product['num_buy'] + $item['cartNum'];
 
-                if ($numBuy > $num) {
+                $product = $this->productRepository->getProduct($item['product_id']);
+                $numCurrent = $product['num'] - $product['num_buy'];
+
+                if ($item['cartNum'] > $numCurrent) {
                     throw new \Exception('The product is out of stock!');
                 }
 
+                $numBuy = $product['num_buy'] + $item['cartNum'];
                 $this->productRepository->updateNumBuy($item['product_id'], $numBuy);
 
+            }
+
+            if ($request->discount_id != null) {
+                $discount = $this->discountRepository->getDiscount($request->discount_id);
+                $purchaseCurrent = $discount->purchase_current + 1;
+                if ($purchaseCurrent > $discount->purchase_limit) {
+                    throw new \Exception('Invalid discount code!');
+                }
+                $this->discountRepository->updatePurchaseCurrent($request->discount_id, $purchaseCurrent);
             }
 
             return $order;
@@ -165,7 +175,7 @@ class OrderService
 
         if ($order['discount_id'] != null) {
             $discount = $this->discountRepository->getDiscount($order['discount_id']);
-            $order['discount_name'] = $discount->name;
+            $order['discount_code'] = $discount->code;
             $order['discount_price'] = $discount->discount;
         }
 
@@ -194,6 +204,21 @@ class OrderService
         }
 
         return $listOrder;
+    }
+
+    public function updateOrderByStatus(string $id, $request)
+    {
+        $dataUpdate = [
+            "order_status_id" => $request->order_status_id,
+            "updated_by" => Auth::user()->id,
+        ];
+        $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+        if ($isUpdate) {
+            $message = "Update order status successful!";
+        } else {
+            $message = "Update order status error, please try again!";
+        }
+        return $message;
     }
 
 }

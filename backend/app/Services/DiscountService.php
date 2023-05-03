@@ -7,6 +7,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\DiscountRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class DiscountService
@@ -101,5 +102,52 @@ class DiscountService
         return $this->discountRepository->getDiscountByDate($date);
     }
 
+    public function checkDiscount($discount_code, $priceProduct)
+    {
+        $discount = $this->discountRepository->getDiscountByCode($discount_code);
+        $currentDateTime = Carbon::now();
+        //check invalid discount
+        if ($discount == null) {
+            return [
+                'message' => "Invalid discount code",
+                'status' => 404
+            ];
+        }
+
+        //check expiration date discount
+        $diffInHours = $currentDateTime->diffInHours($discount->expiration_date, false);
+        if ($diffInHours < 0) {
+            return [
+                'message' => "Expired discount code!",
+                'status' => 500
+            ];
+        }
+
+        //check purchase limit discount
+        if ($discount->purchase_current == $discount->purchase_limit) {
+            return [
+                'message' => "The discount code has reached its limit!",
+                'status' => 500
+            ];
+        }
+
+        //check minimum order discount
+        if ($priceProduct < $discount->minium_order) {
+            return [
+                'message' => "Orders are not eligible to use discount codes. Discount codes only apply to orders of {$discount->minium_order} VND or more!",
+                'status' => 500
+            ];
+        }
+
+        return [
+            'message' => 'Successfully applied discount code',
+            'status' => 200
+        ];
+    }
+
+    public function getListDiscountValid($dateTime,$priceProduct)
+    {
+        return $this->discountRepository->getDiscountValid($dateTime,$priceProduct);
+    }
 
 }
