@@ -59,14 +59,10 @@ class OrderRequest extends FormRequest
             'name' => 'required',
             'email' => 'email',
             'phone' => 'required',
-            'cart' => 'required',
             'province_id' => 'required',
             'district_id' => 'required',
             'ward_id' => 'required',
             'address' => 'required',
-            'price_all' => 'required',
-            'price_product' => 'required',
-            'price_ship' => 'required',
         ];
     }
 

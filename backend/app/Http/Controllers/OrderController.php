@@ -71,7 +71,11 @@ class OrderController extends Controller
      */
     public function update(OrderRequest $request, string $id)
     {
-
+        $order = $this->orderService->updateOrder($id, $request);
+        $result = $this->orderService->repariDataOrder($order, $orderDetail);
+        return response()->json([
+            'order' => $result
+        ]);
     }
 
     public function updateByStatus(Request $request, string $id)

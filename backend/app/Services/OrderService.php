@@ -258,5 +258,48 @@ class OrderService
         ];
     }
 
+    public function updateOrder($id, $request)
+    {
+        $dataUpdate = [
+            "name" => $request->name,
+            "phone" => $request->phone,
+            "email" => $request->email,
+            "province_id" => $request->province_id,
+            "district_id" => $request->district_id,
+            "ward_id" => $request->ward_id,
+            "address" => $request->address,
+            "note" => $request->note,
+            "updated_by" => Auth::user()->id,
+        ];
+        $order = $this->orderRepository->getOrder($id);
+        //check order exist
+        if ($order == null) {
+            return [
+                "message" => "Order does not exist",
+                "status" => 404
+            ];
+        }
+        //check order not confirmed
+        if ($order['order_status_id'] == 1) {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Update order successfully!";
+                $status = 200;
+            } else {
+                $message = "Update order error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+
+        return [
+            "message" => "Order has been confirmed , cannot update!",
+            "status" => 500
+        ];
+    }
+
 
 }
