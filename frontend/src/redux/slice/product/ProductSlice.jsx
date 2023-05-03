@@ -5,15 +5,27 @@ import * as productService from "../../../services/productService";
 export const getAllProducts = createAsyncThunk(
   "product/getAllProducts",
   async () => {
-    try {
-      const response = await productService.getListHomeProduct();
-      return response.rows;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await productService.getListHomeProduct();
+    return response.rows;
   }
 );
-
+// API CREATE GET LIST SALE PRODUCT
+export const getSaleProducts = createAsyncThunk(
+  "product/getSaleProducts",
+  async () => {
+    const response = await productService.getListSaleProduct();
+    console.log(response);
+    return response.rows;
+  }
+);
+// API CREATE GET LIST NEW PRODUCT
+export const getNewProducts = createAsyncThunk(
+  "product/getNewProducts",
+  async () => {
+    const response = await productService.getListNewProduct();
+    return response.rows;
+  }
+);
 // API CREATE NEW PRODUCT
 export const newProduct = createAsyncThunk(
   "product/newProduct",
@@ -50,6 +62,9 @@ const productSlice = createSlice({
   name: "product",
   initialState: {
     productList: [],
+    saleProductList: [],
+    newProductList: [],
+
     searchResults: [],
     relatedProductList: [],
     isLoading: false,
@@ -94,6 +109,20 @@ const productSlice = createSlice({
     [getAllProducts.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.productList = action.payload;
+    },
+    [getSaleProducts.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getSaleProducts.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.saleProductList = action.payload;
+    },
+    [getNewProducts.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getNewProducts.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.newProductList = action.payload;
     },
     [getAProduct.pending]: (state) => {
       state.isLoading = true;

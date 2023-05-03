@@ -40,6 +40,8 @@ const Sidebar = () => {
         <Item to="/admin/user" icon={<PersonOutlineIcon />} title="Users" />
         <Item to="/admin/product" icon={<StoreIcon />} title="Products" />
         <Item to="/admin/category" icon={<CategoryIcon />} title="Category" />
+        <Item to="/admin/discount" icon={<CategoryIcon />} title="Discount" />
+
         <Item to="/admin/order" icon={<CreditCardIcon />} title="Orders" />
         <Item to="/admin/slider" icon={<BrokenImageIcon />} title="Slider" />
         <Item

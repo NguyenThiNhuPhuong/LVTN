@@ -2,9 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getCategory } from "~/redux/slice/category/CategorySlice";
-import { getDiscounts } from "~/redux/slice/discount/DiscountSlice";
-import { getAllProducts } from "~/redux/slice/product/ProductSlice";
-import { getListSlider } from "~/redux/slice/slider/SliderSlice";
+import { getSaleProducts } from "~/redux/slice/product/ProductSlice";
 
 // import Products from "../../component/products/Products";
 import { Skeleton } from "@mui/material";
@@ -12,24 +10,22 @@ import Pagination from "@mui/material/Pagination";
 import Loading from "../../component/loading/Loading";
 import Products from "../../component/products/Products";
 import "./../../component/Home.scss";
-export default function Home() {
+
+export default function Sale() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllProducts());
-    dispatch(getListSlider());
+    dispatch(getSaleProducts());
     dispatch(getCategory());
-    dispatch(getDiscounts());
   }, [dispatch]);
   const LoadingProduct = useSelector((state) => state.product.isLoading);
-  const LoadingSlider = useSelector((state) => state.slider.isLoading);
-  const { productList } = useSelector((state) => state.product);
+  const { saleProductList } = useSelector((state) => state.product);
 
   return (
     <div>
       <>
         <div className="HomeContainer">
-          {LoadingProduct && LoadingSlider ? (
+          {LoadingProduct ? (
             <>
               <Skeleton height={400} sx={{ mt: "-70px" }} />
 
@@ -40,7 +36,7 @@ export default function Home() {
               </div>
             </>
           ) : (
-            <Products productList={productList} />
+            <Products productList={saleProductList} />
           )}
         </div>
         <div className="pagination">

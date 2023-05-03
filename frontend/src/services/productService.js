@@ -23,7 +23,7 @@ export const getListProduct = async (pageIndex) => {
     console.log(error);
   }
 };
-
+//GET LIST PRODUCT(INCLUDE SALE ,NEW, ACTIVE, NO ACTIVE)
 export const getListHomeProduct = async () => {
   try {
     const res = await httpRequest.get(apiProduct.getListHomeProduct);
@@ -32,7 +32,7 @@ export const getListHomeProduct = async () => {
     console.log(error);
   }
 };
-
+//GET A PRODUCT
 export const getAProduct = async (id) => {
   try {
     const res = await httpRequest.get(apiProduct.getAProduct(id));
@@ -41,21 +41,19 @@ export const getAProduct = async (id) => {
     console.log(error);
   }
 };
-export const getListNewProduct = async (pageIndex) => {
+//GET LIST NEW PRODUCT
+export const getListNewProduct = async () => {
   try {
-    const res = await httpRequest.get(
-      `product/newProducts?pageSize=12&pageIndex=${pageIndex}`
-    );
+    const res = await httpRequest.get(`products/new`);
     return res;
   } catch (error) {
     console.log(error);
   }
 };
+//GET LIST SALE PRODUCT
 export const getListSaleProduct = async (pageIndex) => {
   try {
-    const res = await httpRequest.get(
-      `product/saleProducts?pageSize=12&pageIndex=${pageIndex}`
-    );
+    const res = await httpRequest.get(`products/sale`);
     return res;
   } catch (error) {
     console.log(error);

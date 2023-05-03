@@ -3,6 +3,9 @@ import SingleCategory from "~/admin/modules/category/pages/SingleCategory/Single
 import listCategory from "~/admin/modules/category/pages/listCategory/listCategory";
 import NewCategory from "~/admin/modules/category/pages/newCategory/NewCategory";
 import DashBoard from "~/admin/modules/dashboard/pages/DashBoard";
+import ListDiscount from "~/admin/modules/discount/pages/ListDiscount/ListDiscount";
+import NewDiscount from "~/admin/modules/discount/pages/NewDiscount/NewDiscount";
+import SingleDiscount from "~/admin/modules/discount/pages/SingleDiscount/SingleDiscount";
 import SingleOrder from "~/admin/modules/orders/pages/SingleOrder/SingleOrder";
 import ListOrder from "~/admin/modules/orders/pages/listOrder/ListOrder";
 import ListProduct from "~/admin/modules/products/pages/listProduct/ListProduct";
@@ -52,6 +55,22 @@ const PRIVATE_ROUTES = [
   {
     path: routeServer.Category,
     component: SingleCategory,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  //DISCOUNT
+  {
+    path: routeServer.listDiscount,
+    component: ListDiscount,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  {
+    path: routeServer.newDiscount,
+    component: NewDiscount,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  {
+    path: routeServer.editDiscount,
+    component: SingleDiscount,
     layoutOne: DefaultLayoutAdmin,
   },
   //USER

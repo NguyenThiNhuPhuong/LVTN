@@ -12,8 +12,7 @@ import AllPrice from "./component/Price/Price";
 
 const cx = classNames.bind(styles);
 
-function Products() {
-  const { productList } = useSelector((state) => state.product);
+function Products({ productList }) {
   const { categoryList } = useSelector((state) => state.category);
 
   const dispatch = useDispatch();

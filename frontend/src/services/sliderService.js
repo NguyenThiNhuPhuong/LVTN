@@ -28,7 +28,6 @@ export const newSlider = async (newSlider) => {
 
 export const updateSlider = async ({ id, data }) => {
   try {
-    console.log(data.get("name"));
     const res = await httpRequest.postFormData(
       `sliders/${id}?_method=put`,
       data

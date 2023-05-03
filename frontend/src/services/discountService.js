@@ -1,78 +1,73 @@
-import httpRequest from "~/httpRequest/httpRequest";
+import * as httpRequest from "~/httpRequest/httpRequest";
 
+//API GET LIST DISCOUNT
 export const getDiscount = async () => {
   try {
-    const res = await httpRequest.get(`discount/homeDiscountList`);
-    return res.data;
+    const res = await httpRequest.get(`discounts`);
+    return res;
   } catch (error) {
     console.log(error);
   }
 };
+//API REMOVE DISCOUNT
 export const removeDiscount = async (id) => {
   try {
-    const res = await httpRequest.post(`discount/delete`, { id });
+    const res = await httpRequest.remove(`discounts/${id}`);
     return res;
   } catch (error) {
     console.log(error);
   }
 };
-export const newDiscount = async (
-  code,
-  discount,
-  minium_order,
-  purchase_limit,
-  expiration_date,
-  content,
-  active
-) => {
+//API NEW DISCOUNT
+export const newDiscount = async (newDiscount) => {
   try {
-    const res = await httpRequest.post(`discount/add`, {
-      code,
-      discount,
-      minium_order,
-      purchase_limit,
-      expiration_date,
-      content,
-      active,
-    });
+    const res = await httpRequest.post(`discounts`, newDiscount);
     return res;
   } catch (error) {
     console.log(error);
   }
 };
-export const editDiscount = async (
+export const updateDiscount = async ({
   id,
   code,
+  description,
   discount,
-  minium_order,
   purchase_limit,
   expiration_date,
-  content,
-  active
-) => {
+  minium_order,
+}) => {
   try {
-    const res = await httpRequest.post(`discount/update`, {
+    const res = await httpRequest.put(`discounts/${id}`, {
       id,
       code,
+      description,
       discount,
-      minium_order,
       purchase_limit,
       expiration_date,
-      content,
-      active,
+      minium_order,
     });
     return res;
   } catch (error) {
     console.log(error);
   }
 };
+//API GET A DISCOUNT
 export const getADiscount = async (id) => {
   try {
-    const res = await httpRequest.get(`discount/${id}`);
+    console.log(id);
+    const res = await httpRequest.get(`discounts/${id}`);
     return res;
   } catch (error) {
     console.log(error);
   }
+  //   try {
+  //     console.log("id", id);
+  //     const res = await httpRequest.get(`discounts/${id}`);
+  //     console.log("resss", res);
+  //     return res;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
 };
 export const getDiscountByCode = async (code) => {
   try {

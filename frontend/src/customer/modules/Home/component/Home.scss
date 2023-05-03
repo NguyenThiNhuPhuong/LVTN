@@ -24,6 +24,9 @@
 }
 
 @media (max-width: 650px) {
+  .HomeContainer {
+    padding: 10px;
+  }
   .product {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 10px;

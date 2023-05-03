@@ -59,7 +59,7 @@ function Cart() {
               <div className="cart__footer--note">
                 <label>Chú thích cho cửa hàng</label>
                 <textarea
-                  value={userInfo.note}
+                  value={userInfo?.note}
                   onChange={(e) =>
                     dispatch(setUserInfo({ ...userInfo, note: e.target.value }))
                   }

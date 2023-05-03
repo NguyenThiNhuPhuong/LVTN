@@ -34,7 +34,7 @@ const routeServer = {
   //discount
   listDiscount: "/admin/discount",
   newDiscount: "/admin/discount/newDiscount",
-  editDiscount: "/admin/discount/editDiscount/:id",
+  editDiscount: "/admin/discount/:id",
 
   //
   singleProfile: "/admin/profile",
