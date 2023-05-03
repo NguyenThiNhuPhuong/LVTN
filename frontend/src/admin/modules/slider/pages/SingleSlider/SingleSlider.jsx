@@ -44,7 +44,8 @@ function SingleSlider() {
     }
 
     const data = getFormData(sliderSingle);
-    dispatch(updateSlider({ data, id }));
+    console.log(data.get("name"));
+    dispatch(updateSlider({ id, data }));
   };
   return isLoading ? (
     <Loading />

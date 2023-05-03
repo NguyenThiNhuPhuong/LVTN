@@ -2,7 +2,7 @@
 .order-1 {
   background-color: red !important;
 }
-.noCategory {
+.noDiscount {
   width: 100%;
   height: 50vh;
   display: flex;
@@ -10,11 +10,12 @@
   justify-content: center;
   font-size: large;
 }
-//css for category
-.category {
+//css for discount
+.discount {
   &__row {
     display: grid;
-    grid-template-columns: 1fr 3fr 5fr 2fr 2fr 2fr 3fr;
+    grid-template-columns: 1fr 5fr 2fr 2fr 3fr 3fr;
+
     border-bottom: 1px solid;
 
     .text {

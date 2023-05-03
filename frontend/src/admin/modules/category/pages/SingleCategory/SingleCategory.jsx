@@ -36,9 +36,9 @@ function SingleCategory() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(categorySingle);
     dispatch(updateCategory({ ...categorySingle, id }));
   };
+
   return isLoading ? (
     <Loading />
   ) : (

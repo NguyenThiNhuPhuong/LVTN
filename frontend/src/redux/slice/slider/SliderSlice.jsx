@@ -22,6 +22,7 @@ export const removeSlider = createAsyncThunk(
 export const updateSlider = createAsyncThunk(
   "slider/updateSlider",
   async (sliderUpdate) => {
+    console.log(sliderUpdate);
     const response = await sliderService.updateSlider(sliderUpdate);
     return response.category;
   }

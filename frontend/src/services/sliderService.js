@@ -26,9 +26,12 @@ export const newSlider = async (newSlider) => {
   }
 };
 
-export const updateSlider = async (values, id) => {
+export const updateSlider = async ({ id, data }) => {
   try {
-    const res = await httpRequest.postFormData(`slider/${id}`, values);
+    const res = await httpRequest.postFormData(
+      `sliders/${id}?_method=put`,
+      data
+    );
     return res;
   } catch (error) {
     console.log(error);
@@ -37,7 +40,7 @@ export const updateSlider = async (values, id) => {
 export const getASlider = async (id) => {
   try {
     const res = await httpRequest.get(`sliders/${id}`);
-    return res.data;
+    return res;
   } catch (error) {
     console.log(error);
   }

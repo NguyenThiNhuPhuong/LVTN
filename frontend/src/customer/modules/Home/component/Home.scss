@@ -1,13 +1,10 @@
 .HomeContainer {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  padding: 0px 120px;
-  column-gap: 30px;
+  padding: 0px 150px;
 }
 
 .product {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   column-gap: 30px;
   row-gap: 20px;
   border: none !important;
@@ -27,6 +24,9 @@
 }
 
 @media (max-width: 650px) {
+  .HomeContainer {
+    padding: 10px;
+  }
   .product {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 10px;

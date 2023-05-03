@@ -1,0 +1,123 @@
+.DiscountContainer {
+  margin: 30px;
+  padding: 50px;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 40px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  &__top {
+    display: flex;
+    justify-content: end;
+    a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f0f0f0;
+      font-size: 1.6rem;
+      color: black;
+      padding: 5px;
+    }
+  }
+  &__container {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 40px;
+
+    .content {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 40px;
+      row-gap: 30px;
+      &__input {
+        position: relative;
+        padding-top: 13px;
+
+        input {
+          border: 1px solid lightgrey;
+          border-radius: 5px;
+          outline: none;
+          width: 100%;
+          padding: 15px 20px;
+          font-size: 16px;
+          transition: all 0.1s linear;
+          -webkit-transition: all 0.1s linear;
+          -moz-transition: all 0.1s linear;
+          -webkit-appearance: none;
+          &:focus {
+            border: 2px solid #3951b2;
+          }
+          &:focus + label,
+          &:not(:placeholder-shown) + label {
+            font-size: 16px;
+            top: 0;
+            color: var(--mainColor);
+          }
+          &::placeholder {
+            color: transparent;
+          }
+          &:required:invalid + label {
+            color: red;
+            &:before {
+              content: "*";
+            }
+          }
+          &:focus:required:invalid {
+            border: 2px solid red;
+          }
+        }
+        label {
+          pointer-events: none;
+          position: absolute;
+          top: calc(50% - 8px);
+          left: 15px;
+          transition: all 0.1s linear;
+          -webkit-transition: all 0.1s linear;
+          -moz-transition: all 0.1s linear;
+          background-color: white;
+          padding: 5px;
+          box-sizing: border-box;
+        }
+
+        p {
+          color: red;
+          font-size: 1.4rem;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          padding: 10px;
+        }
+      }
+      &__checkbox {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+    .bottom {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &--btn {
+        width: 200px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        font-size: 1.4rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+      .btn-save {
+        background-color: var(--mainColor);
+        color: black;
+        font-weight: 600;
+      }
+    }
+  }
+}

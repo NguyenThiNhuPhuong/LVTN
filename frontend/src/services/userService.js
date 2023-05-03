@@ -29,7 +29,7 @@ export const editUser = async (id, name, active) => {
   }
 };
 //GET USER PROFILE
-export const getAUser = async (id) => {
+export const getAUser = async () => {
   try {
     const res = await httpRequest.get(`auth/user-profile`);
     return res.data;
