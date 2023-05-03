@@ -19,6 +19,12 @@ class OrderRepository
         return $this->modelClass::all()->toArray();
     }
 
+    public function getListOrder($statusId)
+    {
+        return $this->modelClass::where('order_status_id',$statusId)->get()->toArray();
+    }
+
+
     public function getOrder($id)
     {
         return $this->modelClass::find($id)->toArray();
@@ -48,3 +54,5 @@ class OrderRepository
         return $order->update($data);
     }
 }
+
+

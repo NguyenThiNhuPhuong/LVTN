@@ -70,6 +70,16 @@ class OrderRequest extends FormRequest
         ];
     }
 
+    public function listRules(): array
+    {
+
+        return [
+            'status_id' => [
+                Rule::exists('order_status', 'id'),
+            ],
+        ];
+    }
+
     public function rules(): array
     {
 
@@ -77,6 +87,8 @@ class OrderRequest extends FormRequest
             return $this->addRules();
         } elseif ($this->isMethod('put')) {
             return $this->updateRules($this->route('category'));
+        } elseif ($this->isMethod('get')) {
+            return $this->listRules();
         }
         return [];
     }

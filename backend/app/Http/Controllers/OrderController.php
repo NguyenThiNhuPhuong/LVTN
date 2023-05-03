@@ -28,15 +28,17 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(OrderRequest $request)
     {
-        $orders = $this->orderRepository->getAllOrder();
+        $orders = $this->orderService->getListOrder($request->status_id);
         $result = $this->orderService->repariListDataOrder($orders);
         return response()->json([
             'total' => count($result),
             'rows' => $result
         ]);
     }
+
+
 
     /**
      * Store a newly created resource in storage.
