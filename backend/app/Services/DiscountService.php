@@ -110,6 +110,7 @@ class DiscountService
         if ($discount == null) {
             return [
                 'message' => "Invalid discount code",
+                'discount' => 0,
                 'status' => 404
             ];
         }
@@ -119,6 +120,7 @@ class DiscountService
         if ($diffInHours < 0) {
             return [
                 'message' => "Expired discount code!",
+                'discount' => 0,
                 'status' => 500
             ];
         }
@@ -127,6 +129,7 @@ class DiscountService
         if ($discount->purchase_current == $discount->purchase_limit) {
             return [
                 'message' => "The discount code has reached its limit!",
+                'discount' => 0,
                 'status' => 500
             ];
         }
@@ -135,19 +138,21 @@ class DiscountService
         if ($priceProduct < $discount->minium_order) {
             return [
                 'message' => "Orders are not eligible to use discount codes. Discount codes only apply to orders of {$discount->minium_order} VND or more!",
+                'discount' => 0,
                 'status' => 500
             ];
         }
 
         return [
             'message' => 'Successfully applied discount code',
+            'discount' => $discount->discount,
             'status' => 200
         ];
     }
 
-    public function getListDiscountValid($dateTime,$priceProduct)
+    public function getListDiscountValid($dateTime, $priceProduct)
     {
-        return $this->discountRepository->getDiscountValid($dateTime,$priceProduct);
+        return $this->discountRepository->getDiscountValid($dateTime, $priceProduct);
     }
 
 }

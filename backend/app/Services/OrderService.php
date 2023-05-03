@@ -271,6 +271,7 @@ class OrderService
             "note" => $request->note,
             "updated_by" => Auth::user()->id,
         ];
+
         $order = $this->orderRepository->getOrder($id);
         //check order exist
         if ($order == null) {

@@ -26,6 +26,8 @@ class Orders extends Model
         'address',
         'note',
         'order_status_id',
+        'updated_by',
+        'created_by'
     ];
     protected $hidden = [
         'created_by',

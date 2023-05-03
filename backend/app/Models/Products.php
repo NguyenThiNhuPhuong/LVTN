@@ -19,7 +19,9 @@ class Products extends Model
         'num',
         'num_buy',
         'description',
-        'active'
+        'active',
+        'updated_by',
+        'created_by'
     ];
     protected $hidden = [
         'created_by',
