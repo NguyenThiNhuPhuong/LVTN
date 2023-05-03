@@ -167,13 +167,95 @@ class OrderService
             "order_status_id" => $request->order_status_id,
             "updated_by" => Auth::user()->id,
         ];
-        $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
-        if ($isUpdate) {
-            $message = "Update order status successful!";
-        } else {
-            $message = "Update order status error, please try again!";
+
+        $order = $this->orderRepository->getOrder($id);
+        //check order exist
+        if ($order == null) {
+            return [
+                "message" => "Order does not exist",
+                "status" => 404
+            ];
         }
-        return $message;
+        //update orderstatus 1 -> 2 (xác nận đơn hàng)
+        if ($order['order_status_id'] == 1 && $request->order_status_id == 2 && Auth::user()->type == 'Admin') {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Order confirmation successful!";
+                $status = 200;
+            } else {
+                $message = "Update order status error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+        //update orderstatus 1 -> 5 (hủy đơn hàng)
+        if ($order['order_status_id'] == 1 && $request->order_status_id == 5) {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Canceled order successfully!";
+                $status = 200;
+            } else {
+                $message = "Update order status error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+        //update orderstatus 2 -> 3 (chờ lấy hàng)
+        if ($order['order_status_id'] == 2 && $request->order_status_id == 3 && Auth::user()->type == 'Shiper') {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Orders are shipping!";
+                $status = 200;
+            } else {
+                $message = "Update order status error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+        //update orderstatus 3 -> 4 (đã giao hàng thành công)
+        if ($order['order_status_id'] == 3 && $request->order_status_id == 4 && Auth::user()->type == 'Shiper') {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Order has been delivered successfully!";
+                $status = 200;
+            } else {
+                $message = "Update order status error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+        //update orderstatus 3 -> 6( trả hàng)
+        if ($order['order_status_id'] == 3 && $request->order_status_id == 4 && Auth::user()->type == 'Shiper') {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Order has been returned!";
+                $status = 200;
+            } else {
+                $message = "Update order status error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+
+        return [
+            "message" => "Action Invalid ",
+            "status" => 500
+        ];
     }
 
 

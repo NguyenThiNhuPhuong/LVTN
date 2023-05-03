@@ -11,6 +11,7 @@ use App\Services\ImageService;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
 {
@@ -37,7 +38,6 @@ class OrderController extends Controller
             'rows' => $result
         ]);
     }
-
 
 
     /**
@@ -69,17 +69,17 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(OrderRequest $request, string $id)
     {
-        //
+
     }
 
     public function updateByStatus(Request $request, string $id)
     {
         $result = $this->orderService->updateOrderByStatus($id, $request);
         return response()->json([
-             'message' => $result
-        ]);
+            'message' => $result['message']
+        ], $result['status']);
     }
 
     /**

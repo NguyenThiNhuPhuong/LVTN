@@ -30,7 +30,6 @@ class OrderRepository
         return $this->modelClass::find($id)->toArray();
     }
 
-
     public function getOrderProduct($productId)
     {
         return $this->modelClass::where('product_id', $productId)->get()->toArray();
