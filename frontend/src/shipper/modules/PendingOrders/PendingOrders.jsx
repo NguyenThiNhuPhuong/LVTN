@@ -15,44 +15,44 @@ function PendingOrders() {
   const { orderList } = useSelector((state) => state.order);
   console.log(orderList);
   useEffect(() => {
-    dispatch(getListOrder());
+    dispatch(getListOrder(2));
   }, [dispatch]);
-
-  return isLoading ? (
-    <Loading />
-  ) : (
-    <div className="ListOrderContainer">
-      <Top title="Orders" to="/admin/product/newProduct" />
-      <div className="main">
-        <div className="header">
-          <div className="search">
-            <input className="search__input" placeholder="Search....." />
+  const Order = () => {
+    return (
+      <div className="ListOrderContainer">
+        <Top title="Orders" to="/admin/product/newProduct" />
+        <div className="main">
+          <div className="header">
+            <div className="search">
+              <input className="search__input" placeholder="Search....." />
+            </div>
+            <div className="sort">
+              <select className="sort sort-category">
+                <option value="">All category</option>
+              </select>
+              <select className="sort sort-timeLast">
+                <option value="">Latest added</option>
+              </select>
+            </div>
           </div>
-          <div className="sort">
-            <select className="sort sort-category">
-              <option value="">All category</option>
-            </select>
-            <select className="sort sort-timeLast">
-              <option value="">Latest added</option>
-            </select>
+          <hr />
+          <div className="order">
+            <div className="order__row order__header-labels">
+              <div className="text-center">Họ và tên</div>
+              <div className="text-center">Email</div>
+              <div className="text-center">Số điện thoại</div>
+              <div className="text-center">Tổng tiền</div>
+              <div className="text-center">Date</div>
+              <div className="text-center">Status</div>
+              <div className="text-center">Action</div>
+            </div>
+            <OrderItem orderList={orderList} />
           </div>
-        </div>
-        <hr />
-        <div className="order">
-          <div className="order__row order__header-labels">
-            <div className="text-center">Họ và tên</div>
-            <div className="text-center">Email</div>
-            <div className="text-center">Số điện thoại</div>
-            <div className="text-center">Tổng tiền</div>
-            <div className="text-center">Date</div>
-            <div className="text-center">Status</div>
-            <div className="text-center">Action</div>
-          </div>
-          <OrderItem orderList={orderList} />
         </div>
       </div>
-    </div>
-  );
+    );
+  };
+  return isLoading ? <Loading /> : <Order />;
 }
 
 export default PendingOrders;

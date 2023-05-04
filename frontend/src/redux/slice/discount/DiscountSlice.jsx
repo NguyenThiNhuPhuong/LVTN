@@ -11,7 +11,7 @@ export const getDiscounts = createAsyncThunk(
 );
 //GET LIST DISCOUNT BY DATE FOR USER
 export const getListDiscountByDate = createAsyncThunk(
-  "discount/getDiscounts",
+  "discount/getListDiscountByDate",
   async (date) => {
     const response = await discountService.getListDiscountByDate(date);
     return response.rows;
@@ -54,7 +54,7 @@ export const checkDiscount = createAsyncThunk(
   "discount/checkDiscount",
   async (discount) => {
     const response = await discountService.getDiscountByCode(discount);
-    return response.message;
+    return response.discount;
   }
 );
 const discountSlice = createSlice({

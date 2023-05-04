@@ -55,6 +55,7 @@ export default function Payment() {
   }, [discount, dispatch, listCart, priceShip]);
   const handelDiscount = (e) => {
     e.preventDefault();
+
     dispatch(
       checkDiscount({
         code,
@@ -245,9 +246,9 @@ export default function Payment() {
                 </button>
                 {discount ? (
                   <div className="discount__code">
-                    <div>{code}</div>
+                    <div className="discount__code--content">{code}</div>
                     <div
-                      className="discount__code--detele"
+                      className="discount__code--delete"
                       onClick={(e) => dispatch(setCode(0))}
                     >
                       x

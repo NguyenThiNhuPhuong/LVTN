@@ -2,10 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as orderService from "../../../services/orderService";
 
 // API CREATE GET LIST ORDER
-export const getListOrder = createAsyncThunk("order/getListOrder", async () => {
-  const response = await orderService.getListOrder();
-  return response.rows;
-});
+export const getListOrder = createAsyncThunk(
+  "order/getListOrder",
+  async (status_id) => {
+    const response = await orderService.getListOrder(status_id);
+    return response.rows;
+  }
+);
 // API CREATE GET A ORDER
 export const getAOrder = createAsyncThunk("order/getAOrder", async (id) => {
   const response = await orderService.getAOrder(id);

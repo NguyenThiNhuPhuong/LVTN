@@ -3,9 +3,11 @@ import * as httpRequest from "~/httpRequest/httpRequest";
 //--------------------------ADMIN---------------------
 
 //LIST ORDER ALL STATUS FOR ADMIN
-export const getListOrder = async () => {
+export const getListOrder = async (status_id) => {
   try {
-    const res = await httpRequest.get(`orders`);
+    const res = await httpRequest.get(
+      status_id === 0 ? `orders` : `orders?status_id=${status_id}`
+    );
     return res;
   } catch (error) {
     console.log(error);

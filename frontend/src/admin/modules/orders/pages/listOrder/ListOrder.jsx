@@ -14,7 +14,7 @@ function ListOrder() {
   const { isLoading } = useSelector((state) => state.order);
 
   useEffect(() => {
-    dispatch(getListOrder());
+    dispatch(getListOrder(0));
   }, [dispatch]);
 
   return isLoading ? (

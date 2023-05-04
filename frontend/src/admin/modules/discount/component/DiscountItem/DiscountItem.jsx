@@ -19,6 +19,7 @@ function DiscountItem() {
   const { discountList, alertDeleteSuccess } = useSelector(
     (state) => state.discount
   );
+  console.log("discountList", discountList);
   useEffect(() => {
     if (alertDeleteSuccess !== "") {
       dispatch(getDiscounts());
@@ -29,8 +30,8 @@ function DiscountItem() {
     }
   }, [dispatch, alertDeleteSuccess]);
 
-  const handelRemoveDiscount = (id) => {
-    return Swal.fire({
+  const handelRemoveDiscount = async (id) => {
+    const result = await Swal.fire({
       title: `Bạn có chắc chắn muốn xóa discount ${id}?`,
       showCancelButton: true,
       confirmButtonText: "Yes",
@@ -40,13 +41,12 @@ function DiscountItem() {
         cancelButton: "order-1 right-gap",
         confirmButton: "order-2",
       },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(removeDiscount(id));
-      } else if (result.isDenied) {
-        Swal.fire("Changes are not saved", "", "info");
-      }
     });
+    if (result.isConfirmed) {
+      dispatch(removeDiscount(id));
+    } else if (result.isDenied) {
+      Swal.fire("Changes are not saved", "", "info");
+    }
   };
 
   return discountList.length > 0 ? (

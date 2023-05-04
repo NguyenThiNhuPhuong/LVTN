@@ -182,7 +182,14 @@
               width: 150px;
               justify-content: center;
               position: relative;
-              &--detele {
+              &--content {
+                padding: 2px;
+                width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+              &--delete {
                 position: absolute;
                 display: flex;
                 justify-content: center;

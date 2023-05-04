@@ -15,7 +15,7 @@ function DeliveryOrders() {
   const { orderList } = useSelector((state) => state.order);
 
   useEffect(() => {
-    dispatch(getListOrder());
+    dispatch(getListOrder(3));
   }, [dispatch]);
 
   return isLoading ? (
