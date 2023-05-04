@@ -82,7 +82,7 @@ class DiscountController extends Controller
         $result = $this->discountService->checkDiscount($request->discount_code, $request->price_product);
         return response()->json([
             'message' => $result['message'],
-            'discount' => $result['discount']
+            'discount' => $result['discount'],
         ], $result['status']);
     }
 
