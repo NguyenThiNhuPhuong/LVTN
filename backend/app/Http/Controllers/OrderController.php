@@ -11,6 +11,7 @@ use App\Services\ImageService;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
 {
@@ -28,15 +29,16 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(OrderRequest $request)
     {
-        $orders = $this->orderRepository->getAllOrder();
+        $orders = $this->orderService->getListOrder($request->status_id);
         $result = $this->orderService->repariListDataOrder($orders);
         return response()->json([
             'total' => count($result),
             'rows' => $result
         ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -67,17 +69,21 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(OrderRequest $request, string $id)
     {
-        //
+        $order = $this->orderService->updateOrder($id, $request);
+        $result = $this->orderService->repariDataOrder($order, $orderDetail);
+        return response()->json([
+            'order' => $result
+        ]);
     }
 
     public function updateByStatus(Request $request, string $id)
     {
         $result = $this->orderService->updateOrderByStatus($id, $request);
         return response()->json([
-             'message' => $result
-        ]);
+            'message' => $result['message']
+        ], $result['status']);
     }
 
     /**

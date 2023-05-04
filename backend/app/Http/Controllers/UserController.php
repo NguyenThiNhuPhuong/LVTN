@@ -69,6 +69,15 @@ class UserController extends Controller
             'user' => $userRepari
         ]);
     }
+    public function changePassword(UserRequest $request, string $id)
+    {
+        $dataUser = $this->userService->repariDataRequest($request, 'update');
+        $user = $this->userService->updateUser($id,$dataUser)->toArray();
+        $userRepari = $this->userService->repariDataUser($user);
+        return response()->json([
+            'user' => $userRepari
+        ]);
+    }
 
     /**
      * Remove the specified resource from storage.

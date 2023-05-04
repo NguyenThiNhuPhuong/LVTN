@@ -59,14 +59,20 @@ class OrderRequest extends FormRequest
             'name' => 'required',
             'email' => 'email',
             'phone' => 'required',
-            'cart' => 'required',
             'province_id' => 'required',
             'district_id' => 'required',
             'ward_id' => 'required',
             'address' => 'required',
-            'price_all' => 'required',
-            'price_product' => 'required',
-            'price_ship' => 'required',
+        ];
+    }
+
+    public function listRules(): array
+    {
+
+        return [
+            'status_id' => [
+                Rule::exists('order_status', 'id'),
+            ],
         ];
     }
 
@@ -77,6 +83,8 @@ class OrderRequest extends FormRequest
             return $this->addRules();
         } elseif ($this->isMethod('put')) {
             return $this->updateRules($this->route('category'));
+        } elseif ($this->isMethod('get')) {
+            return $this->listRules();
         }
         return [];
     }

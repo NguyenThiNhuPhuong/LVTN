@@ -110,57 +110,12 @@ class OrderService
         return $rresult;
     }
 
-    public function updateCategory($id, $data)
+    public function getListOrder($statusId)
     {
-        $category = $this->categoryRepository->updateCategory($id, $data);
-
-        return $category;
-    }
-
-    public function deleteCategory($id)
-    {
-        $result = "";
-        $listProductCategory = $this->prouctRepository->getProductCategory($id);
-        if (count($listProductCategory) > 0) {
-            return $result = "The category contains products that cannot be deleted!";
-        } else {
-            $isDelete = $this->categoryRepository->deleteCategory($id);
-            if ($isDelete) {
-                return $result = "Delete category successful! ";
-            } else {
-                return $result = "Delete category error, please try again!";
-            }
+        if (isset($statusId)) {
+            return $this->orderRepository->getListOrder($statusId);
         }
-
-
-    }
-
-    public function repariDataRequest($request, $action)
-    {
-        $category = [];
-        switch ($action) {
-            case 'add':
-                $category = [
-                    'name' => $request->name,
-                    'description' => $request->description,
-                    'active' => 1,
-                    'created_by' => Auth::user()->id,
-                    'updated_by' => Auth::user()->id,
-                ];
-                break;
-            case 'update':
-                $category = [
-                    'name' => $request->name,
-                    'description' => $request->description,
-                    'active' => $request->active,
-                    'updated_by' => Auth::user()->id,
-                ];
-                break;
-
-            default:
-                break;
-        }
-        return $category;
+        return $this->orderRepository->getAllOrder();
 
     }
 
@@ -212,13 +167,139 @@ class OrderService
             "order_status_id" => $request->order_status_id,
             "updated_by" => Auth::user()->id,
         ];
-        $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
-        if ($isUpdate) {
-            $message = "Update order status successful!";
-        } else {
-            $message = "Update order status error, please try again!";
+
+        $order = $this->orderRepository->getOrder($id);
+        //check order exist
+        if ($order == null) {
+            return [
+                "message" => "Order does not exist",
+                "status" => 404
+            ];
         }
-        return $message;
+        //update orderstatus 1 -> 2 (xác nận đơn hàng)
+        if ($order['order_status_id'] == 1 && $request->order_status_id == 2 && Auth::user()->type == 'Admin') {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Order confirmation successful!";
+                $status = 200;
+            } else {
+                $message = "Update order status error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+        //update orderstatus 1 -> 5 (hủy đơn hàng)
+        if ($order['order_status_id'] == 1 && $request->order_status_id == 5) {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Canceled order successfully!";
+                $status = 200;
+            } else {
+                $message = "Update order status error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+        //update orderstatus 2 -> 3 (chờ lấy hàng)
+        if ($order['order_status_id'] == 2 && $request->order_status_id == 3 && Auth::user()->type == 'Shiper') {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Orders are shipping!";
+                $status = 200;
+            } else {
+                $message = "Update order status error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+        //update orderstatus 3 -> 4 (đã giao hàng thành công)
+        if ($order['order_status_id'] == 3 && $request->order_status_id == 4 && Auth::user()->type == 'Shiper') {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Order has been delivered successfully!";
+                $status = 200;
+            } else {
+                $message = "Update order status error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+        //update orderstatus 3 -> 6( trả hàng)
+        if ($order['order_status_id'] == 3 && $request->order_status_id == 4 && Auth::user()->type == 'Shiper') {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Order has been returned!";
+                $status = 200;
+            } else {
+                $message = "Update order status error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+
+        return [
+            "message" => "Action Invalid ",
+            "status" => 500
+        ];
     }
+
+    public function updateOrder($id, $request)
+    {
+        $dataUpdate = [
+            "name" => $request->name,
+            "phone" => $request->phone,
+            "email" => $request->email,
+            "province_id" => $request->province_id,
+            "district_id" => $request->district_id,
+            "ward_id" => $request->ward_id,
+            "address" => $request->address,
+            "note" => $request->note,
+            "updated_by" => Auth::user()->id,
+        ];
+        $order = $this->orderRepository->getOrder($id);
+        //check order exist
+        if ($order == null) {
+            return [
+                "message" => "Order does not exist",
+                "status" => 404
+            ];
+        }
+        //check order not confirmed
+        if ($order['order_status_id'] == 1) {
+            $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
+            if ($isUpdate) {
+                $message = "Update order successfully!";
+                $status = 200;
+            } else {
+                $message = "Update order error, please try again!";
+                $status = 500;
+            }
+            return [
+                "message" => $message,
+                "status" => $status
+            ];
+        }
+
+        return [
+            "message" => "Order has been confirmed , cannot update!",
+            "status" => 500
+        ];
+    }
+
 
 }
