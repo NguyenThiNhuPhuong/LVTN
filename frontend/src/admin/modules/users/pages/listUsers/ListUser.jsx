@@ -1,8 +1,15 @@
 import Top from "~/admin/layouts/component/top/Top";
 import UserItem from "../../component/UserItem/UserItem";
 import "./ListUser.scss";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getListUser } from "~/redux/slice/user/UserSlice";
 
 function ListUser() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getListUser());
+  });
   return (
     <div className="ListUserContainer">
       <Top title="Danh sách người dùng" to="newUser" />
