@@ -16,6 +16,15 @@ export const newOrder = createAsyncThunk("order/newOrder", async (orderNew) => {
   const response = await orderService.newOrder(orderNew);
   return response.order;
 });
+//UPDATE STATUS ORDER
+export const updateStatusOrder = createAsyncThunk(
+  "order/updateStatusOrder",
+  async (order) => {
+    const response = await orderService.newOrder(order);
+    return response.order;
+  }
+);
+
 //API REMOVE PRODUCT
 // export const removeProduct = createAsyncThunk(
 //   "product/removeProduct",
@@ -44,41 +53,21 @@ const orderSlice = createSlice({
   name: "order",
   initialState: {
     orderList: [],
-    // searchResults: [],
-    // relatedProductList: [],
-    // isLoading: false,
 
     orderSingle: {},
-    // isSuccessSingle: false,
-
-    // productUpdate: {},
-    // isLoadingUpdate: false,
 
     orderNew: {},
     isSuccessNew: false,
 
-    // isLoadingRemove: false,
-    // alertDeleteSuccess: "",
+    statusOrder: 0,
   },
   reducers: {
     setNewOrder(state, action) {
       state.orderNew = action.payload;
     },
-    // setUpdateProduct(state, action) {
-    //   state.productUpdate = action.payload;
-    // },
-    // resetNewProduct(state) {
-    //   state.isSuccessNew = false;
-    // },
-    // resetRemoveProduct: (state) => {
-    //   state.alertDeleteSuccess = "";
-    // },
-    // removeSelectedProductShow: (state) => {
-    //   state.productSingle = {};
-    // },
-    // setSearchResults(state, action) {
-    //   state.searchResults = action.payload;
-    // },
+    setStatusOrder(state, action) {
+      state.statusOrder = action.payload;
+    },
   },
   extraReducers: {
     [getListOrder.pending]: (state) => {
@@ -103,23 +92,16 @@ const orderSlice = createSlice({
       state.orderNew = {};
       state.isSuccessNew = action.payload ? true : false;
     },
-    // [removeProduct.pending]: (state) => {
-    //   state.isLoadingRemove = true;
-    // },
-    // [removeProduct.fulfilled]: (state, action) => {
-    //   state.isLoadingRemove = false;
-    //   state.alertDeleteSuccess = action.payload;
-    // },
+    [updateStatusOrder.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateStatusOrder.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.orderNew = {};
+      state.isSuccessNew = action.payload ? true : false;
+    },
   },
 });
-export const {
-  //   removeSelectedProductShow,
-  //   removeLatedProductList,
-  //   setNewProduct,
-  //   setUpdateProduct,
-  //   resetNewProduct,
-  //   resetRemoveProduct,
-  //   setSearchResults,
-} = orderSlice.actions;
+export const { setStatusOrder } = orderSlice.actions;
 
 export default orderSlice.reducer;

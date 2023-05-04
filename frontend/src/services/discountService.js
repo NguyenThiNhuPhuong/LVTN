@@ -9,6 +9,15 @@ export const getDiscount = async () => {
     console.log(error);
   }
 };
+//GET LIST DISCOUNT BY DATE
+export const getListDiscountByDate = async (date) => {
+  try {
+    const res = await httpRequest.get(`discounts?date=${date}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 //API REMOVE DISCOUNT
 export const removeDiscount = async (id) => {
   try {
@@ -60,18 +69,13 @@ export const getADiscount = async (id) => {
   } catch (error) {
     console.log(error);
   }
-  //   try {
-  //     console.log("id", id);
-  //     const res = await httpRequest.get(`discounts/${id}`);
-  //     console.log("resss", res);
-  //     return res;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
 };
-export const getDiscountByCode = async (code) => {
+//CHECK DISCOUNT
+export const getDiscountByCode = async ({ code, price_product }) => {
   try {
-    const res = await httpRequest.get(`discount/getDiscountByCode/${code}`);
+    const res = await httpRequest.get(
+      `discounts/list/check-discount?discount_code=${code}&price_product=${price_product}`
+    );
     return res;
   } catch (error) {
     console.log(error);

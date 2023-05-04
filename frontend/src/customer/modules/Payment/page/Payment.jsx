@@ -1,4 +1,3 @@
-import { Image } from "cloudinary-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -6,17 +5,17 @@ import TabTitle from "~/components/tabtiltle/TabTiltle";
 import Field from "../component/Field/Field";
 import "./Payment.scss";
 
+import Swal from "sweetalert2";
+import { setUserInfo } from "~/redux/slice/auth/AuthSlice";
 import { totalAllCart, totalCart } from "~/redux/slice/cart/CartSlice";
-import { setCode } from "~/redux/slice/discount/DiscountSlice";
+import { checkDiscount, setCode } from "~/redux/slice/discount/DiscountSlice";
+import { newOrder } from "~/redux/slice/order/OrderSlice";
+import Login from "../../Auth/page/login/Login";
 import {
   FormatNumber,
   Price,
 } from "../../Home/component/products/component/Price/Price";
 import Address from "../component/address/Address";
-import Login from "../../Auth/page/login/Login";
-import { setUserInfo } from "~/redux/slice/auth/AuthSlice";
-import { newOrder } from "~/redux/slice/order/OrderSlice";
-import Swal from "sweetalert2";
 
 export default function Payment() {
   TabTitle("Thanh toán");
@@ -54,7 +53,15 @@ export default function Payment() {
     dispatch(totalCart(res));
     dispatch(totalAllCart(res + priceShip - discount));
   }, [discount, dispatch, listCart, priceShip]);
-
+  const handelDiscount = (e) => {
+    e.preventDefault();
+    dispatch(
+      checkDiscount({
+        code,
+        price_product: priceCart,
+      })
+    );
+  };
   const handelSubmit = (e) => {
     e.preventDefault();
     dispatch(
@@ -230,40 +237,25 @@ export default function Payment() {
                   value={code}
                   onChange={(e) => dispatch(setCode(e.target.value))}
                 />
-                <button className="discount__button">Áp dụng</button>
-                {/* {discount ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      border: "1px solid #e1e1e1",
-                      borderRadius: "5px",
-                      backgroundColor: "lightblue",
-                      padding: "3px",
-                      marginTop: "5px",
-                      width: "150px",
-                      justifyContent: "center",
-                      position: "relative",
-                    }}
-                  >
-                    <div>{codeDiscount}</div>
+                <button
+                  className="discount__button"
+                  onClick={(e) => handelDiscount(e)}
+                >
+                  Áp dụng
+                </button>
+                {discount ? (
+                  <div className="discount__code">
+                    <div>{code}</div>
                     <div
-                      onClick={() => setDiscount(0)}
-                      style={{
-                        position: "absolute",
-                        display: "flex",
-                        justifyContent: "ceter",
-                        alignItems: "center",
-                        height: "8px",
-                        top: "3px",
-                        right: "3px",
-                      }}
+                      className="discount__code--detele"
+                      onClick={(e) => dispatch(setCode(0))}
                     >
                       x
                     </div>
                   </div>
                 ) : (
                   ""
-                )} */}
+                )}
               </div>
             </div>
             <div className="sidebar-content">

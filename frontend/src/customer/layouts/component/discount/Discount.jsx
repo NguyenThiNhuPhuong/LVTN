@@ -4,25 +4,10 @@ import Modal from "react-modal";
 import { useSelector } from "react-redux";
 function Discount() {
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  //   const listDiscount = useSelector((state) => state.discount.discountList);
-  const listDiscount = [
-    {
-      code: "NM15",
-      content: "Giảm 15k khi mua hóa đơn từ 150k",
-    },
-    {
-      code: "NM25",
-      content: "Giảm 25k khi mua hóa đơn từ 250k",
-    },
-    {
-      code: "NM35",
-      content: "Giảm 15k khi mua hóa đơn từ 350k",
-    },
-    {
-      code: "NM45",
-      content: "Giảm 15k khi mua hóa đơn từ 350k",
-    },
-  ];
+  const listDiscount = useSelector(
+    (state) => state.discount.ListDiscountByDate
+  );
+
   const copyText = (code) => {
     return navigator.clipboard.writeText(`${code}`);
   };
@@ -42,7 +27,7 @@ function Discount() {
                     NHẬP MÃ: {discount.code}
                   </h3>
                   <div className="couponItem__head--desc">
-                    - {discount.content}{" "}
+                    - {discount.description}{" "}
                   </div>
                 </div>
                 <div className="couponItem__bottom">
@@ -71,7 +56,8 @@ function Discount() {
                   NHẬP MÃ: {discount.code}
                 </h3>
                 <div className="couponInfo__title--center">
-                  <h3>Mã khuyến mãi: {discount.code}</h3>- {discount.content}
+                  <h3>Mã khuyến mãi: {discount.code}</h3>-{" "}
+                  {discount.description}
                   <br />- Mã khuyễn mãi không áp dụng với các sản phẩm collab.{" "}
                 </div>
 

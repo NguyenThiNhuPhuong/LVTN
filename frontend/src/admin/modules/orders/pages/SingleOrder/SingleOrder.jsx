@@ -10,7 +10,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import { FormatNumber } from "~/customer/modules/Home/component/products/component/Price/Price";
 import ProductItem from "../../component/ProductItem/ProductItem";
 
-import { getAOrder } from "~/redux/slice/order/OrderSlice";
+import Swal from "sweetalert2";
+import { getAOrder, updateStatusOrder } from "~/redux/slice/order/OrderSlice";
 import "./SingleOrder.scss";
 
 const SingleOrder = () => {
@@ -22,6 +23,29 @@ const SingleOrder = () => {
   useEffect(() => {
     dispatch(getAOrder(id));
   }, [dispatch, id]);
+
+  const handelOrder = (e) => {
+    e.preventDefault();
+    Swal.fire({
+      title: `Bạn có chắc muốn ${e.target.value.name} `,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No",
+      customClass: {
+        actions: "my-actions",
+        cancelButton: "order-1 right-gap",
+        confirmButton: "order-2",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(e.target.value.id);
+        dispatch(updateStatusOrder(id, e.target.value.id));
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
+  };
   return (
     <div className="SingleOrderContainer">
       <div className="top">
@@ -37,8 +61,14 @@ const SingleOrder = () => {
             <div className="header__time--Id">Order ID:{orderSingle.code}</div>
           </div>
           <div className="header__status">
-            <select>
-              <option value="Change Status">Change Status</option>
+            <select onChange={(e) => handelOrder(e)}>
+              <option>Chờ lấy hàng</option>
+              <option value={{ id: 1, name: "hủy đơn hàng" }}>
+                Hủy đơn hàng
+              </option>
+              <option value={{ id: 2, name: "Xác nhân đơn hàng" }}>
+                Xác nhận đơn hàng
+              </option>
             </select>
           </div>
         </div>

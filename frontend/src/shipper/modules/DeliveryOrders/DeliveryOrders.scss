@@ -1,0 +1,51 @@
+.ListOrderContainer {
+  padding: 0 !important;
+  .main {
+    border: 0.5px solid lightgray;
+    padding: 20px;
+    margin-top: 20px;
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      height: 100px;
+      .search {
+        border: 1px solid lightgray;
+        padding: 10px;
+        width: 200px;
+      }
+      .sort {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 30px;
+        &-category,
+        &-timeLast {
+          padding: 10px;
+          border-radius: 5px;
+          border: 1px solid lightgray;
+        }
+      }
+    }
+    .order {
+      border: 1px solid gray;
+      &__row {
+        display: grid;
+        grid-template-columns: 3fr 4fr 2fr 2fr 2fr 3fr 2fr;
+        border-bottom: 1px solid;
+        .text-center {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--mainColor);
+          font-size: 1.6rem;
+          font-weight: bold;
+          height: 50px;
+
+          border-right: 1px solid black;
+        }
+      }
+    }
+  }
+}

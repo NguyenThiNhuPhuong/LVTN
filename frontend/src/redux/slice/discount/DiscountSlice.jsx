@@ -5,6 +5,15 @@ export const getDiscounts = createAsyncThunk(
   "discount/getDiscounts",
   async () => {
     const response = await discountService.getDiscount();
+    console.log("response", response);
+    return response.rows;
+  }
+);
+//GET LIST DISCOUNT BY DATE FOR USER
+export const getListDiscountByDate = createAsyncThunk(
+  "discount/getDiscounts",
+  async (date) => {
+    const response = await discountService.getListDiscountByDate(date);
     return response.rows;
   }
 );
@@ -40,13 +49,22 @@ export const removeDiscount = createAsyncThunk(
     return response.data.message;
   }
 );
+//CHECK DISCOUNT BY DATE AND MONEY FOR USER
+export const checkDiscount = createAsyncThunk(
+  "discount/checkDiscount",
+  async (discount) => {
+    const response = await discountService.getDiscountByCode(discount);
+    return response.message;
+  }
+);
 const discountSlice = createSlice({
   name: "discount",
   initialState: {
     discountList: [],
+    ListDiscountByDate: [],
     isLoading: false,
     code: "",
-    discount: 30000,
+    discount: 0,
     discountSingle: {},
     discountNew: {},
 
@@ -80,6 +98,20 @@ const discountSlice = createSlice({
     [getDiscounts.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.discountList = action.payload;
+    },
+    [getListDiscountByDate.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getListDiscountByDate.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.ListDiscountByDate = action.payload;
+    },
+    [checkDiscount.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [checkDiscount.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.discount = action.payload;
     },
     [getADiscount.pending]: (state) => {
       state.isLoading = true;

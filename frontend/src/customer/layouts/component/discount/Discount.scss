@@ -28,6 +28,9 @@
         grid-template-rows: 1fr 2fr;
         &--title {
           font-weight: 600;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         &--desc {
           color: gray;
@@ -58,6 +61,13 @@
       }
     }
   }
+}
+.ReactModal__Overlay {
+  background-color: rgba(162, 153, 153, 0.5) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
   .couponInfo {
     position: absolute;
 
@@ -99,13 +109,6 @@
       }
     }
   }
-}
-.ReactModal__Overlay {
-  background-color: rgba(162, 153, 153, 0.5) !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
 }
 @media (max-width: 1024px) {
   .coupon {

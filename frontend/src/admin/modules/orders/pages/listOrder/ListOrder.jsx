@@ -41,8 +41,8 @@ function ListOrder() {
           <div className="order__row order__header-labels">
             <div className="text-center">Họ và tên</div>
             <div className="text-center">Email</div>
+            <div className="text-center">Số điện thoại</div>
             <div className="text-center">Tổng tiền</div>
-            <div className="text-center">Thanh toán</div>
             <div className="text-center">Date</div>
             <div className="text-center">Status</div>
             <div className="text-center">Action</div>

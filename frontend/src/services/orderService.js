@@ -1,6 +1,8 @@
 import Swal from "sweetalert2";
 import * as httpRequest from "~/httpRequest/httpRequest";
-//waiting order list for confirmation
+//--------------------------ADMIN---------------------
+
+//LIST ORDER ALL STATUS FOR ADMIN
 export const getListOrder = async () => {
   try {
     const res = await httpRequest.get(`orders`);
@@ -9,7 +11,7 @@ export const getListOrder = async () => {
     console.log(error);
   }
 };
-//CREATE ORDER
+//CREATE ORDER FOR ADMIN
 export const newOrder = async (values) => {
   try {
     const res = await httpRequest.post(`orders`, values);
@@ -21,7 +23,7 @@ export const newOrder = async (values) => {
     });
   }
 };
-//GET A ORDER
+//GET A ORDER FOR ADMIN
 export const getAOrder = async (id) => {
   try {
     const res = await httpRequest.get(`orders/${id}`);
@@ -30,6 +32,10 @@ export const getAOrder = async (id) => {
     console.log(error);
   }
 };
+
+// ---------------------SHIPPER-----------------
+
+//LIST ORDER PENDING FO SHIPPER
 export const listPendingOrder = async () => {
   try {
     const res = await httpRequest.get(`order/listPendingOrder`);
@@ -38,32 +44,28 @@ export const listPendingOrder = async () => {
     console.log(error);
   }
 };
-
-export const editOrder = async (id, status) => {
-  try {
-    const res = await httpRequest.post(`order/update`, { id, status });
-    return res;
-  } catch (error) {
-    // await Swal.fire({
-    //     icon: 'error',
-    //     text: 'Bạn phải chọn đúng qui trình😰😰',
-    //     timer:4000
-    //   })
-  }
-};
-export const cancelOrder = async (order_id) => {
-  try {
-    const res = await httpRequest.post(`order/cancel`, { order_id });
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const receivedOrder = async (order_id) => {
+//LIST ORDER DELIVERY FOR SHIPPER
+export const deliveryOrder = async (order_id) => {
   try {
     const res = await httpRequest.post(`order/receivedOrder`, { order_id });
     return res;
   } catch (error) {
     console.log(error);
+  }
+};
+
+//----------------------------ADMIN && SHIPPER---------------------
+
+//UPDATE STATUS ORDER FOR ADMIN AND SHIPPER
+export const updateStatusOrder = async ({ id, order_status_id }) => {
+  try {
+    const res = await httpRequest.post(`orders/status/${id}`, order_status_id);
+    return res;
+  } catch (error) {
+    await Swal.fire({
+      icon: "error",
+      text: "Bạn phải chọn đúng qui trình😰😰",
+      timer: 4000,
+    });
   }
 };
