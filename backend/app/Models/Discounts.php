@@ -16,6 +16,8 @@ class Discounts extends Model
         'purchase_current',
         'purchase_limit',
         'minium_order',
+        'updated_by',
+        'created_by'
     ];
     protected $hidden = [
         'created_by',

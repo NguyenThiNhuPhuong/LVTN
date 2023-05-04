@@ -14,6 +14,8 @@ class Sliders extends Model
         'link',
         'image',
         'active',
+        'updated_by',
+        'created_by'
     ];
     protected $hidden = [
         'created_by',

@@ -177,7 +177,7 @@ class OrderService
             ];
         }
         //update orderstatus 1 -> 2 (xác nận đơn hàng)
-        if ($order['order_status_id'] == 1 && $request->order_status_id == 2 && Auth::user()->type == 'Admin') {
+        if ($order['order_status_id'] == 1 && $request->order_status_id == 2 && Auth::user()->type == 1) {
             $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
             if ($isUpdate) {
                 $message = "Order confirmation successful!";
@@ -207,7 +207,7 @@ class OrderService
             ];
         }
         //update orderstatus 2 -> 3 (chờ lấy hàng)
-        if ($order['order_status_id'] == 2 && $request->order_status_id == 3 && Auth::user()->type == 'Shiper') {
+        if ($order['order_status_id'] == 2 && $request->order_status_id == 3 && Auth::user()->type == 3) {
             $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
             if ($isUpdate) {
                 $message = "Orders are shipping!";
@@ -222,7 +222,7 @@ class OrderService
             ];
         }
         //update orderstatus 3 -> 4 (đã giao hàng thành công)
-        if ($order['order_status_id'] == 3 && $request->order_status_id == 4 && Auth::user()->type == 'Shiper') {
+        if ($order['order_status_id'] == 3 && $request->order_status_id == 4 && Auth::user()->type == 3) {
             $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
             if ($isUpdate) {
                 $message = "Order has been delivered successfully!";
@@ -237,7 +237,7 @@ class OrderService
             ];
         }
         //update orderstatus 3 -> 6( trả hàng)
-        if ($order['order_status_id'] == 3 && $request->order_status_id == 4 && Auth::user()->type == 'Shiper') {
+        if ($order['order_status_id'] == 3 && $request->order_status_id == 4 && Auth::user()->type == 3) {
             $isUpdate = $this->orderRepository->updateOrder($id, $dataUpdate);
             if ($isUpdate) {
                 $message = "Order has been returned!";
@@ -271,6 +271,7 @@ class OrderService
             "note" => $request->note,
             "updated_by" => Auth::user()->id,
         ];
+
         $order = $this->orderRepository->getOrder($id);
         //check order exist
         if ($order == null) {

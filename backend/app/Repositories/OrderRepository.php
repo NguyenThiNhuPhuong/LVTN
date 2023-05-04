@@ -21,13 +21,13 @@ class OrderRepository
 
     public function getListOrder($statusId)
     {
-        return $this->modelClass::where('order_status_id',$statusId)->get()->toArray();
+        return $this->modelClass::where('order_status_id', $statusId)->get()->toArray();
     }
 
 
     public function getOrder($id)
     {
-        return $this->modelClass::find($id)->toArray();
+        return $this->modelClass::find($id);
     }
 
     public function getOrderProduct($productId)

@@ -81,13 +81,14 @@ class DiscountController extends Controller
     {
         $result = $this->discountService->checkDiscount($request->discount_code, $request->price_product);
         return response()->json([
-            'message' => $result['message']
+            'message' => $result['message'],
+            'discount' => $result['discount']
         ], $result['status']);
     }
 
     public function listDiscountValid(Request $request)
     {
-        $result = $this->discountService->getListDiscountValid($request->date_time,$request->price_product);
+        $result = $this->discountService->getListDiscountValid($request->date_time, $request->price_product);
         return response()->json([
             'total' => count($result),
             'rows' => $result
