@@ -2,7 +2,7 @@ import moment from "moment/moment";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { NavLink } from "react-router-dom";
 
@@ -66,7 +66,7 @@ function DiscountItem() {
           </div>
           <div className="discount__row--action text">
             <NavLink to={`/admin/discount/${discount.id}`}>
-              <VisibilityIcon />
+              <CreateIcon />
             </NavLink>
             <button onClick={() => handelRemoveDiscount(discount.id)}>
               <DeleteIcon />
