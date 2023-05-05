@@ -7,7 +7,8 @@ import PrivacyPolicy from "~/customer/modules/About/page/PrivacyPolicy/PrivacyPo
 import ReturnPolicy from "~/customer/modules/About/page/ReturnPolicy/ReturnPolicy";
 import TermsService from "~/customer/modules/About/page/TermsService/TermsService";
 import About from "~/customer/modules/About/page/about/About";
-import Account from "~/customer/modules/Account/Account";
+import Account from "~/customer/modules/Account/Page/Account/Account";
+import ViewOrder from "~/customer/modules/Account/Page/ViewOrder/ViewOrder";
 import Login from "~/customer/modules/Auth/page/login/Login";
 import Register from "~/customer/modules/Auth/page/register/Register";
 import Cart from "~/customer/modules/Cart/page/Cart";
@@ -49,6 +50,7 @@ const PUBLIC_ROUTES = [
     layout: LayoutNoSlider,
   },
   { path: routeClient.accountInfo, component: Account, layout: LayoutNoSlider },
+  { path: routeClient.viewOrder, component: ViewOrder, layout: LayoutNoSlider },
 
   {
     path: routeClient.pageNotFound,
