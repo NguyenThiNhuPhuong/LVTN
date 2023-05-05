@@ -2,6 +2,7 @@ import routeShipper from "~/config/routeShipper";
 import defaultLayoutShipper from "~/shipper/layouts/defaultLayoutShipper/defaultLayoutShipper";
 import DashBoardShipper from "~/shipper/modules/DashBoard/DashBoardShipper";
 import DeliveryOrders from "~/shipper/modules/DeliveryOrders/DeliveryOrders";
+import Order from "~/shipper/modules/Order/Order";
 import PendingOrders from "~/shipper/modules/PendingOrders/PendingOrders";
 import ProfileShipper from "~/shipper/modules/ProfileShipper/ProfileShipper";
 
@@ -19,6 +20,11 @@ const SHIPPER_ROUTES = [
   {
     path: routeShipper.deliveryOrders,
     component: DeliveryOrders,
+    layoutOne: defaultLayoutShipper,
+  },
+  {
+    path: routeShipper.detailOrder,
+    component: Order,
     layoutOne: defaultLayoutShipper,
   },
   {

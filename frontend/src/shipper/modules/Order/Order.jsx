@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -8,18 +8,36 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PersonIcon from "@mui/icons-material/Person";
 
 import { FormatNumber } from "~/customer/modules/Home/component/products/component/Price/Price";
-import ProductItem from "../../component/ProductItem/ProductItem";
 
 import Swal from "sweetalert2";
-import { getAOrder, updateStatusOrder } from "~/redux/slice/order/OrderSlice";
-import "./SingleOrder.scss";
+import {
+  getAOrder,
+  resetStatusOrder,
+  updateStatusOrder,
+} from "~/redux/slice/order/OrderSlice";
+import "./Order.scss";
+import ProductItem from "../component/ProductItem/ProductItem";
+import { ToastContainer, toast } from "react-toastify";
 
-const SingleOrder = () => {
+const Order = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
-  const { orderSingle } = useSelector((state) => state.order);
-
+  const navigate = useNavigate();
+  const { orderSingle, isUpdateStatus } = useSelector((state) => state.order);
+  useEffect(() => {
+    if (isUpdateStatus === true) {
+      toast.success("Bạn đã cập nhật thành công", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        data: {
+          title: "Success toast",
+          text: "This is a success message",
+        },
+      });
+      dispatch(resetStatusOrder());
+      setTimeout(() => navigate("/shipper/pendingOrders"), 3000);
+    }
+  }, [dispatch, isUpdateStatus, navigate]);
   useEffect(() => {
     dispatch(getAOrder(id));
   }, [dispatch, id]);
@@ -27,7 +45,6 @@ const SingleOrder = () => {
   const handelOrder = (e) => {
     e.preventDefault();
     const selectedOptionValue = JSON.parse(e.target.value);
-
     Swal.fire({
       title: `Bạn có chắc muốn ${selectedOptionValue.name} `,
       showCancelButton: true,
@@ -38,13 +55,11 @@ const SingleOrder = () => {
         cancelButton: "order-1 right-gap",
         confirmButton: "order-2",
       },
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log(selectedOptionValue.id);
         dispatch(
           updateStatusOrder({ id, order_status_id: selectedOptionValue.id })
         );
-        Swal.fire("Saved!", "", "success");
       } else if (result.isDenied) {
         Swal.fire("Changes are not saved", "", "info");
       }
@@ -52,6 +67,7 @@ const SingleOrder = () => {
   };
   return (
     <div className="SingleOrderContainer">
+      <ToastContainer />
       <div className="top">
         <NavLink to="/admin/order">Back to Orders</NavLink>
       </div>
@@ -67,12 +83,16 @@ const SingleOrder = () => {
           <div className="header__status">
             <select onChange={(e) => handelOrder(e)}>
               <option>{orderSingle.order_status_name}</option>
-              <option value='{"id": 1,"name": "hủy đơn hàng" }'>
-                Hủy đơn hàng
-              </option>
-              <option value='{ "id": 2, "name": "Xác nhân đơn hàng" }'>
-                Xác nhận đơn hàng
-              </option>
+              {orderSingle.order_status_id === 2 ? (
+                <option value='{"id":3, "name":"Xác nhận đơn hàng"}'>
+                  Xác nhận đơn hàng
+                </option>
+              ) : (
+                <>
+                  <option value='{"id":4, "name":"Đã giao"}'>Đã giao</option>
+                  <option value='{"id":6, "name":"Trả hàng"}'>Trả hàng</option>
+                </>
+              )}
             </select>
           </div>
         </div>
@@ -95,7 +115,7 @@ const SingleOrder = () => {
               <div className="info__item--address">
                 <div className="info__item--label">Order info</div>
                 <div className="info__item--name">Nabeo</div>
-                <div className="info__item--paid">Paypal</div>
+                <div className="info__item--paid">Trực tiếp</div>
               </div>
             </div>
 
@@ -144,4 +164,4 @@ const SingleOrder = () => {
   );
 };
 
-export default SingleOrder;
+export default Order;

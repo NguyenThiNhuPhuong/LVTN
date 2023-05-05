@@ -21,6 +21,8 @@ export default function Login() {
       navigate("/admin/dashboard");
     } else if (role === 2) {
       navigate("/product/shop");
+    } else if (role === 3) {
+      navigate("/shipper/dashboard");
     } else {
       navigate("/login");
     }

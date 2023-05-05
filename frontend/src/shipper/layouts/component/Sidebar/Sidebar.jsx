@@ -30,7 +30,7 @@ export default function Sidebar() {
             icon={<AccountCircleOutlinedIcon />}
             title="Profile"
           />
-          <Item to="/admin/logout" icon={<ExitToAppIcon />} title="Logout" />
+          <Item to="/login" icon={<ExitToAppIcon />} title="Logout" />
         </div>
       </div>
     </div>

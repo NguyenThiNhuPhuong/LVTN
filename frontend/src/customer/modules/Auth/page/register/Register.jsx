@@ -53,16 +53,10 @@ export default function Register() {
       email: Yup.string()
         .email("Vui lòng nhập định dạng email hợp lệ")
         .required("Vui lòng điền vào trường này"),
-      //   phoneNumber: Yup.string()
-      //     .matches(phoneRegExp, "Phone number is not valid")
-      //     .required("Vui lòng điền vào trường này"),
+
       password: Yup.string()
         .matches(password, "Password is not valid")
         .required("Vui lòng điền vào trường này"),
-      //   address: Yup.string()
-      //     .min(2, "Qua Ngan!")
-      //     .max(50, "Qua dai roi b oi!")
-      //     .required("Vui lòng điền vào trường này"),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password"), null], "Mật khẩu bạn nhập không khớp")
         .required("Vui lòng điền vào trường này"),

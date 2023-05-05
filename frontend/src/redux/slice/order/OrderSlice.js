@@ -23,35 +23,11 @@ export const newOrder = createAsyncThunk("order/newOrder", async (orderNew) => {
 export const updateStatusOrder = createAsyncThunk(
   "order/updateStatusOrder",
   async (order) => {
-    const response = await orderService.newOrder(order);
-    return response.order;
+    const response = await orderService.updateStatusOrder(order);
+    return response.data.message;
   }
 );
 
-//API REMOVE PRODUCT
-// export const removeProduct = createAsyncThunk(
-//   "product/removeProduct",
-//   async (id) => {
-//     const response = await productService.removeProduct(id);
-//     return response.data.message;
-//   }
-// );
-//API UPDATE CATEGORY
-// export const updateCategory = createAsyncThunk(
-//   "category/updateCategory",
-//   async (categoryUpdate) => {
-//     const response = await productService.updateProduct(categoryUpdate);
-//     return response.category;
-//   }
-// );
-// API GET A PRODUCT
-// export const getAProduct = createAsyncThunk(
-//   "product/getAProduct",
-//   async (id) => {
-//     const response = await productService.getAProduct(id);
-//     return response.product;
-//   }
-// );
 const orderSlice = createSlice({
   name: "order",
   initialState: {
@@ -62,14 +38,14 @@ const orderSlice = createSlice({
     orderNew: {},
     isSuccessNew: false,
 
-    statusOrder: 0,
+    isUpdateStatus: false,
   },
   reducers: {
     setNewOrder(state, action) {
       state.orderNew = action.payload;
     },
-    setStatusOrder(state, action) {
-      state.statusOrder = action.payload;
+    resetStatusOrder(state) {
+      state.isUpdateStatus = false;
     },
   },
   extraReducers: {
@@ -100,11 +76,10 @@ const orderSlice = createSlice({
     },
     [updateStatusOrder.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.orderNew = {};
-      state.isSuccessNew = action.payload ? true : false;
+      state.isUpdateStatus = action.payload ? true : false;
     },
   },
 });
-export const { setStatusOrder } = orderSlice.actions;
+export const { resetStatusOrder } = orderSlice.actions;
 
 export default orderSlice.reducer;

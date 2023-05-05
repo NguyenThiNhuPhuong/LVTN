@@ -21,7 +21,7 @@ function DeliveryOrders() {
   return isLoading ? (
     <Loading />
   ) : (
-    <div className="ListOrderContainer">
+    <div className="ListDeliveryOrderContainer">
       <Top title="Orders" to="/admin/product/newProduct" />
       <div className="main">
         <div className="header">

@@ -22,7 +22,7 @@ function OrderItem({ orderList }) {
             </div>
           </div>
           <div className="order__row--action text">
-            <NavLink to={`/admin/order/detailOrder/${orderItem.id}`}>
+            <NavLink to={`/shipper/order/${orderItem.id}`}>
               <VisibilityIcon />
             </NavLink>
           </div>

@@ -13,13 +13,12 @@ function PendingOrders() {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.order);
   const { orderList } = useSelector((state) => state.order);
-  console.log(orderList);
   useEffect(() => {
     dispatch(getListOrder(2));
   }, [dispatch]);
   const Order = () => {
     return (
-      <div className="ListOrderContainer">
+      <div className="ListPendingOrderContainer">
         <Top title="Orders" to="/admin/product/newProduct" />
         <div className="main">
           <div className="header">

@@ -2,31 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as userService from "../../../services/userService";
 
 export const getListUser = createAsyncThunk("user/getListUser", async () => {
-  try {
-    const response = await userService.getListUser();
-    console.log("response", response);
-    return response.data.rows;
-  } catch (e) {
-    console.log(e);
-  }
+  const response = await userService.getListUser();
+  return response.data.rows;
 });
 export const getAUser = createAsyncThunk("user/getAUser", async (user) => {
-  try {
-    const response = await userService.getAUser();
-    console.log("response", response);
-    return response.user;
-  } catch (e) {
-    console.log(e);
-  }
+  const response = await userService.getAUser();
+  return response.user;
 });
 export const newUser = createAsyncThunk("user/newUser", async (user) => {
-  try {
-    const response = await userService.newUser(user);
-    console.log("response", response);
-    return response.data.user;
-  } catch (e) {
-    console.log(e);
-  }
+  const response = await userService.newUser(user);
+  return response.data.user;
 });
 
 const userSlice = createSlice({
