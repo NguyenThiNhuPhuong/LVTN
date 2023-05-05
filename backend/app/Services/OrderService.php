@@ -6,6 +6,7 @@ use App\Models\Provinces;
 use App\Repositories\AddressRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\DiscountRepository;
+use App\Repositories\ImageRepository;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderStatusRepository;
@@ -25,6 +26,7 @@ class OrderService
     protected $addressRepository;
     protected $orderStatusRepository;
     protected $discountRepository;
+    protected $imageRepository;
 
 
     public function __construct()
@@ -32,6 +34,7 @@ class OrderService
         $this->orderRepository = new OrderRepository;
         $this->orderDetailRepository = new OrderDetailRepository;
         $this->productRepository = new ProductRepository;
+        $this->imageRepository = new ImageRepository;
         $this->userRepository = new UserRepository;
         $this->addressRepository = new AddressRepository;
         $this->discountRepository = new DiscountRepository;
@@ -135,10 +138,18 @@ class OrderService
         }
 
         foreach ($orderDetail as $item) {
+            $productImages = [];
             $productName = $this->productRepository->getProduct($item['product_id'])['name'];
+            $listImage = $this->imageRepository->getProductImage($item['product_id']);
+
+            foreach ($listImage as $image) {
+                $productImages[] = $image['url'];
+            }
+
             $cart [] = [
                 "product_id" => $item['product_id'],
                 "product_name" => $productName,
+                "images" => $productImages,
                 "cartNum" => $item['num'],
                 "price" => $item['price'],
                 "price_sale" => $item['price_sale']
