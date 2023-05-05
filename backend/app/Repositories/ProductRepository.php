@@ -13,21 +13,24 @@ class ProductRepository
 {
 
     protected $modelClass = Products::class;
+    protected $perPage = 5;
 
     public function getAllProduct()
     {
-        return $this->modelClass::all()->toArray();
+        return $this->modelClass::paginate($this->perPage);
     }
 
     public function getProductActive()
     {
         return $this->modelClass::where('active', 1)->get()->toArray();
     }
+
     public function getProductByCategory($category_id)
     {
         return $this->modelClass::where('active', 1)
-            ->where('category_id',$category_id)->get()->toArray();
+            ->where('category_id', $category_id)->get()->toArray();
     }
+
     public function getProductActiveOutOfStock()
     {
         return $this->modelClass::where('active', 1)
@@ -78,6 +81,44 @@ class ProductRepository
     {
         return $this->modelClass::where('id', $productId)
             ->update(['num_buy' => $numBuy]);
+    }
+
+    public function getListProduct($categoryId, $string, $minPrice, $maxPrice)
+    {
+        $products = $this->modelClass::when($categoryId, function ($query) use ($categoryId) {
+            $query->where('category_id', $categoryId);
+        })
+            ->where('name', 'LIKE', "%$string%")
+            ->when($minPrice && $maxPrice, function ($query) use ($minPrice, $maxPrice) {
+                $query->where(function ($query) use ($minPrice, $maxPrice) {
+                    $query->whereBetween('price_sale', [$minPrice, $maxPrice])
+                        ->orWhere(function ($query) use ($minPrice, $maxPrice) {
+                            $query->whereNull('price_sale')
+                                ->whereBetween('price', [$minPrice, $maxPrice]);
+                        });
+                });
+            }, function ($query) use ($minPrice, $maxPrice) {
+                if ($minPrice) {
+                    $query->where(function ($query) use ($minPrice) {
+                        $query->where('price_sale', '>=', $minPrice)
+                            ->orWhere(function ($query) use ($minPrice) {
+                                $query->whereNull('price_sale')
+                                    ->where('price', '>=', $minPrice);
+                            });
+                    });
+                }
+                if ($maxPrice) {
+                    $query->where(function ($query) use ($maxPrice) {
+                        $query->where('price_sale', '<=', $maxPrice)
+                            ->orWhere(function ($query) use ($maxPrice) {
+                                $query->whereNull('price_sale')
+                                    ->where('price', '<=', $maxPrice);
+                            });
+                    });
+                }
+            })
+            ->paginate($this->perPage);
+        return $products;
     }
 
 }
