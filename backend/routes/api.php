@@ -70,6 +70,7 @@ Route::apiResource('products', ProductController::class);
 /*----------------ODER-------------------*/
 Route::apiResource('orders', OrderController::class);
 Route::put('/orders/status/{id}', [OrderController::class, 'updateByStatus']);
+Route::get('/orders/user/{id}', [OrderController::class, 'listOrderOfUser']);
 
 
 /*----------------SLIDER-------------------*/

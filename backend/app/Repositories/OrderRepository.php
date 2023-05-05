@@ -52,6 +52,16 @@ class OrderRepository
         $order = $this->modelClass::findOrFail($id);
         return $order->update($data);
     }
+
+    public function getListOrderUser($id, $statusId)
+    {
+        $orders = $this->modelClass::where('user_id',$id )
+            ->when($statusId, function ($query) use ($statusId) {
+                $query->where('order_status_id', $statusId);
+                })
+            ->get()->toArray();
+        return $orders;
+    }
 }
 
 

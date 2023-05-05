@@ -313,5 +313,10 @@ class OrderService
         ];
     }
 
+    public function getListOrderUser( $id,  $status_id)
+    {
+        return $this->orderRepository->getListOrderUser($id,$status_id);
+    }
+
 
 }
