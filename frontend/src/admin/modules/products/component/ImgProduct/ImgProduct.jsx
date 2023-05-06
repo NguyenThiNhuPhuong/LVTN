@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import "./ImgProduct.scss";
 function ImgProduct() {
   const { fileList } = useSelector((state) => state.file);
+  const { productSingle } = useSelector((state) => state.product);
   return (
     <div className="imgContainer">
       <div className="cellImg">
@@ -10,6 +11,8 @@ function ImgProduct() {
           src={
             fileList[0]
               ? URL.createObjectURL(fileList[0])
+              : productSingle?.images
+              ? productSingle?.images[0]
               : "https://salt.tikicdn.com/ts/upload/f3/73/68/7a0282aac832cce455a3d5b061d3b6c3.png"
           }
           alt=""
@@ -24,6 +27,8 @@ function ImgProduct() {
               src={
                 fileList[index]
                   ? URL.createObjectURL(fileList[index])
+                  : productSingle?.images
+                  ? productSingle?.images[index]
                   : "https://salt.tikicdn.com/ts/upload/f3/73/68/7a0282aac832cce455a3d5b061d3b6c3.png"
               }
               alt=""

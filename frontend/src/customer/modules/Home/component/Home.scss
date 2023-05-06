@@ -9,11 +9,7 @@
   row-gap: 20px;
   border: none !important;
 }
-.pagination {
-  padding: 20px;
-  display: flex;
-  justify-content: flex-end;
-}
+
 @media (max-width: 1024px) {
   .product {
     grid-template-columns: repeat(3, 1fr);

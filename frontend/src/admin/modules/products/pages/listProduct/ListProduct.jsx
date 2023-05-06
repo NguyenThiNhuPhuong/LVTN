@@ -19,21 +19,23 @@ function ListProduct() {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
 
-  useEffect(() => {
-    dispatch(getAllProducts());
-  }, [dispatch]);
+  //-----------get data from product slice----------------------------
   const { productList, searchResults, isLoading, alertDeleteSuccess } =
     useSelector((state) => state.product);
+
+  //------------call api get list product&& remove product success------
   useEffect(() => {
+    dispatch(getAllProducts());
+
     if (alertDeleteSuccess !== "") {
       Swal.fire("Saved!", "", "success");
-
-      dispatch(getAllProducts());
       return () => {
         dispatch(resetRemoveProduct());
       };
     }
   }, [dispatch, alertDeleteSuccess]);
+
+  //------------handel search product by name-------------------------
   const handleInputChange = (e) => {
     const query = e.target.value;
     setQuery(query);
@@ -44,7 +46,7 @@ function ListProduct() {
 
     dispatch(setSearchResults(filteredProducts));
   };
-
+  //-------handel remove product---------------------------------------
   const handelRemoveProduct = async (id) => {
     const result = await Swal.fire({
       title: `Bạn có chắc chắn muốn xóa product ${id}?`,
@@ -63,7 +65,6 @@ function ListProduct() {
       Swal.fire("Changes are not saved", "", "info");
     }
   };
-  console.log(productList);
 
   const Product = () => {
     return (

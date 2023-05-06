@@ -1,15 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as productService from "../../../services/productService";
+import { setListFile } from "../file/FileSlice";
 
 // API CREATE GET LIST PRODUCT
 export const getAllProducts = createAsyncThunk(
   "product/getAllProducts",
-  async () => {
-    const response = await productService.getListHomeProduct();
-    return response.rows;
+  async (page) => {
+    const response = await productService.getListProduct(page);
+    return response;
   }
 );
-// API CREATE GET LIST SALE PRODUCT
+// API  GET LIST SALE PRODUCT
 export const getSaleProducts = createAsyncThunk(
   "product/getSaleProducts",
   async () => {
@@ -18,7 +19,7 @@ export const getSaleProducts = createAsyncThunk(
     return response.rows;
   }
 );
-// API CREATE GET LIST NEW PRODUCT
+// API GET LIST NEW PRODUCT
 export const getNewProducts = createAsyncThunk(
   "product/getNewProducts",
   async () => {
@@ -42,12 +43,13 @@ export const removeProduct = createAsyncThunk(
     return response.data.message;
   }
 );
-//API UPDATE CATEGORY
-export const updateCategory = createAsyncThunk(
-  "category/updateCategory",
-  async (categoryUpdate) => {
-    const response = await productService.updateProduct(categoryUpdate);
-    return response.category;
+//API UPDATE PRODUCT
+export const updateProduct = createAsyncThunk(
+  "product/updateProduct",
+  async (productUpdate) => {
+    const response = await productService.updateProduct(productUpdate);
+    console.log(response);
+    return response.data.product;
   }
 );
 // API GET A PRODUCT
@@ -73,13 +75,16 @@ const productSlice = createSlice({
     isSuccessSingle: false,
 
     productUpdate: {},
-    isLoadingUpdate: false,
+    isSuccessUpdate: false,
 
     productNew: {},
     isSuccessNew: false,
 
     isLoadingRemove: false,
     alertDeleteSuccess: "",
+
+    currentPage: 1,
+    totalPages: 1,
   },
   reducers: {
     setNewProduct(state, action) {
@@ -91,15 +96,20 @@ const productSlice = createSlice({
     resetNewProduct(state) {
       state.isSuccessNew = false;
     },
+    resetUpdateProduct(state) {
+      state.isSuccessUpdate = false;
+    },
     resetRemoveProduct: (state) => {
       state.alertDeleteSuccess = "";
     },
     removeSelectedProductShow: (state) => {
       state.productSingle = {};
     },
-
     setSearchResults(state, action) {
       state.searchResults = action.payload;
+    },
+    setNewPage(state, action) {
+      state.currentPage = action.payload;
     },
   },
   extraReducers: {
@@ -108,7 +118,9 @@ const productSlice = createSlice({
     },
     [getAllProducts.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.productList = action.payload;
+      state.productList = action.payload.data;
+      state.currentPage = action.payload.currentPage;
+      state.totalPages = action.payload.totalPages;
     },
     [getSaleProducts.pending]: (state) => {
       state.isLoading = true;
@@ -139,6 +151,14 @@ const productSlice = createSlice({
       state.productNew = {};
       state.isSuccessNew = action.payload ? true : false;
     },
+
+    [updateProduct.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateProduct.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isSuccessUpdate = action.payload;
+    },
     [removeProduct.pending]: (state) => {
       state.isLoadingRemove = true;
     },
@@ -157,6 +177,7 @@ export const {
   resetRemoveProduct,
   resetUpdateProduct,
   setSearchResults,
+  setNewPage,
 } = productSlice.actions;
 
 export default productSlice.reducer;

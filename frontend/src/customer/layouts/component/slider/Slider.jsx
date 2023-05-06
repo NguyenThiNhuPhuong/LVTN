@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
 import "./slick.scss";
+import { Skeleton } from "@mui/material";
 
 function Slide(props) {
   const sliderList = useSelector((state) => state.slider.sliderList);
-  console.log(sliderList);
-
-  return (
+  const LoadingSlider = useSelector((state) => state.slider.isLoading);
+  return LoadingSlider ? (
+    <Skeleton height={400} sx={{ mt: "-70px" }} />
+  ) : (
     <div className="slider-container">
       <div id="banner">
         <div className="box-left">

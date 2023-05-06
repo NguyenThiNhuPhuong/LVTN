@@ -1,0 +1,18 @@
+.pagination {
+  padding: 20px 120px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pagination li {
+  cursor: pointer;
+  color: black;
+  padding: 10px;
+  border: 1px solid var(--mainColor);
+  margin: 5px;
+}
+
+.pagination li.active {
+  font-weight: bold;
+  background-color: var(--mainColor);
+}

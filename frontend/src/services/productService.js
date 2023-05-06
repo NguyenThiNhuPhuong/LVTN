@@ -2,31 +2,10 @@ import Swal from "sweetalert2";
 import * as httpRequest from "~/httpRequest/httpRequest";
 //ADMIN
 
-export const apiProduct = {
-  getListHomeProduct: `products`,
-  getListProduct: (pageIndex) => {
-    return `products`;
-  },
-  getAProduct: (id) => {
-    return `products/${id}`;
-  },
-  getProductByCategoryId: (id) => {
-    return `product/listProductByCategoryId/${id}`;
-  },
-};
-
-export const getListProduct = async (pageIndex) => {
-  try {
-    const res = await httpRequest.get(apiProduct.getListProduct(pageIndex));
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
 //GET LIST PRODUCT(INCLUDE SALE ,NEW, ACTIVE, NO ACTIVE)
-export const getListHomeProduct = async () => {
+export const getListProduct = async (page) => {
   try {
-    const res = await httpRequest.get(apiProduct.getListHomeProduct);
+    const res = await httpRequest.get(`products?page=${page}`);
     return res;
   } catch (error) {
     console.log(error);
@@ -35,7 +14,7 @@ export const getListHomeProduct = async () => {
 //GET A PRODUCT
 export const getAProduct = async (id) => {
   try {
-    const res = await httpRequest.get(apiProduct.getAProduct(id));
+    const res = await httpRequest.get(`products/${id}`);
     return res;
   } catch (error) {
     console.log(error);
@@ -59,9 +38,10 @@ export const getListSaleProduct = async (pageIndex) => {
     console.log(error);
   }
 };
+//GET PRODUCT BY ID
 export const getListProductById = async (id) => {
   try {
-    const res = await httpRequest.get(`/product/listProductByCategoryId/${id}`);
+    const res = await httpRequest.get(`/products/category/${id}`);
     return res;
   } catch (error) {
     console.log(error);
@@ -86,15 +66,7 @@ export const searchProduct = async (search) => {
     console.log(error);
   }
 };
-export const getProductByCategoryId = async (id) => {
-  try {
-    const res = await httpRequest.get(apiProduct.getProductByCategoryId(id));
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
+//
 export const removeProduct = async (id) => {
   try {
     const res = await httpRequest.remove(`products/${id}`);
@@ -103,7 +75,7 @@ export const removeProduct = async (id) => {
     Swal.fire(`${error.response.data.message}😥`);
   }
 };
-//
+// CREATE NEW PRODUCT
 export const newProduct = async (values) => {
   try {
     const res = await httpRequest.postFormData(`products`, values);
@@ -112,22 +84,15 @@ export const newProduct = async (values) => {
     Swal.fire(`${error.response.data.message}😥`);
   }
 };
-export const updateProduct = async (values) => {
+//UPDATE PRODUCT
+export const updateProduct = async ({ id, data }) => {
   try {
-    const res = await httpRequest.post(`product/update`, {
-      values,
-    });
+    const res = await httpRequest.postFormData(
+      `products/${id}?_method=put`,
+      data
+    );
     return res;
   } catch (error) {
     console.log(error);
   }
 };
-
-//   export const getHomeListProduct = async (name,sort,pageIndex) => {
-//     try {
-//       const res = await httpRequest.get(`product/homeProductList?sort=${name}&asc=${sort}&pageSize=12&pageIndex=${pageIndex}`);
-//       return res;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
