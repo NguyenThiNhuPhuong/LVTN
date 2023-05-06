@@ -1,5 +1,21 @@
-.sidebar-page {
-  border: 1px solid #555;
+.sidebar {
+  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  position: relative;
+  border: 1px solid var(--mainColor);
   width: 300px;
   padding: 20px;
+  min-height: 100%;
+  &__content {
+    padding-left: 10px;
+    line-height: 3.5rem;
+  }
+}
+@media (max-width: 1024px) {
+}
+
+@media (max-width: 650px) {
+  .sidebar {
+    display: none;
+  }
 }
