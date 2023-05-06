@@ -9,7 +9,7 @@ class UserRepository
 {
 
     protected $modelClass = User::class;
-
+    protected $perPage = 12;
 
     public function getAllUser()
     {

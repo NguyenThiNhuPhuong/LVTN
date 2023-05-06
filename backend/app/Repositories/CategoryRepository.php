@@ -7,6 +7,7 @@ class CategoryRepository
 {
 
     protected $modelClass = Categories::class;
+    protected $perPage =12;
 
 
     public function getAllCategory()
@@ -35,5 +36,15 @@ class CategoryRepository
         $category = $this->modelClass::findOrFail($id);
         $category->delete();
         return $category;
+    }
+
+    public function getListCategory($active,$perPage=null)
+    {
+        $perPage = $perPage ?? $this->perPage;
+        $categorise = $this->modelClass::when($active, function ($query) use ($active) {
+                $query->where('active', $active);
+            })
+            ->paginate($perPage);
+        return $categorise;
     }
 }

@@ -8,7 +8,7 @@ class SliderRepository
 {
 
     protected $modelClass = Sliders::class;
-
+    protected $perPage =12;
 
     public function getAllSlider()
     {

@@ -23,11 +23,21 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $result = $this->categoryRepository->getAllCategory();
+        $categories = $this->categoryRepository->getListCategory($request->active,$request->per_page);
         return response()->json([
-            'rows' => $result
+            'currentPage' => $categories->currentPage(),
+            'data' => $categories,
+            'first_page_url' => $categories->url(1),
+            'last_page_url' => $categories->url($categories->lastPage()),
+            'prev_page_url' => $categories->previousPageUrl(),
+            'next_page_url' => $categories->nextPageUrl(),
+            'from' => $categories->firstItem(),
+            'to' => $categories->lastItem(),
+            'per_page' => $categories->perPage(),
+            'totalPages' => $categories->lastPage(),
+            'total' => $categories->total(),
         ]);
     }
 
