@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import * as httpRequest from "~/httpRequest/httpRequest";
 
 //API GET LIST DISCOUNT
@@ -78,6 +79,10 @@ export const getDiscountByCode = async ({ code, price_product }) => {
     );
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire({
+      title: "Error",
+      text: "Đơn hàng của bạn chưa đủ điều kiện",
+      icon: "error",
+    });
   }
 };

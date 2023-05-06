@@ -1,8 +1,9 @@
 .sidebar {
   flex: 1;
   border-right: 1px solid lightgray;
-  min-height: 100vh;
+  min-height: 100vh !important;
   background-color: white;
+  box-shadow: none !important;
 
   &-top {
     .top {

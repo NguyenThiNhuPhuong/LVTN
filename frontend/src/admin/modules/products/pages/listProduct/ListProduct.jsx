@@ -1,19 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
-import "./ListProduct.scss";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import Swal from "sweetalert2";
+import Loading from "~/admin/component/Loading/Loading";
+import Top from "~/admin/layouts/component/top/Top";
+import { Price } from "~/customer/modules/Home/component/products/component/Price/Price";
 import {
   getAllProducts,
   removeProduct,
   resetRemoveProduct,
-  setSearchResults,
 } from "~/redux/slice/product/ProductSlice";
-import { Price } from "~/customer/modules/Home/component/products/component/Price/Price";
-import Top from "~/admin/layouts/component/top/Top";
-import Loading from "~/admin/component/Loading/Loading";
-import Swal from "sweetalert2";
-import { NavLink } from "react-router-dom";
+import "./ListProduct.scss";
 
 function ListProduct() {
   const dispatch = useDispatch();
@@ -44,7 +43,7 @@ function ListProduct() {
       product.name.toLowerCase().includes(query.toLowerCase())
     );
 
-    dispatch(setSearchResults(filteredProducts));
+    // dispatch(setSearchResults(filteredProducts));
   };
   //-------handel remove product---------------------------------------
   const handelRemoveProduct = async (id) => {

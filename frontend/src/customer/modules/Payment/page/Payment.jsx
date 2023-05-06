@@ -16,6 +16,7 @@ import {
   Price,
 } from "../../Home/component/products/component/Price/Price";
 import Address from "../component/address/Address";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Payment() {
   TabTitle("Thanh toán");
@@ -23,7 +24,7 @@ export default function Payment() {
   const { priceCart, listCart, priceShip, priceAllCart } = useSelector(
     (state) => state.cart
   );
-  const { code, discount } = useSelector((state) => state.discount);
+  const { code, discount, codeName } = useSelector((state) => state.discount);
   const { isSuccessNew } = useSelector((state) => state.order);
 
   const { token, userInfo } = useSelector((state) => state.auth);
@@ -41,6 +42,7 @@ export default function Payment() {
       setTimeout(() => navigate("/product/shop"), 3000);
     }
   }, [isSuccessNew, navigate]);
+
   useEffect(() => {
     const res = listCart.reduce((total, item) => {
       return (
@@ -62,6 +64,7 @@ export default function Payment() {
         price_product: priceCart,
       })
     );
+    dispatch(setCode(""));
   };
   const handelSubmit = (e) => {
     e.preventDefault();
@@ -77,6 +80,8 @@ export default function Payment() {
   };
   return token ? (
     <div className="PaymentContainer">
+      <ToastContainer />
+
       <div className="row">
         <div className="main">
           <div className="header">
@@ -246,7 +251,7 @@ export default function Payment() {
                 </button>
                 {discount ? (
                   <div className="discount__code">
-                    <div className="discount__code--content">{code}</div>
+                    <div className="discount__code--content">{codeName}</div>
                     <div
                       className="discount__code--delete"
                       onClick={(e) => dispatch(setCode(0))}

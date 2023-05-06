@@ -9,7 +9,15 @@ export const getListOrder = createAsyncThunk(
     return response.rows;
   }
 );
-// API CREATE GET A ORDER
+// API CREATE GET LIST ORDER FOR USER
+export const getListOrderUser = createAsyncThunk(
+  "order/getListOrderUser",
+  async (id) => {
+    const response = await orderService.getListOrderUser(id);
+    return response.rows;
+  }
+);
+// API GET A ORDER
 export const getAOrder = createAsyncThunk("order/getAOrder", async (id) => {
   const response = await orderService.getAOrder(id);
   return response.order;
@@ -32,7 +40,7 @@ const orderSlice = createSlice({
   name: "order",
   initialState: {
     orderList: [],
-
+    orderListUser: [],
     orderSingle: {},
 
     orderNew: {},
@@ -55,6 +63,13 @@ const orderSlice = createSlice({
     [getListOrder.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.orderList = action.payload;
+    },
+    [getListOrderUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getListOrderUser.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.orderListUser = action.payload;
     },
     [getAOrder.pending]: (state) => {
       state.isLoading = true;

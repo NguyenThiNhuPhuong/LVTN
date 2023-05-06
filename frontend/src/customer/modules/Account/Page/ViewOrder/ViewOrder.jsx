@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Loading from "~/admin/component/Loading/Loading";
 
-import { getListOrder } from "~/redux/slice/order/OrderSlice";
+import { getListOrder, getListOrderUser } from "~/redux/slice/order/OrderSlice";
 
 import DataTable from "../../component/DataTable/DataTable";
 import "./ViewOrder.scss";
@@ -12,10 +12,11 @@ import SideBar from "../../component/SideBar/SideBar";
 function ViewOrder() {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.order);
-
+  const id = useSelector((state) => state.user.userProfile.id);
+  console.log(id);
   useEffect(() => {
-    dispatch(getListOrder(0));
-  }, [dispatch]);
+    dispatch(getListOrderUser(id));
+  }, [dispatch, id]);
 
   return isLoading ? (
     <Loading />

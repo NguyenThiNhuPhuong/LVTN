@@ -9,14 +9,36 @@ import { addCart } from "~/redux/slice/cart/CartSlice";
 import NoProduct from "../noproduct/NoProduct";
 import ButtonPriceSale from "./component/ButtonPriceSale/ButtonPriceSale";
 import AllPrice from "./component/Price/Price";
+import { getAllProducts, setParams } from "~/redux/slice/product/ProductSlice";
 
 const cx = classNames.bind(styles);
-
+const menuPrice = [
+  { label: `100.000đ-200.000đ`, valueMin: 100000, valueMax: 200000 },
+  { label: `200.000đ-400.000đ`, valueMin: 200000, valueMax: 400000 },
+  { label: `400.000đ-600.000đ`, valueMin: 400000, valueMax: 600000 },
+  { label: `600.000đ-1000.000đ`, valueMin: 600000, valueMax: 800000 },
+  { label: `trên 1.000.000đ`, valueMin: 1000000 },
+];
 function Products({ productList }) {
   const { categoryList } = useSelector((state) => state.category);
+  const { params } = useSelector((state) => state.product);
 
   const dispatch = useDispatch();
+  const handelCategory = (e, id) => {
+    e.preventDefault();
+    dispatch(setParams({ ...params, category_id: e.target.value }));
+    dispatch(getAllProducts(params));
+  };
+  const handelPrice = (e) => {
+    e.preventDefault();
+    const MinValue = e.target.value.split(",")[0];
+    const MaxValue = e.target.value.split(",")[1];
 
+    dispatch(
+      setParams({ ...params, min_price: MinValue, max_price: MaxValue })
+    );
+    dispatch(getAllProducts(params));
+  };
   return productList.length > 0 ? (
     <div className={cx("productContainer")}>
       <div className={cx("title")}>sản phẩm của chúng tôi</div>
@@ -26,29 +48,46 @@ function Products({ productList }) {
           {categoryList.map((category, index) => {
             return (
               <div className={cx("sidebar__container")} key={index}>
-                <input type="checkbox" checked="checked" id={category.name} />
-                <label for={category.name}>{category.name}</label>
+                <input
+                  type="checkbox"
+                  id={category.name}
+                  value={category.id}
+                  onClick={(e) => handelCategory(e, category.id)}
+                  checked={
+                    parseInt(params.category_id) === parseInt(category.id)
+                  }
+                />
+                <label htmlFor={category.name}>{category.name}</label>
               </div>
             );
           })}
           <h3>Sắp xếp theo tên</h3>
           <div className={cx("sidebar__container")}>
-            <input type="checkbox" checked="checked" />
+            <input type="checkbox" />
             <label>Theo A-Z</label>
           </div>
           <div className={cx("sidebar__container")}>
-            <input type="checkbox" checked="checked" />
+            <input type="checkbox" />
             <label>Theo Z-A</label>
           </div>
           <h3>Theo giá tiền</h3>
-          <div className={cx("sidebar__container")}>
-            <input type="checkbox" checked="checked" />
-            <label>Tăng dần</label>
-          </div>
-          <div className={cx("sidebar__container")}>
-            <input type="checkbox" checked="checked" />
-            <label>Giảm dần</label>
-          </div>
+
+          {menuPrice.map((price, index) => {
+            return (
+              <div className={cx("sidebar__container")} key={index}>
+                <input
+                  type="checkbox"
+                  value={`${price.valueMin},${price.valueMax}`}
+                  onClick={(e) => handelPrice(e)}
+                  checked={
+                    parseInt(params.min_price) === parseInt(price.valueMin) &&
+                    parseInt(params.max_price) === parseInt(price.valueMax)
+                  }
+                />
+                <label>{price.label}</label>
+              </div>
+            );
+          })}
         </div>
         <div className={cx("product")}>
           {productList.map((product, index) => {

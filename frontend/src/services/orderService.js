@@ -13,6 +13,16 @@ export const getListOrder = async (status_id) => {
     console.log(error);
   }
 };
+//GET LIST ORDER FOR USER
+export const getListOrderUser = async (id) => {
+  try {
+    const res = await httpRequest.get(`orders/user/${id}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 //CREATE ORDER FOR ADMIN
 export const newOrder = async (values) => {
   try {

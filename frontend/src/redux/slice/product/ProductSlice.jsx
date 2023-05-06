@@ -2,11 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as productService from "../../../services/productService";
 import { setListFile } from "../file/FileSlice";
 
-// API CREATE GET LIST PRODUCT
+// API CREATE GET LIST PRODUCT FOR USER
 export const getAllProducts = createAsyncThunk(
   "product/getAllProducts",
-  async (page) => {
-    const response = await productService.getListProduct(page);
+  async (params) => {
+    const response = await productService.getListProduct(params);
     return response;
   }
 );
@@ -66,8 +66,15 @@ const productSlice = createSlice({
     productList: [],
     saleProductList: [],
     newProductList: [],
+    params: {
+      page: "",
+      per_page: "",
+      max_price: "",
+      min_price: "",
+      search: "",
+      category_id: "",
+    },
 
-    searchResults: [],
     relatedProductList: [],
     isLoading: false,
 
@@ -82,7 +89,6 @@ const productSlice = createSlice({
 
     isLoadingRemove: false,
     alertDeleteSuccess: "",
-
     currentPage: 1,
     totalPages: 1,
   },
@@ -90,11 +96,11 @@ const productSlice = createSlice({
     setNewProduct(state, action) {
       state.productNew = action.payload;
     },
-    setUpdateProduct(state, action) {
-      state.productUpdate = action.payload;
-    },
     resetNewProduct(state) {
       state.isSuccessNew = false;
+    },
+    setUpdateProduct(state, action) {
+      state.productUpdate = action.payload;
     },
     resetUpdateProduct(state) {
       state.isSuccessUpdate = false;
@@ -105,11 +111,8 @@ const productSlice = createSlice({
     removeSelectedProductShow: (state) => {
       state.productSingle = {};
     },
-    setSearchResults(state, action) {
-      state.searchResults = action.payload;
-    },
-    setNewPage(state, action) {
-      state.currentPage = action.payload;
+    setParams(state, action) {
+      state.params = action.payload;
     },
   },
   extraReducers: {
@@ -176,8 +179,7 @@ export const {
   resetNewProduct,
   resetRemoveProduct,
   resetUpdateProduct,
-  setSearchResults,
-  setNewPage,
+  setParams,
 } = productSlice.actions;
 
 export default productSlice.reducer;

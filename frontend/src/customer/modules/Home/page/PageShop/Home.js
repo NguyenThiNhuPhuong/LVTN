@@ -20,20 +20,21 @@ export default function Home() {
   const date = String(currentDate.getDate()).padStart(2, "0");
   // -------------get data from slice-------------
   const LoadingProduct = useSelector((state) => state.product.isLoading);
-  const { productList, currentPage, totalPages } = useSelector(
+  const { productList, currentPage, totalPages, params } = useSelector(
     (state) => state.product
   );
 
   //------------------call api---------------------------------
   useEffect(() => {
-    dispatch(getAllProducts(currentPage));
+    dispatch(getAllProducts(params));
     dispatch(getListSlider());
     dispatch(getCategory());
     dispatch(getListDiscountByDate(`${year}/${month}/${date}`));
-  }, [currentPage, date, dispatch, month, year]);
+  }, [date, dispatch, month, params, year]);
   //------------handling when changing page number------------
-  const handlePageChange = (pageNumber) => {
-    dispatch(setNewPage(pageNumber));
+  const handlePageChange = (e, pageNumber) => {
+    e.preventDefault();
+    dispatch(getAllProducts({ ...params, page: pageNumber }));
   };
   return (
     <div>

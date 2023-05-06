@@ -2,12 +2,12 @@ import { NavLink } from "react-router-dom";
 import "./SideBar.scss";
 export default function SideBar() {
   return (
-    <div className="sidebar">
-      <div className="sidebar__title">
+    <div className="sidebarContainer">
+      <div className="sidebarContainer__title">
         <h2>Danh mục trang</h2>
       </div>
-      <div className="sidebar__content">
-        <ul className="sidebar__content--tree">
+      <div className="sidebarContainer__content">
+        <ul className="sidebarContainer__content--tree">
           <li>
             <NavLink to="/account/info">Tài khoản của tôi</NavLink>
           </li>
