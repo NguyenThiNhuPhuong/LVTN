@@ -13,39 +13,45 @@ class ProductRepository
 {
 
     protected $modelClass = Products::class;
-    protected $perPage = 5;
+    protected $perPage = 12;
 
-    public function getAllProduct()
+
+    public function getAllProduct($perPage = 12)
     {
-        return $this->modelClass::paginate($this->perPage);
+        return $this->modelClass::paginate($perPage);
     }
 
-    public function getProductActive()
+    public function getProductActive($perPage = null)
     {
-        return $this->modelClass::where('active', 1)->get()->toArray();
+        $perPage = $perPage ?? $this->perPage;
+        return $this->modelClass::where('active', 1)->paginate($perPage);
     }
 
-    public function getProductByCategory($category_id)
+    public function getProductByCategory($category_id, $perPage = null)
     {
+        $perPage = $perPage ?? $this->perPage;
         return $this->modelClass::where('active', 1)
-            ->where('category_id', $category_id)->get()->toArray();
+            ->where('category_id', $category_id)->paginate($perPage);
     }
 
-    public function getProductActiveOutOfStock()
+    public function getProductActiveOutOfStock($perPage = null)
     {
+        $perPage = $perPage ?? $this->perPage;
         return $this->modelClass::where('active', 1)
-            ->where('num', 0)->get()->toArray();
+            ->where('num', 0)->paginate($perPage);
     }
 
-    public function getProductSale()
+    public function getProductSale($perPage = null)
     {
+        $perPage = $perPage ?? $this->perPage;
         return $this->modelClass::whereNotNull('price_sale')
-            ->where('num', '!=', 0)->get()->toArray();
+            ->where('num', '!=', 0)->paginate($perPage);
     }
 
-    public function getProductNew()
+    public function getProductNew($perPage = null)
     {
-        return $this->modelClass::latest('created_at')->limit(20)->get()->toArray();
+        $perPage = $perPage ?? $this->perPage;
+        return $this->modelClass::latest('created_at')->limit(20)->paginate($perPage);
     }
 
     public function getProduct($id)
@@ -83,8 +89,9 @@ class ProductRepository
             ->update(['num_buy' => $numBuy]);
     }
 
-    public function getListProduct($categoryId, $string, $minPrice, $maxPrice)
+    public function getListProduct($categoryId, $string, $minPrice, $maxPrice, $perPage = null)
     {
+        $perPage = $perPage ?? $this->perPage;
         $products = $this->modelClass::when($categoryId, function ($query) use ($categoryId) {
             $query->where('category_id', $categoryId);
         })
@@ -117,7 +124,7 @@ class ProductRepository
                     });
                 }
             })
-            ->paginate($this->perPage);
+            ->paginate($perPage);
         return $products;
     }
 

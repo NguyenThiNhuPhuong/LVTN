@@ -177,7 +177,7 @@ class ProductService
 
     public function listProduct($request)
     {
-        $products = $this->productRepository->getListProduct($request->category_id,$request->string,$request->min_price,$request->max_price);
+        $products = $this->productRepository->getListProduct($request->category_id,$request->string,$request->min_price,$request->max_price,$request->per_page);
         return $products;
     }
 
