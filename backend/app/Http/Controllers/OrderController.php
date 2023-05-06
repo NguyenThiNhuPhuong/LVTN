@@ -11,6 +11,7 @@ use App\Services\ImageService;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
@@ -91,5 +92,22 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function listOrderOfUser(OrderRequest $request, string $id)
+    {
+        $currentUser = Auth::user();
+        if ($currentUser->type == 1 || $currentUser->id == $id) {
+            $orders = $this->orderService->getListOrderUser($id, $request->status_id);
+            $result = $this->orderService->repariListDataOrder($orders);
+            return response()->json([
+                'total' => count($result),
+                'rows' => $result
+            ]);
+        }
+        return response()->json([
+            'message' => "Forbidden"
+        ], 403);
+        
     }
 }

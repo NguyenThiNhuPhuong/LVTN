@@ -30,13 +30,22 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = $this->productRepository->getAllProduct();
-        $result = $this->productService->repariListDataProduct($products);
+        $products= $this->productService->listProduct($request);
+        $result = $this->productService->repariListDataProduct($products->items());
         return response()->json([
-            'total' => count($result),
-            'rows' => $result
+            'currentPage' => $products->currentPage(),
+            'data' => $result,
+            'first_page_url' => $products->url(1),
+            'last_page_url' => $products->url($products->lastPage()),
+            'prev_page_url' => $products->previousPageUrl(),
+            'next_page_url' => $products->nextPageUrl(),
+            'from' => $products->firstItem(),
+            'to' => $products->lastItem(),
+            'per_page' => $products->perPage(),
+            'totalPages' => $products->lastPage(),
+            'total' => $products->total(),
         ]);
     }
 
@@ -101,9 +110,10 @@ class ProductController extends Controller
             'rows' => $result
         ]);
     }
-    public function listProductByCategory( string $id)
+
+    public function listProductByCategory(string $id)
     {
-        $products = $this->productRepository->getProductByCategory( $id);
+        $products = $this->productRepository->getProductByCategory($id);
         $result = $this->productService->repariListDataProduct($products);
         return response()->json([
             'total' => count($result),
