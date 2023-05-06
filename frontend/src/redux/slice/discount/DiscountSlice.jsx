@@ -64,6 +64,7 @@ const discountSlice = createSlice({
     ListDiscountByDate: [],
     isLoading: false,
     code: "",
+    codeName: "",
     discount: 0,
     discountSingle: {},
     discountNew: {},
@@ -111,7 +112,8 @@ const discountSlice = createSlice({
     },
     [checkDiscount.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.discount = action.payload;
+      state.discount = action.payload.discount;
+      state.codeName = action.payload.code;
     },
     [getADiscount.pending]: (state) => {
       state.isLoading = true;

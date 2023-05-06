@@ -10,7 +10,6 @@ function Account() {
   TabTitle("Tài khoản của tôi");
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.user.userProfile);
-  console.log(profile);
   useEffect(() => {
     dispatch(getAUser());
   }, [dispatch]);

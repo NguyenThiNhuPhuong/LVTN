@@ -18,7 +18,7 @@
       flex-direction: column;
       border: 1px solid lightgray;
       padding: 10px;
-      max-height: 500px;
+      height: 710px;
 
       h3 {
         height: 50px;
@@ -48,11 +48,13 @@
       column-gap: 10px;
       row-gap: 10px;
       border: none !important;
+
       &__item {
         overflow: hidden;
         box-shadow: 2px 8px 20px #ddd;
         border: 1px solid lightgray;
         padding: 10px;
+        height: 350px;
 
         cursor: pointer;
         transition: all 0.3s;

@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import "./DataTable.scss";
 function DataTable() {
-  const { orderList } = useSelector((state) => state.order);
+  const { orderListUser } = useSelector((state) => state.order);
 
-  return orderList.map((orderItem, index) => {
+  return orderListUser.map((orderItem, index) => {
     return (
       <div className="order__row" key={index}>
         <div className="order__row--name text">{orderItem.name}</div>
