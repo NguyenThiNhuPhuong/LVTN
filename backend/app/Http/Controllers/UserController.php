@@ -71,14 +71,12 @@ class UserController extends Controller
     }
     public function changePassword(UserRequest $request, string $id)
     {
-        $dataUser = $this->userService->repariDataRequest($request, 'update');
-        $user = $this->userService->updateUser($id,$dataUser)->toArray();
-        $userRepari = $this->userService->repariDataUser($user);
-        return response()->json([
-            'user' => $userRepari
-        ]);
-    }
 
+    }
+    public function forgotPassword(UserRequest $request, string $id)
+    {
+
+    }
     /**
      * Remove the specified resource from storage.
      */

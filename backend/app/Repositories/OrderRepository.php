@@ -13,15 +13,18 @@ class OrderRepository
 {
 
     protected $modelClass = Orders::class;
+    protected $perPage = 12;
 
-    public function getAllOrder()
+    public function getAllOrder($perPage = null)
     {
-        return $this->modelClass::all()->toArray();
+        $perPage = $perPage ?? $this->perPage;
+        return $this->modelClass::paginate($perPage);;
     }
 
-    public function getListOrder($statusId)
+    public function getListOrder($statusId, $perPage = null)
     {
-        return $this->modelClass::where('order_status_id', $statusId)->get()->toArray();
+        $perPage = $perPage ?? $this->perPage;
+        return $this->modelClass::where('order_status_id', $statusId)->paginate($perPage);
     }
 
 
@@ -53,13 +56,14 @@ class OrderRepository
         return $order->update($data);
     }
 
-    public function getListOrderUser($id, $statusId)
+    public function getListOrderUser($id, $statusId, $perPage = null)
     {
-        $orders = $this->modelClass::where('user_id',$id )
+        $perPage = $perPage ?? $this->perPage;
+        $orders = $this->modelClass::where('user_id', $id)
             ->when($statusId, function ($query) use ($statusId) {
                 $query->where('order_status_id', $statusId);
-                })
-            ->get()->toArray();
+            })
+            ->paginate($perPage);
         return $orders;
     }
 }

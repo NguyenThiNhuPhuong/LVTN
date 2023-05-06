@@ -113,12 +113,12 @@ class OrderService
         return $rresult;
     }
 
-    public function getListOrder($statusId)
+    public function getListOrder($statusId,$perPage)
     {
         if (isset($statusId)) {
-            return $this->orderRepository->getListOrder($statusId);
+            return $this->orderRepository->getListOrder($statusId,$perPage);
         }
-        return $this->orderRepository->getAllOrder();
+        return $this->orderRepository->getAllOrder($perPage);
 
     }
 
@@ -313,9 +313,9 @@ class OrderService
         ];
     }
 
-    public function getListOrderUser( $id,  $status_id)
+    public function getListOrderUser($id, $statusId, $perPage)
     {
-        return $this->orderRepository->getListOrderUser($id,$status_id);
+        return $this->orderRepository->getListOrderUser($id, $statusId, $perPage);
     }
 
 

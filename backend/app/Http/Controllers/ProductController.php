@@ -101,53 +101,98 @@ class ProductController extends Controller
         ]);
     }
 
-    public function listProductActive()
+    public function listProductActive(Request $request)
     {
-        $products = $this->productRepository->getProductActive();
-        $result = $this->productService->repariListDataProduct($products);
+        $products = $this->productRepository->getProductActive($request->per_page);
+        $result = $this->productService->repariListDataProduct($products->items());
         return response()->json([
-            'total' => count($result),
-            'rows' => $result
+            'currentPage' => $products->currentPage(),
+            'data' => $result,
+            'first_page_url' => $products->url(1),
+            'last_page_url' => $products->url($products->lastPage()),
+            'prev_page_url' => $products->previousPageUrl(),
+            'next_page_url' => $products->nextPageUrl(),
+            'from' => $products->firstItem(),
+            'to' => $products->lastItem(),
+            'per_page' => $products->perPage(),
+            'totalPages' => $products->lastPage(),
+            'total' => $products->total(),
         ]);
     }
 
-    public function listProductByCategory(string $id)
+    public function listProductByCategory(Request $request,string $id)
     {
-        $products = $this->productRepository->getProductByCategory($id);
-        $result = $this->productService->repariListDataProduct($products);
+        $products = $this->productRepository->getProductByCategory($id,$request->per_page);
+        $result = $this->productService->repariListDataProduct($products->items());
         return response()->json([
-            'total' => count($result),
-            'rows' => $result
+            'currentPage' => $products->currentPage(),
+            'data' => $result,
+            'first_page_url' => $products->url(1),
+            'last_page_url' => $products->url($products->lastPage()),
+            'prev_page_url' => $products->previousPageUrl(),
+            'next_page_url' => $products->nextPageUrl(),
+            'from' => $products->firstItem(),
+            'to' => $products->lastItem(),
+            'per_page' => $products->perPage(),
+            'totalPages' => $products->lastPage(),
+            'total' => $products->total(),
         ]);
     }
 
-    public function listActiveOutOfStock()
+    public function listActiveOutOfStock(Request $request)
     {
-        $products = $this->productRepository->getProductActiveOutOfStock();
-        $result = $this->productService->repariListDataProduct($products);
+        $products = $this->productRepository->getProductActiveOutOfStock($request->per_page);
+        $result = $this->productService->repariListDataProduct($products->items());
         return response()->json([
-            'total' => count($result),
-            'rows' => $result
+            'currentPage' => $products->currentPage(),
+            'data' => $result,
+            'first_page_url' => $products->url(1),
+            'last_page_url' => $products->url($products->lastPage()),
+            'prev_page_url' => $products->previousPageUrl(),
+            'next_page_url' => $products->nextPageUrl(),
+            'from' => $products->firstItem(),
+            'to' => $products->lastItem(),
+            'per_page' => $products->perPage(),
+            'totalPages' => $products->lastPage(),
+            'total' => $products->total(),
         ]);
     }
 
-    public function listProductSale()
+    public function listProductSale(Request $request)
     {
-        $products = $this->productRepository->getProductSale();
-        $result = $this->productService->repariListDataProduct($products);
+        $products = $this->productRepository->getProductSale($request->per_page);
+        $result = $this->productService->repariListDataProduct($products->items());
         return response()->json([
-            'total' => count($result),
-            'rows' => $result
+            'currentPage' => $products->currentPage(),
+            'data' => $result,
+            'first_page_url' => $products->url(1),
+            'last_page_url' => $products->url($products->lastPage()),
+            'prev_page_url' => $products->previousPageUrl(),
+            'next_page_url' => $products->nextPageUrl(),
+            'from' => $products->firstItem(),
+            'to' => $products->lastItem(),
+            'per_page' => $products->perPage(),
+            'totalPages' => $products->lastPage(),
+            'total' => $products->total(),
         ]);
     }
 
-    public function listProductNew()
+    public function listProductNew(Request $request)
     {
-        $products = $this->productRepository->getProductNew();
-        $result = $this->productService->repariListDataProduct($products);
+        $products = $this->productRepository->getProductNew($request->per_page);
+        $result = $this->productService->repariListDataProduct($products->items());
         return response()->json([
-            'total' => count($result),
-            'rows' => $result
+            'currentPage' => $products->currentPage(),
+            'data' => $result,
+            'first_page_url' => $products->url(1),
+            'last_page_url' => $products->url($products->lastPage()),
+            'prev_page_url' => $products->previousPageUrl(),
+            'next_page_url' => $products->nextPageUrl(),
+            'from' => $products->firstItem(),
+            'to' => $products->lastItem(),
+            'per_page' => $products->perPage(),
+            'totalPages' => $products->lastPage(),
+            'total' => $products->total(),
         ]);
     }
 }

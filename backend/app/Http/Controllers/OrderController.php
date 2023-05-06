@@ -32,11 +32,20 @@ class OrderController extends Controller
      */
     public function index(OrderRequest $request)
     {
-        $orders = $this->orderService->getListOrder($request->status_id);
-        $result = $this->orderService->repariListDataOrder($orders);
+        $orders = $this->orderService->getListOrder($request->status_id,$request->per_page);
+        $result = $this->orderService->repariListDataOrder($orders->items());
         return response()->json([
-            'total' => count($result),
-            'rows' => $result
+            'currentPage' => $orders->currentPage(),
+            'data' => $result,
+            'first_page_url' => $orders->url(1),
+            'last_page_url' => $orders->url($orders->lastPage()),
+            'prev_page_url' => $orders->previousPageUrl(),
+            'next_page_url' => $orders->nextPageUrl(),
+            'from' => $orders->firstItem(),
+            'to' => $orders->lastItem(),
+            'per_page' => $orders->perPage(),
+            'totalPages' => $orders->lastPage(),
+            'total' => $orders->total(),
         ]);
     }
 
@@ -98,16 +107,25 @@ class OrderController extends Controller
     {
         $currentUser = Auth::user();
         if ($currentUser->type == 1 || $currentUser->id == $id) {
-            $orders = $this->orderService->getListOrderUser($id, $request->status_id);
-            $result = $this->orderService->repariListDataOrder($orders);
+            $orders = $this->orderService->getListOrderUser($id, $request->status_id,$request->per_page);
+            $result = $this->orderService->repariListDataOrder($orders->items());
             return response()->json([
-                'total' => count($result),
-                'rows' => $result
+                'currentPage' => $orders->currentPage(),
+                'data' => $result,
+                'first_page_url' => $orders->url(1),
+                'last_page_url' => $orders->url($orders->lastPage()),
+                'prev_page_url' => $orders->previousPageUrl(),
+                'next_page_url' => $orders->nextPageUrl(),
+                'from' => $orders->firstItem(),
+                'to' => $orders->lastItem(),
+                'per_page' => $orders->perPage(),
+                'totalPages' => $orders->lastPage(),
+                'total' => $orders->total(),
             ]);
         }
         return response()->json([
             'message' => "Forbidden"
         ], 403);
-        
+
     }
 }

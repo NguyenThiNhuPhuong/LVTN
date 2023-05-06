@@ -8,7 +8,7 @@ class DiscountRepository
 {
 
     protected $modelClass = Discounts::class;
-
+    protected $perPage =12;
 
     public function getAllDiscount()
     {
