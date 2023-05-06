@@ -40,4 +40,9 @@ class UserRepository
         $user->delete();
         return $user;
     }
+
+    public function getAll()
+    {
+        return $this->modelClass::all();
+    }
 }

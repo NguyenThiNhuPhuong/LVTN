@@ -92,14 +92,14 @@ class DiscountService
 
     }
 
-    public function getListDiscount($date = null)
+    public function getListDiscount($date = null,$perPage)
     {
 
         if ($date == null) {
-            return $this->discountRepository->getAllDiscount();
+            return $this->discountRepository->getAllDiscount($perPage);
 
         }
-        return $this->discountRepository->getDiscountByDate($date);
+        return $this->discountRepository->getDiscountByDate($date,$perPage);
     }
 
     public function checkDiscount($discount_code, $priceProduct)
@@ -150,9 +150,9 @@ class DiscountService
         ];
     }
 
-    public function getListDiscountValid($dateTime, $priceProduct)
+    public function getListDiscountValid($dateTime, $priceProduct,$perPage)
     {
-        return $this->discountRepository->getDiscountValid($dateTime, $priceProduct);
+        return $this->discountRepository->getDiscountValid($dateTime, $priceProduct,$perPage);
     }
 
 }

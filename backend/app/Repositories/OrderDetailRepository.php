@@ -44,4 +44,9 @@ class OrderDetailRepository
             ->get()->toArray();
         return $listOrderDetail;
     }
+
+    public function getAll()
+    {
+        return $this->modelClass::all();
+    }
 }

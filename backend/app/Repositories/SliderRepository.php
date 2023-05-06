@@ -38,4 +38,9 @@ class SliderRepository
         return $slider;
     }
 
+    public function getAll()
+    {
+        return $this->modelClass::all();
+    }
+
 }
