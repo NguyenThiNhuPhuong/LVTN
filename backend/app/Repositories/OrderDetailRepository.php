@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories;
+
 use App\Models\Categories;
 use App\Models\OrderDetail;
 
@@ -12,12 +13,12 @@ class OrderDetailRepository
 
     public function getAllOrderDetail()
     {
-        return  $this->modelClass::all();
+        return $this->modelClass::all();
     }
 
     public function getOrderDetail($id)
     {
-        return  $this->modelClass::find($id);
+        return $this->modelClass::find($id);
     }
 
     public function createOrderDetail($data)
@@ -25,6 +26,7 @@ class OrderDetailRepository
         return $this->modelClass::create($data);
 
     }
+
     public function updateOrderDetail($id, $data)
     {
         $user = $this->modelClass::findOrFail($id);
@@ -32,7 +34,8 @@ class OrderDetailRepository
         return $user;
     }
 
-    public function deleteOrderDetail($id){
+    public function deleteOrderDetail($id)
+    {
         $user = $this->modelClass::findOrFail($id);
         $user->delete();
         return $user;
@@ -40,7 +43,7 @@ class OrderDetailRepository
 
     public function getOrderDetailByOrderId(string $orderId)
     {
-        $listOrderDetail = $this->modelClass::where('order_id',$orderId)
+        $listOrderDetail = $this->modelClass::where('order_id', $orderId)
             ->get()->toArray();
         return $listOrderDetail;
     }
@@ -48,5 +51,10 @@ class OrderDetailRepository
     public function getAll()
     {
         return $this->modelClass::all();
+    }
+
+    public function getOrderDetailProduct($productId)
+    {
+        return $this->modelClass::where('product_id', $productId)->whereNull('deleted_at')->get();
     }
 }
