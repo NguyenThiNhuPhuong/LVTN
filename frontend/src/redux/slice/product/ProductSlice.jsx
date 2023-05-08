@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as productService from "../../../services/productService";
-import { setListFile } from "../file/FileSlice";
 
 // API CREATE GET LIST PRODUCT FOR USER
 export const getAllProducts = createAsyncThunk(
@@ -13,18 +12,17 @@ export const getAllProducts = createAsyncThunk(
 // API  GET LIST SALE PRODUCT
 export const getSaleProducts = createAsyncThunk(
   "product/getSaleProducts",
-  async () => {
-    const response = await productService.getListSaleProduct();
-    console.log(response);
-    return response.rows;
+  async (params) => {
+    const response = await productService.getListSaleProduct(params);
+    return response;
   }
 );
 // API GET LIST NEW PRODUCT
 export const getNewProducts = createAsyncThunk(
   "product/getNewProducts",
-  async () => {
-    const response = await productService.getListNewProduct();
-    return response.rows;
+  async (params) => {
+    const response = await productService.getListNewProduct(params);
+    return response;
   }
 );
 // API CREATE NEW PRODUCT
@@ -48,7 +46,6 @@ export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async (productUpdate) => {
     const response = await productService.updateProduct(productUpdate);
-    console.log(response);
     return response.data.product;
   }
 );
@@ -74,7 +71,7 @@ const productSlice = createSlice({
       search: "",
       category_id: "",
     },
-
+    resultSearch: "",
     relatedProductList: [],
     isLoading: false,
 
@@ -89,8 +86,10 @@ const productSlice = createSlice({
 
     isLoadingRemove: false,
     alertDeleteSuccess: "",
-    currentPage: 1,
-    totalPages: 1,
+    currentPage: 0,
+    totalPages: 0,
+
+    namePage: "",
   },
   reducers: {
     setNewProduct(state, action) {
@@ -111,8 +110,27 @@ const productSlice = createSlice({
     removeSelectedProductShow: (state) => {
       state.productSingle = {};
     },
+    setResultSearch(state, action) {
+      state.resultSearch = action.payload;
+    },
+    resetResultSearch(state, action) {
+      state.resultSearch = "";
+    },
     setParams(state, action) {
       state.params = action.payload;
+    },
+    resetParams(state) {
+      state.params = {
+        page: "",
+        per_page: "",
+        max_price: "",
+        min_price: "",
+        search: "",
+        category_id: "",
+      };
+    },
+    setNamePage(state, action) {
+      state.namePage = action.payload;
     },
   },
   extraReducers: {
@@ -130,14 +148,18 @@ const productSlice = createSlice({
     },
     [getSaleProducts.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.saleProductList = action.payload;
+      state.saleProductList = action.payload.data;
+      state.currentPage = action.payload.currentPage;
+      state.totalPages = action.payload.totalPages;
     },
     [getNewProducts.pending]: (state) => {
       state.isLoading = true;
     },
     [getNewProducts.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.newProductList = action.payload;
+      state.newProductList = action.payload.data;
+      state.currentPage = action.payload.currentPage;
+      state.totalPages = action.payload.totalPages;
     },
     [getAProduct.pending]: (state) => {
       state.isLoading = true;
@@ -180,6 +202,10 @@ export const {
   resetRemoveProduct,
   resetUpdateProduct,
   setParams,
+  resetParams,
+  setResultSearch,
+  resetResultSearch,
+  setNamePage,
 } = productSlice.actions;
 
 export default productSlice.reducer;

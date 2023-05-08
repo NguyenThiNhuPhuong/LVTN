@@ -8,34 +8,31 @@ import OrderItem from "../../component/OrderItem/OrderItem";
 import { getListOrder } from "~/redux/slice/order/OrderSlice";
 
 import "./ListOrder.scss";
+import { setParams } from "~/redux/slice/product/ProductSlice";
+import Pagination from "~/admin/layouts/component/Pagination/Pagination";
+import StatusSelect from "../../component/StatusSelect/StatusSelect";
 
 function ListOrder() {
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((state) => state.order);
+  const { isLoading, currentPage, totalPages, params } = useSelector(
+    (state) => state.order
+  );
 
   useEffect(() => {
-    dispatch(getListOrder(0));
-  }, [dispatch]);
-
+    dispatch(getListOrder(params));
+  }, [dispatch, params]);
+  //-----------------change Page---------------------------------------
+  const handlePageChange = (e, pageNumber) => {
+    e.preventDefault();
+    dispatch(setParams({ ...params, page: pageNumber }));
+  };
   return isLoading ? (
     <Loading />
   ) : (
     <div className="ListOrderContainer">
       <Top title="Orders" to="/admin/product/newProduct" />
-      <div className="main">
-        <div className="header">
-          <div className="search">
-            <input className="search__input" placeholder="Search....." />
-          </div>
-          <div className="sort">
-            <select className="sort sort-category">
-              <option value="">All category</option>
-            </select>
-            <select className="sort sort-timeLast">
-              <option value="">Latest added</option>
-            </select>
-          </div>
-        </div>
+      <div className="content">
+        <StatusSelect />
         <hr />
         <div className="order">
           <div className="order__row order__header-labels">
@@ -49,6 +46,13 @@ function ListOrder() {
           </div>
           <OrderItem />
         </div>
+        {totalPages > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </div>
   );

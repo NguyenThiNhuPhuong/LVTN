@@ -2,12 +2,20 @@ import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import styles from "./MenuItem.module.scss";
+import { useDispatch } from "react-redux";
+import { resetParams } from "~/redux/slice/product/ProductSlice";
 
 const cx = classNames.bind(styles);
 
 function MenuItem({ title, to, key }) {
+  const dispatch = useDispatch();
   return (
-    <NavLink className={cx("menu__item")} to={to} key={key}>
+    <NavLink
+      className={cx("menu__item")}
+      to={to}
+      key={key}
+      onClick={() => dispatch(resetParams())}
+    >
       <span className={cx("menu__item--title")}>{title}</span>
     </NavLink>
   );

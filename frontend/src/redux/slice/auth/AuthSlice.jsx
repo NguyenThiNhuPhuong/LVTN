@@ -30,6 +30,7 @@ const authSlice = createSlice({
     isLoading: false,
     role: "",
     token: Cookies.get("token"),
+    isOpenModal: false,
   },
   reducers: {
     logoutUser: (state) => {
@@ -45,6 +46,9 @@ const authSlice = createSlice({
     },
     setUserInfo(state, action) {
       state.userInfo = action.payload;
+    },
+    setOpenModal(state, action) {
+      state.isOpenModal = action.payload;
     },
   },
   extraReducers: {
@@ -72,5 +76,10 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { logoutUser, resetRegister, getToken, setUserInfo } =
-  authSlice.actions;
+export const {
+  logoutUser,
+  resetRegister,
+  getToken,
+  setUserInfo,
+  setOpenModal,
+} = authSlice.actions;

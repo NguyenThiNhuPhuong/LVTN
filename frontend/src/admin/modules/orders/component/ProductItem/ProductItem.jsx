@@ -8,7 +8,9 @@ const ProductItem = () => {
   return orderSingle?.cart?.map((item, index) => {
     return (
       <div className="product__row table__section" key={index}>
-        <div className="product__row--image"></div>
+        <div className="product__row--image">
+          <img src={item.images[0]} alt="" />
+        </div>
         <div className="product__row--product">{item.product_name}</div>
         <div className="product__row--price">
           <Price price={item.price} price_sale={item.price_sale} />

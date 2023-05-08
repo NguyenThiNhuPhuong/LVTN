@@ -3,11 +3,35 @@ import * as httpRequest from "~/httpRequest/httpRequest";
 //--------------------------ADMIN---------------------
 
 //LIST ORDER ALL STATUS FOR ADMIN AND SHIPPER
-export const getListOrder = async (status_id) => {
+export const getListOrder = async ({
+  page,
+  search,
+  max_price,
+  min_price,
+  category_id,
+  status_id,
+}) => {
   try {
-    const res = await httpRequest.get(
-      status_id === 0 ? `orders` : `orders?status_id=${status_id}`
-    );
+    let params = "";
+    if (page !== undefined) {
+      params += `page=${page}&`;
+    }
+    if (search !== undefined) {
+      params += `string=${search}&`;
+    }
+    if (max_price !== undefined) {
+      params += `max_price=${max_price}&`;
+    }
+    if (min_price !== undefined) {
+      params += `min_price=${min_price}&`;
+    }
+    if (category_id !== undefined) {
+      params += `category_id=${category_id}&`;
+    }
+    if (status_id !== undefined) {
+      params += `status_id=${status_id}`;
+    }
+    const res = await httpRequest.get(`orders?per_page=12&${params}`);
     return res;
   } catch (error) {
     console.log(error);

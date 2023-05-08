@@ -1,6 +1,7 @@
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,20 +12,29 @@ import {
   getAllProducts,
   removeProduct,
   resetRemoveProduct,
+  setParams,
 } from "~/redux/slice/product/ProductSlice";
 import "./ListProduct.scss";
+import { getCategory } from "~/redux/slice/category/CategorySlice";
+import Pagination from "~/admin/layouts/component/Pagination/Pagination";
+import CategorySelect from "../../component/CategorySelect/CategorySelect";
 
 function ListProduct() {
   const dispatch = useDispatch();
-  const [query, setQuery] = useState("");
-
   //-----------get data from product slice----------------------------
-  const { productList, searchResults, isLoading, alertDeleteSuccess } =
-    useSelector((state) => state.product);
+  const {
+    productList,
+    isLoading,
+    alertDeleteSuccess,
+    params,
+    totalPages,
+    currentPage,
+  } = useSelector((state) => state.product);
 
   //------------call api get list product&& remove product success------
   useEffect(() => {
-    dispatch(getAllProducts());
+    dispatch(getAllProducts(params));
+    dispatch(getCategory());
 
     if (alertDeleteSuccess !== "") {
       Swal.fire("Saved!", "", "success");
@@ -32,19 +42,8 @@ function ListProduct() {
         dispatch(resetRemoveProduct());
       };
     }
-  }, [dispatch, alertDeleteSuccess]);
+  }, [dispatch, alertDeleteSuccess, params]);
 
-  //------------handel search product by name-------------------------
-  const handleInputChange = (e) => {
-    const query = e.target.value;
-    setQuery(query);
-
-    const filteredProducts = productList.filter((product) =>
-      product.name.toLowerCase().includes(query.toLowerCase())
-    );
-
-    // dispatch(setSearchResults(filteredProducts));
-  };
   //-------handel remove product---------------------------------------
   const handelRemoveProduct = async (id) => {
     const result = await Swal.fire({
@@ -64,6 +63,11 @@ function ListProduct() {
       Swal.fire("Changes are not saved", "", "info");
     }
   };
+  //-----------------change Page---------------------------------------
+  const handlePageChange = (e, pageNumber) => {
+    e.preventDefault();
+    dispatch(setParams({ ...params, page: pageNumber }));
+  };
 
   const Product = () => {
     return (
@@ -71,30 +75,17 @@ function ListProduct() {
         <Top title="Products" to="/admin/product/newProduct" />
         <div className="main">
           <div className="header">
-            <div className="search">
-              <input
-                className="search__input"
-                placeholder="Search....."
-                value={query}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="sort">
-              <select className="sort sort-category">
-                <option value="">All category</option>
-              </select>
-              <select className="sort sort-timeLast">
-                <option value="">Latest added</option>
-              </select>
-            </div>
+            <CategorySelect />
           </div>
           <hr />
           {productList?.length > 0 ? (
             <div className="content">
-              {(query ? searchResults : productList).map((product, index) => {
+              {productList.map((product, index) => {
                 return (
                   <div className="item" key={index}>
-                    <img src={product.images[0]} alt="" className="item__img" />
+                    <div className="item__img">
+                      <img src={product.images[0]} alt="" />
+                    </div>
 
                     <span className="item__title">{product.name}</span>
                     <span className="item__price">
@@ -124,6 +115,13 @@ function ListProduct() {
             <div className="noProductList">Hiện tại k có sản phẩm nào 😓</div>
           )}
         </div>
+        {totalPages > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     );
   };

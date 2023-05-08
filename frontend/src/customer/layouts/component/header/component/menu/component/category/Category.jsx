@@ -1,8 +1,14 @@
 import classNames from "classnames/bind";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import {
+  getAllProducts,
+  getNewProducts,
+  getSaleProducts,
+  resetParams,
+  setParams,
+} from "~/redux/slice/product/ProductSlice";
 import styles from "./Category.module.scss";
-import { getAllProducts, setParams } from "~/redux/slice/product/ProductSlice";
 
 export default function Category() {
   const cx = classNames.bind(styles);
@@ -13,21 +19,10 @@ export default function Category() {
   const handleSubmitCategory = (e, category_id) => {
     e.preventDefault();
     dispatch(setParams({ ...params, category_id: category_id }));
-    dispatch(getAllProducts(...params));
   };
   const handleSubmitAllProduct = (e) => {
     e.preventDefault();
-
-    dispatch(
-      setParams({
-        page: 1,
-        max_price: "",
-        min_price: "",
-        search: "",
-        category_id: "",
-      })
-    );
-    dispatch(getAllProducts(...params));
+    dispatch(setParams({ ...params, category_id: "" }));
   };
   return (
     <div className={cx("wrapper")}>
