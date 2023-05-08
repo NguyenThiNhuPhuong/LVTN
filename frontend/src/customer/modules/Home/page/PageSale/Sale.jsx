@@ -2,33 +2,41 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getCategory } from "~/redux/slice/category/CategorySlice";
-import { getSaleProducts } from "~/redux/slice/product/ProductSlice";
+import {
+  getSaleProducts,
+  setNamePage,
+  setParams,
+} from "~/redux/slice/product/ProductSlice";
 
-// import Products from "../../component/products/Products";
-import { Skeleton } from "@mui/material";
-import Pagination from "@mui/material/Pagination";
+import Pagination from "../../component/Pagination/Pagination";
 import Loading from "../../component/loading/Loading";
 import Products from "../../component/products/Products";
 import "./../../component/Home.scss";
 
 export default function Sale() {
   const dispatch = useDispatch();
-
+  //-------------call data from productSlice------------
+  const { isLoading, saleProductList, currentPage, totalPages, params } =
+    useSelector((state) => state.product);
+  console.log(saleProductList);
+  //-------------call api ------------------------------
   useEffect(() => {
-    dispatch(getSaleProducts());
+    dispatch(setNamePage("Sale"));
+    dispatch(getSaleProducts(params));
     dispatch(getCategory());
-  }, [dispatch]);
-  const LoadingProduct = useSelector((state) => state.product.isLoading);
-  const { saleProductList } = useSelector((state) => state.product);
+  }, [dispatch, params]);
 
+  //-------------change new page-------------------------
+  const handlePageChange = (e, pageNumber) => {
+    e.preventDefault();
+    dispatch(setParams({ ...params, page: pageNumber }));
+  };
   return (
     <div>
       <>
         <div className="HomeContainer">
-          {LoadingProduct ? (
+          {isLoading ? (
             <>
-              <Skeleton height={400} sx={{ mt: "-70px" }} />
-
               <div className="product">
                 {Array.from(new Array(10)).map((item, index) => {
                   return <Loading index={index} />;
@@ -39,14 +47,11 @@ export default function Sale() {
             <Products productList={saleProductList} />
           )}
         </div>
-        <div className="pagination">
-          <Pagination
-            count={10}
-            variant="outlined"
-            shape="rounded"
-            size="large"
-          />
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </>
     </div>
   );

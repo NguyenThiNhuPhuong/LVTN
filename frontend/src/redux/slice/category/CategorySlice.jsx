@@ -5,7 +5,7 @@ export const getCategory = createAsyncThunk(
   "category/getCategory",
   async () => {
     const response = await categoryService.getListCategory();
-    return response.rows;
+    return response.data.data;
   }
 );
 //API GET A CATEGORY

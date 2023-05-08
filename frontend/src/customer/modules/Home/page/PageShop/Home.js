@@ -3,7 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getCategory } from "~/redux/slice/category/CategorySlice";
 import { getListDiscountByDate } from "~/redux/slice/discount/DiscountSlice";
-import { getAllProducts, setNewPage } from "~/redux/slice/product/ProductSlice";
+import {
+  getAllProducts,
+  resetParams,
+  setNamePage,
+  setParams,
+} from "~/redux/slice/product/ProductSlice";
 import { getListSlider } from "~/redux/slice/slider/SliderSlice";
 
 // import Products from "../../component/products/Products";
@@ -26,6 +31,7 @@ export default function Home() {
 
   //------------------call api---------------------------------
   useEffect(() => {
+    dispatch(setNamePage("Home"));
     dispatch(getAllProducts(params));
     dispatch(getListSlider());
     dispatch(getCategory());
@@ -34,7 +40,7 @@ export default function Home() {
   //------------handling when changing page number------------
   const handlePageChange = (e, pageNumber) => {
     e.preventDefault();
-    dispatch(getAllProducts({ ...params, page: pageNumber }));
+    dispatch(setParams({ ...params, page: pageNumber }));
   };
   return (
     <div>
@@ -50,11 +56,13 @@ export default function Home() {
             <Products productList={productList} />
           )}
         </div>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+        {totalPages > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </>
     </div>
   );

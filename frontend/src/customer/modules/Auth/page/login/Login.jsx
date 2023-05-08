@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { MENU_LOGIN } from "~/components/constant/Menu";
-import { signInUser } from "~/redux/slice/auth/AuthSlice";
+import { setOpenModal, signInUser } from "~/redux/slice/auth/AuthSlice";
 import styles from "../../component/Auth.module.scss";
 import FormRegister from "../../component/FormRegister/FormRegister";
 import { useEffect } from "react";
@@ -13,9 +13,9 @@ const cx = classNames.bind(styles);
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const role = useSelector((state) => state.auth.role);
+  const { role, isOpenModal } = useSelector((state) => state.auth);
   const password = `^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
-
+  //-----authorization---------
   useEffect(() => {
     if (role === 1) {
       navigate("/admin/dashboard");
@@ -27,7 +27,25 @@ export default function Login() {
       navigate("/login");
     }
   }, [navigate, role]);
-
+  //----open modal------
+  const Modal = () => {
+    return (
+      <div id="myModal" className={cx("modal")}>
+        <div className={cx("modal-content")}>
+          <h3>Quên Mật khẩu</h3>
+          <span
+            className={cx("close")}
+            onClick={() => dispatch(setOpenModal(false))}
+          >
+            &times;
+          </span>
+          <label for="inputField">Nhập Email </label>
+          <input type="text" id="inputField" />
+          <button id="submitBtn">Submit</button>
+        </div>
+      </div>
+    );
+  };
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -48,6 +66,7 @@ export default function Login() {
 
   return (
     <div className={cx("formRegisterContainer")}>
+      {isOpenModal && <Modal />}
       <form className={cx("formRegister")} onSubmit={formik.handleSubmit}>
         <h3 className={cx("formRegister__heading")}>ĐĂNG NHẬP </h3>
         {MENU_LOGIN.map((input) => (
@@ -71,7 +90,9 @@ export default function Login() {
               />
               <label for=" Remember Me"> Remember Me</label>
             </div>
-            <NavLink to="">Quên mật khẩu</NavLink>
+            <button onClick={() => dispatch(setOpenModal(true))}>
+              Quên mật khẩu
+            </button>
           </div>
           <button type="submit" className={cx("formRegister__bottom--btn")}>
             Đăng Nhập

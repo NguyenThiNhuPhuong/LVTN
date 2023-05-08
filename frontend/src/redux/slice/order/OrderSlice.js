@@ -4,9 +4,9 @@ import * as orderService from "../../../services/orderService";
 // API CREATE GET LIST ORDER
 export const getListOrder = createAsyncThunk(
   "order/getListOrder",
-  async (status_id) => {
-    const response = await orderService.getListOrder(status_id);
-    return response.rows;
+  async (params) => {
+    const response = await orderService.getListOrder(params);
+    return response;
   }
 );
 // API CREATE GET LIST ORDER FOR USER
@@ -47,13 +47,29 @@ const orderSlice = createSlice({
     isSuccessNew: false,
 
     isUpdateStatus: false,
+
+    currentPage: 0,
+    totalPages: 0,
+    params: {
+      page: "",
+      per_page: "",
+      status_id: 1,
+    },
   },
   reducers: {
     setNewOrder(state, action) {
       state.orderNew = action.payload;
     },
-    resetStatusOrder(state) {
-      state.isUpdateStatus = false;
+
+    setParams(state, action) {
+      state.params = action.payload;
+    },
+    resetParams(state) {
+      state.params = {
+        page: "",
+        per_page: "",
+        status_id: "",
+      };
     },
   },
   extraReducers: {
@@ -62,7 +78,9 @@ const orderSlice = createSlice({
     },
     [getListOrder.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.orderList = action.payload;
+      state.orderList = action.payload.data;
+      state.currentPage = action.payload.currentPage;
+      state.totalPages = action.payload.totalPages;
     },
     [getListOrderUser.pending]: (state) => {
       state.isLoading = true;
@@ -95,6 +113,6 @@ const orderSlice = createSlice({
     },
   },
 });
-export const { resetStatusOrder } = orderSlice.actions;
+export const { resetStatusOrder, setParams, resetParams } = orderSlice.actions;
 
 export default orderSlice.reducer;

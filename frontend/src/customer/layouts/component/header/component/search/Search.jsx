@@ -1,17 +1,21 @@
 import { SearchOutlined } from "@ant-design/icons";
 import classNames from "classnames/bind";
-import styles from "./SearchProduct.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts, setParams } from "~/redux/slice/product/ProductSlice";
+import {
+  resetResultSearch,
+  setParams,
+  setResultSearch,
+} from "~/redux/slice/product/ProductSlice";
+import styles from "./SearchProduct.module.scss";
 const cx = classNames.bind(styles);
 
-function Search(props) {
+function Search() {
   const dispatch = useDispatch();
-  const { params } = useSelector((state) => state.product);
+  const { params, resultSearch } = useSelector((state) => state.product);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(getAllProducts(params));
-    dispatch(setParams({ ...params, search: "" }));
+    dispatch(setParams({ ...params, search: resultSearch }));
+    dispatch(resetResultSearch());
   };
   return (
     <div className={cx("search")}>
@@ -20,10 +24,8 @@ function Search(props) {
           <input
             type="text"
             placeholder="Tìm kiếm sản phẩm..."
-            onChange={(e) =>
-              dispatch(setParams({ ...params, search: e.target.value }))
-            }
-            value={params.search}
+            onChange={(e) => dispatch(setResultSearch(e.target.value))}
+            value={resultSearch}
           />
           <button type="submit">
             <SearchOutlined />
