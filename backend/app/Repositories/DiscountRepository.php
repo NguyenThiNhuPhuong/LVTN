@@ -10,14 +10,16 @@ class DiscountRepository
     protected $modelClass = Discounts::class;
     protected $perPage =12;
 
-    public function getAllDiscount()
+    public function getAllDiscount($perPage=null)
     {
-        return $this->modelClass::all();
+        $perPage = $perPage ?? $this->perPage;
+        return $this->modelClass::paginate($perPage);
     }
 
-    public function getDiscountByDate($date)
+    public function getDiscountByDate($date,$perPage=null)
     {
-        return $this->modelClass::whereDate('expiration_date', '>=', $date)->get();
+        $perPage = $perPage ?? $this->perPage;
+        return $this->modelClass::whereDate('expiration_date', '>=', $date)->paginate($perPage);
     }
 
     public function getDiscount($discountId)
@@ -59,10 +61,18 @@ class DiscountRepository
         return $this->modelClass::where('code', $discount_code)->first();
     }
 
-    public function getDiscountValid($dateTime, $priceProduct)
+    public function getDiscountValid($dateTime, $priceProduct,$perPage=null)
     {
+        $perPage = $perPage ?? $this->perPage;
         return $this->modelClass::where('expiration_date', '>=', $dateTime)
             ->where('minium_order', '<=', $priceProduct)
-            ->get()->toArray();
+            ->paginate($perPage);
     }
+
+    public function getAll()
+    {
+        return $this->modelClass::all();
+    }
+
+
 }

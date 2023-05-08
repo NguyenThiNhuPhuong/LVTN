@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Repositories\CategoryRepository;
 use App\Repositories\ImageRepository;
+use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,7 @@ class ProductService
     protected $imageRepository;
     protected $productRepository;
     protected $orderRepository;
+    protected $orderDetailRepository;
 
     public function __construct()
     {
@@ -26,6 +28,7 @@ class ProductService
         $this->imageRepository = new ImageRepository;
         $this->productRepository = new ProductRepository;
         $this->orderRepository = new OrderRepository;
+        $this->orderDetailRepository = new OrderDetailRepository;
     }
 
     public function createProduct($request)
@@ -152,8 +155,8 @@ class ProductService
     function deleteProduct($id)
     {
         $result = "";
-        $listOrderProduct = $this->orderRepository->getOrderProduct($id);
-        if (count($listOrderProduct) > 0) {
+        $listOrderDetailProduct = $this->orderDetailRepository->getOrderDetailProduct($id);
+        if (count($listOrderDetailProduct) > 0) {
             return $result = "The order contains products that cannot be deleted!";
         } else {
             $isDelete = DB::transaction(function () use ($id) {
@@ -165,11 +168,7 @@ class ProductService
                 $this->imageRepository->deleteProductImage($id);
                 $this->productRepository->deleteProduct($id);
             });
-            if ($isDelete) {
-                return $result = "Delete category successful! ";
-            } else {
-                return $result = "Delete category error, please try again!";
-            }
+                return $result = "Delete products successful! ";
         }
 
 

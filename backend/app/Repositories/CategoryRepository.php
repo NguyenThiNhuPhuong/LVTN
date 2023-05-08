@@ -47,4 +47,9 @@ class CategoryRepository
             ->paginate($perPage);
         return $categorise;
     }
+
+    public function getAll()
+    {
+        return $this->modelClass::all();
+    }
 }

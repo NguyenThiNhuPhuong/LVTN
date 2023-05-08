@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -25,7 +26,7 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
-   /*----------------AUTH-------------------*/
+/*----------------AUTH-------------------*/
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
@@ -50,6 +51,9 @@ Route::group([
     Route::get('/wards/{id}', [AddressController::class, 'getWard']);
 
 });
+/*----------------DASHBOARD-------------------*/
+Route::get('/dashboard/total', [DashboardController::class, 'listTotalItem']);
+
 /*----------------USER-------------------*/
 
 Route::apiResource('users', UserController::class);

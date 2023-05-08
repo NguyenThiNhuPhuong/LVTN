@@ -78,9 +78,9 @@ class ProductRepository
 
     public function deleteProduct($id)
     {
-        $user = $this->modelClass::findOrFail($id);
-        $user->delete();
-        return $user;
+        $product = $this->modelClass::findOrFail($id);
+        return  $product->delete();
+
     }
 
     public function updateNumBuy($productId, $numBuy)

@@ -23,10 +23,19 @@ class DiscountController extends Controller
      */
     public function index(Request $request)
     {
-        $result = $this->discountService->getListDiscount($request->date);
+        $discounts = $this->discountService->getListDiscount($request->date,$request->per_page);
         return response()->json([
-            'total' => count($result),
-            'rows' => $result
+            'currentPage' => $discounts->currentPage(),
+            'data' => $discounts,
+            'first_page_url' => $discounts->url(1),
+            'last_page_url' => $discounts->url($discounts->lastPage()),
+            'prev_page_url' => $discounts->previousPageUrl(),
+            'next_page_url' => $discounts->nextPageUrl(),
+            'from' => $discounts->firstItem(),
+            'to' => $discounts->lastItem(),
+            'per_page' => $discounts->perPage(),
+            'totalPages' => $discounts->lastPage(),
+            'total' => $discounts->total(),
         ]);
     }
 
@@ -88,10 +97,19 @@ class DiscountController extends Controller
 
     public function listDiscountValid(Request $request)
     {
-        $result = $this->discountService->getListDiscountValid($request->date_time, $request->price_product);
+        $discounts = $this->discountService->getListDiscountValid($request->date_time, $request->price_product,$request->per_page);
         return response()->json([
-            'total' => count($result),
-            'rows' => $result
+            'currentPage' => $discounts->currentPage(),
+            'data' => $discounts,
+            'first_page_url' => $discounts->url(1),
+            'last_page_url' => $discounts->url($discounts->lastPage()),
+            'prev_page_url' => $discounts->previousPageUrl(),
+            'next_page_url' => $discounts->nextPageUrl(),
+            'from' => $discounts->firstItem(),
+            'to' => $discounts->lastItem(),
+            'per_page' => $discounts->perPage(),
+            'totalPages' => $discounts->lastPage(),
+            'total' => $discounts->total(),
         ]);
     }
 

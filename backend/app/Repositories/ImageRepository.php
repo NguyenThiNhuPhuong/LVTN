@@ -34,8 +34,10 @@ class ImageRepository
     }
 
     public function deleteProductImage($productId){
-        $image = $this->modelClass::where('product_id',$productId);
-        $image->delete();
-        return $image;
+        $images = $this->modelClass::where('product_id', $productId)->get();
+        foreach ($images as $image) {
+            $image->delete();
+        }
+        return $images;
     }
 }
