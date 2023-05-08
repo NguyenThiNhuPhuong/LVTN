@@ -128,4 +128,14 @@ class OrderController extends Controller
         ], 403);
 
     }
+
+    public function getPriceMonth(Request $request)
+    {
+        $priceAll = $this->orderService->getPriceMonth($request->year_month);
+
+        return response()->json([
+            'year_month' => $request->year_month,
+            'price_all'=>$priceAll
+        ] );
+    }
 }

@@ -6,6 +6,7 @@ use App\Models\Districts;
 use App\Models\Orders;
 use App\Models\Provinces;
 use App\Models\Wards;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -65,6 +66,20 @@ class OrderRepository
             })
             ->paginate($perPage);
         return $orders;
+    }
+
+    public function getPriceMonth($yearMonth)
+    {
+        $date = Carbon::parse($yearMonth . '-01');
+        $year = $date->year;
+        $month = $date->month;
+        $priceAll = $this->modelClass::whereMonth('date', $month)
+            ->WhereYear('date', $year)
+            ->whereNull('deleted_at')
+            ->where('order_status_id', '<>', 5)
+            ->where('order_status_id', '<>', 6)
+            ->sum('price_product');
+        return $priceAll;
     }
 }
 

@@ -318,5 +318,10 @@ class OrderService
         return $this->orderRepository->getListOrderUser($id, $statusId, $perPage);
     }
 
+    public function getPriceMonth($yearMonth)
+    {
+        return $this->orderRepository->getPriceMonth($yearMonth);
+    }
+
 
 }
