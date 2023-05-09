@@ -11,15 +11,18 @@ import ListOrder from "~/admin/modules/orders/pages/listOrder/ListOrder";
 import ListProduct from "~/admin/modules/products/pages/listProduct/ListProduct";
 import NewProduct from "~/admin/modules/products/pages/newProduct/NewProduct";
 import SingleProduct from "~/admin/modules/products/pages/singleProduct/SingleProduct";
+import EditProfile from "~/admin/modules/profile/page/EditProfile/EditProfile";
 import Profile from "~/admin/modules/profile/page/Profile/Profile";
 import ListSlider from "~/admin/modules/slider/pages/ListSlider/ListSlider";
 import NewSlider from "~/admin/modules/slider/pages/NewSlider/NewSlider";
 import SingleSlider from "~/admin/modules/slider/pages/SingleSlider/SingleSlider";
 import ListUser from "~/admin/modules/users/pages/listUsers/ListUser";
 import NewUser from "~/admin/modules/users/pages/newUser/NewUser";
+import SingleUser from "~/admin/modules/users/pages/singleUser/SingleUser";
 import routeServer from "~/config/routeServer";
 
 const PRIVATE_ROUTES = [
+  //DASHBOARD
   {
     path: routeServer.dashboard,
     component: DashBoard,
@@ -79,14 +82,26 @@ const PRIVATE_ROUTES = [
     component: ListUser,
     layoutOne: DefaultLayoutAdmin,
   },
+
+  {
+    path: routeServer.newUser,
+    component: NewUser,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  {
+    path: routeServer.editUser,
+    component: SingleUser,
+    layoutOne: DefaultLayoutAdmin,
+  },
+  //PROFILE
   {
     path: routeServer.singleProfile,
     component: Profile,
     layoutOne: DefaultLayoutAdmin,
   },
   {
-    path: routeServer.newUser,
-    component: NewUser,
+    path: routeServer.editProfile,
+    component: EditProfile,
     layoutOne: DefaultLayoutAdmin,
   },
   //ORDER

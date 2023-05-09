@@ -19,26 +19,26 @@ export const newUser = async (newUser) => {
     console.log(error);
   }
 };
-
-export const removeUser = async (id) => {
+//GET A USER
+export const getAUser = async (id) => {
   try {
-    const res = await httpRequest.post(`user/delete`, { id });
-    return res;
+    const res = await httpRequest.get(`users/${id}`);
+    return res.data;
   } catch (error) {
     console.log(error);
   }
 };
-
-export const editUser = async (id, name, active) => {
+//UPDATE USER
+export const updateUser = async (updateUser) => {
   try {
-    const res = await httpRequest.post(`user/update`, { id, name, active });
+    const res = await httpRequest.post(`user/update`, updateUser);
     return res;
   } catch (error) {
     console.log(error);
   }
 };
 //GET USER PROFILE
-export const getAUser = async () => {
+export const getUserProfile = async () => {
   try {
     const res = await httpRequest.get(`auth/user-profile`);
     return res.data;

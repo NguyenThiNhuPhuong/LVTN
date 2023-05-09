@@ -19,7 +19,6 @@ function DiscountItem() {
   const { discountList, alertDeleteSuccess } = useSelector(
     (state) => state.discount
   );
-  console.log("discountList", discountList);
   useEffect(() => {
     if (alertDeleteSuccess !== "") {
       dispatch(getDiscounts());

@@ -8,7 +8,11 @@ import "./Payment.scss";
 import Swal from "sweetalert2";
 import { setUserInfo } from "~/redux/slice/auth/AuthSlice";
 import { totalAllCart, totalCart } from "~/redux/slice/cart/CartSlice";
-import { checkDiscount, setCode } from "~/redux/slice/discount/DiscountSlice";
+import {
+  checkDiscount,
+  listDiscountValid,
+  setCode,
+} from "~/redux/slice/discount/DiscountSlice";
 import { newOrder } from "~/redux/slice/order/OrderSlice";
 import Login from "../../Auth/page/login/Login";
 import {
@@ -24,7 +28,9 @@ export default function Payment() {
   const { priceCart, listCart, priceShip, priceAllCart } = useSelector(
     (state) => state.cart
   );
-  const { code, discount, codeName } = useSelector((state) => state.discount);
+  const { code, discount, codeName, ListDiscountValid } = useSelector(
+    (state) => state.discount
+  );
   const { isSuccessNew } = useSelector((state) => state.order);
 
   const { token, userInfo } = useSelector((state) => state.auth);
@@ -66,6 +72,25 @@ export default function Payment() {
     );
     dispatch(setCode(""));
   };
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const date = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+
+    return `${year}/${month}/${date} ${hours}:${minutes}:${seconds}`;
+  };
+  useEffect(() => {
+    dispatch(
+      listDiscountValid({
+        date_time: getCurrentDateTime(),
+        price_product: priceCart,
+      })
+    );
+  }, [dispatch, priceCart]);
   const handelSubmit = (e) => {
     e.preventDefault();
     dispatch(
@@ -77,6 +102,9 @@ export default function Payment() {
         cart: listCart,
       })
     );
+  };
+  const copyText = (code) => {
+    return navigator.clipboard.writeText(`${code}`);
   };
   return token ? (
     <div className="PaymentContainer">
@@ -235,6 +263,25 @@ export default function Payment() {
                 </table>
               </div>
             ))}
+            <div className="sidebar-content">
+              <div className="coupon">
+                <h4>Một số Discount gợi ý cho bạn:</h4>
+                <div className="listCoupon">
+                  {ListDiscountValid.map((discount, index) => {
+                    return (
+                      <div
+                        type="button"
+                        className="couponItem"
+                        key={index}
+                        onClick={() => copyText(discount.code)}
+                      >
+                        {discount.code}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
             <div className="sidebar-content">
               <div className="discount">
                 <input

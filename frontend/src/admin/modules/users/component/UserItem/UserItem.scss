@@ -7,59 +7,14 @@
       display: flex;
       align-items: center;
       font-size: 1.6rem;
-      padding: 5px;
+      padding: 10px 5px;
       border-right: 1px solid black;
     }
     &--action {
-      margin: 10px;
-      margin-left: 40px;
-      border-right: none !important;
-      section {
-        &:nth-of-type(n) {
-          label {
-            display: inline-block;
-            position: relative;
-            height: 44px;
-            width: 90px;
-            background-color: lightgray;
-            cursor: pointer;
-            font-size: 0;
-            color: transparent;
-            border-radius: 22px;
-            transition: background-color 500ms ease;
-
-            &:after {
-              content: "";
-              display: block;
-              height: 40px;
-              width: 40px;
-              position: absolute;
-              top: 2px;
-              right: 48px;
-              border-radius: 50%;
-              background-color: #e8e8e8;
-              box-shadow: 2px 0px 0px rgba(0, 0, 0, 0.15);
-              transition: right 500ms ease, background-color 500ms ease,
-                box-shadow 500ms ease;
-            }
-          }
-          input {
-            position: absolute !important;
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            bottom: 0;
-          }
-          input:checked + label {
-            background: var(--mainColor);
-          }
-          input:checked + label:after {
-            right: 2px;
-            background-color: #fff;
-            box-shadow: -2px 0px 0px rgba(0, 0, 0, 0.1);
-          }
-        }
+      display: flex;
+      justify-content: center !important;
+      svg {
+        color: var(--mainColor);
       }
     }
   }

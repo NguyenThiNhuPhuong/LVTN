@@ -3,7 +3,7 @@ const routeServer = {
   //user
   listUser: "/admin/user",
   newUser: "/admin/user/newUser",
-  editUser: "/admin/user/edituser/:id",
+  editUser: "/admin/user/editUser/:id",
 
   //Product
   listProduct: "/admin/product",
@@ -36,8 +36,9 @@ const routeServer = {
   newDiscount: "/admin/discount/newDiscount",
   editDiscount: "/admin/discount/:id",
 
-  //
+  //profile
   singleProfile: "/admin/profile",
+  editProfile: "admin/profile/editProfile/:id",
 };
 
 export default routeServer;

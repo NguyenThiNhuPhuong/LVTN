@@ -1,20 +1,30 @@
 import classNames from "classnames/bind";
+import styles from "../../component/Auth.module.scss";
+
 import { useFormik } from "formik";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+
 import { MENU_LOGIN } from "~/components/constant/Menu";
-import { setOpenModal, signInUser } from "~/redux/slice/auth/AuthSlice";
-import styles from "../../component/Auth.module.scss";
+
+import {
+  setOpenModal,
+  setUpdateEmail,
+  signInUser,
+} from "~/redux/slice/auth/AuthSlice";
 import FormRegister from "../../component/FormRegister/FormRegister";
-import { useEffect } from "react";
+
 const cx = classNames.bind(styles);
 
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { role, isOpenModal } = useSelector((state) => state.auth);
   const password = `^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
+
   //-----authorization---------
   useEffect(() => {
     if (role === 1) {
@@ -27,25 +37,35 @@ export default function Login() {
       navigate("/login");
     }
   }, [navigate, role]);
+
   //----open modal------
   const Modal = () => {
     return (
       <div id="myModal" className={cx("modal")}>
         <div className={cx("modal-content")}>
-          <h3>Quên Mật khẩu</h3>
-          <span
-            className={cx("close")}
-            onClick={() => dispatch(setOpenModal(false))}
-          >
-            &times;
-          </span>
-          <label for="inputField">Nhập Email </label>
-          <input type="text" id="inputField" />
-          <button id="submitBtn">Submit</button>
+          <div className={cx("modal-content__top")}>
+            <h3>Quên Mật khẩu</h3>
+            <span onClick={() => dispatch(setOpenModal(false))}>
+              <div className={cx("close")}>&times;</div>
+            </span>
+          </div>
+          <div className={cx("modal-content__center")}>
+            <label htmlFor="inputField">Nhập Email </label>
+            <input
+              type="text"
+              id="inputField"
+              className={cx("input")}
+              onChange={(e) => dispatch(setUpdateEmail(e.target.value))}
+            />
+          </div>
+          <div className={cx("modal-content__btn")}>
+            <button id="submitBtn">Submit</button>
+          </div>
         </div>
       </div>
     );
   };
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -69,16 +89,18 @@ export default function Login() {
       {isOpenModal && <Modal />}
       <form className={cx("formRegister")} onSubmit={formik.handleSubmit}>
         <h3 className={cx("formRegister__heading")}>ĐĂNG NHẬP </h3>
-        {MENU_LOGIN.map((input) => (
-          <FormRegister
-            key={input.id}
-            {...input}
-            onChange={formik.handleChange}
-            value={formik.values[input.name]}
-            errors={formik.errors[input.name]}
-            touched={formik.touched[input.name]}
-          />
-        ))}
+        {MENU_LOGIN.map((input, index) => {
+          return (
+            <FormRegister
+              key={index}
+              {...input}
+              onChange={formik.handleChange}
+              value={formik.values[input.name]}
+              errors={formik.errors[input.name]}
+              touched={formik.touched[input.name]}
+            />
+          );
+        })}
         <div className={cx("formRegister__bottom")}>
           <div className={cx("formRegister__bottom--forgetPassword")}>
             <div className={cx("radio")}>
@@ -86,11 +108,11 @@ export default function Login() {
                 type="checkbox"
                 id=" Remember Me"
                 name=" Remember Me"
-                required
+                required={isOpenModal ? false : true}
               />
-              <label for=" Remember Me"> Remember Me</label>
+              <label htmlFor=" Remember Me"> Remember Me</label>
             </div>
-            <button onClick={() => dispatch(setOpenModal(true))}>
+            <button type="button" onClick={() => dispatch(setOpenModal(true))}>
               Quên mật khẩu
             </button>
           </div>

@@ -14,7 +14,7 @@ function Menu() {
           if (item.dropdown === true) {
             return (
               <div className={cx("menu__dropdown")} key={index}>
-                <MenuItem title={item.title} to={item.to} key={index} />
+                <MenuItem title={item.title} to={item.to} />
                 <div className={cx("menu__dropdown--content")}>
                   <Category />
                 </div>

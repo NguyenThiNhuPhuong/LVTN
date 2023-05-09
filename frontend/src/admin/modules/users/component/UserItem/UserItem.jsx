@@ -1,5 +1,8 @@
 import moment from "moment";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+
 import "./UserItem.scss";
 function UserItem() {
   const { userList } = useSelector((state) => state.user);
@@ -18,12 +21,9 @@ function UserItem() {
           {moment(user.updated_at).format("YYYY-MM-DD")}
         </div>
         <div className="user__row--action text">
-          <section>
-            <div class="input-wrap">
-              <input id="input-6" type="checkbox" />
-              <label for="input-6">Select</label>
-            </div>
-          </section>
+          <NavLink to={`/admin/user/editUser/${user.id}`}>
+            <VisibilityIcon />
+          </NavLink>
         </div>
       </div>
     );

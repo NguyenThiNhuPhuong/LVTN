@@ -1,47 +1,61 @@
-import React, { useEffect } from "react";
-import "./NewUser.scss";
-import { NavLink, useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
+import { useEffect } from "react";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 
 import { useDispatch, useSelector } from "react-redux";
-import { newUser, resetNewUser } from "~/redux/slice/user/UserSlice";
 import { ToastContainer, toast } from "react-toastify";
+import {
+  getAUser,
+  newUser,
+  resetUpdateUser,
+} from "~/redux/slice/user/UserSlice";
 
-function NewUser() {
+function EditProfile() {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userNew } = useSelector((state) => state.user);
-
+  const { userUpdate, singleUser } = useSelector((state) => state.user);
+  //   useEffect(() => {
+  //     return (
+  //       Object.keys(userUpdate).length !== 0
+  //         ? (toast.success(`Bạn đã tạo mới thành công `, {
+  //             position: toast.POSITION.TOP_RIGHT,
+  //           }),
+  //           dispatch(resetUpdateUser()),
+  //           setTimeout(() => navigate("/admin/user")),
+  //           5000)
+  //         : "",
+  //       [dispatch, navigate, userUpdate]
+  //     );
+  //   });
   useEffect(() => {
-    return (
-      Object.keys(userNew).length !== 0
-        ? (toast.success(`Bạn đã tạo mới thành công `, {
-            position: toast.POSITION.TOP_RIGHT,
-          }),
-          dispatch(resetNewUser()),
-          setTimeout(() => navigate("/admin/user")),
-          5000)
-        : "",
-      [dispatch, navigate, userNew]
-    );
-  });
+    dispatch(getAUser(id));
+  }, [dispatch, id]);
+  const initialValues = singleUser
+    ? {
+        name: singleUser.name,
+        email: singleUser.email,
+        phone: singleUser.phone,
+        password: "",
+        confirmPassword: "",
+      }
+    : {
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+      };
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      type: 2,
-      password: "",
-      confirmPassword: "",
-    },
+    initialValues,
     onSubmit: async (values) => {
       dispatch(newUser(values));
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Vui lòng điền vào trường này"),
       email: Yup.string().required("Vui lòng điền vào trường này"),
-      type: Yup.string().required("Vui lòng điền vào trường này"),
       password: Yup.string()
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
@@ -98,6 +112,18 @@ function NewUser() {
             <div className="content__input">
               <input
                 type="text"
+                name="phone"
+                onChange={formik.handleChange}
+                value={formik.values.phone}
+              />
+              <label>Số điện thoại</label>
+              {formik.errors.phone && formik.touched.phone && (
+                <p>{formik.errors.phone}</p>
+              )}
+            </div>
+            <div className="content__input">
+              <input
+                type="text"
                 name="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
@@ -132,38 +158,6 @@ function NewUser() {
                   <p>{formik.errors.confirmPassword}</p>
                 )}
             </div>
-            <div className="sidebar__container">
-              <input
-                type="radio"
-                id="admin"
-                name="type"
-                value={1}
-                checked={formik.values.type === "1"}
-                onChange={formik.handleChange}
-              />
-              <label htmlFor="admin">Admin</label>
-              <input
-                type="radio"
-                id="user"
-                name="type"
-                value={2}
-                checked={formik.values.type === "2"}
-                onChange={formik.handleChange}
-              />
-              <label htmlFor="user">Khách hàng</label>
-              <input
-                type="radio"
-                id="user"
-                name="type"
-                value={3}
-                checked={formik.values.type === "3"}
-                onChange={formik.handleChange}
-              />
-              <label htmlFor="user">Shipper</label>
-              {formik.errors.type && formik.touched.type && (
-                <p>{formik.errors.type}</p>
-              )}
-            </div>
           </div>
 
           <div className="bottom">
@@ -180,4 +174,4 @@ function NewUser() {
   );
 }
 
-export default NewUser;
+export default EditProfile;

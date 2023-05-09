@@ -9,7 +9,7 @@ import Drawer from "./component/drawer/Drawer";
 
 const cx = classNames.bind(styles);
 
-function Header(props) {
+function Header() {
   return (
     <header className={cx("wrapper")}>
       <Drawer />

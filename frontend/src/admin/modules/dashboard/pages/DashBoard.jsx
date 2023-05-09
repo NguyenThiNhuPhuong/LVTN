@@ -4,6 +4,8 @@ import Widget from "../component/widget/Widget";
 import { useDispatch } from "react-redux";
 import { getTotalItem } from "~/redux/slice/dashboard/DashboardSlice";
 import "./DashBoard.scss";
+import RevenueChart from "../component/RevenueChart/RevenueChart";
+import OrderStatusChart from "../component/OrderStatusChart/OrderStatusChart";
 const DashBoard = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -17,6 +19,14 @@ const DashBoard = () => {
         <Widget type="order" />
         <Widget type="discount" />
         <Widget type="category" />
+      </div>
+      <div className="Chart">
+        <div>
+          <OrderStatusChart />
+        </div>
+        <div>
+          <RevenueChart />
+        </div>
       </div>
     </div>
   );

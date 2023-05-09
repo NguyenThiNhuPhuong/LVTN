@@ -7,13 +7,13 @@ import { resetParams } from "~/redux/slice/product/ProductSlice";
 
 const cx = classNames.bind(styles);
 
-function MenuItem({ title, to, key }) {
+function MenuItem({ title, to }) {
   const dispatch = useDispatch();
   return (
     <NavLink
+      key={to}
       className={cx("menu__item")}
       to={to}
-      key={key}
       onClick={() => dispatch(resetParams())}
     >
       <span className={cx("menu__item--title")}>{title}</span>

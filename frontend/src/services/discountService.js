@@ -2,9 +2,13 @@ import Swal from "sweetalert2";
 import * as httpRequest from "~/httpRequest/httpRequest";
 
 //API GET LIST DISCOUNT
-export const getDiscount = async () => {
+export const getDiscount = async ({ page }) => {
   try {
-    const res = await httpRequest.get(`discounts`);
+    let params = "";
+    if (page !== undefined) {
+      params += `page=${page}&`;
+    }
+    const res = await httpRequest.get(`discounts?per_page=12&${params}`);
     return res;
   } catch (error) {
     console.log(error);
@@ -76,6 +80,21 @@ export const getDiscountByCode = async ({ code, price_product }) => {
   try {
     const res = await httpRequest.get(
       `discounts/list/check-discount?discount_code=${code}&price_product=${price_product}`
+    );
+    return res;
+  } catch (error) {
+    Swal.fire({
+      title: "Error",
+      text: "Đơn hàng của bạn chưa đủ điều kiện",
+      icon: "error",
+    });
+  }
+};
+//CHECK DISCOUNT BY DATE AND TIME
+export const listDiscountValid = async ({ date_time, price_product }) => {
+  try {
+    const res = await httpRequest.get(
+      `discounts/list/valid?date_time=${date_time}&price_product=${price_product}}`
     );
     return res;
   } catch (error) {
