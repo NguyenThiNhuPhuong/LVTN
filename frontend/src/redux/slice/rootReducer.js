@@ -8,6 +8,7 @@ import filesReducer from "./file/FileSlice";
 import addressReducer from "./address/AddressSlice";
 import orderReducer from "./order/OrderSlice";
 import userReducer from "./user/UserSlice";
+import dashboardReducer from "./dashboard/DashboardSlice";
 
 import { combineReducers } from "@reduxjs/toolkit";
 
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   file: filesReducer,
   address: addressReducer,
   order: orderReducer,
+  dashboard: dashboardReducer,
 });
 
 export { rootReducer };
