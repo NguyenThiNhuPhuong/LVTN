@@ -13,29 +13,75 @@
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
+
+    &-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 30%;
+      height: 200px;
+      &__top {
+        display: grid;
+        grid-template-columns: 1fr 140px;
+        align-items: center;
+        h3 {
+          display: flex;
+          justify-content: flex-end;
+        }
+        span {
+          display: flex;
+          justify-content: flex-end;
+        }
+        .close {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          background-color: var(--mainColor);
+          color: white;
+        }
+
+        .close:hover,
+        .close:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+        }
+      }
+      &__center {
+        display: grid;
+        grid-template-columns: 1fr;
+        padding-top: 10px;
+        label {
+          font-size: 1.4rem;
+          color: black;
+        }
+        input {
+          margin-top: 10px;
+          border: 1px solid gray;
+          padding: 10px;
+        }
+      }
+      &__btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-top: 20px;
+        button {
+          width: 150px;
+          background-color: var(--mainColor);
+          padding: 5px;
+          border-radius: 5px;
+        }
+      }
+    }
   }
 
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 30%;
-  }
-
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
   .formRegister {
     display: flex;
     flex-direction: column;
@@ -79,6 +125,10 @@
             padding: 0;
             accent-color: var(--backgroundIcon);
           }
+        }
+        button {
+          background-color: white;
+          color: var(--mainColor);
         }
       }
       &--btn {

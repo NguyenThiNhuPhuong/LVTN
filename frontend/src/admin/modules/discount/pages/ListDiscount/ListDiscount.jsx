@@ -2,17 +2,24 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "~/admin/component/Loading/Loading";
 import Top from "~/admin/layouts/component/top/Top";
-import { getDiscounts } from "~/redux/slice/discount/DiscountSlice";
+import { getDiscounts, setParams } from "~/redux/slice/discount/DiscountSlice";
 import "./ListDiscount.scss";
 import DiscountItem from "../../component/DiscountItem/DiscountItem";
+import Pagination from "~/admin/layouts/component/Pagination/Pagination";
 const ListDiscount = () => {
-  const { isLoading } = useSelector((state) => state.discount);
+  const { isLoading, currentPage, totalPages, params } = useSelector(
+    (state) => state.discount
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getDiscounts());
-  }, [dispatch]);
-
+    dispatch(getDiscounts(params));
+  }, [dispatch, params]);
+  //-----------------change Page---------------------------------------
+  const handlePageChange = (e, pageNumber) => {
+    e.preventDefault();
+    dispatch(setParams({ ...params, page: pageNumber }));
+  };
   const Discount = () => {
     return (
       <div className="ListDiscountContainer">
@@ -29,6 +36,13 @@ const ListDiscount = () => {
           </div>
           <DiscountItem />
         </div>
+        {totalPages > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     );
   };

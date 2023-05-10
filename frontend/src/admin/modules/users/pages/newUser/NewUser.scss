@@ -1,16 +1,23 @@
 .ProfileContainer {
-  padding: 30px;
+  padding: 10px 30px;
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 30px;
   &__top {
-    width: 150px;
+    display: flex;
+    justify-content: flex-end;
     a {
-      color: var(--mainColor);
       font-size: 1.8rem;
+      background-color: var(--mainColor);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    span {
-      font-size: 1.4rem;
+    svg {
+      color: white;
     }
   }
   &__container {
@@ -123,6 +130,10 @@
           background-color: white;
           padding: 5px;
           box-sizing: border-box;
+        }
+        p {
+          color: red;
+          font-size: 1.4rem;
         }
       }
       .sidebar {

@@ -3,10 +3,9 @@ import * as discountService from "../../../services/discountService";
 //GET LIST DISCOUNT
 export const getDiscounts = createAsyncThunk(
   "discount/getDiscounts",
-  async () => {
-    const response = await discountService.getDiscount();
-    console.log("response", response);
-    return response.rows;
+  async (params) => {
+    const response = await discountService.getDiscount(params);
+    return response;
   }
 );
 //GET LIST DISCOUNT BY DATE FOR USER
@@ -14,7 +13,8 @@ export const getListDiscountByDate = createAsyncThunk(
   "discount/getListDiscountByDate",
   async (date) => {
     const response = await discountService.getListDiscountByDate(date);
-    return response.rows;
+    console.log(response);
+    return response.data.data;
   }
 );
 //API GET A DISCOUNT
@@ -57,11 +57,22 @@ export const checkDiscount = createAsyncThunk(
     return response.discount;
   }
 );
+//CHECK DISCOUNT BY DATE AND TIME AND MONEY FOR USER
+export const listDiscountValid = createAsyncThunk(
+  "discount/listDiscountValid",
+  async (discount) => {
+    const response = await discountService.listDiscountValid(discount);
+    console.log(response);
+    return response.data.data;
+  }
+);
 const discountSlice = createSlice({
   name: "discount",
   initialState: {
     discountList: [],
     ListDiscountByDate: [],
+    ListDiscountValid: [],
+
     isLoading: false,
     code: "",
     codeName: "",
@@ -71,6 +82,13 @@ const discountSlice = createSlice({
 
     isLoadingRemove: false,
     alertDeleteSuccess: "",
+
+    currentPage: 0,
+    totalPages: 0,
+    params: {
+      page: "",
+      per_page: "",
+    },
   },
   reducers: {
     setCode(state, action) {
@@ -78,6 +96,9 @@ const discountSlice = createSlice({
     },
     setSingleDiscount(state, action) {
       state.discountSingle = action.payload;
+    },
+    setParams(state, action) {
+      state.params = action.payload;
     },
     resetNewDiscount: (state) => {
       state.discountNew = {};
@@ -98,7 +119,9 @@ const discountSlice = createSlice({
     },
     [getDiscounts.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.discountList = action.payload;
+      state.discountList = action.payload.data.data;
+      state.currentPage = action.payload.currentPage;
+      state.totalPages = action.payload.totalPages;
     },
     [getListDiscountByDate.pending]: (state) => {
       state.isLoading = true;
@@ -114,6 +137,13 @@ const discountSlice = createSlice({
       state.isLoading = false;
       state.discount = action.payload.discount;
       state.codeName = action.payload.code;
+    },
+    [listDiscountValid.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [listDiscountValid.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.ListDiscountValid = action.payload;
     },
     [getADiscount.pending]: (state) => {
       state.isLoading = true;
@@ -149,6 +179,7 @@ const discountSlice = createSlice({
 export const {
   setCode,
   setSingleDiscount,
+  setParams,
   resetNewDiscount,
   resetADiscount,
   resetUpdateDiscount,

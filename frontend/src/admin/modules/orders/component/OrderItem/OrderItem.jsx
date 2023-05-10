@@ -24,6 +24,11 @@ function OrderItem() {
                     : orderItem.order_status_id === 5
                     ? "red"
                     : "green",
+                color:
+                  orderItem.order_status_id === 1 ||
+                  orderItem.order_status_id === 5
+                    ? "black"
+                    : "white",
               }}
             >
               {orderItem.order_status_name}

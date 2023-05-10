@@ -4,19 +4,19 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+import { useSelector } from "react-redux";
 
-const Widget = ({ type }) => {
+const Widget = ({ type, amount }) => {
   let data;
+  const { dashboardList } = useSelector((state) => state.dashboard);
 
   //temporary
-  const amount = 100;
   const diff = 20;
 
   switch (type) {
     case "user":
       data = {
         title: "USERS",
-        isMoney: false,
         link: "See all users",
         icon: (
           <PersonOutlinedIcon
@@ -27,12 +27,12 @@ const Widget = ({ type }) => {
             }}
           />
         ),
+        amount: dashboardList.user,
       };
       break;
     case "order":
       data = {
         title: "ORDERS",
-        isMoney: false,
         link: "View all orders",
         icon: (
           <ShoppingCartOutlinedIcon
@@ -43,12 +43,12 @@ const Widget = ({ type }) => {
             }}
           />
         ),
+        amount: dashboardList.order,
       };
       break;
-    case "earning":
+    case "category":
       data = {
-        title: "EARNINGS",
-        isMoney: true,
+        title: "CATEGORY",
         link: "View net earnings",
         icon: (
           <MonetizationOnOutlinedIcon
@@ -56,12 +56,12 @@ const Widget = ({ type }) => {
             style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
           />
         ),
+        amount: dashboardList.category,
       };
       break;
-    case "balance":
+    case "discount":
       data = {
-        title: "BALANCE",
-        isMoney: true,
+        title: "DISCOUNT",
         link: "See details",
         icon: (
           <AccountBalanceWalletOutlinedIcon
@@ -72,6 +72,7 @@ const Widget = ({ type }) => {
             }}
           />
         ),
+        amount: dashboardList.discount,
       };
       break;
     default:
@@ -85,7 +86,7 @@ const Widget = ({ type }) => {
           {data.title}
         </span>
         <span className="widgetAdminContainer__left--counter">
-          {data.isMoney && "$"} {amount}
+          {data.amount}
         </span>
         <span className="widgetAdminContainer__left--link">{data.link}</span>
       </div>

@@ -1,10 +1,13 @@
-import Top from "~/admin/layouts/component/top/Top";
-import UserItem from "../../component/UserItem/UserItem";
-import "./ListUser.scss";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getListUser } from "~/redux/slice/user/UserSlice";
+
+import Top from "~/admin/layouts/component/top/Top";
+import UserItem from "../../component/UserItem/UserItem";
 import Loading from "~/admin/component/Loading/Loading";
+
+import "./ListUser.scss";
+
+import { getListUser } from "~/redux/slice/user/UserSlice";
 
 function ListUser() {
   const dispatch = useDispatch();

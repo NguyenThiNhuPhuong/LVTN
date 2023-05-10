@@ -48,6 +48,9 @@
           span {
             color: white;
           }
+          &:hover {
+            cursor: pointer;
+          }
           &:active {
             opacity: 0.8;
           }
@@ -55,8 +58,12 @@
         &--toggle {
           display: flex;
           justify-content: flex-end;
-          color: blue;
+          color: rgb(0, 0, 255);
           font-size: 1.4rem;
+          &:hover {
+            cursor: pointer;
+            color: rgb(0, 0, 255, 0.5);
+          }
         }
       }
     }

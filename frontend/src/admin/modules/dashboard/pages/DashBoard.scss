@@ -1,16 +1,22 @@
 .dashBoardContainer {
   padding: 30px;
-  //   background-color: #f2f2f2;
-
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 50px;
   .title {
-    font-size: 30px;
+    font-size: 40px;
     font-weight: bolder;
     padding-left: 20px;
   }
   .widgetAdmin {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    column-gap: 20px;
+    column-gap: 30px;
     padding: 20px;
+  }
+  .Chart {
+    display: grid;
+    grid-template-columns: 300px 800px;
+    column-gap: 50px;
   }
 }
