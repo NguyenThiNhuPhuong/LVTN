@@ -32,7 +32,7 @@ class OrderController extends Controller
      */
     public function index(OrderRequest $request)
     {
-        $orders = $this->orderService->getListOrder($request->status_id,$request->per_page);
+        $orders = $this->orderService->getListOrder($request->status_id, $request->per_page);
         $result = $this->orderService->repariListDataOrder($orders->items());
         return response()->json([
             'currentPage' => $orders->currentPage(),
@@ -107,7 +107,7 @@ class OrderController extends Controller
     {
         $currentUser = Auth::user();
         if ($currentUser->type == 1 || $currentUser->id == $id) {
-            $orders = $this->orderService->getListOrderUser($id, $request->status_id,$request->per_page);
+            $orders = $this->orderService->getListOrderUser($id, $request->status_id, $request->per_page);
             $result = $this->orderService->repariListDataOrder($orders->items());
             return response()->json([
                 'currentPage' => $orders->currentPage(),
@@ -135,12 +135,21 @@ class OrderController extends Controller
 
         return response()->json([
             'year_month' => $request->year_month,
-            'price_all'=>$priceAll
-        ] );
+            'price_all' => $priceAll
+        ]);
     }
+
     public function getPriceFullMonth(Request $request)
     {
-        $result=$this->orderService->getPriceFullMonth($request->year);
-        return response()->json([$result] );
+        $result = $this->orderService->getPriceFullMonth($request->year);
+        return response()->json([$result]);
+    }
+
+    public function getTotalStatus()
+    {
+        $result = $this->orderService->getTotalStatus();
+        return response()->json([
+            $result
+        ]);
     }
 }

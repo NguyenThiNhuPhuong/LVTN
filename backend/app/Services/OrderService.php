@@ -9,7 +9,6 @@ use App\Repositories\DiscountRepository;
 use App\Repositories\ImageRepository;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderRepository;
-use App\Repositories\OrderStatusRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\UserRepository;
 use Carbon\Carbon;
@@ -24,7 +23,6 @@ class OrderService
     protected $productRepository;
     protected $userRepository;
     protected $addressRepository;
-    protected $orderStatusRepository;
     protected $discountRepository;
     protected $imageRepository;
 
@@ -39,7 +37,7 @@ class OrderService
         $this->userRepository = new UserRepository;
         $this->addressRepository = new AddressRepository;
         $this->discountRepository = new DiscountRepository;
-        $this->orderStatusRepository = new OrderStatusRepository;
+
 
     }
 
@@ -358,6 +356,11 @@ class OrderService
            $dataFullMonth[$month]=$data;
        }
        return $dataFullMonth;
+    }
+
+    public function getTotalStatus()
+    {
+        return $this->orderRepository->getTotalStatus();
     }
 
 

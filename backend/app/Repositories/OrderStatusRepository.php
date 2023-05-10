@@ -3,7 +3,8 @@
 namespace App\Repositories;
 use App\Models\OrderStatus;
 
-class OrderStatusRepository
+
+class UserTypeRepository
 {
 
     protected $modelClass = OrderStatus::class;
@@ -11,29 +12,9 @@ class OrderStatusRepository
 
     public function getAllOrderStatus()
     {
-        return  $this->modelClass::all();
+        return  $this->modelClass::all()->toArray();
     }
 
-    public function getOrderStatus($orderStatusId)
-    {
-        return  $this->modelClass::find($orderStatusId);
-    }
 
-    public function createOrderStatus($data)
-    {
-        return $this->modelClass::create($data);
 
-    }
-    public function updateOrderStatus($id, $data)
-    {
-        $orderStatus = $this->modelClass::findOrFail($id);
-        $orderStatus->update($data);
-        return $orderStatus;
-    }
-
-    public function deleteOrderStatus($id){
-        $orderStatus = $this->modelClass::findOrFail($id);
-        $orderStatus->delete();
-        return $orderStatus;
-    }
 }

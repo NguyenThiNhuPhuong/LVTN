@@ -96,6 +96,16 @@ class OrderRepository
         return $priceAll;
     }
 
+    public function getTotalStatus()
+    {
+        $statusCounts = $this->modelClass::select('order_status.name', DB::raw('COALESCE(COUNT(orders.id), 0) as total'))
+            ->rightJoin('order_status', 'order_status.id', '=', 'orders.order_status_id')
+            ->groupBy('order_status.name')
+            ->pluck('total', 'order_status.name')->toArray();
+        return $statusCounts;
+    }
+
+
 }
 
 
