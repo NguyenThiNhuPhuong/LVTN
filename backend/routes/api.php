@@ -76,6 +76,7 @@ Route::apiResource('orders', OrderController::class);
 Route::put('/orders/status/{id}', [OrderController::class, 'updateByStatus']);
 Route::get('/orders/user/{id}', [OrderController::class, 'listOrderOfUser']);
 Route::get('revenue/orders', [OrderController::class, 'getPriceMonth']);
+Route::get('revenue/orders/full-month', [OrderController::class, 'getPriceFullMonth']);
 
 
 /*----------------SLIDER-------------------*/

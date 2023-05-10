@@ -29,6 +29,7 @@ class OrderService
     protected $imageRepository;
 
 
+
     public function __construct()
     {
         $this->orderRepository = new OrderRepository;
@@ -39,6 +40,7 @@ class OrderService
         $this->addressRepository = new AddressRepository;
         $this->discountRepository = new DiscountRepository;
         $this->orderStatusRepository = new OrderStatusRepository;
+
     }
 
     public function createOrder($request)
@@ -113,12 +115,23 @@ class OrderService
         return $rresult;
     }
 
-    public function getListOrder($statusId,$perPage)
+    public function getListOrder($statusId, $perPage)
     {
-        if (isset($statusId)) {
-            return $this->orderRepository->getListOrder($statusId,$perPage);
+        $user = Auth::user();
+
+        if ($user->type == 1) {
+            return $this->orderRepository->getListOrderAdmin($statusId, $perPage);
         }
-        return $this->orderRepository->getAllOrder($perPage);
+        if ($user->type == 2) {
+            return $this->orderRepository->getListOrderUser($user->id, $statusId, $perPage);
+        }
+        if ($user->type == 3) {
+            if ($statusId == 2 || $statusId == 3 || $statusId == 4 || $statusId == 6){
+                return $this->orderRepository->getListOrderShiper($statusId, $perPage);
+            }
+               return [];
+        }
+
 
     }
 
@@ -321,6 +334,30 @@ class OrderService
     public function getPriceMonth($yearMonth)
     {
         return $this->orderRepository->getPriceMonth($yearMonth);
+    }
+
+    public function getPriceFullMonth( $year)
+    {
+        $dataFullMonth=[];
+        $fullMonth=[
+            $year.'-'.'01',
+            $year.'-'.'02',
+            $year.'-'.'03',
+            $year.'-'.'04',
+            $year.'-'.'05',
+            $year.'-'.'06',
+            $year.'-'.'07',
+            $year.'-'.'08',
+            $year.'-'.'09',
+            $year.'-'.'10',
+            $year.'-'.'11',
+            $year.'-'.'12',
+        ];
+       foreach ($fullMonth as $month){
+           $data=$this->getPriceMonth($month);
+           $dataFullMonth[$month]=$data;
+       }
+       return $dataFullMonth;
     }
 
 

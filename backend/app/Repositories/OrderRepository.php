@@ -22,13 +22,26 @@ class OrderRepository
         return $this->modelClass::paginate($perPage);;
     }
 
-    public function getListOrder($statusId, $perPage = null)
+    public function getListOrderAdmin($statusId, $perPage = null)
     {
         $perPage = $perPage ?? $this->perPage;
-        return $this->modelClass::where('order_status_id', $statusId)->paginate($perPage);
+        return $this->modelClass::when($statusId, function ($query) use ($statusId) {
+            $query->where('order_status_id', $statusId);
+        })->paginate($perPage);
     }
 
-
+    public function getListOrderShiper($statusId, $perPage = null)
+    {
+        $perPage = $perPage ?? $this->perPage;
+        return $this->modelClass::when($statusId, function ($query) use ($statusId) {
+            $query->where('order_status_id', $statusId);
+        },function ($query) {
+            $query->where('order_status_id', 2)
+                ->where('order_status_id', 3)
+                ->where('order_status_id', 4)
+                ->where('order_status_id', 6);
+        })->paginate($perPage);
+    }
     public function getOrder($id)
     {
         return $this->modelClass::find($id);
@@ -66,6 +79,7 @@ class OrderRepository
             })
             ->paginate($perPage);
         return $orders;
+
     }
 
     public function getPriceMonth($yearMonth)
@@ -81,6 +95,7 @@ class OrderRepository
             ->sum('price_product');
         return $priceAll;
     }
+
 }
 
 
