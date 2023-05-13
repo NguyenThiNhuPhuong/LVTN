@@ -1,14 +1,16 @@
-import { Bar } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
   Tooltip,
-  Legend,
 } from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { useSelector } from "react-redux";
 const RevenueChart = () => {
+  const { totalRevenue } = useSelector((state) => state.dashboard);
   // Đăng ký scale 'linear'
   ChartJS.register(
     CategoryScale,
@@ -18,6 +20,7 @@ const RevenueChart = () => {
     Tooltip,
     Legend
   );
+
   const data = {
     labels: [
       "Tháng 1",
@@ -36,7 +39,7 @@ const RevenueChart = () => {
     datasets: [
       {
         label: "Doanh thu",
-        data: [1000, 2000, 1500, 3000, 2500, 4000, 5000],
+        data: totalRevenue,
         backgroundColor: "rgb(75, 192, 192)",
         borderWidth: 1,
       },
