@@ -74,7 +74,6 @@ class UserRequest extends FormRequest
 
     public function rules(): array
     {
-        dd($this->route());
         if ($this->isMethod('post')) {
             return $this->addRules();
         } elseif ($this->isMethod('put')) {

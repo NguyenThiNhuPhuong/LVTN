@@ -103,22 +103,23 @@ class UserService
     public function changePassword($request)
     {
         $user = Auth::user();
-        $request=[
+        $result=[
             'message' =>'The current password is incorrect, please try again!',
             'status' =>500
         ];
 
-        if ($user->password == Hash::make($request->current_password)) {
+        if (Hash::check($request->current_password, $user->password)) {
+
             $data = [
-                'password' => $request->new_password,
+                'password' => Hash::make($request->new_password),
             ];
             $this->userRepository->updateUser($user->id, $data);
-            $request=[
+            $result=[
                 'message' =>'Change password successfully!',
                 'status' =>200
             ];
         }
-        return $request;
+        return $result;
     }
 
 
