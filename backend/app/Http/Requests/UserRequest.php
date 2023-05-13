@@ -43,14 +43,15 @@ class UserRequest extends FormRequest
             ],
             'password' => 'required|string|min:6',
             'confirmPassword'=> 'required|string|same:password|min:6',
+            'file'=>'image',
         ];
 
     }
 
     public function updateRules($id): array
     {
-
-        return [
+        $validate=[];
+        $validate= [
             'name' => 'required|string',
             'type' => [
                 'required',
@@ -68,11 +69,12 @@ class UserRequest extends FormRequest
             ],
            'file'=>'image',
         ];
+        return $validate;
     }
 
     public function rules(): array
     {
-
+        dd($this->route());
         if ($this->isMethod('post')) {
             return $this->addRules();
         } elseif ($this->isMethod('put')) {

@@ -45,4 +45,6 @@ class UserRepository
     {
         return $this->modelClass::all();
     }
+
+
 }

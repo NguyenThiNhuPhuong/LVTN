@@ -25,7 +25,7 @@ class OrderService
     protected $addressRepository;
     protected $discountRepository;
     protected $imageRepository;
-
+    private $orderStatusRepository;
 
 
     public function __construct()
@@ -37,6 +37,7 @@ class OrderService
         $this->userRepository = new UserRepository;
         $this->addressRepository = new AddressRepository;
         $this->discountRepository = new DiscountRepository;
+        $this->orderStatusRepository = new OrderStatusService;
 
 
     }

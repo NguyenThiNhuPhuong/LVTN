@@ -23,7 +23,7 @@ class DiscountController extends Controller
      */
     public function index(Request $request)
     {
-        $discounts = $this->discountService->getListDiscount($request->date,$request->per_page);
+        $discounts = $this->discountService->getListDiscount($request->date,$request->per_page,$request->string,);
         return response()->json([
             'currentPage' => $discounts->currentPage(),
             'data' => $discounts,

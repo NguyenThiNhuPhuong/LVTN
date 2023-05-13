@@ -60,7 +60,6 @@ class ProductRequest extends FormRequest
 
     public function rules(): array
     {
-
         if ($this->isMethod('post')) {
             return $this->addRules();
         } elseif ($this->isMethod('put')) {

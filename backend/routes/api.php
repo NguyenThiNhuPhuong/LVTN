@@ -57,6 +57,7 @@ Route::get('/dashboard/total', [DashboardController::class, 'listTotalItem']);
 /*----------------USER-------------------*/
 
 Route::apiResource('users', UserController::class);
+Route::put('/user/change-password', [UserController::class, 'changePassword']);
 
 /*----------------CATEGORY-------------------*/
 

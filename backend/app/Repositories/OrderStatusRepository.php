@@ -4,7 +4,7 @@ namespace App\Repositories;
 use App\Models\OrderStatus;
 
 
-class UserTypeRepository
+class OrderStatusRepository
 {
 
     protected $modelClass = OrderStatus::class;
@@ -15,6 +15,10 @@ class UserTypeRepository
         return  $this->modelClass::all()->toArray();
     }
 
+    public function getOrderStatus($orderStatusId)
+    {
+        return  $this->modelClass::find($orderStatusId);
+    }
 
 
 }
