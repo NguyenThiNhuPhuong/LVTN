@@ -2,7 +2,11 @@ import { useEffect } from "react";
 import Widget from "../component/widget/Widget";
 
 import { useDispatch } from "react-redux";
-import { getTotalItem } from "~/redux/slice/dashboard/DashboardSlice";
+import {
+  getTotalItem,
+  getTotalOrderStatus,
+  getTotalRevenue,
+} from "~/redux/slice/dashboard/DashboardSlice";
 import "./DashBoard.scss";
 import RevenueChart from "../component/RevenueChart/RevenueChart";
 import OrderStatusChart from "../component/OrderStatusChart/OrderStatusChart";
@@ -10,6 +14,8 @@ const DashBoard = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTotalItem());
+    dispatch(getTotalRevenue(2023));
+    dispatch(getTotalOrderStatus());
   }, [dispatch]);
   return (
     <div className="dashBoardContainer">

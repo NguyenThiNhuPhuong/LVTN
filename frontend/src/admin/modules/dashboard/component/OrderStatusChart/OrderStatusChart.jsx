@@ -1,22 +1,24 @@
 import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import { useSelector } from "react-redux";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 const OrderStatusChart = () => {
+  const { totalOrderStatus } = useSelector((state) => state.dashboard);
   const data = {
     labels: [
-      "chờ xác nhận",
       "chờ lấy hàng",
-      "Đang giao",
+      "chờ xác nhận",
       "Đã giao",
       "Đã hủy",
+      "Đang giao",
       "Trả hàng",
     ],
     datasets: [
       {
         label: "# of Votes",
-        data: [12, 19, 3, 5, 2, 3],
+        data: totalOrderStatus,
         backgroundColor: [
           "rgba(255, 99, 132, 0.5)",
           "rgba(54, 162, 235, 0.5)",

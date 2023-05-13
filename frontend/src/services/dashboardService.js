@@ -8,3 +8,21 @@ export const totalItem = async () => {
     console.log(error);
   }
 };
+//TOTAL REVENUE PER YEAR US
+export const totalRevenue = async (year) => {
+  try {
+    const res = await httpRequest.get(`revenue/orders/full-month?year=${year}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+//TOTAL ORDER STATUS
+export const totalOrderStatus = async () => {
+  try {
+    const res = await httpRequest.get(`orders/total/status`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
