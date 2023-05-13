@@ -63,6 +63,9 @@
         .btn-update {
           background-color: var(--backgroundIcon);
           color: var(--mainColor);
+          input[type="file"] {
+            display: none;
+          }
         }
         .btn-reset {
           background-color: white;

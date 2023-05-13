@@ -25,6 +25,7 @@ export const getUserProfile = createAsyncThunk(
   "user/getUserProfile",
   async () => {
     const response = await userService.getUserProfile();
+    console.log(response);
     return response.user;
   }
 );

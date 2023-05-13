@@ -11,8 +11,11 @@ import StoreIcon from "@mui/icons-material/Store";
 import { NavLink } from "react-router-dom";
 import "./Sidebar.scss";
 import Item from "./component/Item/Item";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "~/redux/slice/auth/AuthSlice";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
   return (
     <div className="sidebar">
       <div className="sidebar-top">
@@ -49,12 +52,14 @@ const Sidebar = () => {
           icon={<AccountCircleOutlinedIcon />}
           title="Profile"
         />
-        <Item
-          to="/login"
-          icon={<ExitToAppIcon />}
-          title="Logout"
-          onclick="true"
-        />
+        <button onClick={() => dispatch(logoutUser())}>
+          <Item
+            to="/login"
+            icon={<ExitToAppIcon />}
+            title="Logout"
+            onclick="true"
+          />
+        </button>
       </div>
     </div>
   );

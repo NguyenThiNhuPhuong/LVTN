@@ -11,11 +11,11 @@ import OrderItem from "../component/OrderItem/OrderItem";
 
 function PendingOrders() {
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((state) => state.order);
+  const { isLoading, params } = useSelector((state) => state.order);
   const { orderList } = useSelector((state) => state.order);
   useEffect(() => {
-    dispatch(getListOrder(2));
-  }, [dispatch]);
+    dispatch(getListOrder({ ...params, status_id: 2 }));
+  }, [dispatch, params]);
   const Order = () => {
     return (
       <div className="ListPendingOrderContainer">

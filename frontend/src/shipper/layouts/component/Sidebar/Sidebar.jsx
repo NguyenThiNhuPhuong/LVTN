@@ -5,7 +5,10 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import "./Sidebar.scss";
 import Item from "./component/Item/Item";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "~/redux/slice/auth/AuthSlice";
 export default function Sidebar() {
+  const dispatch = useDispatch();
   return (
     <div className="sidebar-page">
       <div className="group-menu">
@@ -30,7 +33,9 @@ export default function Sidebar() {
             icon={<AccountCircleOutlinedIcon />}
             title="Profile"
           />
-          <Item to="/login" icon={<ExitToAppIcon />} title="Logout" />
+          <button onClick={() => dispatch(logoutUser())}>
+            <Item to="/login" icon={<ExitToAppIcon />} title="Logout" />
+          </button>
         </div>
       </div>
     </div>

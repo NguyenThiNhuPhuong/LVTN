@@ -12,11 +12,11 @@ import OrderItem from "../component/OrderItem/OrderItem";
 function DeliveryOrders() {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.order);
-  const { orderList } = useSelector((state) => state.order);
+  const { orderList, params } = useSelector((state) => state.order);
 
   useEffect(() => {
-    dispatch(getListOrder(3));
-  }, [dispatch]);
+    dispatch(getListOrder({ ...params, status_id: 3 }));
+  }, [dispatch, params]);
 
   return isLoading ? (
     <Loading />

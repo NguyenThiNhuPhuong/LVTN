@@ -1,6 +1,5 @@
-// import * as httpRequest from "../httpRequest";
+import * as httpRequest from "~/httpRequest/httpRequest";
 
-import httpRequest from "~/httpRequest/httpRequest";
 //GET LIST USER
 export const getListUser = async () => {
   try {
@@ -29,9 +28,9 @@ export const getAUser = async (id) => {
   }
 };
 //UPDATE USER
-export const updateUser = async (updateUser) => {
+export const updateUser = async ({ data, id }) => {
   try {
-    const res = await httpRequest.post(`user/update`, updateUser);
+    const res = await httpRequest.postFormData(`user/${id}`, data);
     return res;
   } catch (error) {
     console.log(error);
@@ -41,7 +40,7 @@ export const updateUser = async (updateUser) => {
 export const getUserProfile = async () => {
   try {
     const res = await httpRequest.get(`auth/user-profile`);
-    return res.data;
+    return res;
   } catch (error) {
     console.log(error);
   }
