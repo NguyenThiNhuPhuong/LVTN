@@ -441,7 +441,6 @@ class OrderService
             'status' => 403
         ];
 
-
     }
 
     public function getTotalStatus()
