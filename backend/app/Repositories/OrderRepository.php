@@ -35,13 +35,14 @@ class OrderRepository
         $perPage = $perPage ?? $this->perPage;
         return $this->modelClass::when($statusId, function ($query) use ($statusId) {
             $query->where('order_status_id', $statusId);
-        },function ($query) {
+        }, function ($query) {
             $query->where('order_status_id', 2)
                 ->where('order_status_id', 3)
                 ->where('order_status_id', 4)
                 ->where('order_status_id', 6);
         })->paginate($perPage);
     }
+
     public function getOrder($id)
     {
         return $this->modelClass::find($id);
@@ -93,6 +94,23 @@ class OrderRepository
             ->where('order_status_id', '<>', 5)
             ->where('order_status_id', '<>', 6)
             ->sum('price_product');
+        return $priceAll;
+    }
+
+    public function getPriceShiperMonth($shiperId, $yearMonth)
+    {
+        $date = Carbon::parse($yearMonth . '-01');
+        $year = $date->year;
+        $month = $date->month;
+        $priceAll = $this->modelClass::join('order_approval', 'orders.id', 'order_approval.order_id')
+            ->where('order_approval.user_id', $shiperId)
+            ->where('order_approval.order_status_id', 4)
+            ->whereMonth('order_approval.action_time', $month)
+            ->WhereYear('order_approval.action_time', $year)
+            ->whereNull('order_approval.deleted_at')
+            ->whereNull('orders.deleted_at')
+            ->sum('orders.price_ship');
+
         return $priceAll;
     }
 

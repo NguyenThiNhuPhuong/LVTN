@@ -78,6 +78,7 @@ Route::put('/orders/status/{id}', [OrderController::class, 'updateByStatus']);
 Route::get('/orders/user/{id}', [OrderController::class, 'listOrderOfUser']);
 Route::get('revenue/orders', [OrderController::class, 'getPriceMonth']);
 Route::get('revenue/orders/full-month', [OrderController::class, 'getPriceFullMonth']);
+Route::get('revenue/shiper/orders/full-month/{id}', [OrderController::class, 'getPriceShiperFullMonth']);
 Route::get('orders/total/status', [OrderController::class, 'getTotalStatus']);
 
 

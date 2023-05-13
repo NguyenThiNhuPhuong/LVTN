@@ -144,6 +144,13 @@ class OrderController extends Controller
         $result = $this->orderService->getPriceFullMonth($request->year);
         return response()->json([$result]);
     }
+    public function getPriceShiperFullMonth(Request $request,string $id)
+    {
+        $result = $this->orderService->getPriceShiperFullMonth($id,$request->year);
+        return response()->json([
+            $result['data']
+        ],$result['status']);
+    }
 
     public function getTotalStatus()
     {
