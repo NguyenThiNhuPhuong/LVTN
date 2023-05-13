@@ -135,10 +135,10 @@ class OrderService
             return $this->orderRepository->getListOrderUser($user->id, $statusId, $perPage);
         }
         if ($user->type == 3) {
-            if ($statusId == 2 || $statusId == 3 || $statusId == 4 || $statusId == 6) {
-                return $this->orderRepository->getListOrderShiper($statusId, $perPage);
+            if ($statusId == 1 || $statusId == 5 ) {
+               return [];
             }
-            return [];
+            return $this->orderRepository->getListOrderShiper($statusId, $perPage);
         }
 
 
@@ -445,7 +445,14 @@ class OrderService
 
     public function getTotalStatus()
     {
-        return $this->orderRepository->getTotalStatus();
+        $user=Auth::user();
+        if($user->type==1){
+            return $this->orderRepository->getTotalStatus();
+        }
+        if($user->type==3){
+            return $this->orderRepository->getTotalStatusShiper();
+        }
+
     }
 
 

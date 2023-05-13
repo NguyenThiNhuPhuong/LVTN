@@ -36,10 +36,8 @@ class OrderRepository
         return $this->modelClass::when($statusId, function ($query) use ($statusId) {
             $query->where('order_status_id', $statusId);
         }, function ($query) {
-            $query->where('order_status_id', 2)
-                ->where('order_status_id', 3)
-                ->where('order_status_id', 4)
-                ->where('order_status_id', 6);
+            $query->whereIn('order_status_id',[2,3,4,6] );
+
         })->paginate($perPage);
     }
 
@@ -114,6 +112,15 @@ class OrderRepository
         return $priceAll;
     }
 
+    public function getTotalStatusShiper()
+    {
+        $statusCounts = $this->modelClass::select('order_status.name', DB::raw('COALESCE(COUNT(orders.id), 0) as total'))
+            ->rightJoin('order_status', 'order_status.id', '=', 'orders.order_status_id')
+            ->whereIn('order_status.id', [2, 3, 4, 6])
+            ->groupBy('order_status.name')
+            ->pluck('total', 'order_status.name')->toArray();
+        return $statusCounts;
+    }
     public function getTotalStatus()
     {
         $statusCounts = $this->modelClass::select('order_status.name', DB::raw('COALESCE(COUNT(orders.id), 0) as total'))
@@ -122,7 +129,6 @@ class OrderRepository
             ->pluck('total', 'order_status.name')->toArray();
         return $statusCounts;
     }
-
 
 }
 
