@@ -1,23 +1,16 @@
-import { Image } from "cloudinary-react";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import DoneIcon from "@mui/icons-material/Done";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import DoneIcon from "@mui/icons-material/Done";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
+import { addCart } from "~/redux/slice/cart/CartSlice";
 import {
-  addCart,
-  decreaseCart,
-  increaseCart,
-} from "~/redux/slice/cart/CartSlice";
-import {
+  decreaseProduct,
   getAProduct,
-  removeLatedProductList,
+  increaseProduct,
 } from "~/redux/slice/product/ProductSlice";
-import Loading from "../../component/loading/Loading";
-import AllPrice, {
-  Price,
-} from "../../component/products/component/Price/Price";
+import AllPrice from "../../component/products/component/Price/Price";
 import "./PageDetailProduct.scss";
 import LoadingDetailProduct from "./component/LoadingDetailProduct/LoadingDetailProduct";
 
@@ -25,10 +18,10 @@ export default function PageDetailProduct() {
   const { productSingle, isLoading } = useSelector((state) => state.product);
 
   const decreaseCartItem = (item) => {
-    dispatch(decreaseCart(item));
+    dispatch(decreaseProduct(item));
   };
   const increaseCartItem = (item) => {
-    dispatch(increaseCart(item));
+    dispatch(increaseProduct(item));
   };
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -92,7 +85,7 @@ export default function PageDetailProduct() {
                 >
                   -
                 </button>
-                <span>1</span>
+                <span>{productSingle.cartNum}</span>
                 <button
                   type="button"
                   onClick={() => increaseCartItem(productSingle)}

@@ -22,7 +22,7 @@ export const newUser = async (newUser) => {
 export const getAUser = async (id) => {
   try {
     const res = await httpRequest.get(`users/${id}`);
-    return res.data;
+    return res;
   } catch (error) {
     console.log(error);
   }
@@ -30,7 +30,7 @@ export const getAUser = async (id) => {
 //UPDATE USER
 export const updateUser = async ({ data, id }) => {
   try {
-    const res = await httpRequest.postFormData(`user/${id}`, data);
+    const res = await httpRequest.postFormData(`users/${id}`, data);
     return res;
   } catch (error) {
     console.log(error);

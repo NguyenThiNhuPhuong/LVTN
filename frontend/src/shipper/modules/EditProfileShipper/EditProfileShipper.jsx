@@ -2,17 +2,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import * as Yup from "yup";
 
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { addFile, removeFile } from "~/redux/slice/file/FileSlice";
 import {
   getAUser,
-  newUser,
   resetUpdateUser,
   updateUser,
 } from "~/redux/slice/user/UserSlice";
-import { addFile, removeFile } from "~/redux/slice/file/FileSlice";
 
 function EditProfileShipper() {
   const { id } = useParams();
@@ -20,20 +18,16 @@ function EditProfileShipper() {
   const navigate = useNavigate();
   const { userUpdate, singleUser } = useSelector((state) => state.user);
   const { fileList } = useSelector((state) => state.file);
-  console.log(userUpdate);
-  //   useEffect(() => {
-  //     return (
-  //       Object.keys(userUpdate).length !== 0
-  //         ? (toast.success(`Bạn đã tạo mới thành công `, {
-  //             position: toast.POSITION.TOP_RIGHT,
-  //           }),
-  //           dispatch(resetUpdateUser()),
-  //           setTimeout(() => navigate("/shipper/profile")),
-  //           5000)
-  //         : "",
-  //       [dispatch, navigate, userUpdate]
-  //     );
-  //   });
+  console.log(singleUser);
+  useEffect(() => {
+    if (Object.keys(userUpdate).length !== 0) {
+      toast.success(`Bạn đã tạo mới thành công `, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      dispatch(resetUpdateUser());
+      setTimeout(() => navigate("/shipper/profile"), 3000);
+    }
+  }, [dispatch, navigate, userUpdate]);
   useEffect(() => {
     dispatch(getAUser(id));
   }, [dispatch, id]);
@@ -42,13 +36,11 @@ function EditProfileShipper() {
         name: singleUser.name,
         email: singleUser.email,
         phone: singleUser.phone,
-        avatar: singleUser.avatar,
       }
     : {
         name: "",
         email: "",
         phone: "",
-        avatar: "",
       };
   const formik = useFormik({
     initialValues,
@@ -60,13 +52,14 @@ function EditProfileShipper() {
           formData.append(key, object[key]);
         });
         fileList.forEach((file, index) => {
-          formData.append(`files[${index}]`, file);
+          formData.append(`file`, file);
         });
         return formData;
       }
 
-      const data = getFormData({ ...values, _method: "PUT" });
+      const data = getFormData({ ...values, _method: "PUT", type: "3" });
       dispatch(updateUser({ data, id }));
+      dispatch(removeFile());
     },
   });
   return (
@@ -75,7 +68,7 @@ function EditProfileShipper() {
         <ToastContainer />
 
         <div className="ProfileContainer__top">
-          <NavLink to="/admin/user">
+          <NavLink to="/shipper/profile">
             <CloseIcon />
           </NavLink>
         </div>
@@ -85,7 +78,9 @@ function EditProfileShipper() {
               <img
                 alt="avatar"
                 src={
-                  fileList[0]
+                  singleUser.avatar
+                    ? singleUser.avatar
+                    : fileList[0]
                     ? URL.createObjectURL(fileList[0])
                     : "https://demos.themeselection.com/materio-mui-react-nextjs-admin-template-free/images/avatars/1.png"
                 }

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as productService from "../../../services/productService";
+import Swal from "sweetalert2";
 
 // API CREATE GET LIST PRODUCT FOR USER
 export const getAllProducts = createAsyncThunk(
@@ -54,7 +55,7 @@ export const getAProduct = createAsyncThunk(
   "product/getAProduct",
   async (id) => {
     const response = await productService.getAProduct(id);
-    return response.product;
+    return { ...response.product, cartNum: 1 };
   }
 );
 const productSlice = createSlice({
@@ -132,6 +133,25 @@ const productSlice = createSlice({
     setNamePage(state, action) {
       state.namePage = action.payload;
     },
+    increaseProduct: (state, action) => {
+      const product = action.payload;
+      console.log("....", product.cartNum);
+      console.log("in", product);
+      if (product.cartNum < product.num_current) {
+        state.productSingle = { ...product, cartNum: product.cartNum + 1 };
+      } else {
+        Swal.fire("The Internet?", `Rất tiếc sản phẩm đã hết `, "question");
+      }
+    },
+    decreaseProduct: (state, action) => {
+      const product = action.payload;
+      if (product.cartNum > 1) {
+        state.productSingle = {
+          ...product,
+          cartNum: product.cartNum - 1,
+        };
+      }
+    },
   },
   extraReducers: {
     [getAllProducts.pending]: (state) => {
@@ -206,6 +226,8 @@ export const {
   setResultSearch,
   resetResultSearch,
   setNamePage,
+  increaseProduct,
+  decreaseProduct,
 } = productSlice.actions;
 
 export default productSlice.reducer;

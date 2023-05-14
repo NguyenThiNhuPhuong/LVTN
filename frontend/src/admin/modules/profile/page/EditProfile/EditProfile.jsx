@@ -2,14 +2,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import * as Yup from "yup";
 
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { addFile, removeFile } from "~/redux/slice/file/FileSlice";
 import {
   getAUser,
-  newUser,
   resetUpdateUser,
+  updateUser,
 } from "~/redux/slice/user/UserSlice";
 
 function EditProfile() {
@@ -17,19 +17,16 @@ function EditProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userUpdate, singleUser } = useSelector((state) => state.user);
-  //   useEffect(() => {
-  //     return (
-  //       Object.keys(userUpdate).length !== 0
-  //         ? (toast.success(`Bạn đã tạo mới thành công `, {
-  //             position: toast.POSITION.TOP_RIGHT,
-  //           }),
-  //           dispatch(resetUpdateUser()),
-  //           setTimeout(() => navigate("/admin/user")),
-  //           5000)
-  //         : "",
-  //       [dispatch, navigate, userUpdate]
-  //     );
-  //   });
+  const { fileList } = useSelector((state) => state.file);
+  useEffect(() => {
+    if (Object.keys(userUpdate).length !== 0) {
+      toast.success(`Bạn đã tạo mới thành công `, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      dispatch(resetUpdateUser());
+      setTimeout(() => navigate("/admin/profile"), 3000);
+    }
+  }, [dispatch, navigate, userUpdate]);
   useEffect(() => {
     dispatch(getAUser(id));
   }, [dispatch, id]);
@@ -38,31 +35,31 @@ function EditProfile() {
         name: singleUser.name,
         email: singleUser.email,
         phone: singleUser.phone,
-        password: "",
-        confirmPassword: "",
       }
     : {
         name: "",
         email: "",
         phone: "",
-        password: "",
-        confirmPassword: "",
       };
   const formik = useFormik({
     initialValues,
     onSubmit: async (values) => {
-      dispatch(newUser(values));
+      console.log(values);
+      const formData = new FormData();
+      function getFormData(object) {
+        Object.keys(object).forEach((key) => {
+          formData.append(key, object[key]);
+        });
+        fileList.forEach((file, index) => {
+          formData.append(`file`, file);
+        });
+        return formData;
+      }
+
+      const data = getFormData({ ...values, _method: "PUT", type: "1" });
+      dispatch(updateUser({ data, id }));
+      dispatch(removeFile());
     },
-    validationSchema: Yup.object({
-      name: Yup.string().required("Vui lòng điền vào trường này"),
-      email: Yup.string().required("Vui lòng điền vào trường này"),
-      password: Yup.string()
-        .min(6, "Password must be at least 6 characters")
-        .required("Password is required"),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password"), null], "Passwords must match")
-        .required("Confirm Password is required"),
-    }),
   });
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -79,13 +76,25 @@ function EditProfile() {
             <div className="header__img">
               <img
                 alt="avatar"
-                src="https://demos.themeselection.com/materio-mui-react-nextjs-admin-template-free/images/avatars/1.png"
-              ></img>
+                src={
+                  singleUser.avatar
+                    ? singleUser.avatar
+                    : fileList[0]
+                    ? URL.createObjectURL(fileList[0])
+                    : "https://demos.themeselection.com/materio-mui-react-nextjs-admin-template-free/images/avatars/1.png"
+                }
+              />
             </div>
             <div className="header__content">
               <div className="header__content-top">
                 <div className="header__content--btn btn-update">
-                  <span>UPLOAD NEW PHOTO</span>
+                  <label htmlFor="fileInput">UPLOAD NEW PHOTO</label>
+                  <input
+                    id="fileInput"
+                    type="file"
+                    name="avatar"
+                    onChange={(e) => dispatch(addFile(e.target.files[0]))}
+                  />
                 </div>
                 <div className="header__content--btn btn-reset">
                   <span>RESET</span>
@@ -132,31 +141,6 @@ function EditProfile() {
               {formik.errors.email && formik.touched.email && (
                 <p>{formik.errors.email}</p>
               )}
-            </div>
-            <div className="content__input">
-              <input
-                type="text"
-                name="password"
-                onChange={formik.handleChange}
-                value={formik.values.password}
-              />
-              <label>Mật khẩu</label>
-              {formik.errors.password && formik.touched.password && (
-                <p>{formik.errors.password}</p>
-              )}
-            </div>
-            <div className="content__input">
-              <input
-                type="text"
-                name="confirmPassword"
-                onChange={formik.handleChange}
-                value={formik.values.confirmPassword}
-              />
-              <label>Nhập lại mật khẩu</label>
-              {formik.errors.confirmPassword &&
-                formik.touched.confirmPassword && (
-                  <p>{formik.errors.confirmPassword}</p>
-                )}
             </div>
           </div>
 
