@@ -9,41 +9,7 @@
     .main {
       font-size: 1.2rem;
       padding: 40px 20px;
-      .header {
-        padding-bottom: 1em;
-        &__logo {
-          display: block;
-          color: black;
-        }
-        &__breadcrumb {
-          margin-top: 1em;
-          &--item {
-            display: inline-block;
-            font-size: 0.85714em;
-            color: #999999;
-            a {
-              text-decoration: none;
-              color: var(--background);
-              transition: color 0.2s ease-in-out;
-              display: inline-block;
-              font-weight: 300;
-            }
-            &:after {
-              content: "";
-              display: inline-block;
-              width: 6px;
-              height: 11px;
-              vertical-align: middle;
-              margin: 0 0.5em;
-              background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2IiBoZWlnaHQ9IjExIiBvcGFjaXR5PSIuNCIgZmlsbD0iIzAwMCI+PHBhdGggZD0iTS41MjYgMS40MDhsNCA0LjY0NS4wMTQtLjgzLTQgNC4zNTQuOTIuODQ2IDQtNC4zNTYuMzc2LS40MS0uMzYyLS40Mi00LTQuNjQ1LS45NDguODE2eiIvPjwvc3ZnPg==),
-                none;
-            }
-            &-current {
-              font-size: 1.4rem;
-            }
-          }
-        }
-      }
+      
       .content {
         padding-bottom: 4em;
         .step {
@@ -140,7 +106,7 @@
       }
     }
     .container {
-      width: 500px;
+      width: 600px;
       display: flex;
       border-left: 1px solid lightgray;
       flex-direction: column;
@@ -150,7 +116,6 @@
       line-height: 3rem;
       height: fit-content;
       .sidebar {
-        border-radius: 10px;
         border-right: none;
         padding: 10px;
         .sidebar-content {
@@ -197,6 +162,8 @@
                 height: 8px;
                 top: 3px;
                 right: 3px;
+                color: white;
+                cursor: pointer;
               }
             }
           }

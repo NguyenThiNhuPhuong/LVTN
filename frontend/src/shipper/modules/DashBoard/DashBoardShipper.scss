@@ -1,16 +1,25 @@
 .dashBoardContainer {
   grid-template-columns: 1fr;
-  row-gap: 20px;
+  row-gap: 50px;
 
   .title {
     font-size: 30px;
     font-weight: bolder;
   }
-  .widgets {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 40px;
-    row-gap: 40px;
-    padding: 20px;
+  .content {
+    grid-template-columns: 1fr;
+    width: 1000px;
+    .widgets {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 40px;
+      row-gap: 40px;
+      padding: 20px;
+    }
+    .graph {
+      display: grid;
+      grid-template-columns: 300px 700px;
+      column-gap: 30px;
+    }
   }
 }

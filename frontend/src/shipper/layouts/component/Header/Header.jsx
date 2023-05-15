@@ -5,8 +5,7 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import "./Header.scss";
 import { useSelector } from "react-redux";
 function Header() {
-  const { userProfile } = useSelector((state) => state.user);
-  console.log(userProfile);
+  const { userInfo } = useSelector((state) => state.auth);
   return (
     <div className="headerContainer">
       <div className="headerContainer__info">
@@ -17,7 +16,7 @@ function Header() {
           <span className="info__content--title">BAG GIRL</span>
           <div>
             <span className="info__content--phone">0343803696</span>
-            <span className="info__content--mail">{userProfile.email}</span>
+            <span className="info__content--mail">{userInfo.email}</span>
           </div>
         </div>
       </div>
@@ -30,7 +29,7 @@ function Header() {
         </div>
         <div className="headerContainer__account">
           <select name="" id="">
-            <option>Hi,bé {userProfile.name}</option>
+            <option>Hi,bé {userInfo.name}</option>
           </select>
         </div>
       </div>

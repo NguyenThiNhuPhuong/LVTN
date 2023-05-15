@@ -3,18 +3,16 @@ import styles from "./Products.module.scss";
 
 import { Image } from "cloudinary-react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
-import { addCart } from "~/redux/slice/cart/CartSlice";
+import { addCart, resetAlert } from "~/redux/slice/cart/CartSlice";
+import { getAllProducts, setParams } from "~/redux/slice/product/ProductSlice";
+
 import NoProduct from "../noproduct/NoProduct";
 import ButtonPriceSale from "./component/ButtonPriceSale/ButtonPriceSale";
 import AllPrice from "./component/Price/Price";
-import {
-  getAllProducts,
-  getNewProducts,
-  getSaleProducts,
-  setParams,
-} from "~/redux/slice/product/ProductSlice";
 
 const cx = classNames.bind(styles);
 const menuPrice = [
@@ -25,15 +23,23 @@ const menuPrice = [
   { label: `trên 1.000.000đ`, valueMin: 1000000 },
 ];
 function Products({ productList }) {
+  //----------------------useSelector get
   const { categoryList } = useSelector((state) => state.category);
   const { params } = useSelector((state) => state.product);
+  const { alert } = useSelector((state) => state.cart);
 
+  //---------------------declare variable
   const dispatch = useDispatch();
-  const handelCategory = (e, id) => {
+  const navigate = useNavigate();
+
+  //---------------------handel Category
+  const handelCategory = (e) => {
     e.preventDefault();
     dispatch(setParams({ ...params, category_id: e.target.value }));
     dispatch(getAllProducts(params));
   };
+
+  //---------------------handle Price
   const handelPrice = (e) => {
     e.preventDefault();
     const MinValue = e.target.value.split(",")[0];
@@ -42,9 +48,29 @@ function Products({ productList }) {
       setParams({ ...params, min_price: MinValue, max_price: MaxValue })
     );
   };
+
+  //----------------------Alert
+  useEffect(() => {
+    if (alert === "success") {
+      toast.success("Bạn đã thêm thành công sản phẩm vào giỏ hàng", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setTimeout(() => dispatch(resetAlert()), 3000);
+      setTimeout(() => navigate("/product/shop"), 3000);
+    }
+    if (alert === "error") {
+      toast.error("Rất tiếc sản phẩm k còn đủ số lượng", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setTimeout(() => dispatch(resetAlert()), 3000);
+    }
+  }, [alert, dispatch, navigate]);
+  //---------------------component ProductItem
   const ProductItem = () => {
     return (
       <div className={cx("productContainer")}>
+        <ToastContainer />
+
         <div className={cx("title")}>sản phẩm của chúng tôi</div>
         <div className={cx("content")}>
           <div className={cx("sidebar")}>
@@ -56,7 +82,7 @@ function Products({ productList }) {
                     type="checkbox"
                     id={category.name}
                     value={category.id}
-                    onClick={(e) => handelCategory(e, category.id)}
+                    onClick={(e) => handelCategory(e)}
                     checked={
                       parseInt(params.category_id) === parseInt(category.id)
                     }
@@ -138,6 +164,7 @@ function Products({ productList }) {
       </div>
     );
   };
+  //handel logic
   return productList.length > 0 ? (
     <ProductItem />
   ) : productList.length === 0 && params !== {} ? (

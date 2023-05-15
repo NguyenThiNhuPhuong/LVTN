@@ -62,7 +62,6 @@ export const listDiscountValid = createAsyncThunk(
   "discount/listDiscountValid",
   async (discount) => {
     const response = await discountService.listDiscountValid(discount);
-    console.log(response);
     return response.data.data;
   }
 );
@@ -93,6 +92,7 @@ const discountSlice = createSlice({
   reducers: {
     setCode(state, action) {
       state.code = action.payload;
+      state.discount = 0;
     },
     setSingleDiscount(state, action) {
       state.discountSingle = action.payload;

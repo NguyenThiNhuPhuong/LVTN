@@ -17,6 +17,17 @@ export const totalRevenue = async (year) => {
     console.log(error);
   }
 };
+//TOTAL REVENUE PER YEAR US FOR  SHIPPER
+export const totalRevenueForShipper = async ({ year, id }) => {
+  try {
+    const res = await httpRequest.get(
+      `revenue/shiper/orders/full-month/${id}?year=${year}`
+    );
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 //TOTAL ORDER STATUS
 export const totalOrderStatus = async () => {
   try {
