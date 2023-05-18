@@ -12,9 +12,9 @@ class OrderApprovalRepository
     protected $modelClass = OrderApproval::class;
 
 
-    public function createOrderApproval($data)
+    public function insertOrderApproval($data)
     {
-        return $this->modelClass::create($data);
+        return $this->modelClass::insert($data);
 
     }
 

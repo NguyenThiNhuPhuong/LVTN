@@ -26,7 +26,15 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'email' => 'required|string|email|max:100|unique:users',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:100',
+                Rule::unique('users')->where(function ($query) {
+                    $query->where('email_verified_at', '!=', null);
+                }),
+            ],
             'type' => [
                 'required',
                 Rule::exists('user_type', 'id'),
