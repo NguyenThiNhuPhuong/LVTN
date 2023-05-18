@@ -16,6 +16,7 @@ function ListUser() {
   useEffect(() => {
     dispatch(getListUser());
   }, [dispatch]);
+
   const User = () => {
     return (
       <div className="ListUserContainer">

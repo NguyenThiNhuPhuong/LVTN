@@ -23,7 +23,7 @@ const ListDiscount = () => {
   const Discount = () => {
     return (
       <div className="ListDiscountContainer">
-        <Top title="Danh sách người dùng" to="newDiscount" />
+        <Top title="Danh sách Discount" to="newDiscount" />
         <div className="discount">
           <div className="discount__row discount__header-labels">
             <div className="text-center">ID</div>

@@ -12,11 +12,13 @@ function Form() {
   );
   const { userInfo } = useSelector((state) => state.auth);
   //------------handelSubmit
+
   const handelSubmit = (e) => {
     e.preventDefault();
+    const { updated_at, ...user } = userInfo;
     dispatch(
       newOrder({
-        ...userInfo,
+        ...user,
         price_product: priceCart,
         price_ship: priceShip,
         price_all: priceAllCart,

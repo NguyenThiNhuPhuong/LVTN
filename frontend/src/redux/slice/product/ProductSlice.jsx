@@ -77,9 +77,7 @@ const productSlice = createSlice({
     isLoading: false,
 
     productSingle: {},
-    isSuccessSingle: false,
 
-    productUpdate: {},
     isSuccessUpdate: false,
 
     productNew: {},
@@ -100,7 +98,7 @@ const productSlice = createSlice({
       state.isSuccessNew = false;
     },
     setUpdateProduct(state, action) {
-      state.productUpdate = action.payload;
+      state.productSingle = action.payload;
     },
     resetUpdateProduct(state) {
       state.isSuccessUpdate = false;

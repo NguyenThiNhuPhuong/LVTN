@@ -17,14 +17,11 @@ const Address = () => {
   const { provincesList, districtList, wardList, province, district, ward } =
     useSelector((state) => state.address);
   const { userInfo } = useSelector((state) => state.auth);
+
   useEffect(() => {
     dispatch(apiGetPublicProvinces());
   }, [dispatch]);
-  useEffect(() => {
-    dispatch(
-      setUserInfo({ ...userInfo, address: `${ward} ${district} ${province}` })
-    );
-  }, [dispatch, district, province, ward]);
+
   return (
     <div>
       <div className="field field-third">
@@ -34,6 +31,8 @@ const Address = () => {
             dispatch(setValueProvince(selectedOption.getAttribute("name")));
             dispatch(setUserInfo({ ...userInfo, province_id: e.target.value }));
             dispatch(apiGetPublicDistrict(e.target.value));
+            dispatch(setValueDistrict(""));
+            dispatch(setValueWard(""));
           }}
           className="field__input"
         >
@@ -58,6 +57,7 @@ const Address = () => {
             dispatch(setUserInfo({ ...userInfo, district_id: e.target.value }));
 
             dispatch(apiGetPublicWard(e.target.value));
+            dispatch(setValueWard(""));
           }}
           className="field__input"
         >
@@ -91,8 +91,7 @@ const Address = () => {
           })}
         </select>
       </div>
-
-      <Field label="Địa chỉ chính xác" value={userInfo.address} />
+      <Field label="Địa chỉ " value={`${ward}${district}${province}`} />
     </div>
   );
 };

@@ -13,7 +13,7 @@ const Image = ({ src, alt, className, ...props }) => {
   return (
     <img
       className={classNames(styles.wrapper, className)}
-      src={fallback || src}
+      src={src || fallback}
       alt={alt}
       {...props}
       onError={handleError}

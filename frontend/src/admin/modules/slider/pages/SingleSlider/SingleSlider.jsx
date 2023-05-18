@@ -11,6 +11,7 @@ import {
   updateSlider,
 } from "~/redux/slice/slider/SliderSlice";
 import "./SingleSlider.scss";
+import { addFile, removeFile } from "~/redux/slice/file/FileSlice";
 function SingleSlider() {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -18,7 +19,13 @@ function SingleSlider() {
 
   const { sliderSingle, sliderUpdate, isLoading, isLoadingUpdate } =
     useSelector((state) => state.slider);
+  const { fileList } = useSelector((state) => state.file);
+  console.log("bebebe", fileList);
+  console.log("bebebehehehe", sliderSingle.image);
+
   useEffect(() => {
+    dispatch(removeFile());
+
     dispatch(getASlider(id));
   }, [dispatch, id]);
 
@@ -40,11 +47,16 @@ function SingleSlider() {
       Object.keys(object).forEach((key) => {
         formData.append(key, object[key]);
       });
+      fileList.forEach((file) => {
+        formData.append(`file`, file);
+      });
       return formData;
     }
 
-    const data = getFormData(sliderSingle);
-    console.log(data.get("name"));
+    const data = getFormData({
+      name: sliderSingle.name,
+      active: sliderSingle.active,
+    });
     dispatch(updateSlider({ id, data }));
   };
   return isLoading ? (
@@ -79,21 +91,19 @@ function SingleSlider() {
                 label="img"
                 type="file"
                 name="image"
-                onChange={(e) => {
-                  const reader = new FileReader();
-                  reader.onload = () => {
-                    dispatch(
-                      setSingleSlider({
-                        ...sliderSingle,
-                        image: reader.result,
-                      })
-                    );
-                  };
-                  reader.readAsDataURL(e.target.files[0]);
-                }}
+                onChange={(e) => dispatch(addFile(e.target.files[0]))}
               />
 
-              {sliderSingle.image && <img src={sliderSingle.image} alt="" />}
+              <img
+                src={
+                  fileList[0]
+                    ? URL.createObjectURL(fileList[0])
+                    : sliderSingle.image
+                    ? sliderSingle.image
+                    : "https://www.shutterstock.com/image-vector/no-image-available-vector-hand-260nw-745639717.jpg"
+                }
+                alt=""
+              />
             </div>
 
             <InputForm

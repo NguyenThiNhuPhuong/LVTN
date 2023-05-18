@@ -8,25 +8,26 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { newUser, resetNewUser } from "~/redux/slice/user/UserSlice";
 import { ToastContainer, toast } from "react-toastify";
+import { addFile } from "~/redux/slice/file/FileSlice";
+import { MenuSelect, MenuUser } from "../../component/Menu";
+import InputUser from "../../component/InputUser/InputUser";
 
 function NewUser() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userNew } = useSelector((state) => state.user);
+  const { fileList } = useSelector((state) => state.file);
 
   useEffect(() => {
-    return (
-      Object.keys(userNew).length !== 0
-        ? (toast.success(`Bạn đã tạo mới thành công `, {
-            position: toast.POSITION.TOP_RIGHT,
-          }),
-          dispatch(resetNewUser()),
-          setTimeout(() => navigate("/admin/user")),
-          5000)
-        : "",
-      [dispatch, navigate, userNew]
-    );
-  });
+    if (Object.keys(userNew).length !== 0) {
+      toast.success("Bạn đã tạo mới thành công", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      dispatch(resetNewUser());
+      setTimeout(() => navigate("/admin/user"), 5000);
+    }
+  }, [dispatch, navigate, userNew]);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -40,7 +41,7 @@ function NewUser() {
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Vui lòng điền vào trường này"),
-      email: Yup.string().required("Vui lòng điền vào trường này"),
+      email: Yup.string().email().required("Vui lòng điền vào trường này"),
       type: Yup.string().required("Vui lòng điền vào trường này"),
       password: Yup.string()
         .min(6, "Password must be at least 6 characters")
@@ -62,107 +63,40 @@ function NewUser() {
         </div>
         <div className="ProfileContainer__container">
           <div className="header">
-            <div className="header__img">
-              <img
-                alt="avatar"
-                src="https://demos.themeselection.com/materio-mui-react-nextjs-admin-template-free/images/avatars/1.png"
-              ></img>
-            </div>
-            <div className="header__content">
-              <div className="header__content-top">
-                <div className="header__content--btn btn-update">
-                  <span>UPLOAD NEW PHOTO</span>
-                </div>
-                <div className="header__content--btn btn-reset">
-                  <span>RESET</span>
-                </div>
-              </div>
-              <div className="header__content-bottom">
-                <span>Allowed PNG or JPEG. Max size of 800K.</span>
-              </div>
-            </div>
+            <h2>New User</h2>
           </div>
           <div className="content">
-            <div className="content__input">
-              <input
-                type="text"
-                name="name"
-                onChange={formik.handleChange}
-                value={formik.values.name}
-              />
-              <label>Họ và tên</label>
-              {formik.errors.name && formik.touched.name && (
-                <p>{formik.errors.name}</p>
-              )}
-            </div>
-            <div className="content__input">
-              <input
-                type="text"
-                name="email"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-              />
-              <label>Email</label>
-              {formik.errors.email && formik.touched.email && (
-                <p>{formik.errors.email}</p>
-              )}
-            </div>
-            <div className="content__input">
-              <input
-                type="text"
-                name="password"
-                onChange={formik.handleChange}
-                value={formik.values.password}
-              />
-              <label>Mật khẩu</label>
-              {formik.errors.password && formik.touched.password && (
-                <p>{formik.errors.password}</p>
-              )}
-            </div>
-            <div className="content__input">
-              <input
-                type="text"
-                name="confirmPassword"
-                onChange={formik.handleChange}
-                value={formik.values.confirmPassword}
-              />
-              <label>Nhập lại mật khẩu</label>
-              {formik.errors.confirmPassword &&
-                formik.touched.confirmPassword && (
-                  <p>{formik.errors.confirmPassword}</p>
-                )}
-            </div>
+            {MenuUser.map((item) => {
+              return (
+                <InputUser
+                  name={item.name}
+                  value={formik.values[item.name]}
+                  onChange={formik.handleChange}
+                  label={item.label}
+                  error={formik.touched[item.name] && formik.errors[item.name]}
+                />
+              );
+            })}
+
             <div className="sidebar__container">
-              <input
-                type="radio"
-                id="admin"
-                name="type"
-                value={1}
-                checked={formik.values.type === "1"}
-                onChange={formik.handleChange}
-              />
-              <label htmlFor="admin">Admin</label>
-              <input
-                type="radio"
-                id="user"
-                name="type"
-                value={2}
-                checked={formik.values.type === "2"}
-                onChange={formik.handleChange}
-              />
-              <label htmlFor="user">Khách hàng</label>
-              <input
-                type="radio"
-                id="user"
-                name="type"
-                value={3}
-                checked={formik.values.type === "3"}
-                onChange={formik.handleChange}
-              />
-              <label htmlFor="user">Shipper</label>
-              {formik.errors.type && formik.touched.type && (
-                <p>{formik.errors.type}</p>
-              )}
+              {MenuSelect.map((item) => {
+                return (
+                  <div key={item.value}>
+                    <input
+                      type="radio"
+                      id={item.label}
+                      name="type"
+                      value={item.value}
+                      checked={formik.values.type == item.value}
+                      onChange={formik.handleChange}
+                    />
+                    <label htmlFor={item.label}>{item.label}</label>
+                    {formik.errors.type && formik.touched.type && (
+                      <p>{formik.errors.type}</p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 

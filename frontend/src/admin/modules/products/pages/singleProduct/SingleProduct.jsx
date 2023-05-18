@@ -1,4 +1,4 @@
-import "./SingleProduct.scss";
+import "./../newProduct/NewProduct.scss";
 
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -19,6 +19,7 @@ import {
   updateProduct,
 } from "~/redux/slice/product/ProductSlice";
 import ImgProduct from "../../component/ImgProduct/ImgProduct";
+import Loading from "~/admin/component/Loading/Loading";
 
 const uploadFiles = createAsyncThunk(
   "files/uploadFiles",
@@ -35,7 +36,7 @@ function SingleProduct() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const { productSingle, productUpdate, isSuccessUpdate } = useSelector(
+  const { productSingle, isSuccessUpdate, isLoading } = useSelector(
     (state) => state.product
   );
   const { fileList } = useSelector((state) => state.file);
@@ -76,11 +77,36 @@ function SingleProduct() {
   //---------------when onclick button submit--------------
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = getFormData(productUpdate);
+    const data = getFormData(productSingle);
     dispatch(updateProduct({ id, data }));
   };
-
-  return (
+  //---------------handel Category,description,Input
+  const handelDes = (e) => {
+    dispatch(
+      setUpdateProduct({
+        ...productSingle,
+        description: e.target.value,
+      })
+    );
+  };
+  const handelCategory = (e) => {
+    dispatch(
+      setUpdateProduct({
+        ...productSingle,
+        category_id: e.target.value,
+      })
+    );
+  };
+  const handelInput = (e, name) => {
+    dispatch(
+      setUpdateProduct({
+        ...productSingle,
+        [name]: e.target.value,
+      })
+    );
+  };
+  //-----------------component Product
+  const Product = () => {
     <>
       <ToastContainer />
       <div className="container">
@@ -92,7 +118,7 @@ function SingleProduct() {
 
         <div className="right">
           <form className="right-form" onSubmit={(e) => handleSubmit(e)}>
-            <div className="form__top">
+            <div className="all">
               <div className="upload-btn-wrapper">
                 <button className="btn">Upload a file</button>
                 <input
@@ -104,14 +130,7 @@ function SingleProduct() {
               </div>
 
               <Select
-                onChange={(e) =>
-                  dispatch(
-                    setUpdateProduct({
-                      ...productSingle,
-                      category_id: e.target.value,
-                    })
-                  )
-                }
+                onChange={(e) => handelCategory()}
                 value={productSingle.category_name}
               />
             </div>
@@ -121,26 +140,12 @@ function SingleProduct() {
                 key={input.id}
                 {...input}
                 value={productSingle ? productSingle[input?.name] : ""}
-                onChange={(e) =>
-                  dispatch(
-                    setUpdateProduct({
-                      ...productSingle,
-                      [input.name]: e.target.value,
-                    })
-                  )
-                }
+                onChange={(e) => handelInput(e, input.name)}
               />
             ))}
             <Textarea
               value={productSingle ? productSingle.description : ""}
-              onChange={(e) =>
-                dispatch(
-                  setUpdateProduct({
-                    ...productSingle,
-                    description: e.target.value,
-                  })
-                )
-              }
+              onChange={(e) => handelDes(e)}
             />
             <button className="btn__submit" type="submit">
               Send
@@ -148,8 +153,9 @@ function SingleProduct() {
           </form>
         </div>
       </div>
-    </>
-  );
+    </>;
+  };
+  return isLoading ? <Loading /> : <Product />;
 }
 
 export default SingleProduct;

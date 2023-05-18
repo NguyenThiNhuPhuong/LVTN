@@ -62,7 +62,7 @@ export default function Payment() {
     dispatch(totalAllCart(res + priceShip - discount));
   }, [discount, dispatch, listCart, priceShip]);
 
-  //----------------------call api
+  //----------------------call api check valid discount
   useEffect(() => {
     dispatch(
       listDiscountValid({

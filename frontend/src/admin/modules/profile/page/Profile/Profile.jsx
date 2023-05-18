@@ -24,7 +24,10 @@ function Profile() {
           <div className="item__content">
             <div className="item__content--avatar">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5jdCRwv_UItyMFSKNJSxp6f6lgMi1DRz3LV3neY8t6A&s"
+                src={
+                  userProfile.avatar ||
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5jdCRwv_UItyMFSKNJSxp6f6lgMi1DRz3LV3neY8t6A&s"
+                }
                 alt=""
               />
             </div>

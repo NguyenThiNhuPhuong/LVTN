@@ -17,7 +17,6 @@ function SliderItem() {
   const { sliderList, alertDeleteSuccess } = useSelector(
     (state) => state.slider
   );
-  console.log(sliderList);
   useEffect(() => {
     if (alertDeleteSuccess !== "") {
       Swal.fire("Saved!", "", "success");

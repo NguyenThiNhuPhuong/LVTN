@@ -51,7 +51,6 @@ function NewCategory() {
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Vui lòng điền vào trường này"),
-      description: Yup.string().required("Vui lòng điền vào trường này"),
     }),
   });
 

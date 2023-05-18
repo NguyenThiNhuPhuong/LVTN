@@ -3,11 +3,12 @@ import * as userService from "../../../services/userService";
 //GET LIST USER
 export const getListUser = createAsyncThunk("user/getListUser", async () => {
   const response = await userService.getListUser();
-  return response.data.rows;
+  return response.rows;
 });
 //GET A USER
 export const getAUser = createAsyncThunk("user/getAUser", async (id) => {
   const response = await userService.getAUser(id);
+
   return response.user;
 });
 //NEW USER
@@ -20,12 +21,11 @@ export const updateUser = createAsyncThunk("user/updateUser", async (user) => {
   const response = await userService.updateUser(user);
   return response.data.user;
 });
-//HET PROFILE USER
+//GET PROFILE USER
 export const getUserProfile = createAsyncThunk(
   "user/getUserProfile",
   async () => {
     const response = await userService.getUserProfile();
-    console.log(response);
     return response.user;
   }
 );
@@ -46,6 +46,9 @@ const userSlice = createSlice({
   reducers: {
     resetNewUser(state) {
       state.NewUser = {};
+    },
+    setUpdateUser(state, action) {
+      state.singleUser = action.payload;
     },
     resetUpdateUser(state) {
       state.userUpdate = {};
@@ -87,5 +90,6 @@ const userSlice = createSlice({
     },
   },
 });
-export const { resetNewUser, resetUpdateUser } = userSlice.actions;
+export const { resetNewUser, setUpdateUser, resetUpdateUser } =
+  userSlice.actions;
 export default userSlice.reducer;

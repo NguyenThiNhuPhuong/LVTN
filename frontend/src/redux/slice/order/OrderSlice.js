@@ -24,6 +24,7 @@ export const getAOrder = createAsyncThunk("order/getAOrder", async (id) => {
 });
 // API CREATE NEW ORDER
 export const newOrder = createAsyncThunk("order/newOrder", async (orderNew) => {
+  console.log(orderNew);
   const response = await orderService.newOrder(orderNew);
   return response.order;
 });
