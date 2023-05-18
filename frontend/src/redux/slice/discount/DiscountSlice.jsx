@@ -62,7 +62,6 @@ export const listDiscountValid = createAsyncThunk(
   "discount/listDiscountValid",
   async (discount) => {
     const response = await discountService.listDiscountValid(discount);
-    console.log(response);
     return response.data.data;
   }
 );
@@ -80,7 +79,6 @@ const discountSlice = createSlice({
     discountSingle: {},
     discountNew: {},
 
-    isLoadingRemove: false,
     alertDeleteSuccess: "",
 
     currentPage: 0,
@@ -93,8 +91,9 @@ const discountSlice = createSlice({
   reducers: {
     setCode(state, action) {
       state.code = action.payload;
+      state.discount = 0;
     },
-    setSingleDiscount(state, action) {
+    setUpdateDiscount(state, action) {
       state.discountSingle = action.payload;
     },
     setParams(state, action) {
@@ -147,7 +146,6 @@ const discountSlice = createSlice({
     },
     [getADiscount.pending]: (state) => {
       state.isLoading = true;
-      state.discountSingle = {};
     },
     [getADiscount.fulfilled]: (state, action) => {
       state.isLoading = false;
@@ -160,25 +158,25 @@ const discountSlice = createSlice({
       state.discountNew = action.payload;
     },
     [updateDiscount.pending]: (state) => {
-      state.isLoadingUpdate = true;
+      state.isLoading = true;
     },
     [updateDiscount.fulfilled]: (state, action) => {
-      state.isLoadingUpdate = false;
+      state.isLoading = false;
       state.discountUpdate = action.payload;
     },
 
     [removeDiscount.pending]: (state) => {
-      state.isLoadingRemove = true;
+      state.isLoading = true;
     },
     [removeDiscount.fulfilled]: (state, action) => {
-      state.isLoadingRemove = false;
+      state.isLoading = false;
       state.alertDeleteSuccess = action.payload;
     },
   },
 });
 export const {
   setCode,
-  setSingleDiscount,
+  setUpdateDiscount,
   setParams,
   resetNewDiscount,
   resetADiscount,

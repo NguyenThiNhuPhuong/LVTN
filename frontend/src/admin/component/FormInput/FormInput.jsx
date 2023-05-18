@@ -6,12 +6,10 @@ const FormInput = (props) => {
     label,
     name,
     type,
-    onChange,
-    errorMessage,
     //props_formik
     value,
-    errors,
-    touched,
+    error,
+    onChange,
   } = props;
 
   return (
@@ -27,9 +25,7 @@ const FormInput = (props) => {
           placeholder={label}
         />
       </div>
-      {touched && errors && (
-        <span className="formInput__err">{errorMessage}</span>
-      )}
+      <span className="formInput__err">{error}</span>
     </>
   );
 };

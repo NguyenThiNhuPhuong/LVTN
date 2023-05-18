@@ -18,13 +18,23 @@ export const getTotalRevenue = createAsyncThunk(
     return values;
   }
 );
+//API TOTAL REVENUE PER YEAR US FOR SHIPPER
+export const getTotalRevenueForShipper = createAsyncThunk(
+  "dashboard/getTotalRevenue",
+  async (params) => {
+    const response = await dashboardService.totalRevenueForShipper(params);
+    const values = Object.values(response[0]);
+
+    return values;
+  }
+);
 //API TOTAL ORDER STATUS
 export const getTotalOrderStatus = createAsyncThunk(
   "dashboard/getTotalOrderStatus",
   async () => {
     const response = await dashboardService.totalOrderStatus();
+    console.log(response);
     const values = Object.values(response[0]);
-    console.log(values);
     return values;
   }
 );
@@ -49,6 +59,13 @@ const dashboardSlice = createSlice({
       state.isLoading = true;
     },
     [getTotalRevenue.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.totalRevenue = action.payload;
+    },
+    [getTotalRevenueForShipper.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getTotalRevenueForShipper.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.totalRevenue = action.payload;
     },

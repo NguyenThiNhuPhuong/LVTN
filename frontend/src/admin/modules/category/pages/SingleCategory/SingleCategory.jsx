@@ -17,12 +17,11 @@ function SingleCategory() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { categorySingle, categoryUpdate, isLoading, isLoadingUpdate } =
-    useSelector((state) => state.category);
-
   useEffect(() => {
     dispatch(getACategory(id));
   }, [dispatch, id]);
+  const { categorySingle, categoryUpdate, isLoading, isLoadingUpdate } =
+    useSelector((state) => state.category);
 
   useEffect(() => {
     if (isLoadingUpdate === false && JSON.stringify(categoryUpdate) !== "{}") {

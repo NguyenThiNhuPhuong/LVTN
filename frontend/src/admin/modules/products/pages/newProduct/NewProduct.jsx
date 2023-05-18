@@ -2,23 +2,26 @@ import classNames from "classnames/bind";
 import styles from "./NewProduct.scss";
 
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import * as Yup from "yup";
+
 import FormInput from "~/admin/component/FormInput/FormInput";
 import Select from "~/admin/component/select/Select";
 import Textarea from "~/admin/component/textarea/Textarea";
 import productInputs from "~/admin/constant/productInputs";
+import ImgProduct from "../../component/ImgProduct/ImgProduct";
+
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { getCategory } from "~/redux/slice/category/CategorySlice";
+import { addFile, clearFiles } from "~/redux/slice/file/FileSlice";
 import {
   newProduct,
   resetNewProduct,
   setNewProduct,
 } from "~/redux/slice/product/ProductSlice";
-import { getCategory } from "~/redux/slice/category/CategorySlice";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addFile, clearFiles } from "~/redux/slice/file/FileSlice";
-import ImgProduct from "../../component/ImgProduct/ImgProduct";
-import { ToastContainer, toast } from "react-toastify";
+import { useFormik } from "formik";
 
 const uploadFiles = createAsyncThunk(
   "files/uploadFiles",
@@ -30,15 +33,34 @@ const uploadFiles = createAsyncThunk(
     }
   }
 );
-
-function NewProduct(props) {
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Vui lòng điền vào trường này"),
+  price: Yup.number()
+    .typeError("Vui lòng nhập số")
+    .min(1, "Số tiền phải lớn hơn 0")
+    .required("Vui lòng điền vào trường này")
+    .when("price_sale", (price_sale, schema) => {
+      return schema.test({
+        test: (price) => price > price_sale,
+        message: "Giá phải lớn hơn giá khuyến mãi",
+      });
+    }),
+  price_sale: Yup.number()
+    .typeError("Vui lòng nhập số")
+    .min(0, "Số tiền phải lớn hơn hoặc bằng 0")
+    .required("Vui lòng điền vào trường này"),
+  num: Yup.number()
+    .typeError("Vui lòng nhập số")
+    .required("Vui lòng điền vào trường này"),
+});
+function NewProduct() {
   const cx = classNames.bind(styles);
-  const { productNew, isSuccessNew } = useSelector((state) => state.product);
+  const { isSuccessNew, productNew } = useSelector((state) => state.product);
   const { fileList } = useSelector((state) => state.file);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  //handel when submit form success
   useEffect(() => {
     dispatch(getCategory());
 
@@ -56,29 +78,49 @@ function NewProduct(props) {
     }
   }, [dispatch, isSuccessNew, navigate]);
 
+  //change data to formdata
+  function getFormData(object) {
+    const formData = new FormData();
+    Object.keys(object).forEach((key) => {
+      formData.append(key, object[key]);
+    });
+    fileList.forEach((file, index) => {
+      formData.append(`files[${index}]`, file);
+    });
+    return formData;
+  }
+  //handel file
   function handleFileChange(event) {
     const files = event.target.files;
     dispatch(uploadFiles(files));
   }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    function getFormData(object) {
-      const formData = new FormData();
-      Object.keys(object).forEach((key) => {
-        formData.append(key, object[key]);
-      });
-      fileList.forEach((file, index) => {
-        formData.append(`files[${index}]`, file);
-      });
-      return formData;
-    }
-
-    const data = getFormData(productNew);
-    dispatch(newProduct(data));
+  //handel category
+  const handleCategory = (e) => {
+    dispatch(
+      setNewProduct({
+        ...productNew,
+        category_id: e.target.value,
+      })
+    );
   };
-
+  const handelDes = (e) => {
+    dispatch(setNewProduct({ ...productNew, description: e.target.value }));
+  };
+  //handel submit
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      price: "",
+      price_sale: "",
+      num: "",
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      console.log({ ...values, ...productNew });
+      const data = getFormData({ ...values, ...productNew });
+      dispatch(newProduct(data));
+    },
+  });
   return (
     <>
       <ToastContainer />
@@ -90,7 +132,7 @@ function NewProduct(props) {
         </div>
 
         <div className={cx("right")}>
-          <form className={cx("right-form")} onSubmit={(e) => handleSubmit(e)}>
+          <form className={cx("right-form")} onSubmit={formik.handleSubmit}>
             <div className="all">
               <div className="upload-btn-wrapper">
                 <button className="btn">Upload a file</button>
@@ -103,14 +145,8 @@ function NewProduct(props) {
               </div>
 
               <Select
-                onChange={(e) =>
-                  dispatch(
-                    setNewProduct({
-                      ...productNew,
-                      category_id: e.target.value,
-                    })
-                  )
-                }
+                onChange={(e) => handleCategory(e)}
+                value={productNew.category_id}
               />
             </div>
 
@@ -118,23 +154,16 @@ function NewProduct(props) {
               <FormInput
                 key={input.id}
                 {...input}
-                value={productNew ? productNew[input?.name] : ""}
-                onChange={(e) =>
-                  dispatch(
-                    setNewProduct({
-                      ...productNew,
-                      [input.name]: e.target.value,
-                    })
-                  )
-                }
+                name={input.name}
+                onChange={formik.handleChange}
+                value={formik.values[input.name]}
+                error={formik.touched[input.name] && formik.errors[input.name]}
               />
             ))}
+
             <Textarea
-              onChange={(e) =>
-                dispatch(
-                  setNewProduct({ ...productNew, description: e.target.value })
-                )
-              }
+              onChange={(e) => handelDes(e)}
+              value={productNew.description}
             />
             <button className="btn__submit" type="submit">
               Send

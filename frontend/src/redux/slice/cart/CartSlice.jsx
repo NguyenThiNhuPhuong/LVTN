@@ -12,6 +12,8 @@ const cartSlice = createSlice({
     priceCart: 0,
     priceAllCart: 0,
     priceShip: 30000,
+    product: {},
+    alert: "",
   },
   reducers: {
     addCart: (state, action) => {
@@ -26,21 +28,15 @@ const cartSlice = createSlice({
           cartNum: 1,
         });
         localStorage.setItem("cart", JSON.stringify(state.listCart));
-        Swal.fire(
-          "Thank You!",
-          "Sản phẩm đã được thêm vào giỏ hàng!",
-          "success"
-        );
+        state.alert = "success";
       } else {
-        if (state.listCart[indexCart].num < product.num_buy) {
-          state.listCart[indexCart].cartNum++;
+        if (state.listCart[indexCart].num_current > 0) {
+          const num = product.cartNum ? product.cartNum : 1;
+          state.listCart[indexCart].cartNum += num;
           localStorage.setItem("cart", JSON.stringify(state.listCart));
+          state.alert = "success";
         } else {
-          Swal.fire(
-            "The Internet?",
-            "Rất tiếc sản phẩm để hết số lượng",
-            "question"
-          );
+          state.alert = "error";
         }
       }
     },
@@ -79,11 +75,15 @@ const cartSlice = createSlice({
             (cart) => cart.product_id !== action.payload.product_id
           );
     },
+
     totalCart(state, action) {
       state.priceCart = action.payload;
     },
     totalAllCart(state, action) {
       state.priceAllCart = action.payload;
+    },
+    resetAlert(state) {
+      state.alert = "";
     },
   },
 });
@@ -94,6 +94,8 @@ export const {
   removeCart,
   increaseCart,
   decreaseCart,
+
   totalCart,
   totalAllCart,
+  resetAlert,
 } = cartSlice.actions;

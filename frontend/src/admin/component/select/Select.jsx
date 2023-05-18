@@ -1,8 +1,8 @@
-import React from "react";
-import "./Select.scss";
 import { useSelector } from "react-redux";
+import "./Select.scss";
 function Select({ onChange, value }) {
   const { categoryList } = useSelector((state) => state.category);
+
   return (
     <div className="formCategory">
       <select required onChange={onChange}>

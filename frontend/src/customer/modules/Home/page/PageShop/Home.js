@@ -5,7 +5,6 @@ import { getCategory } from "~/redux/slice/category/CategorySlice";
 import { getListDiscountByDate } from "~/redux/slice/discount/DiscountSlice";
 import {
   getAllProducts,
-  resetParams,
   setNamePage,
   setParams,
 } from "~/redux/slice/product/ProductSlice";

@@ -1,15 +1,15 @@
-import { useFormik } from "formik";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
-import CloseIcon from "@mui/icons-material/Close";
-import "./NewDiscount.scss";
 import {
   newDiscount,
   resetNewDiscount,
 } from "~/redux/slice/discount/DiscountSlice";
+import CloseIcon from "@mui/icons-material/Close";
+import { useFormik } from "formik";
+import "./NewDiscount.scss";
 
 function NewDiscount() {
   const dispatch = useDispatch();
@@ -18,26 +18,13 @@ function NewDiscount() {
 
   useEffect(() => {
     if (JSON.stringify(discountNew) !== "{}") {
-      Swal.fire({
-        title: `Bạn đã thêm  thành công Discount  !`,
-        width: 600,
-        padding: "5em 3em",
-        color: "#716add",
-        background:
-          "#fff url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQjEMu40wWChZR02Px-9nGcm_YYCrMoT_-723jlpkdTq3p_Y-FZbpDwT25HRiCOzqeCH0&usqp=CAU)",
-        backdrop: `
-                  rgba(0,0,123,0.4)
-                  url("https://sweetalert2.github.io/images/nyan-cat.gif")
-                  left top
-                  no-repeat
-                `,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire("Saved!", "", "success");
-          dispatch(resetNewDiscount());
-          navigate("/admin/discount");
-        }
+      toast.success("Bạn đã thêm discount thành công", {
+        position: toast.POSITION.TOP_RIGHT,
       });
+      setTimeout(() => {
+        navigate("/admin/discount");
+        dispatch(resetNewDiscount());
+      }, 3000);
     }
   }, [navigate, discountNew, dispatch]);
 
@@ -51,16 +38,28 @@ function NewDiscount() {
       minium_order: "",
     },
     onSubmit: async (values) => {
-      console.log(values);
       dispatch(newDiscount(values));
     },
     validationSchema: Yup.object({
       code: Yup.string().required("Vui lòng điền vào trường này"),
       description: Yup.string().required("Vui lòng điền vào trường này"),
-      discount: Yup.string().required("Vui lòng điền vào trường này"),
-      purchase_limit: Yup.string().required("Vui lòng điền vào trường này"),
-      expiration_date: Yup.string().required("Vui lòng điền vào trường này"),
-      minium_order: Yup.string().required("Vui lòng điền vào trường này"),
+      discount: Yup.number()
+        .typeError("Vui lòng nhập chữ số")
+        .min(1, "Số phải lớn hơn 0")
+        .required("Vui lòng điền vào trường này"),
+      purchase_limit: Yup.number("Vui lòng nhập chữ số")
+        .min(1, "Số phải lớn hơn 0")
+        .required("Vui lòng điền vào trường này"),
+      expiration_date: Yup.string()
+        .matches(
+          /^(19|20)\d{2}\/(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])$/,
+          "Vui lòng nhập ngày theo định dạng yyyy/mm/dd"
+        )
+        .required("Vui lòng điền vào trường này"),
+      minium_order: Yup.number()
+        .typeError("Vui lòng nhập chữ số")
+        .min(1, "Số phải lớn hơn  0")
+        .required("Vui lòng điền vào trường này"),
     }),
   });
 
@@ -68,87 +67,30 @@ function NewDiscount() {
     <form onSubmit={formik.handleSubmit}>
       <div className="DiscountContainer">
         <div className="DiscountContainer__top">
+          <ToastContainer />
           <NavLink to="/admin/Discount">
             <CloseIcon />
           </NavLink>
         </div>
         <div className="DiscountContainer__container">
+          <div className="header">
+            <h3>New Discount</h3>
+          </div>
           <div className="content">
-            <div className="content__input">
-              <input
-                type="text"
-                name="code"
-                onChange={formik.handleChange}
-                value={formik.values.code}
-              />
-              <label>Code</label>
-              {formik.errors.code && formik.touched.code && (
-                <p>{formik.errors.code}</p>
-              )}
-            </div>
-            <div className="content__input">
-              <input
-                type="text"
-                name="discount"
-                onChange={formik.handleChange}
-                value={formik.values.discount}
-              />
-              <label>Discount</label>
-              {formik.errors.discount && formik.touched.discount && (
-                <p>{formik.errors.discount}</p>
-              )}
-            </div>
-            <div className="content__input">
-              <input
-                type="text"
-                name="purchase_limit"
-                onChange={formik.handleChange}
-                value={formik.values.purchase_limit}
-              />
-              <label>Số lượng</label>
-              {formik.errors.purchase_limit &&
-                formik.touched.purchase_limit && (
-                  <p>{formik.errors.purchase_limit}</p>
+            {Object.keys(formik.values).map((key) => (
+              <div className="content__input" key={key}>
+                <input
+                  type="text"
+                  name={key}
+                  onChange={formik.handleChange}
+                  value={formik.values[key]}
+                />
+                <label>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                {formik.errors[key] && formik.touched[key] && (
+                  <p>{formik.errors[key]}</p>
                 )}
-            </div>
-            <div className="content__input">
-              <input
-                type="text"
-                name="expiration_date"
-                onChange={formik.handleChange}
-                value={formik.values.expiration_date}
-              />
-              <label>Ngày hết hạn</label>
-              {formik.errors.expiration_date &&
-                formik.touched.expiration_date && (
-                  <p>{formik.errors.expiration_date}</p>
-                )}
-            </div>
-            <div className="content__input">
-              <input
-                type="text"
-                name="minium_order"
-                onChange={formik.handleChange}
-                value={formik.values.minium_order}
-              />
-              <label>Hóa đơn tối thiểu</label>
-              {formik.errors.minium_order && formik.touched.minium_order && (
-                <p>{formik.errors.minium_order}</p>
-              )}
-            </div>
-            <div className="content__input">
-              <input
-                type="text"
-                name="description"
-                onChange={formik.handleChange}
-                value={formik.values.description}
-                className="content__input--des"
-              />
-              <label>Description</label>
-              {formik.errors.description && formik.touched.description && (
-                <p>{formik.errors.description}</p>
-              )}
-            </div>
+              </div>
+            ))}
           </div>
           <div className="bottom">
             <button type="submit" className="bottom--btn btn-save">

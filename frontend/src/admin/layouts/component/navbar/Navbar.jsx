@@ -6,10 +6,16 @@ import "./Navbar.scss";
 import AvatarUser from "./avatarUser/AvatarUser";
 import Image from "~/components/image/Image";
 import images from "~/ultil/images";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getUserProfile } from "~/redux/slice/user/UserSlice";
 
 const Navbar = () => {
-  const Name = useSelector((state) => state.auth.userInfo?.name);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.userProfile);
+  useEffect(() => {
+    dispatch(getUserProfile());
+  }, [dispatch]);
   return (
     <div className="navbar">
       <div className="wrapper">
@@ -30,8 +36,10 @@ const Navbar = () => {
             <ListOutlinedIcon className="icon" />
           </div>
           <div className="item">
-            {Name ? (
-              <AvatarUser Auth={Name} />
+            {user.avatar ? (
+              <Image src={user.avatar} alt="Nguyen Van A" className="avatar" />
+            ) : user.name ? (
+              <AvatarUser Auth={user.name} />
             ) : (
               <Image
                 src={images.noImage}

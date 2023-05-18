@@ -1,47 +1,72 @@
-import { Image } from "cloudinary-react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useParams } from "react-router-dom";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import DoneIcon from "@mui/icons-material/Done";
-import TabTitle from "~/components/tabtiltle/TabTiltle";
+
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+
+import { addCart, resetAlert } from "~/redux/slice/cart/CartSlice";
 import {
-  addCart,
-  decreaseCart,
-  increaseCart,
-} from "~/redux/slice/cart/CartSlice";
-import {
+  decreaseProduct,
   getAProduct,
-  removeLatedProductList,
+  increaseProduct,
 } from "~/redux/slice/product/ProductSlice";
-import Loading from "../../component/loading/Loading";
-import AllPrice, {
-  Price,
-} from "../../component/products/component/Price/Price";
+
+import TabTitle from "~/components/tabtiltle/TabTiltle";
+import AllPrice from "../../component/products/component/Price/Price";
 import "./PageDetailProduct.scss";
 import LoadingDetailProduct from "./component/LoadingDetailProduct/LoadingDetailProduct";
 
 export default function PageDetailProduct() {
+  //useSelector get value from redux
   const { productSingle, isLoading } = useSelector((state) => state.product);
+  const { alert } = useSelector((state) => state.cart);
 
+  //handel cart
   const decreaseCartItem = (item) => {
-    dispatch(decreaseCart(item));
+    dispatch(decreaseProduct(item));
   };
   const increaseCartItem = (item) => {
-    dispatch(increaseCart(item));
+    dispatch(increaseProduct(item));
   };
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const [index, setIndex] = useState(0);
 
+  //title for page
   TabTitle(productSingle?.name || "Chi tiết sản phẩm");
 
+  //declare variable
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [index, setIndex] = useState(0);
+
+  //Alert
+  useEffect(() => {
+    if (alert === "success") {
+      toast.success("Bạn đã thêm thành công sản phẩm vào giỏ hàng", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setTimeout(() => dispatch(resetAlert()), 3000);
+      setTimeout(() => navigate("/product/shop"), 3000);
+    }
+    if (alert === "error") {
+      toast.error("Rất tiếc sản phẩm k còn đủ số lượng", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setTimeout(() => dispatch(resetAlert()), 3000);
+    }
+  }, [alert, dispatch, navigate]);
+
+  //call api
   useEffect(() => {
     dispatch(getAProduct(id));
   }, [dispatch, id]);
+
+  //component PageDetail
   const PageDetail = () => {
     return (
       <div className="PageDetail">
+        <ToastContainer />
         <div className="header">
           <a href="/" class="header__logo">
             <h1 class="header__logo--text">Girl Bag</h1>
@@ -92,7 +117,7 @@ export default function PageDetailProduct() {
                 >
                   -
                 </button>
-                <span>1</span>
+                <span>{productSingle.cartNum}</span>
                 <button
                   type="button"
                   onClick={() => increaseCartItem(productSingle)}

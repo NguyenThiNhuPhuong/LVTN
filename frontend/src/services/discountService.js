@@ -38,9 +38,10 @@ export const newDiscount = async (newDiscount) => {
     const res = await httpRequest.post(`discounts`, newDiscount);
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
+//UPDATE DISCOUNT
 export const updateDiscount = async ({
   id,
   code,
@@ -68,7 +69,6 @@ export const updateDiscount = async ({
 //API GET A DISCOUNT
 export const getADiscount = async (id) => {
   try {
-    console.log(id);
     const res = await httpRequest.get(`discounts/${id}`);
     return res;
   } catch (error) {

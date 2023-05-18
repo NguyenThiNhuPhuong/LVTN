@@ -28,10 +28,6 @@ export default function Register() {
       success === true
         ? (toast.success("User successfully registered", {
             position: toast.POSITION.BOTTOM_RIGHT,
-            data: {
-              title: "Success toast",
-              text: "This is a success message",
-            },
           }),
           setTimeout(() => navigate("/login"), 3000))
         : ""
