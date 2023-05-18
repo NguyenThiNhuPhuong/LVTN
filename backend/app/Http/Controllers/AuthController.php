@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Mail\EmailVerification;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Validator;
+use Illuminate\Support\Facades\Cache;
 
 class AuthController extends Controller
 {
@@ -41,9 +47,10 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
         if (!$token = auth()->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
+        } elseif (auth()->user()->email_verified_at == null) {
+            return response()->json(['error' => 'Please verify your email to login'], 401);
         }
 
         return $this->createNewToken($token);
@@ -56,19 +63,25 @@ class AuthController extends Controller
      */
     public function register(UserRequest $request)
     {
-        $user = User::create(
-            [
-                'name' => $request->name,
-                'email' => $request->email,
-                'type' => 2,
-                'password' => Hash::make($request->password),
-            ]
-        );
 
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $user
-        ], 201);
+        $verificationToken = Str::random(30);
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            $user->delete();
+        }
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'type' => 2,
+            'password' => Hash::make($request->password),
+            'email_verification_token' => $verificationToken
+        ]);
+
+        Mail::to($user->email)->send(new EmailVerification($verificationToken));
+
+        return response()->json(['message' => 'Please check your email for verification.']);
     }
 
 
