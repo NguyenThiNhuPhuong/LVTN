@@ -94,7 +94,7 @@ class OrderService
                     'comment' => $request->note,
                 ];
                 $this->orderDetailRepository->createOrderDetail($dataOrderDetail);
-                $this->orderApprovalRepository->createOrderApproval($dataOrderApproval);
+                $this->orderApprovalRepository->insertOrderApproval($dataOrderApproval);
 
                 $product = $this->productRepository->getProduct($item['product_id']);
                 $numCurrent = $product['num'] - $product['num_buy'];
