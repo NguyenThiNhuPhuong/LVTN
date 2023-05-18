@@ -32,6 +32,7 @@ const authSlice = createSlice({
     token: Cookies.get("token"),
     isOpenModal: false,
     email: "",
+    user: {},
   },
   reducers: {
     logoutUser: (state) => {
@@ -53,6 +54,9 @@ const authSlice = createSlice({
     },
     setUpdateEmail(state, action) {
       state.email = action.payload;
+    },
+    setUser(state, action) {
+      state.user = action.payload;
     },
   },
   extraReducers: {
@@ -84,6 +88,7 @@ export const {
   logoutUser,
   resetRegister,
   getToken,
+  setUser,
   setUserInfo,
   setOpenModal,
   setUpdateEmail,

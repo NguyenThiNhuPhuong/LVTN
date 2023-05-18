@@ -3,7 +3,58 @@
   grid-template-columns: 300px 1fr;
   column-gap: 30px;
   padding: 30px 120px;
+  .modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
 
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 400px;
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h2 {
+          margin: 0;
+        }
+
+        .close {
+          color: #aaa;
+          cursor: pointer;
+        }
+      }
+
+      .modal-body {
+        margin-top: 20px;
+
+        input {
+          margin-bottom: 10px;
+          width: 100%;
+          padding: 5px;
+        }
+      }
+
+      .modal-footer {
+        margin-top: 20px;
+        text-align: right;
+
+        button {
+          // Các CSS cho nút "Save"
+        }
+      }
+    }
+  }
   &__left {
   }
 
