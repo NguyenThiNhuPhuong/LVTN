@@ -26,8 +26,9 @@ class OrderService
     protected $addressRepository;
     protected $discountRepository;
     protected $imageRepository;
-    private $orderStatusRepository;
-    private $orderApprovalRepository;
+    protected $orderStatusRepository;
+    protected $orderApprovalRepository;
+    protected $userService;
 
 
     public function __construct()
@@ -41,6 +42,7 @@ class OrderService
         $this->discountRepository = new DiscountRepository;
         $this->orderStatusRepository = new OrderStatusService;
         $this->orderApprovalRepository= new OrderApprovalRepository;
+        $this->userService= new UserService;
 
 
     }
@@ -144,9 +146,10 @@ class OrderService
 
     }
 
-    public function repariDataOrder($order, $orderDetail)
+    public function repariDataOrder($order, $orderDetail,$orderApproval)
     {
         $cart = [];
+        $approval=[];
         $order['user_name'] = $this->userRepository->getUser($order['user_id'])['name'];
         $order['province_name'] = $this->addressRepository->getProvince($order['province_id'])->name;
         $order['district_name'] = $this->addressRepository->getDistrict($order['district_id'])->name;
@@ -180,6 +183,28 @@ class OrderService
 
         $order['cart'] = $cart;
 
+        foreach ($orderApproval as $item){
+
+            $user = $this->userRepository->getUser($item['user_id']);
+            $userRepair = $this->userService->repariDataUser($user);
+            unset($userRepair['email_verified_at']);
+            unset($userRepair['province_id']);
+            unset($userRepair['district_id']);
+            unset($userRepair['ward_id']);
+            unset($userRepair['address']);
+            unset($userRepair['created_at']);
+            unset($userRepair['updated_at']);
+            unset($userRepair['email_verification_token']);
+            unset($userRepair['province_name']);
+            unset($userRepair['district_name']);
+            unset($userRepair['ward_name']);
+            $approval[]=[
+                ...$item,
+                'order_status_name'=>$this->orderStatusRepository->getOrderStatus($item['order_status_id'])->name,
+                'user'=>$userRepair,
+            ];
+        }
+        $order['approval'] = $approval;
         return $order;
     }
 
@@ -188,7 +213,8 @@ class OrderService
         $listOrder = [];
         foreach ($orders as $order) {
             $orderDetail = $this->orderDetailRepository->getOrderDetailByOrderId($order['id']);
-            $listOrder[] = $this->repariDataOrder($order, $orderDetail);
+            $oderApproval=$this->orderApprovalRepository->getOrderApprovalByOrderId($order['id']);
+            $listOrder[] = $this->repariDataOrder($order, $orderDetail,$oderApproval);
         }
 
         return $listOrder;

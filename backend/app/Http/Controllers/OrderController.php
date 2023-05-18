@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
 use App\Repositories\ImageRepository;
+use App\Repositories\OrderApprovalRepository;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
@@ -19,11 +20,13 @@ class OrderController extends Controller
     protected $orderService;
     protected $orderRepository;
     protected $orderDetailRepository;
+    protected $orderApprovalRepository;
 
     public function __construct()
     {
         $this->orderDetailRepository = new OrderDetailRepository;
         $this->orderRepository = new OrderRepository;
+        $this->orderApprovalRepository = new OrderApprovalRepository;
         $this->orderService = new OrderService;
     }
 
@@ -57,7 +60,8 @@ class OrderController extends Controller
     {
         $order = $this->orderService->createOrder($request);
         $orderDetail = $this->orderDetailRepository->getOrderDetailByOrderId($order->id);
-        $result = $this->orderService->repariDataOrder($order, $orderDetail);
+        $oderApproval=$this->orderApprovalRepository->getOrderApprovalByOrderId($order->id);
+        $result = $this->orderService->repariDataOrder($order, $orderDetail,$oderApproval);
         return response()->json([
             'order' => $result
         ]);
@@ -70,7 +74,8 @@ class OrderController extends Controller
     {
         $order = $this->orderRepository->getOrder($id);
         $orderDetail = $this->orderDetailRepository->getOrderDetailByOrderId($id);
-        $result = $this->orderService->repariDataOrder($order, $orderDetail);
+        $oderApproval=$this->orderApprovalRepository->getOrderApprovalByOrderId($id);
+        $result = $this->orderService->repariDataOrder($order, $orderDetail,$oderApproval);
         return response()->json([
             'order' => $result
         ]);
