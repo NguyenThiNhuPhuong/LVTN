@@ -6,19 +6,25 @@ import { getAUser } from "~/redux/slice/user/UserSlice";
 import "./Account.scss";
 import SideBar from "../../component/SideBar/SideBar";
 import { setOpenModal, setUser } from "~/redux/slice/auth/AuthSlice";
+import Loading from "~/admin/component/Loading/Loading";
+import Login from "~/customer/modules/Auth/page/login/Login";
 
 function Account() {
   TabTitle("Tài khoản của tôi");
   const dispatch = useDispatch();
-  const profile = useSelector((state) => state.user.userProfile);
-  const { isOpenModal, user } = useSelector((state) => state.auth);
+  const { userProfile: profile, isLoading } = useSelector(
+    (state) => state.user
+  );
+  const { isOpenModal, user, token } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    dispatch(setUser({}));
     dispatch(getAUser());
   }, [dispatch]);
 
   const handleCurrenPassword = (e) => {
-    dispatch(setUser({ ...user, current_password: e.target.value }));
+    console.log(e.target.value);
+    // dispatch(setUser({ ...user, current_password: e.target.value }));
   };
   const handlePasswordChange = (e) => {
     dispatch(setUser({ ...user, new_password: e.target.value }));
@@ -43,6 +49,14 @@ function Account() {
     return (
       <form className="modal" onSubmit={handleSavePassword}>
         <div className="modal-content">
+          <input
+            type="text"
+            className="sr-only"
+            value={user?.username}
+            autoComplete="username"
+            aria-hidden="true"
+            readOnly
+          />
           <div className="modal-header">
             <h2>Change Password</h2>
             <span
@@ -56,26 +70,26 @@ function Account() {
             <input
               type="password"
               value={user?.current_password}
-              id="changePasswordOldPassword"
-              autoComplete="current-password"
               onChange={handleCurrenPassword}
+              autoComplete="current-password"
               placeholder="Current Password"
+              required={true}
             />
             <input
               type="password"
-              value={user?.password}
-              id="changePasswordNewPassword"
+              value={user?.new_password}
+              onChange={handlePasswordChange}
               autoComplete="new-password"
-              onChange={() => handlePasswordChange}
               placeholder="New Password"
+              required={true}
             />
             <input
               type="password"
-              id="changePasswordNewPassword2"
-              autoComplete="new-password"
-              value={user?.confirmPassword}
+              value={user?.confirm_new_password}
               onChange={handleConfirmPasswordChange}
               placeholder="Confirm Password"
+              autoComplete="new-password"
+              required={true}
             />
           </div>
           <div className="modal-footer">
@@ -85,8 +99,10 @@ function Account() {
       </form>
     );
   };
-  return (
-    <>
+  const User = () => {
+    return isLoading ? (
+      <Loading />
+    ) : (
       <div className="AccountContainer">
         {isOpenModal ? <Modal /> : ""}
         <div className="AccountContainer__left">
@@ -137,8 +153,9 @@ function Account() {
           </div>
         </div>
       </div>
-    </>
-  );
+    );
+  };
+  return token ? <User /> : <Login />;
 }
 
 export default Account;

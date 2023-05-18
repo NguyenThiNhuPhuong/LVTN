@@ -8,7 +8,6 @@ export const getListUser = createAsyncThunk("user/getListUser", async () => {
 //GET A USER
 export const getAUser = createAsyncThunk("user/getAUser", async (id) => {
   const response = await userService.getAUser(id);
-
   return response.user;
 });
 //NEW USER
