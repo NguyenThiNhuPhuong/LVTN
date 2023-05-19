@@ -24,13 +24,15 @@ const authSlice = createSlice({
     token: Cookies.get("token"),
     isOpenModal: false,
     email: "",
+    current_password: "",
     user: { current_password: "", new_password: "", confirm_new_password: "" },
   },
   reducers: {
     logoutUser: (state) => {
-      state.userInfo = localStorage.removeItem("userInfo");
+      state.userInfo = null;
       state.role = "";
       state.token = Cookies.remove("token");
+      localStorage.removeItem("userInfo");
     },
     resetRegister: (state) => {
       state.isSusses = false;
@@ -49,6 +51,9 @@ const authSlice = createSlice({
     },
     setUser(state, action) {
       state.user = action.payload;
+    },
+    setValueCurrentPassword(state, action) {
+      state.current_password = action.payload;
     },
   },
   extraReducers: {
@@ -81,6 +86,7 @@ export const {
   resetRegister,
   getToken,
   setUser,
+  setValueCurrentPassword,
   setUserInfo,
   setOpenModal,
   setUpdateEmail,

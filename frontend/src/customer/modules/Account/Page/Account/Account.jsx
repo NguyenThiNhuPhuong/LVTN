@@ -5,7 +5,11 @@ import TabTitle from "~/components/tabtiltle/TabTiltle";
 import { getAUser } from "~/redux/slice/user/UserSlice";
 import "./Account.scss";
 import SideBar from "../../component/SideBar/SideBar";
-import { setOpenModal, setUser } from "~/redux/slice/auth/AuthSlice";
+import {
+  setOpenModal,
+  setUser,
+  setValueCurrentPassword,
+} from "~/redux/slice/auth/AuthSlice";
 import Loading from "~/admin/component/Loading/Loading";
 import Login from "~/customer/modules/Auth/page/login/Login";
 
@@ -15,7 +19,9 @@ function Account() {
   const { userProfile: profile, isLoading } = useSelector(
     (state) => state.user
   );
-  const { isOpenModal, user, token } = useSelector((state) => state.auth);
+  const { isOpenModal, user, token, current_password } = useSelector(
+    (state) => state.auth
+  );
 
   useEffect(() => {
     dispatch(setUser({}));
@@ -24,7 +30,7 @@ function Account() {
 
   const handleCurrenPassword = (e) => {
     console.log(e.target.value);
-    // dispatch(setUser({ ...user, current_password: e.target.value }));
+    dispatch(setValueCurrentPassword(e.target.value));
   };
   const handlePasswordChange = (e) => {
     dispatch(setUser({ ...user, new_password: e.target.value }));
@@ -69,7 +75,7 @@ function Account() {
           <div className="modal-body">
             <input
               type="password"
-              value={user?.current_password}
+              value={current_password}
               onChange={handleCurrenPassword}
               autoComplete="current-password"
               placeholder="Current Password"
