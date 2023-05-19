@@ -3,17 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Loading from "~/admin/component/Loading/Loading";
 
-import { getListOrder, getListOrderUser } from "~/redux/slice/order/OrderSlice";
+import { getListOrderUser } from "~/redux/slice/order/OrderSlice";
 
 import DataTable from "../../component/DataTable/DataTable";
-import "./ViewOrder.scss";
 import SideBar from "../../component/SideBar/SideBar";
+import "./ViewOrder.scss";
 
 function ViewOrder() {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.order);
   const id = useSelector((state) => state.user.userProfile.id);
-  console.log(id);
   useEffect(() => {
     dispatch(getListOrderUser(id));
   }, [dispatch, id]);

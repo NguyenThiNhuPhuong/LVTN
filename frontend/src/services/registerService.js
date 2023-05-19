@@ -1,7 +1,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import httpRequest from "~/httpRequest/httpRequest";
-
+//REGISTER
 export const signUpUser = async ({
   name,
   email,
@@ -25,6 +25,7 @@ export const signUpUser = async ({
     });
   }
 };
+//LOGIN
 export const signInUser = async ({ email, password }) => {
   try {
     const res = await axios
@@ -37,7 +38,8 @@ export const signInUser = async ({ email, password }) => {
       .post(`auth/login`, { email, password });
     return res;
   } catch (error) {
-    if (error.response.data.message === "Login failed") {
+    console.log(error);
+    if (error.response.data.error === "Please verify your email to login") {
       return await Swal.fire({
         icon: "error",
         text: "Tài khoản này cần xác thực mail😰😰",
@@ -52,56 +54,24 @@ export const signInUser = async ({ email, password }) => {
     }
   }
 };
-
-export const LoginRegister = async (accessToken) => {
+//CHANGE PASSWORD
+export const changePassword = async ({
+  current_password,
+  new_password,
+  confirm_new_password,
+}) => {
   try {
-    const res = await axios
-      .create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .get(`auth/secret`);
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const getRegister = async () => {
-  try {
-    const res = await httpRequest.get(`auth/secret`);
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const veryfyEmail = async (email, otp) => {
-  try {
-    const res = await httpRequest.post(`auth/verify-email`, { email, otp });
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const veryfyForgetPassword = async (email, otp) => {
-  try {
-    const res = await httpRequest.post(`auth/verify-forgot-password`, {
-      email,
-      otp,
+    const res = await httpRequest.put(`user/change-password`, {
+      current_password,
+      new_password,
+      confirm_new_password,
     });
     return res;
   } catch (error) {
-    console.log(error);
-  }
-};
-export const forgetPassword = async (email) => {
-  try {
-    const res = await httpRequest.post(`auth/forgot-password`, { email });
-    return res;
-  } catch (error) {
-    console.log(error);
+    Swal.fire({
+      icon: "error",
+      text: `${error.response.data.message} 🙌👀`,
+    });
   }
 };
 

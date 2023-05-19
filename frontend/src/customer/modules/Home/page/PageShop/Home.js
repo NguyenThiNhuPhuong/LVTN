@@ -10,7 +10,6 @@ import {
 } from "~/redux/slice/product/ProductSlice";
 import { getListSlider } from "~/redux/slice/slider/SliderSlice";
 
-// import Products from "../../component/products/Products";
 import Pagination from "../../component/Pagination/Pagination";
 import Loading from "../../component/loading/Loading";
 import Products from "../../component/products/Products";
@@ -32,7 +31,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(setNamePage("Home"));
     dispatch(getAllProducts(params));
-    dispatch(getListSlider());
+    dispatch(getListSlider(1));
     dispatch(getCategory());
     dispatch(getListDiscountByDate(`${year}/${month}/${date}`));
   }, [date, dispatch, month, params, year]);

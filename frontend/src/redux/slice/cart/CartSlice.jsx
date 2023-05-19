@@ -40,6 +40,10 @@ const cartSlice = createSlice({
         }
       }
     },
+    resetCart: (state) => {
+      state.listCart = "";
+      localStorage.removeItem("cart");
+    },
     removeCart: (state, action) => {
       const removeCart = action.payload;
       const removedIndex = state.listCart.findIndex(
@@ -91,6 +95,7 @@ const cartSlice = createSlice({
 export default cartSlice.reducer;
 export const {
   addCart,
+  resetCart,
   removeCart,
   increaseCart,
   decreaseCart,

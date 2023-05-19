@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import "./DataTable.scss";
 function DataTable() {
   const { orderListUser } = useSelector((state) => state.order);
-
   return orderListUser?.map((orderItem, index) => {
     return (
       <div className="order__row" key={index}>
@@ -22,13 +21,18 @@ function DataTable() {
                   : orderItem.order_status_id === 5
                   ? "red"
                   : "green",
+              color:
+                orderItem.order_status_id === 1 ||
+                orderItem.order_status_id === 5
+                  ? "black"
+                  : "white",
             }}
           >
             {orderItem.order_status_name}
           </div>
         </div>
         <div className="order__row--action text">
-          <NavLink to={`/admin/order/detailOrder/${orderItem.id}`}>
+          <NavLink to={`/viewOrder/user/${orderItem.id}`}>
             <VisibilityIcon />
           </NavLink>
         </div>

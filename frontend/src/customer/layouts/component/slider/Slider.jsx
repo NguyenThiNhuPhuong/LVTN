@@ -19,7 +19,7 @@ function Slide() {
   ) : (
     <div className="slider-container">
       <Slider {...settings}>
-        {sliderList.map((slider) => (
+        {sliderList?.map((slider) => (
           <img src={slider.image} alt="" />
         ))}
       </Slider>

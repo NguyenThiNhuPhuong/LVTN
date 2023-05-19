@@ -13,7 +13,6 @@ export const getListDiscountByDate = createAsyncThunk(
   "discount/getListDiscountByDate",
   async (date) => {
     const response = await discountService.getListDiscountByDate(date);
-    console.log(response);
     return response.data.data;
   }
 );
