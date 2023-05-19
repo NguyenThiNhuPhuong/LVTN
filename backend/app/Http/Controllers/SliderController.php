@@ -25,14 +25,14 @@ class SliderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+    public function index(Request $request)
     {
-        $result = $this->sliderRepository->getAllSlider();
+        $sliders = $this->sliderRepository->getListSlider($request->active,$request->per_page);
         return response()->json([
-            'rows' => $result
+            $sliders
         ]);
     }
-
     /**
      * Store a newly created resource in storage.
      */

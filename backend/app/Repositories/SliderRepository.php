@@ -14,7 +14,15 @@ class SliderRepository
     {
         return  $this->modelClass::all();
     }
-
+    public function getListSlider($active,$perPage=null)
+    {
+        $perPage = $perPage ?? $this->perPage;
+        $categorise = $this->modelClass::when($active, function ($query) use ($active) {
+            $query->where('active', $active);
+        })
+            ->paginate($perPage);
+        return $categorise;
+    }
     public function getSlider($sliderId)
     {
         return  $this->modelClass::find($sliderId);
