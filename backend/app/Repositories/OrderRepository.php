@@ -89,8 +89,8 @@ class OrderRepository
         $priceAll = $this->modelClass::whereMonth('date', $month)
             ->WhereYear('date', $year)
             ->whereNull('deleted_at')
-            ->where('order_status_id', '<>', 5)
-            ->where('order_status_id', '<>', 6)
+            //->where('order_status_id', '<>', 5)
+            ->where('order_status_id', 4)
             ->sum('price_product');
         return $priceAll;
     }
