@@ -20,7 +20,7 @@ const routeClient = {
   accountInfo: "/account/info",
   accountEdit: "/account/edit",
 
-  orderDetail: "/order/:id",
+  orderDetail: "/viewOrder/user/:id",
   viewOrder: "/viewOrder",
 
   userLogin: "/login",

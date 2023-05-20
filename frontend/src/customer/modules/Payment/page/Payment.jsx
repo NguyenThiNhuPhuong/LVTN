@@ -5,7 +5,11 @@ import TabTitle from "~/components/tabtiltle/TabTiltle";
 import "./Payment.scss";
 
 import { ToastContainer, toast } from "react-toastify";
-import { totalAllCart, totalCart } from "~/redux/slice/cart/CartSlice";
+import {
+  resetCart,
+  totalAllCart,
+  totalCart,
+} from "~/redux/slice/cart/CartSlice";
 import { listDiscountValid } from "~/redux/slice/discount/DiscountSlice";
 import Login from "../../Auth/page/login/Login";
 import Form from "../component/Form/Form";
@@ -41,13 +45,13 @@ export default function Payment() {
   //--------------------handel when payment success
   useEffect(() => {
     if (isSuccessNew === true) {
-      localStorage.removeItem("cart");
+      dispatch(resetCart());
       toast.success("Bạn đã thanh toán thành công", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
       setTimeout(() => navigate("/product/shop"), 3000);
     }
-  }, [isSuccessNew, navigate]);
+  }, [dispatch, isSuccessNew, navigate]);
   //----------------------total cart
   useEffect(() => {
     const res = listCart.reduce((total, item) => {

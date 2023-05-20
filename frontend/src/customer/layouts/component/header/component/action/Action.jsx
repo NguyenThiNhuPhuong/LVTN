@@ -18,7 +18,7 @@ function Action() {
     dispatch(getUserProfile());
   }, [dispatch]);
   const user = useSelector((state) => state.user.userProfile);
-  const cartQuantity = useSelector((state) => state.cart.listCart.length);
+  const cartQuantity = useSelector((state) => state.cart.listCart?.length);
 
   return (
     <div className={cx("action")}>

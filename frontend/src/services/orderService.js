@@ -23,7 +23,7 @@ export const getListOrder = async ({ page, status_id }) => {
 export const getListOrderUser = async (id) => {
   try {
     const res = await httpRequest.get(`orders/user/${id}`);
-    return res;
+    return res.data;
   } catch (error) {
     console.log(error);
   }
@@ -44,6 +44,7 @@ export const newOrder = async (values) => {
 //GET A ORDER FOR ADMIN
 export const getAOrder = async (id) => {
   try {
+    console.log("iddddd", id);
     const res = await httpRequest.get(`orders/${id}`);
     return res;
   } catch (error) {

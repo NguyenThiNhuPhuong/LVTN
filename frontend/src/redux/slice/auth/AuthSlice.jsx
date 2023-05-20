@@ -1,15 +1,26 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as registerService from "../../../services/registerService";
 import Cookies from "js-cookie";
-
+//REGISTER
 export const signUpUser = createAsyncThunk("user/signUpUser", async (user) => {
   const response = await registerService.signUpUser(user);
-  return response;
+  return response.message;
 });
+//LOGIN
 export const signInUser = createAsyncThunk("user/userLogin", async (user) => {
   const response = await registerService.signInUser(user);
   return response.data;
 });
+//CHANGE PASSWORD
+export const changePassword = createAsyncThunk(
+  "user/changePassword",
+  async (user) => {
+    const response = await registerService.changePassword(user);
+    console.log(response.data.message);
+
+    return response.data.message;
+  }
+);
 const userInfoFromLocalStorage = localStorage.getItem("userInfo")
   ? Cookies.get("token") && JSON.parse(localStorage.getItem("userInfo"))
   : {};
@@ -18,19 +29,21 @@ const authSlice = createSlice({
   initialState: {
     userInfo: userInfoFromLocalStorage,
     err: "",
+    messenger: "",
     isSusses: false,
     isLoading: false,
     role: "",
     token: Cookies.get("token"),
     isOpenModal: false,
     email: "",
-    user: { current_password: "", new_password: "", confirm_new_password: "" },
   },
   reducers: {
     logoutUser: (state) => {
-      state.userInfo = localStorage.removeItem("userInfo");
+      state.userInfo = null;
       state.role = "";
-      state.token = Cookies.remove("token");
+      state.token = null;
+      Cookies.remove("token");
+      localStorage.removeItem("userInfo");
     },
     resetRegister: (state) => {
       state.isSusses = false;
@@ -47,9 +60,6 @@ const authSlice = createSlice({
     setUpdateEmail(state, action) {
       state.email = action.payload;
     },
-    setUser(state, action) {
-      state.user = action.payload;
-    },
   },
   extraReducers: {
     [signUpUser.pending]: (state) => {
@@ -57,7 +67,7 @@ const authSlice = createSlice({
     },
     [signUpUser.fulfilled]: (state, action) => {
       state.isLoading = true;
-      state.isSusses = action.payload.user ? true : false;
+      state.isSusses = action.payload !== "" ? true : false;
     },
     [signInUser.pending]: (state) => {
       state.isLoading = false;
@@ -72,6 +82,13 @@ const authSlice = createSlice({
         expires: 1 / 24,
       });
     },
+    [changePassword.pending]: (state) => {
+      state.isLoading = false;
+    },
+    [changePassword.fulfilled]: (state, action) => {
+      state.isLoading = true;
+      state.messenger = action.payload;
+    },
   },
 });
 
@@ -80,7 +97,6 @@ export const {
   logoutUser,
   resetRegister,
   getToken,
-  setUser,
   setUserInfo,
   setOpenModal,
   setUpdateEmail,

@@ -1,9 +1,13 @@
 import Swal from "sweetalert2";
 import * as httpRequest from "~/httpRequest/httpRequest";
 
-export const getListSlider = async () => {
+export const getListSlider = async (active) => {
   try {
-    const res = await httpRequest.get(`sliders`);
+    let params = "";
+    if (active !== undefined) {
+      params += `active=${active}`;
+    }
+    const res = await httpRequest.get(`sliders?` + params);
     return res;
   } catch (error) {
     console.log(error);

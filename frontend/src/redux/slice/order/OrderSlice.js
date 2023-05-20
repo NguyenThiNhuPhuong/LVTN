@@ -14,17 +14,17 @@ export const getListOrderUser = createAsyncThunk(
   "order/getListOrderUser",
   async (id) => {
     const response = await orderService.getListOrderUser(id);
-    return response.rows;
+    return response;
   }
 );
 // API GET A ORDER
 export const getAOrder = createAsyncThunk("order/getAOrder", async (id) => {
   const response = await orderService.getAOrder(id);
+  console.log(response);
   return response.order;
 });
 // API CREATE NEW ORDER
 export const newOrder = createAsyncThunk("order/newOrder", async (orderNew) => {
-  console.log(orderNew);
   const response = await orderService.newOrder(orderNew);
   return response.order;
 });

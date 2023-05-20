@@ -16,9 +16,9 @@
     .modal-content {
       background-color: #fefefe;
       margin: 10% auto;
-      padding: 20px;
       border: 1px solid #888;
       width: 400px;
+      padding: 20px;
 
       .modal-header {
         display: flex;
@@ -27,11 +27,22 @@
 
         h2 {
           margin: 0;
+          text-transform: uppercase;
+          color: var(--backgroundIcon);
         }
 
         .close {
-          color: #aaa;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
           cursor: pointer;
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          background-color: var(--backgroundIcon);
+          color: white;
+          font-size: 20px;
         }
       }
 
@@ -39,18 +50,30 @@
         margin-top: 20px;
 
         input {
-          margin-bottom: 10px;
           width: 100%;
-          padding: 5px;
+          padding: 15px;
+          border: 1px solid lightgray;
+          border-radius: 5px;
+          margin: 10px 0;
+        }
+        span {
+          color: red;
+          font-size: 1.2rem;
+          margin-top: -5px;
         }
       }
 
       .modal-footer {
         margin-top: 20px;
-        text-align: right;
-
+        display: flex;
+        justify-content: center;
+        align-items: center;
         button {
-          // Các CSS cho nút "Save"
+          width: 150px;
+          height: 30px;
+          background-color: var(--mainColor);
+          color: white;
+          font-size: 16px;
         }
       }
     }
@@ -89,6 +112,12 @@
             height: 100px;
             display: block;
             border-radius: 50%;
+          }
+        }
+        .detailItem {
+          button {
+            background-color: white;
+            color: var(--mainColor);
           }
         }
       }

@@ -3,9 +3,9 @@ import * as sliderService from "../../../services/sliderService";
 
 export const getListSlider = createAsyncThunk(
   "slider/getListSlider",
-  async () => {
-    const response = await sliderService.getListSlider();
-    return response.rows;
+  async (params) => {
+    const response = await sliderService.getListSlider(params);
+    return response[0].data;
   }
 );
 export const getASlider = createAsyncThunk("slider/getASlider", async (id) => {

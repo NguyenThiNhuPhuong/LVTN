@@ -23,15 +23,12 @@ export default function Register() {
   const success = useSelector((state) => state.auth.isSusses);
 
   useEffect(() => {
-    return (
-      // redirect user to login page if registration was successful
-      success === true
-        ? (toast.success("User successfully registered", {
-            position: toast.POSITION.BOTTOM_RIGHT,
-          }),
-          setTimeout(() => navigate("/login"), 3000))
-        : ""
-    );
+    // redirect user to login page if registration was successful
+    if (success === true) {
+      toast.success("Vui lòng xác nhận mail của bạn", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
     // redirect authenticated user to profile screen
   }, [navigate, success]);
 

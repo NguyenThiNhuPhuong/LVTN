@@ -8,6 +8,7 @@ import ReturnPolicy from "~/customer/modules/About/page/ReturnPolicy/ReturnPolic
 import TermsService from "~/customer/modules/About/page/TermsService/TermsService";
 import About from "~/customer/modules/About/page/about/About";
 import Account from "~/customer/modules/Account/Page/Account/Account";
+import DetailOrder from "~/customer/modules/Account/Page/DetailOrder/DetailOrder";
 import ViewOrder from "~/customer/modules/Account/Page/ViewOrder/ViewOrder";
 import Login from "~/customer/modules/Auth/page/login/Login";
 import Register from "~/customer/modules/Auth/page/register/Register";
@@ -20,10 +21,12 @@ import Home from "~/customer/modules/Home/page/PageShop/Home";
 import Payment from "~/customer/modules/Payment/page/Payment";
 
 const PUBLIC_ROUTES = [
+  //HOME
   { path: routeClient.home, component: Home, layout: DefaultLayout },
   { path: routeClient.allProductShop, component: Home, layout: DefaultLayout },
-
+  //CART
   { path: routeClient.cart, component: Cart, layout: LayoutNoSlider },
+  //PRODUCT
   {
     path: routeClient.allProductSale,
     component: Sale,
@@ -39,6 +42,7 @@ const PUBLIC_ROUTES = [
     component: PageDetailProduct,
     layout: LayoutNoSlider,
   },
+  //AUTH
   {
     path: routeClient.userRegister,
     component: Register,
@@ -49,14 +53,21 @@ const PUBLIC_ROUTES = [
     component: Login,
     layout: LayoutNoSlider,
   },
+  //ACCOUNT
   { path: routeClient.accountInfo, component: Account, layout: LayoutNoSlider },
   { path: routeClient.viewOrder, component: ViewOrder, layout: LayoutNoSlider },
+  {
+    path: routeClient.orderDetail,
+    component: DetailOrder,
+    layout: LayoutNoSlider,
+  },
 
   {
     path: routeClient.pageNotFound,
     component: PageNotFound,
     layout: LayoutNoSlider,
   },
+  //ABOUT
   { path: routeClient.about, component: About, layout: LayoutNoSlider },
   {
     path: routeClient.aboutPrivacyPolicy,
@@ -73,7 +84,9 @@ const PUBLIC_ROUTES = [
     component: TermsService,
     layout: LayoutNoSlider,
   },
+  //CONTACT
   { path: routeClient.contact, component: Contact, layout: LayoutNoSlider },
+  //PAYMENT
   { path: routeClient.payment, component: Payment, layout: LayoutNoSlider },
 ];
 export default PUBLIC_ROUTES;
