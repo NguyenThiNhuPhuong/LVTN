@@ -1,19 +1,14 @@
 import classNames from "classnames/bind";
 import styles from "../../component/Auth.module.scss";
 
-import { useFormik } from "formik";
+import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-
 import { MENU_LOGIN } from "~/components/constant/Menu";
 
-import {
-  setOpenModal,
-  setUpdateEmail,
-  signInUser,
-} from "~/redux/slice/auth/AuthSlice";
+import { setOpenModal, signInUser } from "~/redux/slice/auth/AuthSlice";
 import FormRegister from "../../component/FormRegister/FormRegister";
 
 const cx = classNames.bind(styles);
@@ -37,32 +32,54 @@ export default function Login() {
       navigate("/login");
     }
   }, [navigate, role]);
-
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+  });
   //----open modal------
   const Modal = () => {
+    const handleSubmit = (values) => {
+      // Xử lý submit form tại đây
+      console.log(values);
+    };
+
     return (
-      <div id="myModal" className={cx("modal")}>
-        <div className={cx("modal-content")}>
-          <div className={cx("modal-content__top")}>
-            <h3>Quên Mật khẩu</h3>
-            <span onClick={() => dispatch(setOpenModal(false))}>
-              <div className={cx("close")}>&times;</div>
-            </span>
+      <Formik
+        initialValues={{ email: "" }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form id="myModal" className={cx("modal")}>
+          <div className={cx("modal-content")}>
+            <div className={cx("modal-content__top")}>
+              <h3>Quên Mật khẩu</h3>
+              <span onClick={() => dispatch(setOpenModal(false))}>
+                <div className={cx("close")}>&times;</div>
+              </span>
+            </div>
+            <div className={cx("modal-content__center")}>
+              <label htmlFor="inputField">Nhập Email </label>
+              <Field
+                type="text"
+                id="inputField"
+                name="email"
+                className={cx("input")}
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className={cx("error-message")}
+              />
+            </div>
+            <div className={cx("modal-content__btn")}>
+              <button id="submitBtn" type="submit">
+                Submit
+              </button>
+            </div>
           </div>
-          <div className={cx("modal-content__center")}>
-            <label htmlFor="inputField">Nhập Email </label>
-            <input
-              type="text"
-              id="inputField"
-              className={cx("input")}
-              onChange={(e) => dispatch(setUpdateEmail(e.target.value))}
-            />
-          </div>
-          <div className={cx("modal-content__btn")}>
-            <button id="submitBtn">Submit</button>
-          </div>
-        </div>
-      </div>
+        </Form>
+      </Formik>
     );
   };
 

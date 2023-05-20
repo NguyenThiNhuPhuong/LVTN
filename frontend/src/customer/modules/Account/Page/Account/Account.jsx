@@ -22,10 +22,9 @@ function Account() {
   const { isOpenModal, token, messenger } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    dispatch(setOpenModal(false));
     dispatch(getAUser());
   }, [dispatch]);
-  console.log(messenger);
-  console.log(isOpenModal);
   useEffect(() => {
     if (messenger !== "") {
       setTimeout(() => {
@@ -53,7 +52,6 @@ function Account() {
 
     const handleSubmit = (values) => {
       dispatch(changePassword(values));
-      // Xử lý submit form tại đây
     };
 
     return (
