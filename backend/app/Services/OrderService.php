@@ -246,9 +246,8 @@ class OrderService
         //update orderstatus 1 -> 2 (xác nận đơn hàng)
         if ($order['order_status_id'] == 1 && $request->order_status_id == 2 && Auth::user()->type == 1) {
             $isUpdate = DB::transaction(function () use ($id, $dataUpdate,$dataOrderApproval) {
-
                 $this->orderRepository->updateOrder($id, $dataUpdate);
-                $this->orderApprovalRepository->createOrderApproval($dataOrderApproval);
+                return  $this->orderApprovalRepository->insertOrderApproval($dataOrderApproval);
 
             });
             if ($isUpdate) {
@@ -268,7 +267,7 @@ class OrderService
             $isUpdate = DB::transaction(function () use ($id, $dataUpdate,$dataOrderApproval) {
 
                 $this->orderRepository->updateOrder($id, $dataUpdate);
-                $this->orderApprovalRepository->createOrderApproval($dataOrderApproval);
+                return  $this->orderApprovalRepository->insertOrderApproval($dataOrderApproval);
 
             });
             if ($isUpdate) {
@@ -288,9 +287,10 @@ class OrderService
             $isUpdate = DB::transaction(function () use ($id, $dataUpdate,$dataOrderApproval) {
 
                 $this->orderRepository->updateOrder($id, $dataUpdate);
-                $this->orderApprovalRepository->createOrderApproval($dataOrderApproval);
+              return  $this->orderApprovalRepository->insertOrderApproval($dataOrderApproval);
 
             });
+
             if ($isUpdate) {
                 $message = "Orders are shipping!";
                 $status = 200;
@@ -308,7 +308,7 @@ class OrderService
             $isUpdate = DB::transaction(function () use ($id, $dataUpdate,$dataOrderApproval) {
 
                 $this->orderRepository->updateOrder($id, $dataUpdate);
-                $this->orderApprovalRepository->createOrderApproval($dataOrderApproval);
+                return $this->orderApprovalRepository->insertOrderApproval($dataOrderApproval);
 
             });
             if ($isUpdate) {
@@ -328,9 +328,10 @@ class OrderService
             $isUpdate = DB::transaction(function () use ($id, $dataUpdate,$dataOrderApproval) {
 
                 $this->orderRepository->updateOrder($id, $dataUpdate);
-                $this->orderApprovalRepository->createOrderApproval($dataOrderApproval);
+                return  $this->orderApprovalRepository->insertOrderApproval($dataOrderApproval);
 
             });
+
             if ($isUpdate) {
                 $message = "Order has been returned!";
                 $status = 200;
