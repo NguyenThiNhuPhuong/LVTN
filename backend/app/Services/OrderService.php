@@ -88,15 +88,8 @@ class OrderService
                     'price' => $item['price'],
                     'price_sale' => $item['price_sale']
                 ];
-                $dataOrderApproval=[
-                    'order_id' => $order->id,
-                    "user_id" => Auth::user()->id,
-                    "order_status_id" => 1,
-                    'action_time' => $dateTime,
-                    'comment' => $request->note,
-                ];
+
                 $this->orderDetailRepository->createOrderDetail($dataOrderDetail);
-                $this->orderApprovalRepository->insertOrderApproval($dataOrderApproval);
 
                 $product = $this->productRepository->getProduct($item['product_id']);
                 $numCurrent = $product['num'] - $product['num_buy'];
@@ -109,6 +102,14 @@ class OrderService
                 $this->productRepository->updateNumBuy($item['product_id'], $numBuy);
 
             }
+            $dataOrderApproval=[
+                'order_id' => $order->id,
+                "user_id" => Auth::user()->id,
+                "order_status_id" => 1,
+                'action_time' => $dateTime,
+                'comment' => $request->note,
+            ];
+            $this->orderApprovalRepository->insertOrderApproval($dataOrderApproval);
 
             if ($request->discount_id != null) {
                 $discount = $this->discountRepository->getDiscount($request->discount_id);
