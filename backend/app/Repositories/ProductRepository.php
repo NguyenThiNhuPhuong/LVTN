@@ -79,7 +79,7 @@ class ProductRepository
     public function deleteProduct($id)
     {
         $product = $this->modelClass::findOrFail($id);
-        return  $product->delete();
+        return $product->delete();
 
     }
 
@@ -89,7 +89,7 @@ class ProductRepository
             ->update(['num_buy' => $numBuy]);
     }
 
-    public function getListProduct($categoryId, $string, $minPrice, $maxPrice, $perPage = null)
+    public function getListProduct($categoryId, $string, $minPrice, $maxPrice, $sort, $perPage = null)
     {
         $perPage = $perPage ?? $this->perPage;
         $products = $this->modelClass::when($categoryId, function ($query) use ($categoryId) {
@@ -123,6 +123,9 @@ class ProductRepository
                             });
                     });
                 }
+            })
+            ->when($sort, function ($query) use ($sort) {
+                $query->orderBy('name', $sort);
             })
             ->paginate($perPage);
         return $products;

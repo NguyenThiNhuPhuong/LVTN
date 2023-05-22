@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
@@ -93,6 +94,9 @@ Route::apiResource('sliders', SliderController::class);
 Route::apiResource('discounts', DiscountController::class);
 Route::get('/discounts/list/check-discount', [DiscountController::class, 'checkDiscount']);
 Route::get('/discounts/list/valid', [DiscountController::class, 'listDiscountValid']);
+
+/*----------------FEEDBACK-------------------*/
+Route::apiResource('feedback', FeedbackController::class);
 
 
 

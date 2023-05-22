@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 use App\Repositories\CategoryRepository;
+use App\Repositories\FeedbackRepository;
 use App\Repositories\ImageRepository;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderRepository;
@@ -12,70 +13,27 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class ProductService
+class FeedbackService
 {
-    protected $categoryRepository;
-    protected $prouctRepository;
-    protected $imageRepository;
-    protected $productRepository;
-    protected $orderRepository;
-    protected $orderDetailRepository;
+    protected $feedbackRepository;
+
 
     public function __construct()
     {
-        $this->categoryRepository = new CategoryRepository;
-        $this->prouctRepository = new ProductRepository;
-        $this->imageRepository = new ImageRepository;
-        $this->productRepository = new ProductRepository;
-        $this->orderRepository = new OrderRepository;
-        $this->orderDetailRepository = new OrderDetailRepository;
+        $this->feedbackRepository = new FeedbackRepository();
+
     }
 
-    public function createProduct($request)
+    public function createFeedback($request)
     {
-        $request['images'] = [];
-        $images = [];
-
-        if ($request->hasFile('files')) {
-            foreach ($request['files'] as $file) {
-                $path = $file->store('products', 'public');
-                $images[] = asset('storage/' . $path);
-            }
-            $request['images'] = $images;
-        }
-        $dataProduct = [
-            "name" => $request->name,
-            "category_id" => $request->category_id,
-            "price" => $request->price,
-            "price_sale" => $request->price_sale,
-            "num" => $request->num,
-            "num_buy" => 0,
-            "description" => $request->description,
-            "active" => 1,
-            "created_by" => Auth::user()->id,
-            "updated_by" => Auth::user()->id,
+        $user = Auth::user();
+        $dataFeedback = [
+            'user_id' => $user->id,
+            'email' => $request->email,
+            'content' => $request->content,
         ];
-
-        $rresult = DB::transaction(function () use ($dataProduct, $request) {
-
-            $product = $this->productRepository->createProduct($dataProduct);
-            $dataImage = [];
-
-            foreach ($request->images as $image) {
-                $dataImage[] = [
-                    "product_id" => $product->id,
-                    "url" => $image,
-                    "created_by" => Auth::user()->id,
-                    "updated_by" => Auth::user()->id,
-                ];
-            }
-
-            $this->imageRepository->insertImage($dataImage);
-
-            return $product;
-        });
-
-        return $rresult;
+        $feedback = $this->feedbackRepository->createFeedback($dataFeedback);
+        return $feedback;
     }
 
     public function updateProduct($id, $request)
@@ -168,7 +126,7 @@ class ProductService
                 $this->imageRepository->deleteProductImage($id);
                 $this->productRepository->deleteProduct($id);
             });
-                return $result = "Delete products successful! ";
+            return $result = "Delete products successful! ";
         }
 
 
@@ -176,8 +134,13 @@ class ProductService
 
     public function listProduct($request)
     {
-        $products = $this->productRepository->getListProduct($request->category_id,$request->string,$request->min_price,$request->max_price,$request->sort,$request->per_page,);
+        $products = $this->productRepository->getListProduct($request->category_id, $request->string, $request->min_price, $request->max_price, $request->sort, $request->per_page,);
         return $products;
+    }
+
+    public function getListFeedback($user_id, $per_page)
+    {
+        return $this->feedbackRepository->getListFeedback($user_id, $per_page);
     }
 
 
