@@ -56,10 +56,12 @@ Route::group([
 Route::get('/dashboard/total', [DashboardController::class, 'listTotalItem']);
 
 /*----------------USER-------------------*/
-
 Route::apiResource('users', UserController::class);
 Route::put('/user/change-password', [UserController::class, 'changePassword']);
 Route::get('verify-email',  [VerificationController::class, 'verifyEmail']);
+Route::post('user/password/send-email', [UserController::class ,'sendEmail']);
+Route::post('user/password/confirm',  [UserController::class ,'confirm']);
+Route::post('user/password/reset',  [UserController::class ,'reset']);
 
 /*----------------CATEGORY-------------------*/
 

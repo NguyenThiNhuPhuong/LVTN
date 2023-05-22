@@ -4,9 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\UserRequest;
+use App\Mail\EmailVerification;
+use App\Mail\ForgetPassword;
+use App\Models\PasswordResetTokens;
+use App\Models\User;
+use App\Repositories\PasswordResetTokensRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -16,6 +26,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->userRepository = new UserRepository;
+        $this->passwordResetTokenRepository = new PasswordResetTokensRepository;
         $this->userService = new UserService;
     }
 
@@ -79,8 +90,76 @@ class UserController extends Controller
         ], $result['status']);
     }
 
-    public function forgotPassword(UserRequest $request, string $id)
+    public function reset(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'code'=> 'required|string',
+            'password' => 'required|string|min:6',
+            'confirmPassword' => 'required|string|same:password|min:6',
+        ]);
+        $reset = $this->passwordResetTokenRepository->getTokenReset($request->email,$request->code);
+        if(!$reset){
+            return response()->json(['message' => 'An error occurred, please try again.'], 500);
+        }
+        $user = $this->userRepository->getUserByEmail($request->email);
+
+        $data = [
+            'password' => Hash::make($request->password),
+        ];
+
+        $newPass = $this->userRepository->updateUser($user->id, $data);
+        if ($newPass) {
+            $this->passwordResetTokenRepository->deleteToken($request->email);
+            return response()->json(['message' => 'Password reset successful.'], 200);
+        } else {
+            return response()->json(['message' => 'An error occurred, please try again.'], 500);
+        }
+    }
+
+    public function sendEmail(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $user = $this->userRepository->getUserByEmail($request->email);
+
+        if(!$user){
+            return response()->json(['message' => 'Email is not registered account.'],500);
+        }
+        $code = mt_rand(100000, 999999);
+        $expiresAt = Carbon::now()->addMinutes(10); // Thời gian hiệu lực là 10 phút
+
+        $dataToken = [
+            'email' => $request->email,
+            'token' => $code,
+            'created_at' => $expiresAt
+        ];
+
+        $this->passwordResetTokenRepository->deleteToken($request->email);
+
+        $this->passwordResetTokenRepository->insertToken($dataToken);
+
+        Mail::to($request->email)->send(new ForgetPassword($code));
+
+        return response()->json(['message' => 'Verification code has been sent to your email.'],200);
+
+    }
+
+    public function confirm(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'code' => 'required'
+        ]);
+
+        $reset = $this->passwordResetTokenRepository->getToken($request->email,$request->code);
+
+
+        if (!$reset) {
+            return response()->json(['message' => 'Invalid authentication code.'], 500);
+        }
+
+        return response()->json(['message' => 'successful'], 200);
 
     }
 

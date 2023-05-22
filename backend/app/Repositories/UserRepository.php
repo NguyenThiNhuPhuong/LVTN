@@ -46,5 +46,12 @@ class UserRepository
         return $this->modelClass::all();
     }
 
+    public function getUserByEmail($email)
+    {
+        return $this->modelClass::where('email',$email)
+            ->whereNotNull('email_verified_at')
+            ->first();
+    }
+
 
 }
