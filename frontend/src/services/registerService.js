@@ -1,6 +1,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-import httpRequest from "~/httpRequest/httpRequest";
+import * as httpRequest from "~/httpRequest/httpRequest";
+
 //REGISTER
 export const signUpUser = async ({
   name,
@@ -75,27 +76,12 @@ export const changePassword = async ({
   }
 };
 
-export const UpdateRegister = async (
-  id,
-  fullName,
-  email,
-  phoneNumber,
-  password,
-  address,
-  role,
-  active
-) => {
+export const sendEmail = async (email) => {
   try {
-    const res = await httpRequest.post(`user/update`, {
-      id,
-      fullName,
-      email,
-      phoneNumber,
-      password,
-      address,
-      role,
-      active,
-    });
+    const res = await httpRequest.postFormData(
+      `user/password/send-email`,
+      email
+    );
     return res;
   } catch (error) {
     Swal.fire({
@@ -104,11 +90,27 @@ export const UpdateRegister = async (
     });
   }
 };
-export const getARegister = async (id) => {
+export const confirmPassword = async ({ email, code }) => {
   try {
-    const res = await httpRequest.get(`/user/${id}`);
+    const res = await httpRequest.post(
+      `user/password/confirm?email=${email}&code=${code}`
+    );
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire({
+      icon: "error",
+      text: "Email này đã tồn tại  🙌👀",
+    });
+  }
+};
+export const resetPassword = async (form) => {
+  try {
+    const res = await httpRequest.postFormData(`user/password/reset`, form);
+    return res;
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      text: "Email này đã tồn tại  🙌👀",
+    });
   }
 };

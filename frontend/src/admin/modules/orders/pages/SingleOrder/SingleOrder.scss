@@ -112,6 +112,17 @@
               }
             }
           }
+          &--des {
+            margin-top: 20px;
+            background-color: antiquewhite;
+            padding: 10px;
+            color: orange;
+            .des {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+            }
+          }
         }
       }
     }

@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as Yup from "yup";
@@ -8,22 +8,23 @@ import { ToastContainer, toast } from "react-toastify";
 import Loading from "~/admin/component/Loading/Loading";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
 import Login from "~/customer/modules/Auth/page/login/Login";
-import { changePassword, setOpenModal } from "~/redux/slice/auth/AuthSlice";
-import { getAUser } from "~/redux/slice/user/UserSlice";
+import { changePassword } from "~/redux/slice/auth/AuthSlice";
+import { getAUser, getUserProfile } from "~/redux/slice/user/UserSlice";
 import SideBar from "../../component/SideBar/SideBar";
 import "./Account.scss";
 
 function Account() {
   TabTitle("Tài khoản của tôi");
   const dispatch = useDispatch();
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const { userProfile: profile, isLoading } = useSelector(
     (state) => state.user
   );
-  const { isOpenModal, token, messenger } = useSelector((state) => state.auth);
+  const { token, messenger } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    dispatch(setOpenModal(false));
-    dispatch(getAUser());
+    setIsOpenModal(false);
+    dispatch(getUserProfile());
   }, [dispatch]);
   useEffect(() => {
     if (messenger !== "") {
@@ -32,7 +33,7 @@ function Account() {
           position: toast.POSITION.TOP_RIGHT,
         });
       }, 3000);
-      dispatch(setOpenModal(false));
+      setIsOpenModal(false);
     }
   }, [dispatch, messenger]);
   const validationSchema = Yup.object({
@@ -64,10 +65,7 @@ function Account() {
           <div className="modal-content">
             <div className="modal-header">
               <h2>Change Password</h2>
-              <span
-                className="close"
-                onClick={(e) => dispatch(setOpenModal(false))}
-              >
+              <span className="close" onClick={(e) => setIsOpenModal(false)}>
                 &times;
               </span>
             </div>
@@ -155,7 +153,7 @@ function Account() {
                 <div className="detailItem">
                   <button
                     className="detailItem__btn"
-                    onClick={(e) => dispatch(setOpenModal(true))}
+                    onClick={(e) => setIsOpenModal(true)}
                   >
                     Change PassWord:
                   </button>

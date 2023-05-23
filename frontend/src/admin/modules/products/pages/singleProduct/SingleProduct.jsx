@@ -40,11 +40,11 @@ function SingleProduct() {
     (state) => state.product
   );
   const { fileList } = useSelector((state) => state.file);
-
+  console.log(productSingle);
   //--------call api get a product and alert  when update product success--------
   useEffect(() => {
     dispatch(getAProduct(id));
-    dispatch(getCategory());
+    dispatch(getCategory({ active: "" }));
 
     if (Object.keys(isSuccessUpdate).length !== 0) {
       toast.success(`Bạn đã cập nhật thành công product ${id}`, {
@@ -107,53 +107,55 @@ function SingleProduct() {
   };
   //-----------------component Product
   const Product = () => {
-    <>
-      <ToastContainer />
-      <div className="container">
-        <div className="left">
-          <div>
-            <ImgProduct />
+    return (
+      <>
+        <ToastContainer />
+        <div className="container">
+          <div className="left">
+            <div>
+              <ImgProduct />
+            </div>
           </div>
-        </div>
 
-        <div className="right">
-          <form className="right-form" onSubmit={(e) => handleSubmit(e)}>
-            <div className="all">
-              <div className="upload-btn-wrapper">
-                <button className="btn">Upload a file</button>
-                <input
-                  type="file"
-                  multiple
-                  name="myfile"
-                  onChange={handleFileChange}
+          <div className="right">
+            <form className="right-form" onSubmit={(e) => handleSubmit(e)}>
+              <div className="all">
+                <div className="upload-btn-wrapper">
+                  <button className="btn">Upload a file</button>
+                  <input
+                    type="file"
+                    multiple
+                    name="myfile"
+                    onChange={(e) => handleFileChange(e)}
+                  />
+                </div>
+
+                <Select
+                  onChange={(e) => handelCategory(e)}
+                  value={productSingle.category_name}
                 />
               </div>
 
-              <Select
-                onChange={(e) => handelCategory()}
-                value={productSingle.category_name}
+              {productInputs.map((input) => (
+                <FormInput
+                  key={input.id}
+                  {...input}
+                  value={productSingle ? productSingle[input?.name] : ""}
+                  onChange={(e) => handelInput(e, input.name)}
+                />
+              ))}
+              <Textarea
+                value={productSingle ? productSingle.description : ""}
+                onChange={(e) => handelDes(e)}
               />
-            </div>
-
-            {productInputs.map((input) => (
-              <FormInput
-                key={input.id}
-                {...input}
-                value={productSingle ? productSingle[input?.name] : ""}
-                onChange={(e) => handelInput(e, input.name)}
-              />
-            ))}
-            <Textarea
-              value={productSingle ? productSingle.description : ""}
-              onChange={(e) => handelDes(e)}
-            />
-            <button className="btn__submit" type="submit">
-              Send
-            </button>
-          </form>
+              <button className="btn__submit" type="submit">
+                Send
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-    </>;
+      </>
+    );
   };
   return isLoading ? <Loading /> : <Product />;
 }

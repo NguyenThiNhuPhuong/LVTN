@@ -7,10 +7,11 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PersonIcon from "@mui/icons-material/Person";
 
+import { ToastContainer } from "react-toastify";
 import { FormatNumber } from "~/customer/modules/Home/component/products/component/Price/Price";
-
-import Swal from "sweetalert2";
-import { getAOrder, updateStatusOrder } from "~/redux/slice/order/OrderSlice";
+import { getAOrder } from "~/redux/slice/order/OrderSlice";
+import CancelOrderModal from "../../component/CancelOrderModal/CancelOrderModal";
+import Modal from "../../component/Modal/Modal";
 import ProductItem from "../../component/ProductItem/ProductItem";
 import SideBar from "../../component/SideBar/SideBar";
 import "./DetailOrder.scss";
@@ -24,79 +25,26 @@ const DetailOrder = () => {
   }, [dispatch, id]);
   const { orderSingle } = useSelector((state) => state.order);
   const [isModal, setIsModal] = useState(false);
-  const statuses = [
-    "Chờ xác nhận",
-    "Đã được xác nhận",
-    "Chờ lấy hàng",
-    "Đang giao",
-    "Đã giao",
-  ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handelOrder = (e) => {
-    e.preventDefault();
-    const selectedOptionValue = JSON.parse(e.target.value);
-
-    Swal.fire({
-      title: `Bạn có chắc muốn ${selectedOptionValue.name} `,
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-      denyButtonText: "No",
-      customClass: {
-        actions: "my-actions",
-        cancelButton: "order-1 right-gap",
-        confirmButton: "order-2",
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(
-          updateStatusOrder({ id, order_status_id: selectedOptionValue.id })
-        );
-      } else if (result.isDenied) {
-        Swal.fire("Changes are not saved", "", "info");
-      }
-    });
-  };
-  const Modal = () => {
-    const statusId =
-      orderSingle.approval[orderSingle.approval?.length - 1].order_status_id;
-    return (
-      <form className="modal">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h3>Thông tin đơn hàng</h3>
-            <span className="close" onClick={(e) => setIsModal(false)}>
-              &times;
-            </span>
-          </div>
-          <div className="modal-body">
-            {statuses.map((status, index) => (
-              <div className="item">
-                <div
-                  className="item__line"
-                  style={{
-                    "--color": index + 1 === statusId ? "green" : "gray",
-                  }}
-                ></div>
-                <div
-                  key={index}
-                  style={{ color: index + 1 <= statusId ? "green" : "gray" }}
-                >
-                  <div>{status}</div>
-                  <div>
-                    {orderSingle.approval?.length > 0 &&
-                      orderSingle?.approval[index]?.action_time}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </form>
-    );
-  };
   return (
     <div className="DetailOrderContainer">
-      {isModal ? <Modal /> : ""}
+      <ToastContainer />
+      {isModal ? (
+        <Modal orderSingle={orderSingle} setIsModal={setIsModal} />
+      ) : (
+        ""
+      )}
+      {isModalOpen ? (
+        <CancelOrderModal
+          orderSingle={orderSingle}
+          setIsModalOpen={setIsModalOpen}
+          id={id}
+        />
+      ) : (
+        ""
+      )}
+
       <div className="main">
         <SideBar />
         <div className="content">
@@ -111,14 +59,13 @@ const DetailOrder = () => {
                   Order ID:{orderSingle.code}
                 </div>
               </div>
-              <div className="header__status">
-                <select onChange={handelOrder}>
-                  <option>{orderSingle.order_status_name}</option>
-                  <option value='{"id": 5,"name": "hủy đơn hàng" }'>
+              {orderSingle.order_status_id === 1 && (
+                <div className="header__status">
+                  <button onClick={() => setIsModalOpen(true)}>
                     Hủy đơn hàng
-                  </option>
-                </select>
-              </div>
+                  </button>
+                </div>
+              )}
             </div>
             <div className="content">
               <div className="info">
@@ -138,7 +85,10 @@ const DetailOrder = () => {
                   </div>
                   <div className="info__item--address">
                     <div className="info__item--label">Order info</div>
-                    <button onClick={() => setIsModal(true)}>
+                    <button
+                      onClick={() => setIsModal(true)}
+                      disabled={orderSingle.order_status_id === 5}
+                    >
                       <div className="info__item--name">
                         {orderSingle.approval?.length > 0 &&
                           orderSingle?.approval[

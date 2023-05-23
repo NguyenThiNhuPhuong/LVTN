@@ -21,8 +21,10 @@ export default function Register() {
   const navigate = useNavigate();
 
   const success = useSelector((state) => state.auth.isSusses);
-
+  console.log(success);
   useEffect(() => {
+    dispatch(resetRegister());
+
     // redirect user to login page if registration was successful
     if (success === true) {
       toast.success("Vui lòng xác nhận mail của bạn", {
@@ -30,7 +32,7 @@ export default function Register() {
       });
     }
     // redirect authenticated user to profile screen
-  }, [navigate, success]);
+  }, [dispatch, navigate, success]);
 
   const password = `^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
 
@@ -43,7 +45,6 @@ export default function Register() {
     },
     onSubmit: async (values) => {
       dispatch(signUpUser(values));
-      dispatch(resetRegister());
     },
     validationSchema: Yup.object({
       name: Yup.string()

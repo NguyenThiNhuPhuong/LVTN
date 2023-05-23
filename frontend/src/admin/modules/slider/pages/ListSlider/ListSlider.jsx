@@ -2,17 +2,24 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "~/admin/component/Loading/Loading";
 import Top from "~/admin/layouts/component/top/Top";
-import { getListSlider } from "~/redux/slice/slider/SliderSlice";
+import { getListSlider, setParams } from "~/redux/slice/slider/SliderSlice";
 import SliderItem from "../../component/SliderItem/SliderItem";
 import "./ListSlider.scss";
+import Pagination from "~/admin/layouts/component/Pagination/Pagination";
 function ListSlider() {
-  const { isLoading } = useSelector((state) => state.slider);
+  const { isLoading, currentPage, totalPages, params } = useSelector(
+    (state) => state.slider
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getListSlider());
-  }, [dispatch]);
-
+    dispatch(getListSlider(params));
+  }, [dispatch, params]);
+  //-----------------change Page---------------------------------------
+  const handlePageChange = (e, pageNumber) => {
+    e.preventDefault();
+    dispatch(setParams({ ...params, page: pageNumber }));
+  };
   const Slider = () => {
     return (
       <div className="ListSliderContainer">
@@ -29,6 +36,13 @@ function ListSlider() {
           </div>
           <SliderItem />
         </div>
+        {totalPages > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     );
   };

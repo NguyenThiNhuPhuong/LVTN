@@ -53,9 +53,9 @@ const orderSlice = createSlice({
     totalPages: 0,
     params: {
       page: "",
-      per_page: "",
-      status_id: 1,
+      status_id: "",
     },
+    isCancelSuccess: false,
   },
   reducers: {
     setNewOrder(state, action) {
@@ -71,6 +71,9 @@ const orderSlice = createSlice({
         per_page: "",
         status_id: "",
       };
+    },
+    resetAlert(state) {
+      state.isCancelSuccess = false;
     },
   },
   extraReducers: {
@@ -111,9 +114,12 @@ const orderSlice = createSlice({
     [updateStatusOrder.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isUpdateStatus = action.payload ? true : false;
+      state.isCancelSuccess =
+        action.payload === "Canceled order successfully!" ? true : false;
     },
   },
 });
-export const { resetStatusOrder, setParams, resetParams } = orderSlice.actions;
+export const { resetStatusOrder, setParams, resetParams, resetAlert } =
+  orderSlice.actions;
 
 export default orderSlice.reducer;

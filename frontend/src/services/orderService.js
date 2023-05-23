@@ -55,10 +55,11 @@ export const getAOrder = async (id) => {
 //----------------------------ADMIN && SHIPPER---------------------
 
 //UPDATE STATUS ORDER FOR ADMIN AND SHIPPER
-export const updateStatusOrder = async ({ id, order_status_id }) => {
+export const updateStatusOrder = async ({ id, order_status_id, comment }) => {
   try {
     const res = await httpRequest.put(`orders/status/${id}`, {
       order_status_id,
+      comment,
     });
     return res;
   } catch (error) {

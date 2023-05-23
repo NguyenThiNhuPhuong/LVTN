@@ -2,20 +2,15 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import "./Navbar.scss";
-import AvatarUser from "./avatarUser/AvatarUser";
+import { useSelector } from "react-redux";
 import Image from "~/components/image/Image";
 import images from "~/ultil/images";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getUserProfile } from "~/redux/slice/user/UserSlice";
+import "./Navbar.scss";
+import AvatarUser from "./avatarUser/AvatarUser";
 
 const Navbar = () => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.userProfile);
-  useEffect(() => {
-    dispatch(getUserProfile());
-  }, [dispatch]);
+  const user = useSelector((state) => state.auth.userInfo);
+
   return (
     <div className="navbar">
       <div className="wrapper">

@@ -44,6 +44,11 @@ const sliderSlice = createSlice({
     sliderSingle: {},
     sliderUpdate: {},
     sliderNew: {},
+    params: {
+      page: "",
+      per_page: "",
+      active: "",
+    },
   },
   reducers: {
     resetRemoveSlider: (state) => {
@@ -51,6 +56,9 @@ const sliderSlice = createSlice({
     },
     setSingleSlider(state, action) {
       state.sliderSingle = action.payload;
+    },
+    setParams(state, action) {
+      state.params = action.payload;
     },
     resetUpdateSlider: (state) => {
       state.sliderUpdate = {};
@@ -102,6 +110,7 @@ const sliderSlice = createSlice({
 export const {
   resetRemoveSlider,
   setSingleSlider,
+  setParams,
   resetUpdateSlider,
   resetNewSlider,
 } = sliderSlice.actions;

@@ -23,39 +23,40 @@ function SingleDiscount() {
   );
   useEffect(() => {
     dispatch(getADiscount(id));
-
-    if (discountUpdate !== undefined) {
-      toast.success(`Cập nhật Category ${id} thành công`, {
+  }, [dispatch, id]);
+  useEffect(() => {
+    if (JSON.stringify(discountUpdate) !== "{}") {
+      toast.success(`Cập nhật Discount ${id} thành công`, {
         position: toast.POSITION.TOP_RIGHT,
       });
-      dispatch(resetUpdateDiscount());
-      setTimeout(() => navigate("/admin/discount"), 5000);
+      setTimeout(() => {
+        resetUpdateDiscount();
+        navigate("/admin/discount");
+      }, 3000);
     }
-  }, [navigate, id, dispatch, discountUpdate]);
+  }, [navigate, dispatch, discountUpdate, id]);
 
-  useEffect(() => {
-    dispatch(getADiscount(id));
-  }, [id, dispatch]);
   //----------handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateDiscount({ ...discountSingle, id }));
   };
   //-----------handle change
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (e, name) => {
+    console.log(e.target.value, name);
     dispatch(
       setUpdateDiscount({
         ...discountSingle,
-        [name]: value,
+        [name]: e.target.value,
       })
     );
   };
+
   const Discount = () => {
     return (
       <form onSubmit={(e) => handleSubmit(e)}>
-        <ToastContainer />
         <div className="DiscountContainer">
+          <ToastContainer />
           <div className="DiscountContainer__top">
             <NavLink to="/admin/Discount">
               <CloseIcon />
@@ -70,13 +71,19 @@ function SingleDiscount() {
                       type={field.type}
                       name={field.name}
                       id={field.name}
-                      onChange={handleChange}
-                      value={discountSingle[field.name]}
+                      onChange={(e) => handleChange(e, field.name)}
+                      value={discountSingle ? discountSingle[field.name] : ""}
                     />
                     <label>{field.label}</label>
                   </div>
                 );
               })}
+              <input
+                type="text"
+                //   name={field.name}
+                onChange={(e) => console.log(e.target.value)}
+                //   value={discountSingle ? discountSingle[field.name] : ""}
+              />
             </div>
             <div className="bottom">
               <button type="submit" className="bottom--btn btn-save">

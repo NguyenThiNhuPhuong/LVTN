@@ -2,7 +2,7 @@ import React from "react";
 import { Price } from "~/customer/modules/Home/component/products/component/Price/Price";
 
 function Product({ listCart }) {
-  return listCart.map((item) => (
+  return listCart?.map((item) => (
     <div className="sidebar-content" key={item._id}>
       <table className="product-table">
         <tbody>

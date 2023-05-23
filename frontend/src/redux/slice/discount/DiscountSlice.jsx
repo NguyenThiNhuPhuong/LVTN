@@ -37,7 +37,7 @@ export const updateDiscount = createAsyncThunk(
   "Discount/updateDiscount",
   async (DiscountUpdate) => {
     const response = await discountService.updateDiscount(DiscountUpdate);
-    return response.discount;
+    return response.data.discount;
   }
 );
 //API REMOVE DISCOUNT
@@ -85,6 +85,7 @@ const discountSlice = createSlice({
     params: {
       page: "",
       per_page: "",
+      active: "",
     },
   },
   reducers: {

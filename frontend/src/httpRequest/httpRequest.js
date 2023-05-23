@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-
 const httpRequestFormData = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: {

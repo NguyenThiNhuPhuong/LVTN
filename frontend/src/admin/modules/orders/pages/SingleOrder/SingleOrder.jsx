@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 
+import WarningIcon from "@mui/icons-material/Warning";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -64,17 +65,19 @@ const SingleOrder = () => {
             </div>
             <div className="header__time--Id">Order ID:{orderSingle.code}</div>
           </div>
-          <div className="header__status">
-            <select onChange={(e) => handelOrder(e)}>
-              <option>{orderSingle.order_status_name}</option>
-              <option value='{"id": 1,"name": "hủy đơn hàng" }'>
-                Hủy đơn hàng
-              </option>
-              <option value='{ "id": 2, "name": "Xác nhân đơn hàng" }'>
-                Xác nhận đơn hàng
-              </option>
-            </select>
-          </div>
+          {orderSingle.order_status_id === 1 && (
+            <div className="header__status">
+              <select onChange={(e) => handelOrder(e)}>
+                <option>{orderSingle.order_status_name}</option>
+                <option value='{"id": 1,"name": "hủy đơn hàng" }'>
+                  Hủy đơn hàng
+                </option>
+                <option value='{ "id": 2, "name": "Xác nhân đơn hàng" }'>
+                  Xác nhận đơn hàng
+                </option>
+              </select>
+            </div>
+          )}
         </div>
         <div className="content">
           <div className="info">
@@ -94,8 +97,16 @@ const SingleOrder = () => {
               </div>
               <div className="info__item--address">
                 <div className="info__item--label">Order info</div>
-                <div className="info__item--name">Nabeo</div>
-                <div className="info__item--paid">Paypal</div>
+                <div className="info__item--name">
+                  {orderSingle.approval?.length > 0 &&
+                    orderSingle?.approval[orderSingle?.approval?.length - 1]
+                      ?.order_status_name}
+                </div>
+                <div className="info__item--paid">
+                  {orderSingle.approval?.length > 0 &&
+                    orderSingle?.approval[orderSingle?.approval?.length - 1]
+                      ?.action_time}
+                </div>
               </div>
             </div>
 
@@ -135,6 +146,18 @@ const SingleOrder = () => {
                     <FormatNumber price={orderSingle.price_all} />
                   </span>
                 </p>
+              </div>
+              <div className="order__footer--des">
+                <div className="des">
+                  <WarningIcon />
+                  <h4>Lý do hủy đơn hàng</h4>
+                </div>
+                {orderSingle.approval.map((item) => {
+                  if (item.order_status_name === "Đã hủy") {
+                    return item.comment;
+                  }
+                  return null;
+                })}
               </div>
             </div>
           </div>

@@ -1,9 +1,14 @@
 import Swal from "sweetalert2";
 import * as httpRequest from "~/httpRequest/httpRequest";
 //LIST CATEGORY
-export const getListCategory = async () => {
+export const getListCategory = async ({ active }) => {
+  console.log(active);
   try {
-    const res = await httpRequest.get(`categories`);
+    let params = "";
+    if (active !== undefined) {
+      params += `active=${active}`;
+    }
+    const res = await httpRequest.get(`categories?` + params);
     return res;
   } catch (error) {
     console.log(error);

@@ -21,6 +21,25 @@ export const changePassword = createAsyncThunk(
     return response.data.message;
   }
 );
+//FORGET PASSWORD
+export const sendEmail = createAsyncThunk("user/sendEmail", async (email) => {
+  const response = await registerService.sendEmail(email);
+  return response.data.message;
+});
+export const confirmPassword = createAsyncThunk(
+  "user/confirmPassword",
+  async (value) => {
+    const response = await registerService.confirmPassword(value);
+    return response.data.message;
+  }
+);
+export const resetPassword = createAsyncThunk(
+  "user/resetPassword ",
+  async (value) => {
+    const response = await registerService.resetPassword(value);
+    return response.data.message;
+  }
+);
 const userInfoFromLocalStorage = localStorage.getItem("userInfo")
   ? Cookies.get("token") && JSON.parse(localStorage.getItem("userInfo"))
   : {};
@@ -34,11 +53,11 @@ const authSlice = createSlice({
     isLoading: false,
     role: "",
     token: Cookies.get("token"),
-    isOpenModal: false,
+    valuesChangePassword: {},
   },
   reducers: {
     logoutUser: (state) => {
-      state.userInfo = null;
+      state.userInfo = "";
       state.role = "";
       state.token = null;
       Cookies.remove("token");
@@ -53,8 +72,9 @@ const authSlice = createSlice({
     setUserInfo(state, action) {
       state.userInfo = action.payload;
     },
-    setOpenModal(state, action) {
-      state.isOpenModal = action.payload;
+
+    setValueChangePassword(state, action) {
+      state.valuesChangePassword = action.payload;
     },
   },
   extraReducers: {
@@ -66,23 +86,48 @@ const authSlice = createSlice({
       state.isSusses = action.payload !== "" ? true : false;
     },
     [signInUser.pending]: (state) => {
-      state.isLoading = false;
+      state.isLoading = true;
     },
     [signInUser.fulfilled]: (state, action) => {
-      state.isLoading = true;
+      state.isLoading = false;
       state.isSusses = false;
       state.userInfo = action.payload.user;
       localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
+      console.log("dmowed", action.payload);
       state.role = action.payload.user.type;
       state.token = Cookies.set("token", action.payload.access_token, {
         expires: 1 / 24,
       });
     },
     [changePassword.pending]: (state) => {
-      state.isLoading = false;
+      state.isLoading = true;
     },
     [changePassword.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.messenger = action.payload;
+    },
+    [sendEmail.pending]: (state) => {
       state.isLoading = true;
+      state.messenger = "";
+    },
+    [sendEmail.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.messenger = action.payload;
+    },
+    [confirmPassword.pending]: (state) => {
+      state.isLoading = true;
+      state.messenger = "";
+    },
+    [confirmPassword.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.messenger = action.payload;
+    },
+    [resetPassword.pending]: (state) => {
+      state.isLoading = true;
+      state.messenger = "";
+    },
+    [resetPassword.fulfilled]: (state, action) => {
+      state.isLoading = false;
       state.messenger = action.payload;
     },
   },
@@ -94,5 +139,5 @@ export const {
   resetRegister,
   getToken,
   setUserInfo,
-  setOpenModal,
+  setValueChangePassword,
 } = authSlice.actions;

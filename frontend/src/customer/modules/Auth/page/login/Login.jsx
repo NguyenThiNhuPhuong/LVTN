@@ -1,26 +1,57 @@
 import classNames from "classnames/bind";
 import styles from "../../component/Auth.module.scss";
 
-import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
-import { useEffect } from "react";
+import { useFormik } from "formik";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { MENU_LOGIN } from "~/components/constant/Menu";
 
-import { setOpenModal, signInUser } from "~/redux/slice/auth/AuthSlice";
+import { ToastContainer, toast } from "react-toastify";
+import { signInUser } from "~/redux/slice/auth/AuthSlice";
 import FormRegister from "../../component/FormRegister/FormRegister";
+import Modal1 from "../../component/Modal1/Modal1";
+import Modal2 from "../../component/Modal2/Modal2";
+import Modal3 from "../../component/Modal3/Modal3";
 
 const cx = classNames.bind(styles);
 
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isOpenModal1, setIsOpenModal1] = useState(false);
+  const [isOpenModal2, setIsOpenModal2] = useState(false);
+  const [isOpenModal3, setIsOpenModal3] = useState(false);
 
-  const { role, isOpenModal } = useSelector((state) => state.auth);
+  const { role, isLoading, messenger } = useSelector((state) => state.auth);
   const password = `^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
 
+  useEffect(() => {
+    const toastConfig = {
+      position: toast.POSITION.TOP_RIGHT,
+    };
+
+    if (isLoading) {
+      toast.info("Bạn vui lòng chờ trong giây lát", toastConfig);
+    } else if (messenger === "Verification code has been sent to your email.") {
+      toast.success(
+        "Verification code has been sent to your email.",
+        toastConfig
+      );
+      setIsOpenModal1(false);
+      setIsOpenModal2(true);
+    } else if (messenger === "successful") {
+      toast.success("Vui lòng điền vào form để thay đổi mật khẩu", toastConfig);
+      setIsOpenModal2(false);
+      setIsOpenModal3(true);
+    } else if (messenger === "Password reset successful.") {
+      toast.info("Bạn đã thay đổi mật khẩu thành công", toastConfig);
+      setIsOpenModal3(false);
+    }
+  }, [isLoading, messenger, setIsOpenModal1, setIsOpenModal2, setIsOpenModal3]);
   //-----authorization---------
+  console.log(role);
   useEffect(() => {
     if (role === 1) {
       navigate("/admin/dashboard");
@@ -32,56 +63,6 @@ export default function Login() {
       navigate("/login");
     }
   }, [navigate, role]);
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-  });
-  //----open modal------
-  const Modal = () => {
-    const handleSubmit = (values) => {
-      // Xử lý submit form tại đây
-      console.log(values);
-    };
-
-    return (
-      <Formik
-        initialValues={{ email: "" }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <Form id="myModal" className={cx("modal")}>
-          <div className={cx("modal-content")}>
-            <div className={cx("modal-content__top")}>
-              <h3>Quên Mật khẩu</h3>
-              <span onClick={() => dispatch(setOpenModal(false))}>
-                <div className={cx("close")}>&times;</div>
-              </span>
-            </div>
-            <div className={cx("modal-content__center")}>
-              <label htmlFor="inputField">Nhập Email </label>
-              <Field
-                type="text"
-                id="inputField"
-                name="email"
-                className={cx("input")}
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className={cx("error-message")}
-              />
-            </div>
-            <div className={cx("modal-content__btn")}>
-              <button id="submitBtn" type="submit">
-                Submit
-              </button>
-            </div>
-          </div>
-        </Form>
-      </Formik>
-    );
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -103,7 +84,11 @@ export default function Login() {
 
   return (
     <div className={cx("formRegisterContainer")}>
-      {isOpenModal && <Modal />}
+      {isOpenModal1 && <Modal1 setIsOpenModal1={setIsOpenModal1} />}
+      {isOpenModal2 && <Modal2 setIsOpenModal2={setIsOpenModal2} />}
+      {isOpenModal3 && <Modal3 setIsOpenModal3={setIsOpenModal3} />}
+
+      <ToastContainer />
       <form className={cx("formRegister")} onSubmit={formik.handleSubmit}>
         <h3 className={cx("formRegister__heading")}>ĐĂNG NHẬP </h3>
         {MENU_LOGIN.map((input, index) => {
@@ -125,11 +110,11 @@ export default function Login() {
                 type="checkbox"
                 id=" Remember Me"
                 name=" Remember Me"
-                required={isOpenModal ? false : true}
+                required={isOpenModal1 ? false : true}
               />
               <label htmlFor=" Remember Me"> Remember Me</label>
             </div>
-            <button type="button" onClick={() => dispatch(setOpenModal(true))}>
+            <button type="button" onClick={() => setIsOpenModal1(true)}>
               Quên mật khẩu
             </button>
           </div>

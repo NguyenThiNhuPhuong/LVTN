@@ -3,9 +3,9 @@ import * as categoryService from "../../../services/categoryService";
 //API GET LISTCATEGORY
 export const getCategory = createAsyncThunk(
   "category/getCategory",
-  async () => {
-    const response = await categoryService.getListCategory();
-    return response[0].data;
+  async (params) => {
+    const response = await categoryService.getListCategory(params);
+    return response[0];
   }
 );
 //API GET A CATEGORY
@@ -58,10 +58,19 @@ const categorySlice = createSlice({
 
     isLoadingRemove: false,
     alertDeleteSuccess: "",
+
+    params: {
+      page: "",
+      per_page: "",
+      active: "",
+    },
   },
   reducers: {
     setSingleCategory(state, action) {
       state.categorySingle = action.payload;
+    },
+    setParams(state, action) {
+      state.params = action.payload;
     },
     resetNewCategory: (state) => {
       state.categoryNew = {};
@@ -82,7 +91,9 @@ const categorySlice = createSlice({
     },
     [getCategory.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.categoryList = action.payload;
+      state.categoryList = action.payload.data;
+      state.currentPage = action.payload.current_page;
+      state.totalPages = action.payload.last_page;
     },
 
     [getACategory.pending]: (state) => {
@@ -126,4 +137,5 @@ export const {
   resetUpdateCategory,
   resetRemoveCategory,
   setSingleCategory,
+  setParams,
 } = categorySlice.actions;

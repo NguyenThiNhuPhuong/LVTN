@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import * as httpRequest from "~/httpRequest/httpRequest";
 
-export const getListSlider = async (active) => {
+export const getListSlider = async ({ active }) => {
   try {
     let params = "";
     if (active !== undefined) {

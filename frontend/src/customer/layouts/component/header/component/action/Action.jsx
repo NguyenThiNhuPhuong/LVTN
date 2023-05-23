@@ -17,7 +17,7 @@ function Action() {
   useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch]);
-  const user = useSelector((state) => state.user.userProfile);
+  const user = useSelector((state) => state.auth.userInfo);
   const cartQuantity = useSelector((state) => state.cart.listCart?.length);
 
   return (

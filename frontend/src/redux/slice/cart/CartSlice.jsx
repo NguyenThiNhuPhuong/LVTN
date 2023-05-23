@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 const listCartFromLocalStorage = localStorage.getItem("cart")
   ? JSON.parse(localStorage.getItem("cart"))
   : [];
-console.log("listCartFromLocalStorage", listCartFromLocalStorage);
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -41,7 +40,7 @@ const cartSlice = createSlice({
       }
     },
     resetCart: (state) => {
-      state.listCart = "";
+      state.listCart = [];
       localStorage.removeItem("cart");
     },
     removeCart: (state, action) => {

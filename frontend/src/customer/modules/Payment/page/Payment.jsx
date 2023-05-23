@@ -45,26 +45,20 @@ export default function Payment() {
   //--------------------handel when payment success
   useEffect(() => {
     if (isSuccessNew === true) {
-      dispatch(resetCart());
       toast.success("Bạn đã thanh toán thành công", {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
-      setTimeout(() => navigate("/product/shop"), 3000);
+      setTimeout(() => {
+        navigate("/product/shop");
+        dispatch(resetCart());
+      }, 3000);
     }
-  }, [dispatch, isSuccessNew, navigate]);
+  }, [isSuccessNew, dispatch, navigate]);
+
   //----------------------total cart
   useEffect(() => {
-    const res = listCart.reduce((total, item) => {
-      return (
-        total +
-        (item.price_sale > 0
-          ? item.price_sale * item.cartNum
-          : item.price * item.cartNum)
-      );
-    }, 0);
-    dispatch(totalCart(res));
-    dispatch(totalAllCart(res + priceShip - discount));
-  }, [discount, dispatch, listCart, priceShip]);
+    dispatch(totalAllCart(priceCart + priceShip - discount));
+  }, [discount, dispatch, priceCart, priceShip]);
 
   //----------------------call api check valid discount
   useEffect(() => {
@@ -86,7 +80,7 @@ export default function Payment() {
         </div>
         <div className="container">
           <div className="sidebar">
-            <Product listCart={listCart} />
+            <Product listCart={listCart ? listCart : []} />
             <Discount ListDiscountValid={ListDiscountValid} />
             <DiscountInput />
             <TotalMoney />

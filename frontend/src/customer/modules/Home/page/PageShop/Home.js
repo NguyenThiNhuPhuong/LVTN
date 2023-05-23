@@ -31,8 +31,8 @@ export default function Home() {
   useEffect(() => {
     dispatch(setNamePage("Home"));
     dispatch(getAllProducts(params));
-    dispatch(getListSlider(1));
-    dispatch(getCategory());
+    dispatch(getListSlider({ active: 1 }));
+    dispatch(getCategory({ active: 1 }));
     dispatch(getListDiscountByDate(`${year}/${month}/${date}`));
   }, [date, dispatch, month, params, year]);
   //------------handling when changing page number------------

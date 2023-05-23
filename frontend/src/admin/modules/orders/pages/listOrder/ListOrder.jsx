@@ -5,10 +5,9 @@ import Loading from "~/admin/component/Loading/Loading";
 import Top from "~/admin/layouts/component/top/Top";
 import OrderItem from "../../component/OrderItem/OrderItem";
 
-import { getListOrder } from "~/redux/slice/order/OrderSlice";
+import { getListOrder, setParams } from "~/redux/slice/order/OrderSlice";
 
 import "./ListOrder.scss";
-import { setParams } from "~/redux/slice/product/ProductSlice";
 import Pagination from "~/admin/layouts/component/Pagination/Pagination";
 import StatusSelect from "../../component/StatusSelect/StatusSelect";
 
@@ -21,9 +20,12 @@ function ListOrder() {
   useEffect(() => {
     dispatch(getListOrder(params));
   }, [dispatch, params]);
+  console.log(params);
   //-----------------change Page---------------------------------------
   const handlePageChange = (e, pageNumber) => {
     e.preventDefault();
+    console.log(pageNumber);
+
     dispatch(setParams({ ...params, page: pageNumber }));
   };
   return isLoading ? (

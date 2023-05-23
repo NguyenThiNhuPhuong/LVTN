@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
+import { setUserInfo } from "~/redux/slice/auth/AuthSlice";
+import { totalCart } from "~/redux/slice/cart/CartSlice";
 import { FormatNumber } from "../../Home/component/products/component/Price/Price";
 import CartItem from "../component/CartItem/CartItem";
 import CartNoProduct from "../component/CartNoProduct/CartNoProduct";
 import "./Cart.scss";
-import { setUserInfo } from "~/redux/slice/auth/AuthSlice";
 
 function Cart() {
   TabTitle("Giỏ hàng");
-  const cart = useSelector((state) => state.cart.listCart);
+  const { listCart, priceCart } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const [total, setTotal] = useState(0);
   /// total bill
   useEffect(() => {
-    const res = cart.reduce((total, item) => {
+    const res = listCart?.reduce((total, item) => {
       return (
         total +
         (item.price_sale > 0
@@ -25,10 +25,10 @@ function Cart() {
           : item.price * item.cartNum)
       );
     }, 0);
-    setTotal(res);
-  }, [cart]);
+    dispatch(totalCart(res));
+  }, [listCart, dispatch]);
 
-  if (cart.length === 0) {
+  if (listCart.length === 0) {
     return <CartNoProduct />;
   } else {
     return (
@@ -70,7 +70,7 @@ function Cart() {
                 <p className="cart__footer--total--title">
                   <span>Tổng tiền:</span>
                   <span className="h3">
-                    <FormatNumber price={total} />
+                    <FormatNumber price={priceCart} />
                   </span>
                 </p>
                 <div className="cart__footer--total--btn">
