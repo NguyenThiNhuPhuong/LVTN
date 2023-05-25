@@ -36,14 +36,13 @@ function Products({ productList }) {
   const handelCategory = (e) => {
     e.preventDefault();
     dispatch(setParams({ ...params, category_id: e.target.value }));
-    dispatch(getAllProducts(params));
   };
   //---------------------handel Name
   const handelName = (e) => {
-    e.preventDefault();
-    dispatch(setParams({ ...params, name: e.target.value }));
-    dispatch(getAllProducts(params));
+    // e.preventDefault();
+    dispatch(setParams({ ...params, sort: e.target.value }));
   };
+  console.log(params);
   //---------------------handle Price
   const handelPrice = (e) => {
     e.preventDefault();
@@ -104,7 +103,7 @@ function Products({ productList }) {
                     type="checkbox"
                     value={`${name.value}`}
                     onChange={(e) => handelName(e)}
-                    checked={parseInt(params.name) === parseInt(name.value)}
+                    checked={params.sort === name.value}
                   />
                   <label>{name.label}</label>
                 </div>

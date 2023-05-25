@@ -11,7 +11,7 @@ import Select from "~/admin/component/select/Select";
 import Textarea from "~/admin/component/textarea/Textarea";
 import productInputs from "~/admin/constant/productInputs";
 import { getCategory } from "~/redux/slice/category/CategorySlice";
-import { addFile } from "~/redux/slice/file/FileSlice";
+import { addFile, clearFiles } from "~/redux/slice/file/FileSlice";
 import {
   getAProduct,
   resetUpdateProduct,
@@ -19,7 +19,6 @@ import {
   updateProduct,
 } from "~/redux/slice/product/ProductSlice";
 import ImgProduct from "../../component/ImgProduct/ImgProduct";
-import Loading from "~/admin/component/Loading/Loading";
 
 const uploadFiles = createAsyncThunk(
   "files/uploadFiles",
@@ -32,21 +31,23 @@ const uploadFiles = createAsyncThunk(
   }
 );
 
-function SingleProduct() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+function SingleProduct(props) {
   const { id } = useParams();
-  const { productSingle, isSuccessUpdate, isLoading } = useSelector(
+  const { productSingle, productUpdate, isSuccessUpdate } = useSelector(
     (state) => state.product
   );
   const { fileList } = useSelector((state) => state.file);
-  //--------call api get a product and alert  when update product success--------
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    dispatch(getAProduct(id));
     dispatch(getCategory({ active: "" }));
 
-    if (Object.keys(isSuccessUpdate).length !== 0) {
-      toast.success(`Bạn đã cập nhật thành công product ${id}`, {
+    dispatch(getAProduct(id));
+
+    if (isSuccessUpdate) {
+      toast.success(`Bạn đã cập nhật thành công product `, {
         position: toast.POSITION.TOP_RIGHT,
       });
       const timeout = setTimeout(() => navigate("/admin/product"), 3000);
@@ -57,106 +58,106 @@ function SingleProduct() {
     }
   }, [dispatch, id, isSuccessUpdate, navigate]);
 
-  // -----------------------change list file-----------------------------------------
   function handleFileChange(event) {
+    dispatch(clearFiles(fileList));
+    dispatch(
+      setUpdateProduct({
+        ...productSingle,
+        images: [],
+      })
+    );
     const files = event.target.files;
     dispatch(uploadFiles(files));
   }
-  //-------------change object=>form data------------------
-  function getFormData(object) {
-    const formData = new FormData();
-    Object.keys(object).forEach((key) => {
-      formData.append(key, object[key]);
-    });
-    fileList.forEach((file, index) => {
-      formData.append(`files[${index}]`, file);
-    });
-    return formData;
-  }
-  //---------------when onclick button submit--------------
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = getFormData(productSingle);
-    dispatch(updateProduct({ id, data }));
+
+    function getFormData(object) {
+      const formData = new FormData();
+      Object.keys(object).forEach((key) => {
+        formData.append(key, object[key]);
+      });
+      fileList.forEach((file, index) => {
+        formData.append(`files[${index}]`, file);
+      });
+      return formData;
+    }
+
+    const data = getFormData(productUpdate);
+    dispatch(updateProduct(data));
   };
-  //---------------handel Category,description,Input
-  const handelDes = (e) => {
-    dispatch(
-      setUpdateProduct({
-        ...productSingle,
-        description: e.target.value,
-      })
-    );
-  };
-  const handelCategory = (e) => {
-    dispatch(
-      setUpdateProduct({
-        ...productSingle,
-        category_id: e.target.value,
-      })
-    );
-  };
-  const handelInput = (e, name) => {
-    dispatch(
-      setUpdateProduct({
-        ...productSingle,
-        [name]: e.target.value,
-      })
-    );
-  };
-  //-----------------component Product
-  const Product = () => {
-    return (
-      <>
-        <ToastContainer />
-        <div className="container">
-          <div className="left">
-            <div>
-              <ImgProduct />
-            </div>
+
+  return (
+    <>
+      <ToastContainer />
+      <div className="container">
+        <div className="left">
+          <div>
+            <ImgProduct />
           </div>
+        </div>
 
-          <div className="right">
-            <form className="right-form" onSubmit={(e) => handleSubmit(e)}>
-              <div className="all">
-                <div className="upload-btn-wrapper">
-                  <button className="btn">Upload a file</button>
-                  <input
-                    type="file"
-                    multiple
-                    name="myfile"
-                    onChange={(e) => handleFileChange(e)}
-                  />
-                </div>
-
-                <Select
-                  onChange={(e) => handelCategory(e)}
-                  value={productSingle.category_name}
+        <div className="right">
+          <form className="right-form" onSubmit={(e) => handleSubmit(e)}>
+            <div className="all">
+              <div className="upload-btn-wrapper">
+                <button className="btn">Upload a file</button>
+                <input
+                  type="file"
+                  multiple
+                  name="myfile"
+                  onChange={handleFileChange}
                 />
               </div>
 
-              {productInputs.map((input) => (
-                <FormInput
-                  key={input.id}
-                  {...input}
-                  value={productSingle ? productSingle[input?.name] : ""}
-                  onChange={(e) => handelInput(e, input.name)}
-                />
-              ))}
-              <Textarea
-                value={productSingle ? productSingle.description : ""}
-                onChange={(e) => handelDes(e)}
+              <Select
+                onChange={(e) =>
+                  dispatch(
+                    setUpdateProduct({
+                      ...productSingle,
+                      category_id: e.target.value,
+                    })
+                  )
+                }
+                value={productSingle.category_name}
               />
-              <button className="btn__submit" type="submit">
-                Send
-              </button>
-            </form>
-          </div>
+            </div>
+
+            {productInputs.map((input) => (
+              <FormInput
+                key={input.id}
+                {...input}
+                value={productSingle ? productSingle[input?.name] : ""}
+                onChange={(e) =>
+                  dispatch(
+                    setUpdateProduct({
+                      ...productSingle,
+                      [input.name]: e.target.value,
+                    })
+                  )
+                }
+              />
+            ))}
+            <Textarea
+              onChange={(e) =>
+                dispatch(
+                  setUpdateProduct({
+                    ...productSingle,
+                    description: e.target.value,
+                  })
+                )
+              }
+              value={productSingle.description}
+            />
+            <button className="btn__submit" type="submit">
+              Send
+            </button>
+          </form>
         </div>
-      </>
-    );
-  };
-  return isLoading ? <Loading /> : <Product />;
+      </div>
+    </>
+  );
 }
 
 export default SingleProduct;

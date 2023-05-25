@@ -23,10 +23,7 @@ function Product({ product, btnCart }) {
       </NavLink>
 
       <div className="product__item--content">
-        <Link
-          className="product__item--title"
-          to={`/product/detail/${product.id}`}
-        >
+        <Link className="product__item--title" to={`/product/${product.id}`}>
           {product.name}
         </Link>
         <AllPrice price={product.price} price_sale={product.price_sale} />

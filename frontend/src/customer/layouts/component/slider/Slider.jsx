@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 function Slide() {
   const { sliderList } = useSelector((state) => state.slider);
-  const LoadingSlider = useSelector((state) => state.slider.isLoading);
+  const { isLoading } = useSelector((state) => state.slider);
   const settings = {
     dots: true,
     infinite: true,
@@ -14,14 +14,14 @@ function Slide() {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-  return LoadingSlider ? (
+  return isLoading ? (
     <Skeleton height={400} sx={{ mt: "-70px" }} />
   ) : (
     <div className="slider-container">
       <Slider {...settings}>
-        {sliderList?.map((slider, index) => (
-          <img src={slider.image} alt="" key={index} />
-        ))}
+        {sliderList?.map((slider) => {
+          return <img src={slider.image} alt="" key={slider.id} />;
+        })}
       </Slider>
     </div>
   );

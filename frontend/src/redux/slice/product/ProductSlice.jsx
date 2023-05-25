@@ -71,6 +71,7 @@ const productSlice = createSlice({
       min_price: "",
       search: "",
       category_id: "",
+      sort: "",
     },
     resultSearch: "",
     relatedProductList: [],
@@ -126,6 +127,7 @@ const productSlice = createSlice({
         min_price: "",
         search: "",
         category_id: "",
+        sort: "",
       };
     },
     setNamePage(state, action) {

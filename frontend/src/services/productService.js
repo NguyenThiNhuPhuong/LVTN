@@ -9,6 +9,7 @@ export const getListProduct = async ({
   max_price,
   min_price,
   category_id,
+  sort,
 }) => {
   try {
     let params = "";
@@ -25,9 +26,11 @@ export const getListProduct = async ({
       params += `min_price=${min_price}&`;
     }
     if (category_id !== undefined) {
-      params += `category_id=${category_id}`;
+      params += `category_id=${category_id}&`;
     }
-
+    if (sort !== undefined) {
+      params += `sort=${sort}`;
+    }
     const res = await httpRequest.get(`products?per_page=12&${params}`);
     return res;
   } catch (error) {

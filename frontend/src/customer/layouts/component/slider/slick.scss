@@ -1,6 +1,6 @@
 .slider-container {
   grid-area: slider;
-  max-width: 1500px; /* Set a maximum width */
+  width: 1480px; /* Set a maximum width */
   margin: 20px auto;
 
   img {
@@ -11,17 +11,17 @@
 }
 @media (max-width: 1280px) {
   .slider-container {
-    max-width: 1260px;
+    width: 1260px;
   }
 }
 @media (max-width: 1024px) {
   .slider-container {
-    max-width: 1004px;
+    width: 1004px;
   }
 }
 @media (max-width: 768px) {
   .slider-container {
-    max-width: 748px;
+    width: 748px;
   }
 }
 
@@ -29,7 +29,7 @@
   .slider-container {
     margin: 10px auto;
 
-    max-width: 380px;
+    width: 380px;
     img {
       height: 200px;
     }
