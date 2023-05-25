@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,9 @@ class UserSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'type' => 1,
                 'password' => Hash::make('lvtn@123'),
+                'email_verification_token'=> Carbon::now(),
+                'email_verified_at' => Carbon::now()
+
             ]
         ];
 

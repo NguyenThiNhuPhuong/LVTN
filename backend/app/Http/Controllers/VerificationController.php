@@ -32,6 +32,6 @@ class VerificationController extends Controller
 
 
         // Xử lý xác thực thành công
-        return Response::json(['message' => 'Registration account successful.']);
+        return view('verificationSuccess');
     }
 }
