@@ -119,7 +119,7 @@ function Account() {
           <div className="AccountContainer__right">
             <div className="item">
               <div className="item__top">
-                <NavLink to={`/profile/editprofile`}>
+                <NavLink to={`/account/edit/${profile?.id}`}>
                   <div className="item__top--btn">Edit</div>
                 </NavLink>
               </div>

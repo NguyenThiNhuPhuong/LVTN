@@ -16,17 +16,18 @@ import {
 function CategoryItem() {
   const dispatch = useDispatch();
 
-  const { categoryList, alertDeleteSuccess } = useSelector(
+  const { categoryList, alertDeleteSuccess, params } = useSelector(
     (state) => state.category
   );
   useEffect(() => {
     if (alertDeleteSuccess !== "") {
-      dispatch(getCategory());
+      Swal.fire("Saved!", "", "success");
+      dispatch(getCategory(params));
       return () => {
         dispatch(resetRemoveCategory());
       };
     }
-  }, [dispatch, alertDeleteSuccess]);
+  }, [dispatch, alertDeleteSuccess, params]);
 
   const handelRemoveCategory = (id) => {
     return Swal.fire({
@@ -42,7 +43,6 @@ function CategoryItem() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(removeCategory(id));
-        Swal.fire("Saved!", "", "success");
       } else if (result.isDenied) {
         Swal.fire("Changes are not saved", "", "info");
       }

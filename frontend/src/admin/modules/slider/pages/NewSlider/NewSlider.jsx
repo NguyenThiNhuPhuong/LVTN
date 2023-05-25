@@ -16,7 +16,7 @@ function NewSlider() {
   const { sliderSingle, sliderNew } = useSelector((state) => state.slider);
   useEffect(() => {
     if (JSON.stringify(sliderNew) !== "{}") {
-      toast.success(`Bạn đã tạp mới Slider thành công`, {
+      toast.success(`Bạn đã tạo mới Slider thành công`, {
         position: toast.POSITION.TOP_RIGHT,
       });
       dispatch(resetNewSlider());

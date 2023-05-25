@@ -58,10 +58,13 @@ function DiscountItem() {
             {discount.purchase_limit}
           </div>
           <div className="discount__row--createdAt text">
+            {discount.purchase_current}
+          </div>
+          <div className="discount__row--createdAt text">
             {moment(discount.created_at).format("YYYY-MM-DD")}
           </div>
           <div className="discount__row--updateAt text">
-            {discount.expiration_date}
+            {moment(discount.expiration_date).format("YYYY-MM-DD")}
           </div>
           <div className="discount__row--action text">
             <NavLink to={`/admin/discount/${discount.id}`}>

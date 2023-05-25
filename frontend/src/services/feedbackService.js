@@ -1,32 +1,23 @@
-import * as httpRequest from "~/admin/utils/httpRequest";
+import Swal from "sweetalert2";
+import * as httpRequest from "~/httpRequest/httpRequest";
 
-export const getFeedBack = async () => {
+//API GET LIST FEEDBACK
+export const getFeedback = async ({ page }) => {
+  let params = "";
+  if (page !== undefined) {
+    params += `page=${page}&`;
+  }
   try {
-    const res = await httpRequest.get(`feedback/`);
+    const res = await httpRequest.get(`feedback?per_page=12&${params}`);
     return res;
   } catch (error) {
     console.log(error);
   }
 };
-export const addFeedBack = async (content, rating) => {
+//API PUT POST FEEDBACK
+export const postFeedback = async ({ email, content }) => {
   try {
-    const res = await httpRequest.post(`feedback/add`, { content, rating });
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const removeFeedBack = async (id) => {
-  try {
-    const res = await httpRequest.post(`feedback/delete`, { id });
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const getAFeedBack = async (id) => {
-  try {
-    const res = await httpRequest.get(`feedback/${id}`);
+    const res = await httpRequest.post(`feedback`, { email, content });
     return res;
   } catch (error) {
     console.log(error);

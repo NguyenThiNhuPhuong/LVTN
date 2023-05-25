@@ -98,10 +98,6 @@ export const listDiscountValid = async ({ date_time, price_product }) => {
     );
     return res;
   } catch (error) {
-    Swal.fire({
-      title: "Error",
-      text: "Đơn hàng của bạn chưa đủ điều kiện",
-      icon: "error",
-    });
+    console.log(error);
   }
 };

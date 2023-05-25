@@ -9,11 +9,13 @@ import TermsService from "~/customer/modules/About/page/TermsService/TermsServic
 import About from "~/customer/modules/About/page/about/About";
 import Account from "~/customer/modules/Account/Page/Account/Account";
 import DetailOrder from "~/customer/modules/Account/Page/DetailOrder/DetailOrder";
+import EditAccount from "~/customer/modules/Account/Page/EditAccount/EditAccount";
 import ViewOrder from "~/customer/modules/Account/Page/ViewOrder/ViewOrder";
 import Login from "~/customer/modules/Auth/page/login/Login";
 import Register from "~/customer/modules/Auth/page/register/Register";
 import Cart from "~/customer/modules/Cart/page/Cart";
-import Contact from "~/customer/modules/Contact/page/Contact";
+import Contact from "~/customer/modules/Contact/page/Contact/Contact";
+import Rating from "~/customer/modules/Contact/page/Rating/Rating";
 import PageDetailProduct from "~/customer/modules/Home/page/PageDetailProduct/PageDetailProduct";
 import New from "~/customer/modules/Home/page/PageNew/New";
 import Sale from "~/customer/modules/Home/page/PageSale/Sale";
@@ -61,6 +63,11 @@ const PUBLIC_ROUTES = [
     component: DetailOrder,
     layout: LayoutNoSlider,
   },
+  {
+    path: routeClient.accountEdit,
+    component: EditAccount,
+    layout: LayoutNoSlider,
+  },
 
   {
     path: routeClient.pageNotFound,
@@ -86,6 +93,8 @@ const PUBLIC_ROUTES = [
   },
   //CONTACT
   { path: routeClient.contact, component: Contact, layout: LayoutNoSlider },
+  { path: routeClient.rating, component: Rating, layout: LayoutNoSlider },
+
   //PAYMENT
   { path: routeClient.payment, component: Payment, layout: LayoutNoSlider },
 ];

@@ -9,8 +9,8 @@ const routeClient = {
   payment: "/payment",
   cart: "/cart",
 
-  feedback: "/feedback",
   contact: "/contact",
+  rating: "/contact/rating",
 
   about: "/about",
   aboutPrivacyPolicy: "/about/privacyPolicy",
@@ -18,7 +18,7 @@ const routeClient = {
   aboutTermsService: "/about/termsService",
 
   accountInfo: "/account/info",
-  accountEdit: "/account/edit",
+  accountEdit: "/account/edit/:id",
 
   orderDetail: "/viewOrder/user/:id",
   viewOrder: "/viewOrder",
