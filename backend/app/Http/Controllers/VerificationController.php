@@ -16,14 +16,14 @@ class VerificationController extends Controller
         $token = $request->token;
 
         if (!$token) {
-            return Response::json(['error' => 'Invalid verification token.'], 400);
+            return view('verificationError');
         }
 
         $user = User::where('email_verification_token', $token)->first();
 
 
         if (!$user) {
-            return Response::json(['error' => 'Invalid verification token.'], 400);
+            return view('verificationError');
         }
         if (empty($user->email_verified_at)) {
             $user->email_verified_at = now();
