@@ -1,13 +1,7 @@
 import classNames from "classnames/bind";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import {
-  getAllProducts,
-  getNewProducts,
-  getSaleProducts,
-  resetParams,
-  setParams,
-} from "~/redux/slice/product/ProductSlice";
+import { setParams } from "~/redux/slice/product/ProductSlice";
 import styles from "./Category.module.scss";
 
 export default function Category() {
@@ -37,12 +31,11 @@ export default function Category() {
       {listCategory?.map((category, index) => {
         return (
           <div key={index} className={cx("wrapper-item")}>
-            <NavLink
-              className={cx("menu-item")}
-              onClick={(e) => handleSubmitCategory(e, category.id)}
-            >
-              <span className={cx("title")}>{category.name}</span>
-            </NavLink>
+            <button onClick={(e) => handleSubmitCategory(e, category.id)}>
+              <NavLink className={cx("menu-item")} to="/product/shop">
+                <span className={cx("title")}>{category.name}</span>
+              </NavLink>
+            </button>
           </div>
         );
       })}
