@@ -26,17 +26,7 @@ class DiscountController extends Controller
     {
         $discounts = $this->discountService->getListDiscount($request->date,$request->per_page,$request->string,);
         return response()->json([
-            'currentPage' => $discounts->currentPage(),
-            'data' => $discounts,
-            'first_page_url' => $discounts->url(1),
-            'last_page_url' => $discounts->url($discounts->lastPage()),
-            'prev_page_url' => $discounts->previousPageUrl(),
-            'next_page_url' => $discounts->nextPageUrl(),
-            'from' => $discounts->firstItem(),
-            'to' => $discounts->lastItem(),
-            'per_page' => $discounts->perPage(),
-            'totalPages' => $discounts->lastPage(),
-            'total' => $discounts->total(),
+            $discounts
         ]);
     }
 
