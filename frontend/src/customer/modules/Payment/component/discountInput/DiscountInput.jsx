@@ -6,7 +6,7 @@ function DiscountInput() {
   const dispatch = useDispatch();
   const { priceCart } = useSelector((state) => state.cart);
   const { code, discount, codeName } = useSelector((state) => state.discount);
-
+  console.log(code);
   //-------------------handel discount
   const handelDiscount = (e) => {
     e.preventDefault();

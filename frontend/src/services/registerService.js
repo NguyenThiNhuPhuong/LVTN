@@ -47,11 +47,7 @@ export const signInUser = async ({ email, password }) => {
         timer: 4000,
       });
     } else {
-      await Swal.fire({
-        icon: "error",
-        text: "Email hoặc mật khẩu chưa chính xác😰😰",
-        timer: 4000,
-      });
+      Swal.fire(`${error.response.data.message}😥`);
     }
   }
 };
@@ -69,10 +65,7 @@ export const changePassword = async ({
     });
     return res;
   } catch (error) {
-    Swal.fire({
-      icon: "error",
-      text: `${error.response.data.message} 🙌👀`,
-    });
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
 
@@ -97,10 +90,7 @@ export const confirmPassword = async ({ email, code }) => {
     );
     return res;
   } catch (error) {
-    Swal.fire({
-      icon: "error",
-      text: "Email này đã tồn tại  🙌👀",
-    });
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
 export const resetPassword = async (form) => {
@@ -108,9 +98,6 @@ export const resetPassword = async (form) => {
     const res = await httpRequest.postFormData(`user/password/reset`, form);
     return res;
   } catch (error) {
-    Swal.fire({
-      icon: "error",
-      text: "Email này đã tồn tại  🙌👀",
-    });
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };

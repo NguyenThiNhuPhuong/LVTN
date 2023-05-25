@@ -10,6 +10,7 @@ function Form() {
   const { priceCart, listCart, priceShip, priceAllCart } = useSelector(
     (state) => state.cart
   );
+  const { code_id } = useSelector((state) => state.discount);
   const { userInfo } = useSelector((state) => state.auth);
   //------------handelSubmit
 
@@ -23,6 +24,7 @@ function Form() {
         price_ship: priceShip,
         price_all: priceAllCart,
         cart: listCart,
+        discount_id: code_id,
       })
     );
   };

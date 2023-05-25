@@ -135,6 +135,7 @@ const discountSlice = createSlice({
       state.isLoading = false;
       state.discount = action.payload.discount;
       state.codeName = action.payload.code;
+      state.code_id = action.payload.id;
     },
     [listDiscountValid.pending]: (state) => {
       state.isLoading = true;
