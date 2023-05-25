@@ -2,8 +2,8 @@ import React from "react";
 import { Price } from "~/customer/modules/Home/component/products/component/Price/Price";
 
 const Product = ({ listCart }) => {
-  return listCart?.map((item) => (
-    <div className="sidebar-content" key={item._id}>
+  return listCart?.map((item, index) => (
+    <div className="sidebar-content" key={index}>
       <table className="product-table">
         <tbody>
           <tr className="productItem">

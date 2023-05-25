@@ -12,11 +12,11 @@ import NoProduct from "../noproduct/NoProduct";
 import Product from "./component/Product/Product";
 
 const menuPrice = [
-  { label: `100.000đ-200.000đ`, valueMin: 100000, valueMax: 200000 },
-  { label: `200.000đ-400.000đ`, valueMin: 200000, valueMax: 400000 },
-  { label: `400.000đ-600.000đ`, valueMin: 400000, valueMax: 600000 },
-  { label: `600.000đ-1000.000đ`, valueMin: 600000, valueMax: 800000 },
-  { label: `trên 1.000.000đ`, valueMin: 1000000 },
+  { id: 1, label: `100.000đ-200.000đ`, valueMin: 100000, valueMax: 200000 },
+  { id: 2, label: `200.000đ-400.000đ`, valueMin: 200000, valueMax: 400000 },
+  { id: 3, label: `400.000đ-600.000đ`, valueMin: 400000, valueMax: 600000 },
+  { id: 4, label: `600.000đ-1000.000đ`, valueMin: 600000, valueMax: 800000 },
+  { id: 5, label: `trên 1.000.000đ`, valueMin: 1000000 },
 ];
 function Products({ productList }) {
   //----------------------useSelector get
@@ -71,14 +71,14 @@ function Products({ productList }) {
         <div className="content">
           <div className="sidebar">
             <h3>Danh mục sản phẩm</h3>
-            {categoryList.map((category, index) => {
+            {categoryList.map((category) => {
               return (
-                <div className="sidebar__container" key={index}>
+                <div className="sidebar__container" key={category.id}>
                   <input
                     type="checkbox"
                     id={category.name}
                     value={category.id}
-                    onClick={(e) => handelCategory(e)}
+                    onChange={handelCategory}
                     checked={
                       parseInt(params.category_id) === parseInt(category.id)
                     }
@@ -98,13 +98,13 @@ function Products({ productList }) {
             </div>
             <h3>Theo giá tiền</h3>
 
-            {menuPrice.map((price, index) => {
+            {menuPrice.map((price) => {
               return (
-                <div className="sidebar__container" key={index}>
+                <div className="sidebar__container" key={price.id}>
                   <input
                     type="checkbox"
                     value={`${price.valueMin},${price.valueMax}`}
-                    onClick={(e) => handelPrice(e)}
+                    onChange={(e) => handelPrice(e)}
                     checked={
                       parseInt(params.min_price) === parseInt(price.valueMin) &&
                       parseInt(params.max_price) === parseInt(price.valueMax)

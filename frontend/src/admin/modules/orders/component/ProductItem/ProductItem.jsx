@@ -5,7 +5,7 @@ import "./ProductItem.scss";
 const ProductItem = () => {
   const { orderSingle } = useSelector((state) => state.order);
 
-  return orderSingle?.cart?.map((item, index) => {
+  orderSingle?.cart?.map((item, index) => {
     return (
       <div className="product__row table__section" key={index}>
         <div className="product__row--image">

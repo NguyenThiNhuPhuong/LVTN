@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import Loading from "~/admin/component/Loading/Loading";
 import {
   getADiscount,
+  setUpdateDiscount,
   updateDiscount,
 } from "~/redux/slice/discount/DiscountSlice";
 import { inputFields } from "../../component/MenuDiscount";
@@ -44,12 +45,12 @@ function SingleDiscount() {
   const handleChange = (e, name) => {
     e.preventDefault();
     console.log(e.target.value, name);
-    // dispatch(
-    //   setUpdateDiscount({
-    //     ...discountSingle,
-    //     [name]: e.target.value,
-    //   })
-    // );
+    dispatch(
+      setUpdateDiscount({
+        ...discountSingle,
+        [name]: e.target.value,
+      })
+    );
   };
 
   const Discount = () => {
