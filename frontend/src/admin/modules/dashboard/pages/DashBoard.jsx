@@ -17,6 +17,7 @@ const DashBoard = () => {
     dispatch(getTotalRevenue(2023));
     dispatch(getTotalOrderStatus());
   }, [dispatch]);
+
   return (
     <div className="dashBoardContainer">
       <div className="title">DashBoard</div>
