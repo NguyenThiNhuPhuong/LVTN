@@ -6,6 +6,7 @@ import DashBoard from "~/admin/modules/dashboard/pages/DashBoard";
 import ListDiscount from "~/admin/modules/discount/pages/ListDiscount/ListDiscount";
 import NewDiscount from "~/admin/modules/discount/pages/NewDiscount/NewDiscount";
 import SingleDiscount from "~/admin/modules/discount/pages/SingleDiscount/SingleDiscount";
+import ListFeedback from "~/admin/modules/feedback/ListFeedback";
 import SingleOrder from "~/admin/modules/orders/pages/SingleOrder/SingleOrder";
 import ListOrder from "~/admin/modules/orders/pages/listOrder/ListOrder";
 import ListProduct from "~/admin/modules/products/pages/listProduct/ListProduct";
@@ -130,6 +131,12 @@ const PRIVATE_ROUTES = [
     path: routeServer.newSlider,
     component: NewSlider,
     layoutOne: DefaultLayoutAdmin,
+  },
+  //FEEDBACK
+  {
+    path: routeServer.listFeedback,
+    component: ListFeedback,
+    layout: DefaultLayoutAdmin,
   },
 ];
 export default PRIVATE_ROUTES;

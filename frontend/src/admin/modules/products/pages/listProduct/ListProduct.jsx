@@ -30,11 +30,16 @@ function ListProduct() {
     totalPages,
     currentPage,
   } = useSelector((state) => state.product);
-
   //------------call api get list product&& remove product success------
   useEffect(() => {
     dispatch(getAllProducts(params));
-    dispatch(getCategory());
+    dispatch(
+      getCategory({
+        page: "",
+        per_page: "",
+        active: "",
+      })
+    );
 
     if (alertDeleteSuccess !== "") {
       Swal.fire("Saved!", "", "success");

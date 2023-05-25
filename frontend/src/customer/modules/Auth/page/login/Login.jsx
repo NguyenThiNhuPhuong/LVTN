@@ -107,11 +107,11 @@ export default function Login() {
             <div className={cx("radio")}>
               <input
                 type="checkbox"
-                id=" Remember Me"
-                name=" Remember Me"
+                id=" Verify Identity"
+                name=" Verify Identity"
                 required={isOpenModal1 ? false : true}
               />
-              <label htmlFor=" Remember Me"> Remember Me</label>
+              <label htmlFor=" Verify Identity"> Verify Identity</label>
             </div>
             <button type="button" onClick={() => setIsOpenModal1(true)}>
               Quên mật khẩu

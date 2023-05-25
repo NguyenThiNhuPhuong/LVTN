@@ -19,7 +19,7 @@ export const removeCategory = async (id) => {
     const res = await httpRequest.remove(`categories/${id}`);
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
 //CREATE CATEGORY

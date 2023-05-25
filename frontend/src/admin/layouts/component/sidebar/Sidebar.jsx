@@ -48,6 +48,12 @@ const Sidebar = () => {
         <Item to="/admin/order" icon={<CreditCardIcon />} title="Orders" />
         <Item to="/admin/slider" icon={<BrokenImageIcon />} title="Slider" />
         <Item
+          to="/admin/feedback"
+          icon={<BrokenImageIcon />}
+          title="Feedback"
+        />
+
+        <Item
           to="/admin/profile"
           icon={<AccountCircleOutlinedIcon />}
           title="Profile"

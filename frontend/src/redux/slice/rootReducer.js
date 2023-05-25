@@ -9,6 +9,7 @@ import addressReducer from "./address/AddressSlice";
 import orderReducer from "./order/OrderSlice";
 import userReducer from "./user/UserSlice";
 import dashboardReducer from "./dashboard/DashboardSlice";
+import feedbackReducer from "./feedback/FeedbackSlice";
 
 import { combineReducers } from "@reduxjs/toolkit";
 
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   address: addressReducer,
   order: orderReducer,
   dashboard: dashboardReducer,
+  feedback: feedbackReducer,
 });
 
 export { rootReducer };

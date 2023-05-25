@@ -1,0 +1,33 @@
+.RatingContainer {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  column-gap: 30px;
+  padding: 30px 120px;
+  // Áp dụng kiểu dáng chung cho các input và textarea
+  input,
+  textarea {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  div {
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  button {
+    background-color: var(--mainColor);
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}

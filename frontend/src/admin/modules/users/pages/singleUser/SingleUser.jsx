@@ -26,7 +26,6 @@ function SingleUser() {
   const { fileList } = useSelector((state) => state.file);
 
   useEffect(() => {
-    dispatch(removeFile());
     dispatch(getAUser(id));
   }, [dispatch, id]);
   //-------------call api update success
@@ -35,8 +34,12 @@ function SingleUser() {
       toast.success("Bạn đã cập nhật thành công", {
         position: toast.POSITION.TOP_RIGHT,
       });
-      dispatch(resetUpdateUser());
-      setTimeout(() => navigate("/admin/user"), 5000);
+
+      setTimeout(() => {
+        dispatch(resetUpdateUser());
+        dispatch(removeFile());
+        navigate("/admin/user");
+      }, 5000);
     }
   }, [dispatch, navigate, userUpdate]);
   //change data =>form data

@@ -1,42 +1,44 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "~/admin/component/Loading/Loading";
-import Top from "~/admin/layouts/component/top/Top";
-import { getDiscounts, setParams } from "~/redux/slice/discount/DiscountSlice";
-import "./ListDiscount.scss";
-import DiscountItem from "../../component/DiscountItem/DiscountItem";
 import Pagination from "~/admin/layouts/component/Pagination/Pagination";
-const ListDiscount = () => {
+import Top from "~/admin/layouts/component/top/Top";
+import {
+  getListFeedback,
+  setParams,
+} from "~/redux/slice/feedback/FeedbackSlice";
+import "./ListFeedback.scss";
+import FeedbackItem from "./component/FeedbackItem/FeedbackItem";
+
+const ListFeedback = () => {
   const { isLoading, currentPage, totalPages, params } = useSelector(
-    (state) => state.discount
+    (state) => state.feedback
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getDiscounts(params));
+    dispatch(getListFeedback(params));
   }, [dispatch, params]);
-  //-----------------change Page---------------------------------------
+
   const handlePageChange = (e, pageNumber) => {
     e.preventDefault();
     dispatch(setParams({ ...params, page: pageNumber }));
   };
-  const Discount = () => {
+
+  const Feedback = () => {
     return (
       <div className="ListDiscountContainer">
-        <Top title="Danh sách Discount" to="newDiscount" />
+        <Top title="Danh sách Feedback" to="newDiscount" />
         <div className="discount">
           <div className="discount__row discount__header-labels">
             <div className="text-center">ID</div>
-            <div className="text-center">Name</div>
-
-            <div className="text-center">Tổng Số lượng </div>
-            <div className="text-center">Số lượng hiện còn </div>
+            <div className="text-center">Email</div>
+            <div className="text-center">Nội dung </div>
             <div className="text-center">Ngày Tạo</div>
-
             <div className="text-center">Ngày Hết hạn</div>
             <div className="text-center">Action</div>
           </div>
-          <DiscountItem />
+          <FeedbackItem />
         </div>
         {totalPages > 0 && (
           <Pagination
@@ -49,7 +51,7 @@ const ListDiscount = () => {
     );
   };
 
-  return isLoading ? <Loading /> : <Discount />;
+  return isLoading ? <Loading /> : <Feedback />;
 };
 
-export default ListDiscount;
+export default ListFeedback;

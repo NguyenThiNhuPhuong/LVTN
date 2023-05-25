@@ -5,7 +5,8 @@ export const getDiscounts = createAsyncThunk(
   "discount/getDiscounts",
   async (params) => {
     const response = await discountService.getDiscount(params);
-    return response;
+    console.log(response);
+    return response[0];
   }
 );
 //GET LIST DISCOUNT BY DATE FOR USER
@@ -116,7 +117,7 @@ const discountSlice = createSlice({
     },
     [getDiscounts.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.discountList = action.payload.data.data;
+      state.discountList = action.payload.data;
       state.currentPage = action.payload.currentPage;
       state.totalPages = action.payload.totalPages;
     },
