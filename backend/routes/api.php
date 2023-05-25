@@ -54,11 +54,11 @@ Route::group([
 
 });
 /*----------------DASHBOARD-------------------*/
-Route::get('/dashboard/total', [DashboardController::class, 'listTotalItem']);
+Route::get('/dashboard/total', [DashboardController::class, 'listTotalItem'])->middleware('auth.admin');
 
 /*----------------USER-------------------*/
 Route::apiResource('users', UserController::class);
-Route::put('/user/change-password', [UserController::class, 'changePassword']);
+Route::put('/user/change-password', [UserController::class, 'changePassword'])->middleware('auth');
 Route::get('verify-email',  [VerificationController::class, 'verifyEmail']);
 Route::post('user/password/send-email', [UserController::class ,'sendEmail']);
 Route::post('user/password/confirm',  [UserController::class ,'confirm']);
@@ -96,7 +96,7 @@ Route::get('/discounts/list/check-discount', [DiscountController::class, 'checkD
 Route::get('/discounts/list/valid', [DiscountController::class, 'listDiscountValid']);
 
 /*----------------FEEDBACK-------------------*/
-Route::apiResource('feedback', FeedbackController::class);
+Route::apiResource('feedback', FeedbackController::class)->middleware('auth');
 
 
 

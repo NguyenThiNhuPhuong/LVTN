@@ -18,6 +18,7 @@ class CategoryController extends Controller
     {
         $this->categoryRepository = new CategoryRepository;
         $this->categoryService = new CategoryService;
+        $this->middleware('auth.admin')->except(['index','show']);
     }
 
     /**
