@@ -25,6 +25,7 @@ class ProductController extends Controller
         $this->productService = new ProductService;
         $this->imageRepository = new ImageRepository;
         $this->imageService = new ImageService;
+        $this->middleware('auth.admin')->except(['index','show']);
     }
 
     /**

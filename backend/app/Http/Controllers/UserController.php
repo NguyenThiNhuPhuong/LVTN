@@ -28,6 +28,7 @@ class UserController extends Controller
         $this->userRepository = new UserRepository;
         $this->passwordResetTokenRepository = new PasswordResetTokensRepository;
         $this->userService = new UserService;
+        $this->middleware('auth.admin')->only('store');
     }
 
     /**

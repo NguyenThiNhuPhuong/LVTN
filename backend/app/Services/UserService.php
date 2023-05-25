@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\AddressRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\UserTypeRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,7 @@ class UserService
         $this->addressRepository = new AddressRepository;
         $this->userRepository = new UserRepository;
         $this->userTypeRepository = new UserTypeRepository;
+
 
     }
 
@@ -46,6 +48,8 @@ class UserService
                     'name' => $request->name,
                     'email' => $request->email,
                     'type' => $request->type,
+                    'email_verified_at' => Carbon::now(),
+                    'email_verification_token' => Carbon::now(),
                     'phone' => $request->phone,
                     'password' => Hash::make($request->password),
                     'province_id' => $request->province_id,
