@@ -34,18 +34,15 @@ export default function Login() {
 
     if (isLoading) {
       toast.info("Bạn vui lòng chờ trong giây lát", toastConfig);
-    } else if (messenger === "Verification code has been sent to your email.") {
-      toast.success(
-        "Verification code has been sent to your email.",
-        toastConfig
-      );
+    } else if (messenger === "Mã xác thực đã đươc gửi đến email của bạn.") {
+      toast.success("Mã xác thực đã đươc gửi đến email của bạn.", toastConfig);
       setIsOpenModal1(false);
       setIsOpenModal2(true);
     } else if (messenger === "successful") {
       toast.success("Vui lòng điền vào form để thay đổi mật khẩu", toastConfig);
       setIsOpenModal2(false);
       setIsOpenModal3(true);
-    } else if (messenger === "Password reset successful.") {
+    } else if (messenger === "Đặt lại Password thành công!") {
       toast.info("Bạn đã thay đổi mật khẩu thành công", toastConfig);
       setIsOpenModal3(false);
     }

@@ -39,10 +39,8 @@ function Products({ productList }) {
   };
   //---------------------handel Name
   const handelName = (e) => {
-    // e.preventDefault();
     dispatch(setParams({ ...params, sort: e.target.value }));
   };
-  console.log(params);
   //---------------------handle Price
   const handelPrice = (e) => {
     e.preventDefault();

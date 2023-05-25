@@ -30,7 +30,6 @@ function ListOrder() {
     <Loading />
   ) : (
     <div className="ListOrderContainer">
-      <Top title="Orders" />
       <div className="content">
         <StatusSelect />
         <hr />

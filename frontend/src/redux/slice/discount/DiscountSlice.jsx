@@ -5,7 +5,6 @@ export const getDiscounts = createAsyncThunk(
   "discount/getDiscounts",
   async (params) => {
     const response = await discountService.getDiscount(params);
-    console.log(response);
     return response[0];
   }
 );
@@ -14,7 +13,7 @@ export const getListDiscountByDate = createAsyncThunk(
   "discount/getListDiscountByDate",
   async (date) => {
     const response = await discountService.getListDiscountByDate(date);
-    return response.data.data;
+    return response[0].data;
   }
 );
 //API GET A DISCOUNT

@@ -13,7 +13,7 @@ function Form() {
   const { code_id } = useSelector((state) => state.discount);
   const { userInfo } = useSelector((state) => state.auth);
   //------------handelSubmit
-
+  console.log(code_id);
   const handelSubmit = (e) => {
     e.preventDefault();
     const { updated_at, ...user } = userInfo;
