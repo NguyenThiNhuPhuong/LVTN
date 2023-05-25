@@ -325,7 +325,7 @@ class OrderService
             ];
         }
         //update orderstatus 3 -> 6( trả hàng)
-        if ($order['order_status_id'] == 3 && $request->order_status_id == 4 && Auth::user()->type == 3) {
+        if ($order['order_status_id'] == 3 && $request->order_status_id == 6 && Auth::user()->type == 3) {
             $isUpdate = DB::transaction(function () use ($id, $dataUpdate,$dataOrderApproval) {
 
                 $this->orderRepository->updateOrder($id, $dataUpdate);
