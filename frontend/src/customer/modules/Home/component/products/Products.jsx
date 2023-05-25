@@ -1,20 +1,16 @@
-import classNames from "classnames/bind";
-import styles from "./Products.module.scss";
+import "./Products.scss";
 
-import { Image } from "cloudinary-react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
-import { addCart, resetAlert } from "~/redux/slice/cart/CartSlice";
+import { resetAlert } from "~/redux/slice/cart/CartSlice";
 import { getAllProducts, setParams } from "~/redux/slice/product/ProductSlice";
 
 import NoProduct from "../noproduct/NoProduct";
-import ButtonPriceSale from "./component/ButtonPriceSale/ButtonPriceSale";
-import AllPrice from "./component/Price/Price";
+import Product from "./component/Product/Product";
 
-const cx = classNames.bind(styles);
 const menuPrice = [
   { label: `100.000đ-200.000đ`, valueMin: 100000, valueMax: 200000 },
   { label: `200.000đ-400.000đ`, valueMin: 200000, valueMax: 400000 },
@@ -68,16 +64,16 @@ function Products({ productList }) {
   //---------------------component ProductItem
   const ProductItem = () => {
     return (
-      <div className={cx("productContainer")}>
+      <div className="productContainer">
         <ToastContainer />
 
-        <div className={cx("title")}>sản phẩm của chúng tôi</div>
-        <div className={cx("content")}>
-          <div className={cx("sidebar")}>
+        <div className="title">sản phẩm của chúng tôi</div>
+        <div className="content">
+          <div className="sidebar">
             <h3>Danh mục sản phẩm</h3>
             {categoryList.map((category, index) => {
               return (
-                <div className={cx("sidebar__container")} key={index}>
+                <div className="sidebar__container" key={index}>
                   <input
                     type="checkbox"
                     id={category.name}
@@ -92,11 +88,11 @@ function Products({ productList }) {
               );
             })}
             <h3>Sắp xếp theo tên</h3>
-            <div className={cx("sidebar__container")}>
+            <div className="sidebar__container">
               <input type="checkbox" />
               <label>Theo A-Z</label>
             </div>
-            <div className={cx("sidebar__container")}>
+            <div className="sidebar__container">
               <input type="checkbox" />
               <label>Theo Z-A</label>
             </div>
@@ -104,7 +100,7 @@ function Products({ productList }) {
 
             {menuPrice.map((price, index) => {
               return (
-                <div className={cx("sidebar__container")} key={index}>
+                <div className="sidebar__container" key={index}>
                   <input
                     type="checkbox"
                     value={`${price.valueMin},${price.valueMax}`}
@@ -119,45 +115,9 @@ function Products({ productList }) {
               );
             })}
           </div>
-          <div className={cx("product")}>
-            {productList.map((product, index) => {
-              return (
-                <div className={cx("product__item")} key={index}>
-                  <ButtonPriceSale
-                    price={product.price}
-                    price_sale={product.price_sale}
-                  />
-
-                  <NavLink to={`/product/${product.id}`}>
-                    <Image
-                      className={cx("product__item--img")}
-                      cloudName={process.env.REACT_APP_CLOUDINARY_NAME}
-                      publicId={product.images[1]}
-                    />
-                  </NavLink>
-
-                  <div className={cx("product__item--content")}>
-                    <Link
-                      className={cx("product__item--title")}
-                      to={`/product/detail/${product.id}`}
-                    >
-                      {product.name}
-                    </Link>
-                    <AllPrice
-                      price={product.price}
-                      price_sale={product.price_sale}
-                    />
-                    <button
-                      className={cx("product__item--button")}
-                      onClick={() => {
-                        dispatch(addCart(product));
-                      }}
-                    >
-                      Add to cart
-                    </button>
-                  </div>
-                </div>
-              );
+          <div className="product">
+            {productList.map((product) => {
+              return <Product product={product} />;
             })}
           </div>
         </div>

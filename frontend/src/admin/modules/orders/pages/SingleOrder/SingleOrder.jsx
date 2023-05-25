@@ -41,7 +41,6 @@ const SingleOrder = () => {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(selectedOptionValue.id);
         dispatch(
           updateStatusOrder({ id, order_status_id: selectedOptionValue.id })
         );

@@ -12,7 +12,6 @@ import AvatarUser from "./component/avatarUser/AvatarUser";
 import MenuList from "./component/menuList/MenuList";
 function Action() {
   const cx = classNames.bind(styles);
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserProfile());
@@ -24,14 +23,14 @@ function Action() {
     <div className={cx("action")}>
       <div className={cx("action__dropdown")}>
         <button>
-          {user.avatar ? (
+          {user?.avatar ? (
             <Image
-              src={user.avatar}
+              src={user?.avatar}
               alt="Nguyen Van A"
               className={cx("action__dropdown--avatar")}
             />
-          ) : user.name ? (
-            <AvatarUser Auth={user.name} />
+          ) : user?.name ? (
+            <AvatarUser Auth={user?.name} />
           ) : (
             <Image
               src={images.noImage}
@@ -41,7 +40,7 @@ function Action() {
           )}
 
           <div className={cx("action__dropdown--content")}>
-            <MenuList items={user.name ? USER_MENU : MENU_ITEMS} />
+            <MenuList items={user?.name ? USER_MENU : MENU_ITEMS} />
           </div>
         </button>
       </div>

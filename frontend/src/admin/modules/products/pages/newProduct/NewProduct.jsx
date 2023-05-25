@@ -116,7 +116,6 @@ function NewProduct() {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log({ ...values, ...productNew });
       const data = getFormData({ ...values, ...productNew });
       dispatch(newProduct(data));
     },

@@ -20,8 +20,6 @@ function SingleSlider() {
   const { sliderSingle, sliderUpdate, isLoading, isLoadingUpdate } =
     useSelector((state) => state.slider);
   const { fileList } = useSelector((state) => state.file);
-  console.log("bebebe", fileList);
-  console.log("bebebehehehe", sliderSingle.image);
 
   useEffect(() => {
     dispatch(removeFile());

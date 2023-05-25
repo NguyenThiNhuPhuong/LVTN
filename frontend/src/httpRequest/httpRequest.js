@@ -7,7 +7,6 @@ const httpRequestFormData = axios.create({
     Authorization: Cookies.get("token") ? "Bearer " + Cookies.get("token") : "",
   },
 });
-console.log(Cookies.get("token"));
 const httpRequest = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   headers: {

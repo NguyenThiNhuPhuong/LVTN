@@ -18,7 +18,6 @@ export default function Sale() {
   //-------------call data from productSlice------------
   const { isLoading, saleProductList, currentPage, totalPages, params } =
     useSelector((state) => state.product);
-  console.log(saleProductList);
   //-------------call api ------------------------------
   useEffect(() => {
     dispatch(setNamePage("Sale"));

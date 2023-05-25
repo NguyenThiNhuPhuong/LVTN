@@ -1,9 +1,9 @@
 const inputFields = [
-  {
-    name: "code",
-    type: "text",
-    label: "Code",
-  },
+  //   {
+  //     name: "code",
+  //     type: "text",
+  //     label: "Code",
+  //   },
   {
     name: "discount",
     type: "text",

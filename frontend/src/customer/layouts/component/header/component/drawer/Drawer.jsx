@@ -15,7 +15,6 @@ function Drawer() {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (open) => (event) => {
-    console.log(event.type);
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")

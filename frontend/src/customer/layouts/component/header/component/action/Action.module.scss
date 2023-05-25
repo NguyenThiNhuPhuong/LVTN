@@ -13,6 +13,7 @@
     button {
       background-color: transparent;
     }
+
     &--avatar {
       width: 36px;
       height: 36px;
@@ -42,7 +43,6 @@
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
         border-top: 10px solid transparent;
-
         border-bottom: 10px solid #333;
       }
     }
@@ -51,6 +51,7 @@
       display: block;
     }
   }
+
   &__cart {
     position: relative;
     cursor: pointer;

@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 function Slide() {
-  const sliderList = useSelector((state) => state.slider.sliderList);
+  const { sliderList } = useSelector((state) => state.slider);
   const LoadingSlider = useSelector((state) => state.slider.isLoading);
   const settings = {
     dots: true,

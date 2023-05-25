@@ -2,7 +2,6 @@ import Swal from "sweetalert2";
 import * as httpRequest from "~/httpRequest/httpRequest";
 //LIST CATEGORY
 export const getListCategory = async ({ active }) => {
-  console.log(active);
   try {
     let params = "";
     if (active !== undefined) {

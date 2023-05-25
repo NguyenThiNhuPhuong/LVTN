@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 
@@ -9,35 +9,45 @@ import PersonIcon from "@mui/icons-material/Person";
 
 import { FormatNumber } from "~/customer/modules/Home/component/products/component/Price/Price";
 
+import { ToastContainer, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import {
   getAOrder,
-  resetStatusOrder,
+  resetAlert,
   updateStatusOrder,
 } from "~/redux/slice/order/OrderSlice";
-import "./Order.scss";
 import ProductItem from "../component/ProductItem/ProductItem";
-import { ToastContainer, toast } from "react-toastify";
+import "./Order.scss";
+import CancelOrderModal from "../component/CancelOrderModal/CancelOrderModal";
 
 const Order = () => {
   const { id } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { orderSingle, isUpdateStatus } = useSelector((state) => state.order);
+  const { orderSingle, Alert } = useSelector((state) => state.order);
   useEffect(() => {
-    if (isUpdateStatus === true) {
+    if (Alert === "Orders are shipping!") {
       toast.success("Bạn đã cập nhật thành công", {
         position: toast.POSITION.BOTTOM_RIGHT,
-        data: {
-          title: "Success toast",
-          text: "This is a success message",
-        },
       });
-      dispatch(resetStatusOrder());
-      setTimeout(() => navigate("/shipper/pendingOrders"), 3000);
+      setTimeout(
+        () => dispatch(resetAlert()),
+        navigate("/shipper/deliveryOrders"),
+        3000
+      );
+    } else if (Alert === "Order has been delivered successfully!") {
+      toast.success("Bạn đã cập nhật thành công", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      setTimeout(
+        () => dispatch(resetAlert()),
+        navigate("/shipper/dashboard"),
+        3000
+      );
     }
-  }, [dispatch, isUpdateStatus, navigate]);
+  }, [dispatch, Alert, navigate]);
   useEffect(() => {
     dispatch(getAOrder(id));
   }, [dispatch, id]);
@@ -45,29 +55,38 @@ const Order = () => {
   const handelOrder = (e) => {
     e.preventDefault();
     const selectedOptionValue = JSON.parse(e.target.value);
-    Swal.fire({
-      title: `Bạn có chắc muốn ${selectedOptionValue.name} `,
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-      denyButtonText: "No",
-      customClass: {
-        actions: "my-actions",
-        cancelButton: "order-1 right-gap",
-        confirmButton: "order-2",
-      },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        dispatch(
-          updateStatusOrder({ id, order_status_id: selectedOptionValue.id })
-        );
-      } else if (result.isDenied) {
-        Swal.fire("Changes are not saved", "", "info");
-      }
-    });
+    if (selectedOptionValue.name === "Trả hàng") {
+      setIsModalOpen(true);
+    } else {
+      Swal.fire({
+        title: `Bạn có chắc muốn ${selectedOptionValue.name} `,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: "No",
+        customClass: {
+          actions: "my-actions",
+          cancelButton: "order-1 right-gap",
+          confirmButton: "order-2",
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          dispatch(
+            updateStatusOrder({ id, order_status_id: selectedOptionValue.id })
+          );
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
+    }
   };
   return (
     <div className="SingleOrderContainer">
       <ToastContainer />
+      {isModalOpen ? (
+        <CancelOrderModal setIsModalOpen={setIsModalOpen} id={id} />
+      ) : (
+        ""
+      )}
       <div className="top">
         <NavLink to="/admin/order">Back to Orders</NavLink>
       </div>

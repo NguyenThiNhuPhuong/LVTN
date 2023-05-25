@@ -18,7 +18,6 @@ const Modal1 = ({ setIsOpenModal1 }) => {
   const { valuesChangePassword } = useSelector((state) => state.auth);
 
   const handleSubmit = (values) => {
-    console.log(values);
     const data = getFormData(values);
     dispatch(setValueChangePassword({ ...valuesChangePassword, ...values }));
     dispatch(sendEmail(data));

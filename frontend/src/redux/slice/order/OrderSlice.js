@@ -20,7 +20,6 @@ export const getListOrderUser = createAsyncThunk(
 // API GET A ORDER
 export const getAOrder = createAsyncThunk("order/getAOrder", async (id) => {
   const response = await orderService.getAOrder(id);
-  console.log(response);
   return response.order;
 });
 // API CREATE NEW ORDER
@@ -47,7 +46,7 @@ const orderSlice = createSlice({
     orderNew: {},
     isSuccessNew: false,
 
-    isUpdateStatus: false,
+    Alert: "",
 
     currentPage: 0,
     totalPages: 0,
@@ -55,7 +54,6 @@ const orderSlice = createSlice({
       page: "",
       status_id: "",
     },
-    isCancelSuccess: false,
   },
   reducers: {
     setNewOrder(state, action) {
@@ -73,7 +71,7 @@ const orderSlice = createSlice({
       };
     },
     resetAlert(state) {
-      state.isCancelSuccess = false;
+      state.Alert = "";
     },
   },
   extraReducers: {
@@ -113,13 +111,10 @@ const orderSlice = createSlice({
     },
     [updateStatusOrder.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.isUpdateStatus = action.payload ? true : false;
-      state.isCancelSuccess =
-        action.payload === "Canceled order successfully!" ? true : false;
+      state.Alert = action.payload;
     },
   },
 });
-export const { resetStatusOrder, setParams, resetParams, resetAlert } =
-  orderSlice.actions;
+export const { setParams, resetParams, resetAlert } = orderSlice.actions;
 
 export default orderSlice.reducer;

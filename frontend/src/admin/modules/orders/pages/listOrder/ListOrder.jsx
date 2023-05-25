@@ -20,11 +20,9 @@ function ListOrder() {
   useEffect(() => {
     dispatch(getListOrder(params));
   }, [dispatch, params]);
-  console.log(params);
   //-----------------change Page---------------------------------------
   const handlePageChange = (e, pageNumber) => {
     e.preventDefault();
-    console.log(pageNumber);
 
     dispatch(setParams({ ...params, page: pageNumber }));
   };

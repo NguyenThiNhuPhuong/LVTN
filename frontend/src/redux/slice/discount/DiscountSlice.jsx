@@ -77,7 +77,7 @@ const discountSlice = createSlice({
     discount: 0,
     discountSingle: {},
     discountNew: {},
-
+    discountUpdate: {},
     alertDeleteSuccess: "",
 
     currentPage: 0,
@@ -105,9 +105,7 @@ const discountSlice = createSlice({
     resetADiscount: (state) => {
       state.discountSingle = {};
     },
-    resetUpdateDiscount: (state) => {
-      state.discountUpdate = {};
-    },
+
     resetRemoveDiscount: (state) => {
       state.alertDeleteSuccess = "";
     },
@@ -180,7 +178,6 @@ export const {
   setParams,
   resetNewDiscount,
   resetADiscount,
-  resetUpdateDiscount,
   resetRemoveDiscount,
 } = discountSlice.actions;
 export default discountSlice.reducer;

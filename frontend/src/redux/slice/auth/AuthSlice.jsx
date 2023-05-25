@@ -16,8 +16,6 @@ export const changePassword = createAsyncThunk(
   "user/changePassword",
   async (user) => {
     const response = await registerService.changePassword(user);
-    console.log(response.data.message);
-
     return response.data.message;
   }
 );
@@ -93,7 +91,6 @@ const authSlice = createSlice({
       state.isSusses = false;
       state.userInfo = action.payload.user;
       localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
-      console.log("dmowed", action.payload);
       state.role = action.payload.user.type;
       state.token = Cookies.set("token", action.payload.access_token, {
         expires: 1 / 24,

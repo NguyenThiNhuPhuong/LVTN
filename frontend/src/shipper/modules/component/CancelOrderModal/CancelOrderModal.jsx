@@ -22,7 +22,7 @@ const CancelOrderModal = ({ setIsModalOpen, id }) => {
     dispatch(
       updateStatusOrder({
         id,
-        order_status_id: 5,
+        order_status_id: 6,
         comment: cancelReason,
       })
     );
@@ -30,8 +30,8 @@ const CancelOrderModal = ({ setIsModalOpen, id }) => {
     setIsModalOpen(false);
   };
   useEffect(() => {
-    if (Alert === "Canceled order successfully!") {
-      toast.success("Đơn hàng cửa bạn đã được hủy");
+    if (Alert === "Order has been returned!") {
+      toast.success("Đơn hàng cửa bạn đã được hủy thành công");
       dispatch(getAOrder(id));
       dispatch(resetAlert());
     }
@@ -48,7 +48,7 @@ const CancelOrderModal = ({ setIsModalOpen, id }) => {
           </div>
           <div className="modal-warning">
             <Warning />
-            <p>Vui lòng chọn lý do hủy đơn hàng:</p>
+            <p>Vui lòng chọn lý do Trả hàng:</p>
           </div>
 
           <div className="modal-body">
@@ -56,53 +56,53 @@ const CancelOrderModal = ({ setIsModalOpen, id }) => {
               <input
                 type="radio"
                 name="cancelReason"
-                value="Muốn thay đổi địa chỉ giao hàng"
-                checked={cancelReason === "Muốn thay đổi địa chỉ giao hàng"}
+                value="Hàng nhận được bị thiếu/sai"
+                checked={cancelReason === "Hàng nhận được bị thiếu/sai"}
                 onChange={handleCancelReasonChange}
               />
-              Muốn thay đổi địa chỉ giao hàng
+              Hàng nhận được bị thiếu/sai
             </label>
             <label>
               <input
                 type="radio"
                 name="cancelReason"
-                value="Muốn nhập/thay đổi mã Voucher"
-                checked={cancelReason === "Muốn nhập/thay đổi mã Voucher"}
+                value="Sản phẩm có dấu hiệu hàng giả"
+                checked={cancelReason === "Sản phẩm có dấu hiệu hàng giả"}
                 onChange={handleCancelReasonChange}
               />
-              Muốn nhập/thay đổi mã Voucher
+              Sản phẩm có dấu hiệu hàng giả
             </label>
             <label>
               <input
                 type="radio"
                 name="cancelReason"
-                value="Muốn thay đổi sản phẩm trong đơpn hàng"
+                value="Sản phẩm không giống hình ảnh, mô tả"
                 checked={
-                  cancelReason === "Muốn thay đổi sản phẩm trong đơpn hàng"
+                  cancelReason === "Sản phẩm không giống hình ảnh, mô tả"
                 }
                 onChange={handleCancelReasonChange}
               />
-              Muốn thay đổi sản phẩm trong đơpn hàng
+              Sản phẩm không giống hình ảnh, mô tả
             </label>
             <label>
               <input
                 type="radio"
                 name="cancelReason"
-                value="Thủ tục thanh toán quá rắc rối"
-                checked={cancelReason === "Thủ tục thanh toán quá rắc rối"}
+                value="Sản phầm hư hỏng , bể , vỡ"
+                checked={cancelReason === "Sản phầm hư hỏng , bể , vỡ"}
                 onChange={handleCancelReasonChange}
               />
-              Thủ tục thanh toán quá rắc rối
+              Sản phầm hư hỏng , bể , vỡ
             </label>
             <label>
               <input
                 type="radio"
                 name="cancelReason"
-                value="Lý do khác"
-                checked={cancelReason === "Lý do khác"}
+                value="Trả hàng không ưng ý"
+                checked={cancelReason === "Trả hàng không ưng ý"}
                 onChange={handleCancelReasonChange}
               />
-              Lý do khác
+              Trả hàng không ưng ý
             </label>
           </div>
 

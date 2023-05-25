@@ -33,7 +33,6 @@ export const getTotalOrderStatus = createAsyncThunk(
   "dashboard/getTotalOrderStatus",
   async () => {
     const response = await dashboardService.totalOrderStatus();
-    console.log(response);
     const values = Object.values(response[0]);
     return values;
   }

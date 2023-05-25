@@ -173,10 +173,15 @@
   }
 }
 @media (max-width: 650px) {
-  .formRegister {
-    padding: 30px;
-    &__bottom {
-      width: 350px;
+  .formRegisterContainer {
+    padding: 20px 0px;
+
+    .formRegister {
+      padding: 10px;
+      margin: 0px;
+      &__bottom {
+        width: 350px;
+      }
     }
   }
 }

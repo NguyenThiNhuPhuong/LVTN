@@ -133,8 +133,6 @@ const productSlice = createSlice({
     },
     increaseProduct: (state, action) => {
       const product = action.payload;
-      console.log("....", product.cartNum);
-      console.log("in", product);
       if (product.cartNum < product.num_current) {
         state.productSingle = { ...product, cartNum: product.cartNum + 1 };
       } else {

@@ -13,9 +13,7 @@ const listStatus = [
 function StatusSelect() {
   const dispatch = useDispatch();
   const { params } = useSelector((state) => state.order);
-  console.log(params);
   const handleSubmitStatus = (e) => {
-    console.log(e.target.value);
     e.preventDefault();
     dispatch(setParams({ ...params, status_id: e.target.value }));
   };

@@ -12,7 +12,6 @@ export const apiGetPublicDistrict = createAsyncThunk(
   "address/apiGetPublicDistrict",
   async (provinceId) => {
     const response = await addressService.apiGetPublicDistrict(provinceId);
-    console.log("response", response);
 
     return response.rows;
   }

@@ -51,7 +51,6 @@ export default function Login() {
     }
   }, [isLoading, messenger, setIsOpenModal1, setIsOpenModal2, setIsOpenModal3]);
   //-----authorization---------
-  console.log(role);
   useEffect(() => {
     if (role === 1) {
       navigate("/admin/dashboard");

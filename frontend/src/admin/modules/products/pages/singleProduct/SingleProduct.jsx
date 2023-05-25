@@ -40,7 +40,6 @@ function SingleProduct() {
     (state) => state.product
   );
   const { fileList } = useSelector((state) => state.file);
-  console.log(productSingle);
   //--------call api get a product and alert  when update product success--------
   useEffect(() => {
     dispatch(getAProduct(id));

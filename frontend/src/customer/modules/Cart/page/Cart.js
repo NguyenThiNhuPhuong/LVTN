@@ -74,9 +74,6 @@ function Cart() {
                   </span>
                 </p>
                 <div className="cart__footer--total--btn">
-                  <button type="submit" className="btnCart update-cart">
-                    <NavLink to="/product/shop"> Cập nhật</NavLink>
-                  </button>
                   <button type="submit" className="btnCart">
                     <NavLink to="/payment"> Thanh toán</NavLink>
                   </button>

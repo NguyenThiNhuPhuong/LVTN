@@ -14,7 +14,6 @@ function NewSlider() {
   const navigate = useNavigate();
 
   const { sliderSingle, sliderNew } = useSelector((state) => state.slider);
-  console.log(sliderSingle);
   useEffect(() => {
     if (JSON.stringify(sliderNew) !== "{}") {
       toast.success(`Bạn đã tạp mới Slider thành công`, {
@@ -27,7 +26,6 @@ function NewSlider() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(3);
     function getFormData(object) {
       const formData = new FormData();
       Object.keys(object).forEach((key) => {

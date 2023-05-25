@@ -21,7 +21,6 @@ export default function Register() {
   const navigate = useNavigate();
 
   const success = useSelector((state) => state.auth.isSusses);
-  console.log(success);
   useEffect(() => {
     dispatch(resetRegister());
 

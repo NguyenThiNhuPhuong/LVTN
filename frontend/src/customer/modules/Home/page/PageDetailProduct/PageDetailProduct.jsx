@@ -6,22 +6,90 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
-import { addCart, resetAlert } from "~/redux/slice/cart/CartSlice";
+import { addCart, resetAlert, resetCart } from "~/redux/slice/cart/CartSlice";
 import {
   decreaseProduct,
   getAProduct,
   increaseProduct,
 } from "~/redux/slice/product/ProductSlice";
 
+import Slider from "react-slick";
 import TabTitle from "~/components/tabtiltle/TabTiltle";
+import { getAllProducts } from "~/redux/slice/product/ProductSlice";
 import AllPrice from "../../component/products/component/Price/Price";
 import "./PageDetailProduct.scss";
 import LoadingDetailProduct from "./component/LoadingDetailProduct/LoadingDetailProduct";
+import Product from "../../component/products/component/Product/Product";
 
 export default function PageDetailProduct() {
   //useSelector get value from redux
-  const { productSingle, isLoading } = useSelector((state) => state.product);
+  const { productSingle, isLoading, productList } = useSelector(
+    (state) => state.product
+  );
   const { alert } = useSelector((state) => state.cart);
+  //
+  function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "green" }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "green" }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  const Settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 0,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          dots: false, // Move the dots property inside the settings object
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: false,
+          nextArrow: false,
+          prevArrow: false,
+        },
+      },
+    ],
+  };
 
   //handel cart
   const decreaseCartItem = (item) => {
@@ -60,6 +128,7 @@ export default function PageDetailProduct() {
   //call api
   useEffect(() => {
     dispatch(getAProduct(id));
+    dispatch(getAllProducts({ category_id: id }));
   }, [dispatch, id]);
 
   //component PageDetail
@@ -148,19 +217,31 @@ export default function PageDetailProduct() {
                 <div className="detailProduct__box--icon">
                   <DoneIcon />
                 </div>
-
-                <NavLink to="/payment">Mua Ngay</NavLink>
+                <button
+                  onClick={() => {
+                    dispatch(resetCart()); dispatch(addCart(productSingle))}
+                  }
+                >
+                  <NavLink to="/payment">Mua Ngay</NavLink>
+                </button>
               </button>
             </div>
           </div>
         </div>
-        {/* <div className="slider__container">
-          <Slider {...Settings}>
-            {relatedProductList?.map((product, index) => {
-              return <Products product={product} key={index} />;
-            })}
-          </Slider>
-        </div> */}
+        {productList.length > 0 ? (
+          <div className="slider__container">
+            <h1>Sản phẩm liên quan</h1>
+            <Slider {...Settings}>
+              {productList?.map((product, index) => {
+                return (
+                  <Product product={product} key={index} btnCart={false} />
+                );
+              })}
+            </Slider>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   };
