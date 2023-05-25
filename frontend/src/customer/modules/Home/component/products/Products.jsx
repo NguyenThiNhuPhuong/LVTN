@@ -18,6 +18,10 @@ const menuPrice = [
   { id: 4, label: `600.000đ-1000.000đ`, valueMin: 600000, valueMax: 800000 },
   { id: 5, label: `trên 1.000.000đ`, valueMin: 1000000 },
 ];
+const menuName = [
+  { id: 1, label: `Theo thứ tự từ A-Z`, value: "asc" },
+  { id: 2, label: `Theo thứ tự từ Z-A`, value: "desc" },
+];
 function Products({ productList }) {
   //----------------------useSelector get
   const { categoryList } = useSelector((state) => state.category);
@@ -34,7 +38,12 @@ function Products({ productList }) {
     dispatch(setParams({ ...params, category_id: e.target.value }));
     dispatch(getAllProducts(params));
   };
-
+  //---------------------handel Name
+  const handelName = (e) => {
+    e.preventDefault();
+    dispatch(setParams({ ...params, name: e.target.value }));
+    dispatch(getAllProducts(params));
+  };
   //---------------------handle Price
   const handelPrice = (e) => {
     e.preventDefault();
@@ -88,14 +97,20 @@ function Products({ productList }) {
               );
             })}
             <h3>Sắp xếp theo tên</h3>
-            <div className="sidebar__container">
-              <input type="checkbox" />
-              <label>Theo A-Z</label>
-            </div>
-            <div className="sidebar__container">
-              <input type="checkbox" />
-              <label>Theo Z-A</label>
-            </div>
+            {menuName.map((name) => {
+              return (
+                <div className="sidebar__container" key={name.id}>
+                  <input
+                    type="checkbox"
+                    value={`${name.value}`}
+                    onChange={(e) => handelName(e)}
+                    checked={parseInt(params.name) === parseInt(name.value)}
+                  />
+                  <label>{name.label}</label>
+                </div>
+              );
+            })}
+
             <h3>Theo giá tiền</h3>
 
             {menuPrice.map((price) => {
