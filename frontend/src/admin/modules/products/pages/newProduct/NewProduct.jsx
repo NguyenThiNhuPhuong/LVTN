@@ -56,13 +56,14 @@ const validationSchema = Yup.object().shape({
 function NewProduct() {
   const cx = classNames.bind(styles);
   const { isSuccessNew, productNew } = useSelector((state) => state.product);
+  const { params } = useSelector((state) => state.category);
   const { fileList } = useSelector((state) => state.file);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //handel when submit form success
   useEffect(() => {
-    dispatch(getCategory());
+    dispatch(getCategory({ params }));
 
     if (isSuccessNew) {
       toast.success(`Bạn đã tạo thành công product `, {
@@ -76,7 +77,7 @@ function NewProduct() {
         clearTimeout(timeout);
       };
     }
-  }, [dispatch, isSuccessNew, navigate]);
+  }, [dispatch, isSuccessNew, navigate, params]);
 
   //change data to formdata
   function getFormData(object) {
