@@ -151,7 +151,7 @@ const SingleOrder = () => {
                   <WarningIcon />
                   <h4>Lý do hủy đơn hàng</h4>
                 </div>
-                {orderSingle.approval.map((item) => {
+                {orderSingle?.approval?.map((item) => {
                   if (item.order_status_name === "Đã hủy") {
                     return item.comment;
                   }
