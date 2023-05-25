@@ -28,6 +28,7 @@ class OrderController extends Controller
         $this->orderRepository = new OrderRepository;
         $this->orderApprovalRepository = new OrderApprovalRepository;
         $this->orderService = new OrderService;
+        $this->middleware('auth')->except(['index','show']);
     }
 
     /**
