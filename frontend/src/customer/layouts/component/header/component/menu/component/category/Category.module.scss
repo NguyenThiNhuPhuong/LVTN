@@ -6,6 +6,13 @@
   line-height: 4rem;
   .wrapper-item {
     border-bottom: 0.5px solid lightgray;
+    button {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      display: flex;
+      margin: 10px 0px;
+    }
   }
   .menu-item {
     padding: 5px;
