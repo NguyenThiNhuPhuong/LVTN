@@ -2,12 +2,14 @@ import classNames from "classnames/bind";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logoutUser } from "~/redux/slice/auth/AuthSlice";
+import { resetCart } from "~/redux/slice/cart/CartSlice";
 import styles from "./MenuList.module.scss";
 const cx = classNames.bind(styles);
 export default function MenuList({ items }) {
   const dispatch = useDispatch();
   const logout = () => {
     dispatch(logoutUser());
+    dispatch(resetCart());
   };
   return (
     <div className={cx("menu__list")}>
