@@ -21,6 +21,7 @@ class SliderController extends Controller
     {
         $this->sliderService = new SliderService;
         $this->sliderRepository = new SliderRepository;
+        $this->middleware('auth.admin')->except(['index','show']);
     }
     /**
      * Display a listing of the resource.

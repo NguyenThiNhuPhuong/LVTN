@@ -16,6 +16,7 @@ class DiscountController extends Controller
     {
         $this->discountRepository = new DiscountRepository;
         $this->discountService = new DiscountService;
+        $this->middleware('auth.admin')->except(['index','show']);
     }
 
     /**
