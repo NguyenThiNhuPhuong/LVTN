@@ -76,7 +76,7 @@ class CategoryController extends Controller
         $result = $this->categoryService->deleteCategory($id);
 
             return response()->json([
-                'message' => $result
-            ]);
+                'message' => $result['message']
+            ],$result['status']);
     }
 }

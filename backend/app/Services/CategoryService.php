@@ -36,16 +36,25 @@ class CategoryService
         $result="";
         $listProductCategory=$this->prouctRepository->getProductCategory($id);
         if(count($listProductCategory)>0){
-          return  $result="The category contains products that cannot be deleted!";
+          return  [
+              'message'=>"The category contains products that cannot be deleted!",
+              'status'=>500,
+              ];
         }else{
             $isDelete=$this->categoryRepository->deleteCategory($id);
             if($isDelete){
-                return   $result="Delete category successful! ";
+                return   [
+                    'message'=>'Delete category successful!',
+                    'status'=>200,
+                ];
+
             }else{
-                return  $result="Delete category error, please try again!";
+                return  [
+                    'message'=>"Delete category error, please try again!",
+                    'status'=>500,
+                ];
             }
         }
-
 
     }
 
