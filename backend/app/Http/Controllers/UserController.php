@@ -101,7 +101,7 @@ class UserController extends Controller
         ]);
         $reset = $this->passwordResetTokenRepository->getTokenReset($request->email,$request->code);
         if(!$reset){
-            return response()->json(['message' => 'An error occurred, please try again.'], 500);
+            return response()->json(['message' => 'Đã có lỗi xảy ra, vui lòng thử lại!'], 500);
         }
         $user = $this->userRepository->getUserByEmail($request->email);
 
@@ -112,9 +112,9 @@ class UserController extends Controller
         $newPass = $this->userRepository->updateUser($user->id, $data);
         if ($newPass) {
             $this->passwordResetTokenRepository->deleteToken($request->email);
-            return response()->json(['message' => 'Password reset successful.'], 200);
+            return response()->json(['message' => 'Đặt lại Password thành công!'], 200);
         } else {
-            return response()->json(['message' => 'An error occurred, please try again.'], 500);
+            return response()->json(['message' => 'Đã có lỗi xảy ra, vui lòng thử lại!'], 500);
         }
     }
 
@@ -125,7 +125,7 @@ class UserController extends Controller
         $user = $this->userRepository->getUserByEmail($request->email);
 
         if(!$user){
-            return response()->json(['message' => 'Email is not registered account.'],500);
+            return response()->json(['message' => 'Email chưa đăng ký tài khoản!.'],500);
         }
         $code = mt_rand(100000, 999999);
         $expiresAt = Carbon::now()->addMinutes(10); // Thời gian hiệu lực là 10 phút
@@ -142,7 +142,7 @@ class UserController extends Controller
 
         Mail::to($request->email)->send(new ForgetPassword($code));
 
-        return response()->json(['message' => 'Verification code has been sent to your email.'],200);
+        return response()->json(['message' => 'Mã xác thực đã đươc gửi đến email của bạn.'],200);
 
     }
 
@@ -157,7 +157,7 @@ class UserController extends Controller
 
 
         if (!$reset) {
-            return response()->json(['message' => 'Invalid authentication code.'], 500);
+            return response()->json(['message' => 'Mã xác thực không hợp lệ.'], 500);
         }
 
         return response()->json(['message' => 'successful'], 200);
