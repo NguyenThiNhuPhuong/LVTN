@@ -138,7 +138,6 @@ function SingleUser() {
                 />
               );
             })}
-            <Address />
           </div>
 
           <div className="bottom">
