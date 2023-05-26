@@ -86,7 +86,7 @@ class OrderService
                     'product_id' => $item['product_id'],
                     'num' => $item['cartNum'],
                     'price' => $item['price'],
-                    'price_sale' => $item['price_sale']
+                    'price_sale' => isset($item['price_sale'])?$item['price_sale']:null
                 ];
 
                 $this->orderDetailRepository->createOrderDetail($dataOrderDetail);
