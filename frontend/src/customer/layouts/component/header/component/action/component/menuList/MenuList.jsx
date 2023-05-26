@@ -8,8 +8,9 @@ const cx = classNames.bind(styles);
 export default function MenuList({ items }) {
   const dispatch = useDispatch();
   const logout = () => {
-    dispatch(logoutUser());
     dispatch(resetCart());
+    dispatch(logoutUser());
+    dispatch(logout());
   };
   return (
     <div className={cx("menu__list")}>
@@ -17,7 +18,12 @@ export default function MenuList({ items }) {
         if (item.separate === true) {
           return (
             <div className={cx("menu__item")} key={index}>
-              <button onClick={logout}>
+              <button
+                onClick={() => {
+                  dispatch(logoutUser());
+                  dispatch(resetCart());
+                }}
+              >
                 <NavLink to={item.to}>
                   <span className={cx("menu__item--title")}>{item.title}</span>
                 </NavLink>

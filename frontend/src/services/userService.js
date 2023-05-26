@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import * as httpRequest from "~/httpRequest/httpRequest";
 
 //GET LIST USER
@@ -15,7 +16,7 @@ export const newUser = async (newUser) => {
     const res = await httpRequest.post(`users`, newUser);
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
 //GET A USER
@@ -33,7 +34,7 @@ export const updateUser = async ({ data, id }) => {
     const res = await httpRequest.postFormData(`users/${id}`, data);
     return res;
   } catch (error) {
-    console.log(error);
+    Swal.fire(`${error.response.data.message}😥`);
   }
 };
 //GET USER PROFILE

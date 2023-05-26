@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 
@@ -12,15 +12,22 @@ import { FormatNumber } from "~/customer/modules/Home/component/products/compone
 import ProductItem from "../../component/ProductItem/ProductItem";
 
 import Swal from "sweetalert2";
-import { getAOrder, updateStatusOrder } from "~/redux/slice/order/OrderSlice";
+import {
+  getAOrder,
+  resetAlert,
+  updateStatusOrder,
+} from "~/redux/slice/order/OrderSlice";
 import "./SingleOrder.scss";
 import Loading from "~/admin/component/Loading/Loading";
+import CancelOrderModal from "../../component/CancelOrderModal/CancelOrderModal";
+import { ToastContainer, toast } from "react-toastify";
 
 const SingleOrder = () => {
   const { id } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
-  const { orderSingle, isLoading } = useSelector((state) => state.order);
+  const { orderSingle, isLoading, Alert } = useSelector((state) => state.order);
 
   useEffect(() => {
     dispatch(getAOrder(id));
@@ -29,36 +36,60 @@ const SingleOrder = () => {
   const handelOrder = (e) => {
     e.preventDefault();
     const selectedOptionValue = JSON.parse(e.target.value);
-
-    Swal.fire({
-      title: `Bạn có chắc muốn ${selectedOptionValue.name} `,
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-      denyButtonText: "No",
-      customClass: {
-        actions: "my-actions",
-        cancelButton: "order-1 right-gap",
-        confirmButton: "order-2",
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(
-          updateStatusOrder({ id, order_status_id: selectedOptionValue.id })
-        );
-        Swal.fire("Saved!", "", "success");
-      } else if (result.isDenied) {
-        Swal.fire("Changes are not saved", "", "info");
-      }
-    });
+    if (selectedOptionValue.name === "hủy đơn hàng") {
+      setIsModalOpen(true);
+    } else {
+      Swal.fire({
+        title: `Bạn có chắc muốn ${selectedOptionValue.name} `,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: "No",
+        customClass: {
+          actions: "my-actions",
+          cancelButton: "order-1 right-gap",
+          confirmButton: "order-2",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(
+            updateStatusOrder({ id, order_status_id: selectedOptionValue.id })
+          );
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        }
+      });
+    }
   };
+  useEffect(() => {
+    if (Alert === "Order confirmation successful!") {
+      toast.success("Đơn hàng cửa bạn đã được hủy");
+      dispatch(getAOrder(id));
+      dispatch(resetAlert());
+    }
+    if (Alert === "Canceled order successfully!") {
+      toast.success("Đơn hàng cửa bạn đã được hủy");
+      dispatch(getAOrder(id));
+      dispatch(resetAlert());
+    }
+  }, [Alert, dispatch, id]);
   return isLoading ? (
     <Loading />
   ) : (
     <div className="SingleOrderContainer">
+      <ToastContainer />
       <div className="top">
         <NavLink to="/admin/order">Back to Orders</NavLink>
       </div>
       <div className="SingleOrder">
+        {isModalOpen ? (
+          <CancelOrderModal
+            orderSingle={orderSingle}
+            setIsModalOpen={setIsModalOpen}
+            id={id}
+          />
+        ) : (
+          ""
+        )}
         <div className="header">
           <div className="header__time">
             <div className="header__time--date">
@@ -149,18 +180,22 @@ const SingleOrder = () => {
                   </span>
                 </p>
               </div>
-              <div className="order__footer--des">
-                <div className="des">
-                  <WarningIcon />
-                  <h4>Lý do hủy đơn hàng</h4>
+              {(orderSingle.order_status_id === 5 ||
+                orderSingle.order_status_id === 6) && (
+                <div className="order__footer--des">
+                  <div className="des">
+                    <WarningIcon />
+                    <h4>Lý do hủy đơn hàng</h4>
+                  </div>
+
+                  {orderSingle?.approval?.map((item) => {
+                    if (item.order_status_name === "Đã hủy") {
+                      return item.comment;
+                    }
+                    return null;
+                  })}
                 </div>
-                {orderSingle?.approval?.map((item) => {
-                  if (item.order_status_name === "Đã hủy") {
-                    return item.comment;
-                  }
-                  return null;
-                })}
-              </div>
+              )}
             </div>
           </div>
         </div>

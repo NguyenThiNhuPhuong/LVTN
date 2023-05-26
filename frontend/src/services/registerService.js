@@ -40,15 +40,7 @@ export const signInUser = async ({ email, password }) => {
     return res;
   } catch (error) {
     console.log(error);
-    if (error.response.data.error === "Please verify your email to login") {
-      return await Swal.fire({
-        icon: "error",
-        text: "Tài khoản này cần xác thực mail😰😰",
-        timer: 4000,
-      });
-    } else {
-      Swal.fire(`${error.response.data.message}😥`);
-    }
+    Swal.fire(`${error.response.data.error}😥`);
   }
 };
 //CHANGE PASSWORD

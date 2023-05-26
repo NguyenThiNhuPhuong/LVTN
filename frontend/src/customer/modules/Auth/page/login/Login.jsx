@@ -24,15 +24,16 @@ export default function Login() {
   const [isOpenModal2, setIsOpenModal2] = useState(false);
   const [isOpenModal3, setIsOpenModal3] = useState(false);
 
-  const { role, isLoading, messenger } = useSelector((state) => state.auth);
+  const { role, isLoadingModal, messenger } = useSelector(
+    (state) => state.auth
+  );
   const password = `^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$`;
-
   useEffect(() => {
     const toastConfig = {
       position: toast.POSITION.TOP_RIGHT,
     };
 
-    if (isLoading) {
+    if (isLoadingModal) {
       toast.info("Bạn vui lòng chờ trong giây lát", toastConfig);
     } else if (messenger === "Mã xác thực đã đươc gửi đến email của bạn.") {
       toast.success("Mã xác thực đã đươc gửi đến email của bạn.", toastConfig);
@@ -46,7 +47,13 @@ export default function Login() {
       toast.info("Bạn đã thay đổi mật khẩu thành công", toastConfig);
       setIsOpenModal3(false);
     }
-  }, [isLoading, messenger, setIsOpenModal1, setIsOpenModal2, setIsOpenModal3]);
+  }, [
+    isLoadingModal,
+    messenger,
+    setIsOpenModal1,
+    setIsOpenModal2,
+    setIsOpenModal3,
+  ]);
   //-----authorization---------
   useEffect(() => {
     if (role === 1) {

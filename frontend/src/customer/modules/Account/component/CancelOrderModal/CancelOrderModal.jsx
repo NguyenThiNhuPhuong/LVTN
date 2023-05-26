@@ -1,18 +1,11 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
-import {
-  getAOrder,
-  resetAlert,
-  updateStatusOrder,
-} from "~/redux/slice/order/OrderSlice";
+import { updateStatusOrder } from "~/redux/slice/order/OrderSlice";
 
 import { Warning } from "@mui/icons-material";
 
 const CancelOrderModal = ({ setIsModalOpen, id }) => {
-  const { Alert } = useSelector((state) => state.order);
-
   const [cancelReason, setCancelReason] = useState("");
   const dispatch = useDispatch();
   const handleCancelReasonChange = (event) => {
@@ -26,16 +19,9 @@ const CancelOrderModal = ({ setIsModalOpen, id }) => {
         comment: cancelReason,
       })
     );
-
     setIsModalOpen(false);
   };
-  useEffect(() => {
-    if (Alert === "Canceled order successfully!") {
-      toast.success("Đơn hàng cửa bạn đã được hủy");
-      dispatch(getAOrder(id));
-      dispatch(resetAlert());
-    }
-  }, [dispatch, id, Alert]);
+
   return (
     <div>
       <div className="modal">

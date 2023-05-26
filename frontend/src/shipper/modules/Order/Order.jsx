@@ -46,6 +46,15 @@ const Order = () => {
         navigate("/shipper/dashboard"),
         3000
       );
+    } else if (Alert === "Order has been returned!") {
+      toast.success("Đơn hàng cửa bạn đã được hủy thành công;", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      setTimeout(
+        () => dispatch(resetAlert()),
+        navigate("/shipper/dashboard"),
+        3000
+      );
     }
   }, [dispatch, Alert, navigate]);
   useEffect(() => {

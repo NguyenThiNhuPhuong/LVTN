@@ -10,19 +10,19 @@ function Form() {
   const { priceCart, listCart, priceShip, priceAllCart } = useSelector(
     (state) => state.cart
   );
-  const { code_id } = useSelector((state) => state.discount);
+  const { code_id, discount } = useSelector((state) => state.discount);
   const { userInfo } = useSelector((state) => state.auth);
   //------------handelSubmit
-  console.log(code_id);
+  console.log(discount);
   const handelSubmit = (e) => {
     e.preventDefault();
     const { updated_at, ...user } = userInfo;
     dispatch(
       newOrder({
         ...user,
-        price_product: priceAllCart,
+        price_product: priceCart - discount,
         price_ship: priceShip,
-        price_all: priceCart,
+        price_all: priceCart - discount + priceShip,
         cart: listCart,
         discount_id: code_id,
       })

@@ -146,10 +146,7 @@ function SingleDiscount() {
     <form onSubmit={handleSubmit}>
       <div className="DiscountContainer">
         <ToastContainer />
-        <div className="DiscountContainer__top">
-          <NavLink to="/admin/Discount"> Discount/ </NavLink>
-          <span>Discount {id}</span>
-        </div>
+
         <div className="DiscountContainer__container">
           <div className="content">
             <InputForm

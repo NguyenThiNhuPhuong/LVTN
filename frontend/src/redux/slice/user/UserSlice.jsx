@@ -43,6 +43,9 @@ const userSlice = createSlice({
     singleUser: {},
   },
   reducers: {
+    logout(state) {
+      state.userProfile = {};
+    },
     resetNewUser(state) {
       state.userNew = {};
     },
@@ -89,6 +92,6 @@ const userSlice = createSlice({
     },
   },
 });
-export const { resetNewUser, setUpdateUser, resetUpdateUser } =
+export const { logout, resetNewUser, setUpdateUser, resetUpdateUser } =
   userSlice.actions;
 export default userSlice.reducer;

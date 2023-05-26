@@ -92,6 +92,8 @@ function NewProduct() {
   }
   //handel file
   function handleFileChange(event) {
+    dispatch(clearFiles());
+
     const files = event.target.files;
     dispatch(uploadFiles(files));
   }

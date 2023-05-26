@@ -38,7 +38,7 @@ function SingleUser() {
         position: toast.POSITION.TOP_RIGHT,
       });
       dispatch(resetUpdateUser());
-      setTimeout(() => navigate("/admin/user"), 5000);
+      setTimeout(() => navigate("/admin/profile"), 3000);
     }
   }, [dispatch, navigate, userUpdate]);
   //change data =>form data
@@ -79,7 +79,6 @@ function SingleUser() {
       })
     );
   };
-  console.log(singleUser);
   return isLoading ? (
     <Loading />
   ) : (

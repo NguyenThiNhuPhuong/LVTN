@@ -71,7 +71,7 @@ const cartSlice = createSlice({
       const indexCart = state.listCart?.findIndex(
         (val) => val.product_id === action.payload?.product_id
       );
-      state.listCart[indexCart]?.cartNum > 0
+      state.listCart[indexCart]?.cartNum > 1
         ? state.listCart[indexCart].cartNum-- &&
           localStorage.setItem("cart", JSON.stringify(state.listCart))
         : state.listCart.filter(

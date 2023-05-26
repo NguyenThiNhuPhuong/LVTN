@@ -23,6 +23,7 @@ const FormInput = (props) => {
           value={value}
           className="formInput__input"
           placeholder={label}
+          disabled={name === "num_current"}
         />
       </div>
       <span className="formInput__err">{error}</span>

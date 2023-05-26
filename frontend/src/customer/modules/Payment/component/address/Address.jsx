@@ -18,33 +18,9 @@ const Address = () => {
   const { userProfile } = useSelector((state) => state.user);
   const { userInfo } = useSelector((state) => state.auth);
 
-  console.log(userProfile.province_id);
-  const getProvinceName = (id) => {
-    const province = provincesList.find((item) => item.id === id);
-    return province ? province.name : "";
-  };
-
-  const getDistrictName = (id) => {
-    const district = districtList.find((item) => item.id === id);
-    return district ? district.name : "";
-  };
-
-  const getWardName = (id) => {
-    const ward = wardList.find((item) => item.id === id);
-    return ward ? ward.name : "";
-  };
-
   useEffect(() => {
     dispatch(apiGetPublicProvinces());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (userProfile.province_id !== null) {
-      dispatch(apiGetPublicProvinces());
-      dispatch(apiGetPublicDistrict(userProfile.province_id));
-      dispatch(apiGetPublicWard(userProfile.district_id));
-    }
-  }, [dispatch, userProfile.district_id, userProfile.province_id]);
 
   return (
     <div>
@@ -55,10 +31,10 @@ const Address = () => {
             const provinceId = e.target.value;
             const provinceName = selectedOption.getAttribute("name");
             dispatch(setValueProvince(provinceName));
-            dispatch(setUserInfo({ ...userProfile, province_id: provinceId }));
+            dispatch(setUserInfo({ ...userInfo, province_id: provinceId }));
             dispatch(
               apiGetPublicDistrict(
-                provinceId ? provinceId : userProfile.province_id
+                provinceId ? provinceId : userInfo.province_id
               )
             );
             dispatch(setValueDistrict(""));
@@ -66,9 +42,7 @@ const Address = () => {
           }}
           className="field__input"
           value={
-            userInfo.province_id
-              ? userInfo.province_id
-              : userProfile.province_id
+            userInfo.province_id ? userInfo.province_id : userInfo.province_id
           }
         >
           <option value="">{`--Chọn Tỉnh/Thành phố--`}</option>
@@ -89,15 +63,13 @@ const Address = () => {
             const districtId = e.target.value;
             const districtName = selectedOption.getAttribute("name");
             dispatch(setValueDistrict(`${districtName},`));
-            dispatch(setUserInfo({ ...userProfile, district_id: districtId }));
+            dispatch(setUserInfo({ ...userInfo, district_id: districtId }));
             dispatch(apiGetPublicWard(districtId));
             dispatch(setValueWard(""));
           }}
           className="field__input"
           value={
-            userInfo.district_id
-              ? userInfo.district_id
-              : userProfile.district_id
+            userInfo.district_id ? userInfo.district_id : userInfo.district_id
           }
         >
           <option value="">{`--Chọn Quận/Huyện--`}</option>
@@ -117,7 +89,7 @@ const Address = () => {
             const selectedOption = e.target.options[e.target.selectedIndex];
             const wardId = e.target.value;
             const wardName = selectedOption.getAttribute("name");
-            dispatch(setUserInfo({ ...userProfile, ward_id: wardId }));
+            dispatch(setUserInfo({ ...userInfo, ward_id: wardId }));
             dispatch(setValueWard(`${wardName},`));
           }}
           className="field__input"
@@ -133,12 +105,7 @@ const Address = () => {
           })}
         </select>
       </div>
-      <Field
-        label="Địa chỉ"
-        value={`${getWardName(userProfile.ward_id)}${getDistrictName(
-          userProfile.district_id
-        )}${getProvinceName(userProfile.province_id)}`}
-      />
+      <Field label="Địa chỉ" value={`${ward}${district}${province}`} />
     </div>
   );
 };

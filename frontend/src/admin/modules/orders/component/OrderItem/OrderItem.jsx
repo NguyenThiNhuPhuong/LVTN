@@ -5,8 +5,8 @@ import "./OrderItem.scss";
 function OrderItem() {
   const { orderList } = useSelector((state) => state.order);
 
-  return orderList.length > 0 ? (
-    orderList.map((orderItem, index) => {
+  return orderList?.length > 0 ? (
+    orderList?.map((orderItem, index) => {
       return (
         <div className="order__row" key={index}>
           <div className="order__row--name text">{orderItem.name}</div>

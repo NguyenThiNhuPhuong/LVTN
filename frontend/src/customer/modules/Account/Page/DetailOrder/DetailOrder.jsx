@@ -7,9 +7,9 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PersonIcon from "@mui/icons-material/Person";
 
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { FormatNumber } from "~/customer/modules/Home/component/products/component/Price/Price";
-import { getAOrder } from "~/redux/slice/order/OrderSlice";
+import { getAOrder, resetAlert } from "~/redux/slice/order/OrderSlice";
 import CancelOrderModal from "../../component/CancelOrderModal/CancelOrderModal";
 import Modal from "../../component/Modal/Modal";
 import ProductItem from "../../component/ProductItem/ProductItem";
@@ -23,10 +23,16 @@ const DetailOrder = () => {
   useEffect(() => {
     dispatch(getAOrder(id));
   }, [dispatch, id]);
-  const { orderSingle } = useSelector((state) => state.order);
+  const { orderSingle, Alert } = useSelector((state) => state.order);
   const [isModal, setIsModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  useEffect(() => {
+    if (Alert === "Canceled order successfully!") {
+      toast.success("Đơn hàng cửa bạn đã được hủy");
+      dispatch(getAOrder(id));
+      dispatch(resetAlert());
+    }
+  }, [dispatch, id, Alert]);
   return (
     <div className="DetailOrderContainer">
       <ToastContainer />

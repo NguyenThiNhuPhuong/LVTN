@@ -10,12 +10,12 @@ import { newUser, resetNewUser } from "~/redux/slice/user/UserSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { MenuSelect, MenuUser } from "../../component/Menu";
 import InputUser from "../../component/InputUser/InputUser";
+import { clearFiles } from "~/redux/slice/file/FileSlice";
 
 function NewUser() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userNew } = useSelector((state) => state.user);
-  console.log(Object.keys(userNew).length !== 0);
   useEffect(() => {
     if (Object.keys(userNew).length !== 0) {
       toast.success("Bạn đã tạo mới thành công", {
@@ -23,6 +23,7 @@ function NewUser() {
       });
       setTimeout(() => {
         dispatch(resetNewUser());
+        dispatch(clearFiles());
         navigate("/admin/user");
       }, 5000);
     }

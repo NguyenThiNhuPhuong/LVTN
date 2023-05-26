@@ -49,6 +49,8 @@ const authSlice = createSlice({
     messenger: "",
     isSusses: false,
     isLoading: false,
+    isLoadingModal: false,
+
     role: "",
     token: Cookies.get("token"),
     valuesChangePassword: {},
@@ -84,10 +86,10 @@ const authSlice = createSlice({
       state.isSusses = action.payload !== "" ? true : false;
     },
     [signInUser.pending]: (state) => {
-      state.isLoading = true;
+      state.isLoadingModal = true;
     },
     [signInUser.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.isLoadingModal = false;
       state.isSusses = false;
       state.token = Cookies.set("token", action.payload.access_token, {
         expires: 1 / 24,
@@ -97,34 +99,34 @@ const authSlice = createSlice({
       state.role = action.payload.user.type;
     },
     [changePassword.pending]: (state) => {
-      state.isLoading = true;
+      state.isLoadingModal = true;
     },
     [changePassword.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.isLoadingModal = false;
       state.messenger = action.payload;
     },
     [sendEmail.pending]: (state) => {
-      state.isLoading = true;
+      state.isLoadingModal = true;
       state.messenger = "";
     },
     [sendEmail.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.isLoadingModal = false;
       state.messenger = action.payload;
     },
     [confirmPassword.pending]: (state) => {
-      state.isLoading = true;
+      state.isLoadingModal = true;
       state.messenger = "";
     },
     [confirmPassword.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.isLoadingModal = false;
       state.messenger = action.payload;
     },
     [resetPassword.pending]: (state) => {
-      state.isLoading = true;
+      state.isLoadingModal = true;
       state.messenger = "";
     },
     [resetPassword.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.isLoadingModal = false;
       state.messenger = action.payload;
     },
   },

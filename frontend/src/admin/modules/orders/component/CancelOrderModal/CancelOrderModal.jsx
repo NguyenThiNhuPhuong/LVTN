@@ -22,7 +22,7 @@ const CancelOrderModal = ({ setIsModalOpen, id }) => {
     dispatch(
       updateStatusOrder({
         id,
-        order_status_id: 6,
+        order_status_id: 5,
         comment: cancelReason,
       })
     );
@@ -42,7 +42,7 @@ const CancelOrderModal = ({ setIsModalOpen, id }) => {
           </div>
           <div className="modal-warning">
             <Warning />
-            <p>Vui lòng chọn lý do Trả hàng:</p>
+            <p>Vui lòng chọn lý do hủy đơn hàng:</p>
           </div>
 
           <div className="modal-body">
@@ -50,53 +50,33 @@ const CancelOrderModal = ({ setIsModalOpen, id }) => {
               <input
                 type="radio"
                 name="cancelReason"
-                value="Hàng nhận được bị thiếu/sai"
-                checked={cancelReason === "Hàng nhận được bị thiếu/sai"}
+                value="Đơn hàng gặp sự cố"
+                checked={cancelReason === "Đơn hàng gặp sự cố"}
                 onChange={handleCancelReasonChange}
               />
-              Hàng nhận được bị thiếu/sai
+              Đơn hàng gặp sự cố
             </label>
             <label>
               <input
                 type="radio"
                 name="cancelReason"
-                value="Sản phẩm có dấu hiệu hàng giả"
-                checked={cancelReason === "Sản phẩm có dấu hiệu hàng giả"}
+                value="Khách hàng muốn thay đổi địa chỉ"
+                checked={cancelReason === "Khách hàng muốn thay đổi địa chỉ"}
                 onChange={handleCancelReasonChange}
               />
-              Sản phẩm có dấu hiệu hàng giả
+              Khách hàng muốn thay đổi địa chỉ
             </label>
             <label>
               <input
                 type="radio"
                 name="cancelReason"
-                value="Sản phẩm không giống hình ảnh, mô tả"
+                value="Khách hàng muốn nhập mã giảm giá khác"
                 checked={
-                  cancelReason === "Sản phẩm không giống hình ảnh, mô tả"
+                  cancelReason === "Khách hàng muốn nhập mã giảm giá khác"
                 }
                 onChange={handleCancelReasonChange}
               />
-              Sản phẩm không giống hình ảnh, mô tả
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="cancelReason"
-                value="Sản phầm hư hỏng , bể , vỡ"
-                checked={cancelReason === "Sản phầm hư hỏng , bể , vỡ"}
-                onChange={handleCancelReasonChange}
-              />
-              Sản phầm hư hỏng , bể , vỡ
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="cancelReason"
-                value="Trả hàng không ưng ý"
-                checked={cancelReason === "Trả hàng không ưng ý"}
-                onChange={handleCancelReasonChange}
-              />
-              Trả hàng không ưng ý
+              Khách hàng muốn nhập mã giảm giá khác
             </label>
           </div>
 

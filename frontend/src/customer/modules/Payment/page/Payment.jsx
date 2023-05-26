@@ -18,6 +18,7 @@ import Discount from "../component/discount/Discount";
 import DiscountInput from "../component/discountInput/DiscountInput";
 import Header from "../component/header/Header";
 import Product from "../component/product/Product";
+import { resetIsSuccess } from "~/redux/slice/order/OrderSlice";
 //----------------------get date
 const getCurrentDateTime = () => {
   const now = new Date();
@@ -51,6 +52,8 @@ export default function Payment() {
       setTimeout(() => {
         navigate("/product/shop");
         dispatch(resetCart());
+        dispatch(resetIsSuccess());
+
       }, 3000);
     }
   }, [isSuccessNew, dispatch, navigate]);

@@ -73,6 +73,9 @@ const orderSlice = createSlice({
     resetAlert(state) {
       state.Alert = "";
     },
+    resetIsSuccess(state) {
+      state.isSuccessNew = "";
+    },
   },
   extraReducers: {
     [getListOrder.pending]: (state) => {
@@ -115,6 +118,7 @@ const orderSlice = createSlice({
     },
   },
 });
-export const { setParams, resetParams, resetAlert } = orderSlice.actions;
+export const { setParams, resetParams, resetAlert, resetIsSuccess } =
+  orderSlice.actions;
 
 export default orderSlice.reducer;
