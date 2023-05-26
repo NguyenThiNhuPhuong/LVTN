@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import FormInput from "~/admin/component/FormInput/FormInput";
 import Select from "~/admin/component/select/Select";
 import Textarea from "~/admin/component/textarea/Textarea";
-import productInputs from "~/admin/constant/productInputs";
+import { productInputsEdit } from "~/admin/constant/productInputs";
 import { getCategory } from "~/redux/slice/category/CategorySlice";
 import { addFile, clearFiles } from "~/redux/slice/file/FileSlice";
 import {
@@ -33,7 +33,7 @@ const uploadFiles = createAsyncThunk(
 
 function SingleProduct(props) {
   const { id } = useParams();
-  const { productSingle, productUpdate, isSuccessUpdate } = useSelector(
+  const { productSingle, isSuccessUpdate } = useSelector(
     (state) => state.product
   );
   const { fileList } = useSelector((state) => state.file);
@@ -50,11 +50,10 @@ function SingleProduct(props) {
       toast.success(`Bạn đã cập nhật thành công product `, {
         position: toast.POSITION.TOP_RIGHT,
       });
-      const timeout = setTimeout(() => navigate("/admin/product"), 3000);
-      return () => {
+      setTimeout(() => {
         dispatch(resetUpdateProduct());
-        clearTimeout(timeout);
-      };
+        navigate("/admin/product");
+      }, 3000);
     }
   }, [dispatch, id, isSuccessUpdate, navigate]);
 
@@ -83,9 +82,8 @@ function SingleProduct(props) {
       });
       return formData;
     }
-
-    const data = getFormData(productUpdate);
-    dispatch(updateProduct(data));
+    const data = getFormData(productSingle);
+    dispatch(updateProduct({ id, data }));
   };
 
   return (
@@ -124,21 +122,26 @@ function SingleProduct(props) {
               />
             </div>
 
-            {productInputs.map((input) => (
-              <FormInput
-                key={input.id}
-                {...input}
-                value={productSingle ? productSingle[input?.name] : ""}
-                onChange={(e) =>
-                  dispatch(
-                    setUpdateProduct({
-                      ...productSingle,
-                      [input.name]: e.target.value,
-                    })
-                  )
-                }
-              />
-            ))}
+            {productInputsEdit.map((input) => {
+              return (
+                <>
+                  <label>{input.label}</label>
+                  <FormInput
+                    key={input.id}
+                    {...input}
+                    value={productSingle ? productSingle[input?.name] : ""}
+                    onChange={(e) =>
+                      dispatch(
+                        setUpdateProduct({
+                          ...productSingle,
+                          [input.name]: e.target.value,
+                        })
+                      )
+                    }
+                  />
+                </>
+              );
+            })}
             <Textarea
               onChange={(e) =>
                 dispatch(

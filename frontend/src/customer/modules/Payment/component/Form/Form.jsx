@@ -20,9 +20,9 @@ function Form() {
     dispatch(
       newOrder({
         ...user,
-        price_product: priceCart,
+        price_product: priceAllCart,
         price_ship: priceShip,
-        price_all: priceAllCart,
+        price_all: priceCart,
         cart: listCart,
         discount_id: code_id,
       })

@@ -92,9 +92,10 @@ export const getDiscountByCode = async ({ code, price_product }) => {
 };
 //CHECK DISCOUNT BY DATE AND TIME
 export const listDiscountValid = async ({ date_time, price_product }) => {
+  console.log({ date_time, price_product });
   try {
     const res = await httpRequest.get(
-      `discounts/list/valid?date_time=${date_time}&price_product=${price_product}}`
+      `discounts/list/valid?date_time=${date_time}&price_product=${price_product}`
     );
     return res;
   } catch (error) {

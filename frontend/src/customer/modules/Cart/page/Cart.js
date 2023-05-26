@@ -27,7 +27,6 @@ function Cart() {
     }, 0);
     dispatch(totalCart(res));
   }, [listCart, dispatch]);
-
   if (listCart.length === 0) {
     return <CartNoProduct />;
   } else {

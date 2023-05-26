@@ -12,8 +12,9 @@ import {
   setUpdateUser,
   updateUser,
 } from "~/redux/slice/user/UserSlice";
-import { MenuUser } from "~/admin/modules/users/component/Menu";
+import { MenuUser, MenuUserEdit } from "~/admin/modules/users/component/Menu";
 import InputUser from "~/admin/modules/users/component/InputUser/InputUser";
+import Address from "~/customer/modules/Payment/component/address/Address";
 
 function SingleUser() {
   const { id } = useParams();
@@ -23,6 +24,7 @@ function SingleUser() {
   const { userUpdate, singleUser, isLoading } = useSelector(
     (state) => state.user
   );
+  const { userInfo } = useSelector((state) => state.auth);
   const { fileList } = useSelector((state) => state.file);
 
   useEffect(() => {
@@ -59,6 +61,10 @@ function SingleUser() {
       phone: singleUser.phone,
       email: singleUser.email,
       type: singleUser.type,
+      address: singleUser.address,
+      province_id: userInfo.province_id,
+      district_id: userInfo.district_id,
+      ward_id: userInfo.ward_id,
       _method: "PUT",
     });
     dispatch(updateUser({ data, id }));
@@ -73,7 +79,7 @@ function SingleUser() {
       })
     );
   };
-
+  console.log(singleUser);
   return isLoading ? (
     <Loading />
   ) : (
@@ -123,7 +129,7 @@ function SingleUser() {
             </div>
           </div>
           <div className="content">
-            {MenuUser.map((item) => {
+            {MenuUserEdit.map((item) => {
               return (
                 <InputUser
                   name={item.name}
@@ -133,6 +139,7 @@ function SingleUser() {
                 />
               );
             })}
+            <Address />
           </div>
 
           <div className="bottom">

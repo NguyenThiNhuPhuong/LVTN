@@ -54,7 +54,6 @@ export default function Payment() {
       }, 3000);
     }
   }, [isSuccessNew, dispatch, navigate]);
-
   //----------------------total cart
   useEffect(() => {
     dispatch(
@@ -63,7 +62,6 @@ export default function Payment() {
       )
     );
   }, [discount, dispatch, priceCart, priceShip]);
-
   //----------------------call api check valid discount
   useEffect(() => {
     dispatch(

@@ -14,12 +14,13 @@ import ProductItem from "../../component/ProductItem/ProductItem";
 import Swal from "sweetalert2";
 import { getAOrder, updateStatusOrder } from "~/redux/slice/order/OrderSlice";
 import "./SingleOrder.scss";
+import Loading from "~/admin/component/Loading/Loading";
 
 const SingleOrder = () => {
   const { id } = useParams();
 
   const dispatch = useDispatch();
-  const { orderSingle } = useSelector((state) => state.order);
+  const { orderSingle, isLoading } = useSelector((state) => state.order);
 
   useEffect(() => {
     dispatch(getAOrder(id));
@@ -50,7 +51,9 @@ const SingleOrder = () => {
       }
     });
   };
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="SingleOrderContainer">
       <div className="top">
         <NavLink to="/admin/order">Back to Orders</NavLink>

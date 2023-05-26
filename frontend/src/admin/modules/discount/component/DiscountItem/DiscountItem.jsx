@@ -21,7 +21,13 @@ function DiscountItem() {
   );
   useEffect(() => {
     if (alertDeleteSuccess !== "") {
-      dispatch(getDiscounts());
+      dispatch(
+        getDiscounts({
+          page: "",
+          per_page: "",
+          active: "",
+        })
+      );
       Swal.fire("Saved!", "", "success");
       return () => {
         dispatch(resetRemoveDiscount());

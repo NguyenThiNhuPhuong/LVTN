@@ -8,7 +8,6 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { newUser, resetNewUser } from "~/redux/slice/user/UserSlice";
 import { ToastContainer, toast } from "react-toastify";
-import { addFile } from "~/redux/slice/file/FileSlice";
 import { MenuSelect, MenuUser } from "../../component/Menu";
 import InputUser from "../../component/InputUser/InputUser";
 
@@ -16,15 +15,16 @@ function NewUser() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userNew } = useSelector((state) => state.user);
-  const { fileList } = useSelector((state) => state.file);
-
+  console.log(Object.keys(userNew).length !== 0);
   useEffect(() => {
     if (Object.keys(userNew).length !== 0) {
       toast.success("Bạn đã tạo mới thành công", {
         position: toast.POSITION.TOP_RIGHT,
       });
-      dispatch(resetNewUser());
-      setTimeout(() => navigate("/admin/user"), 5000);
+      setTimeout(() => {
+        dispatch(resetNewUser());
+        navigate("/admin/user");
+      }, 5000);
     }
   }, [dispatch, navigate, userNew]);
 
@@ -32,6 +32,7 @@ function NewUser() {
     initialValues: {
       name: "",
       email: "",
+      phone: "",
       type: 2,
       password: "",
       confirmPassword: "",
@@ -70,6 +71,7 @@ function NewUser() {
               return (
                 <InputUser
                   name={item.name}
+                  id={item.name}
                   value={formik.values[item.name]}
                   onChange={formik.handleChange}
                   label={item.label}

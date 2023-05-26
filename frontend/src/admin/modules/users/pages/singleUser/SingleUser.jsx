@@ -5,15 +5,16 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "~/admin/component/Loading/Loading";
-import { addFile, removeFile } from "~/redux/slice/file/FileSlice";
+import { addFile, clearFiles } from "~/redux/slice/file/FileSlice";
 import {
   getAUser,
+  getUserProfile,
   resetUpdateUser,
   setUpdateUser,
   updateUser,
 } from "~/redux/slice/user/UserSlice";
 import InputUser from "../../component/InputUser/InputUser";
-import { MenuSelect, MenuUser } from "../../component/Menu";
+import { MenuSelect, MenuUserEdit } from "../../component/Menu";
 
 function SingleUser() {
   const { id } = useParams();
@@ -37,8 +38,8 @@ function SingleUser() {
 
       setTimeout(() => {
         dispatch(resetUpdateUser());
-        dispatch(removeFile());
         navigate("/admin/user");
+        dispatch(getUserProfile());
       }, 5000);
     }
   }, [dispatch, navigate, userUpdate]);
@@ -65,7 +66,6 @@ function SingleUser() {
       _method: "PUT",
     });
     dispatch(updateUser({ data, id }));
-    dispatch(removeFile());
   };
   //---------------handel input ,menu
   const handelInput = (e, name) => {
@@ -118,11 +118,14 @@ function SingleUser() {
                     id="fileInput"
                     type="file"
                     name="avatar"
-                    onChange={(e) => dispatch(addFile(e.target.files[0]))}
+                    onChange={(e) => {
+                      dispatch(clearFiles());
+                      dispatch(addFile(e.target.files[0]));
+                    }}
                   />
                 </div>
                 <div className="header__content--btn btn-reset">
-                  <button type="button" onClick={() => dispatch(removeFile())}>
+                  <button type="button" onClick={() => dispatch(clearFiles())}>
                     RESET
                   </button>
                 </div>
@@ -133,7 +136,7 @@ function SingleUser() {
             </div>
           </div>
           <div className="content">
-            {MenuUser.map((item) => {
+            {MenuUserEdit.map((item) => {
               return (
                 <InputUser
                   name={item.name}

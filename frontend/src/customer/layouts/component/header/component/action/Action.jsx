@@ -13,24 +13,29 @@ import MenuList from "./component/menuList/MenuList";
 function Action() {
   const cx = classNames.bind(styles);
   const dispatch = useDispatch();
+  const { userProfile } = useSelector((state) => state.user);
+  console.log(userProfile);
   useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch]);
-  const user = useSelector((state) => state.auth.userInfo);
+
   const cartQuantity = useSelector((state) => state.cart.listCart?.length);
 
   return (
     <div className={cx("action")}>
       <div className={cx("action__dropdown")}>
         <button>
-          {user?.avatar ? (
-            <Image
-              src={user?.avatar}
-              alt="Nguyen Van A"
+          {userProfile?.avatar ? (
+            <img
               className={cx("action__dropdown--avatar")}
+              src={
+                userProfile.avatar ||
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5jdCRwv_UItyMFSKNJSxp6f6lgMi1DRz3LV3neY8t6A&s"
+              }
+              alt=""
             />
-          ) : user?.name ? (
-            <AvatarUser Auth={user?.name} />
+          ) : userProfile?.name ? (
+            <AvatarUser Auth={userProfile?.name} />
           ) : (
             <Image
               src={images.noImage}
@@ -40,7 +45,7 @@ function Action() {
           )}
 
           <div className={cx("action__dropdown--content")}>
-            <MenuList items={user?.name ? USER_MENU : MENU_ITEMS} />
+            <MenuList items={userProfile?.name ? USER_MENU : MENU_ITEMS} />
           </div>
         </button>
       </div>

@@ -7,8 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { newFeedback } from "~/redux/slice/feedback/FeedbackSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Login from "~/customer/modules/Auth/page/login/Login";
 function Rating() {
   const { feedbackNew } = useSelector((state) => state.feedback);
+  const { token } = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -33,7 +36,7 @@ function Rating() {
     console.log(values); // In ra giá trị của email và content khi form được submit
     dispatch(newFeedback(values));
   };
-  return (
+  return token ? (
     <>
       <ToastContainer />
       <div className="RatingContainer">
@@ -63,6 +66,8 @@ function Rating() {
         </div>
       </div>
     </>
+  ) : (
+    <Login />
   );
 }
 

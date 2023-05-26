@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import FormInput from "~/admin/component/FormInput/FormInput";
 import Select from "~/admin/component/select/Select";
 import Textarea from "~/admin/component/textarea/Textarea";
-import productInputs from "~/admin/constant/productInputs";
+import { productInputs } from "~/admin/constant/productInputs";
 import ImgProduct from "../../component/ImgProduct/ImgProduct";
 
 import { createAsyncThunk } from "@reduxjs/toolkit";

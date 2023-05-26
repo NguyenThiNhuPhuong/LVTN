@@ -89,12 +89,12 @@ const authSlice = createSlice({
     [signInUser.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isSusses = false;
-      state.userInfo = action.payload.user;
-      localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
-      state.role = action.payload.user.type;
       state.token = Cookies.set("token", action.payload.access_token, {
         expires: 1 / 24,
       });
+      state.userInfo = action.payload.user;
+      localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
+      state.role = action.payload.user.type;
     },
     [changePassword.pending]: (state) => {
       state.isLoading = true;

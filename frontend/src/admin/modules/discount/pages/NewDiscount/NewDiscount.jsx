@@ -58,7 +58,7 @@ function NewDiscount() {
         .required("Vui lòng điền vào trường này"),
       minium_order: Yup.number()
         .typeError("Vui lòng nhập chữ số")
-        .min(1, "Số phải lớn hơn  0")
+        .min(0, "Số phải lớn hơn hoặc bằng 0")
         .required("Vui lòng điền vào trường này"),
     }),
   });

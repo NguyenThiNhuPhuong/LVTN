@@ -44,7 +44,7 @@ const userSlice = createSlice({
   },
   reducers: {
     resetNewUser(state) {
-      state.NewUser = {};
+      state.userNew = {};
     },
     setUpdateUser(state, action) {
       state.singleUser = action.payload;

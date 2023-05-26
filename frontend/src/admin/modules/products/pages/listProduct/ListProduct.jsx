@@ -18,6 +18,7 @@ import "./ListProduct.scss";
 import { getCategory } from "~/redux/slice/category/CategorySlice";
 import Pagination from "~/admin/layouts/component/Pagination/Pagination";
 import CategorySelect from "../../component/CategorySelect/CategorySelect";
+import { ToastContainer, toast } from "react-toastify";
 
 function ListProduct() {
   const dispatch = useDispatch();
@@ -40,14 +41,22 @@ function ListProduct() {
         active: "",
       })
     );
-
-    if (alertDeleteSuccess !== "") {
-      Swal.fire("Saved!", "", "success");
-      return () => {
-        dispatch(resetRemoveProduct());
-      };
+  }, [dispatch, params]);
+  useEffect(() => {
+    if (
+      alertDeleteSuccess ===
+      "The order contains products that cannot be deleted!"
+    ) {
+      toast.info("Đơn hàng có chứa sản phẩm nên k thể xóa", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else if (alertDeleteSuccess === "Delete products successful! ") {
+      toast.success("Bạn đã xóa thành công sản phẩm", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
-  }, [dispatch, alertDeleteSuccess, params]);
+    setTimeout(() => dispatch(resetRemoveProduct()), 2000);
+  }, [alertDeleteSuccess, dispatch]);
 
   //-------handel remove product---------------------------------------
   const handelRemoveProduct = async (id) => {
@@ -76,58 +85,61 @@ function ListProduct() {
 
   const Product = () => {
     return (
-      <div className="ListProductContainer">
-        <Top title="Products" to="/admin/product/newProduct" />
-        <div className="main">
-          <div className="header">
-            <CategorySelect />
-          </div>
-          <hr />
-          {productList?.length > 0 ? (
-            <div className="content">
-              {productList.map((product, index) => {
-                return (
-                  <div className="item" key={index}>
-                    <div className="item__img">
-                      <img src={product.images[0]} alt="" />
-                    </div>
-
-                    <span className="item__title">{product.name}</span>
-                    <span className="item__price">
-                      <Price
-                        price={product.price}
-                        price_sale={product.price_sale}
-                      />
-                    </span>
-                    <div className="item__adjust">
-                      <button className="item__adjust--update">
-                        <NavLink to={`/admin/product/${product.id}`}>
-                          <CreateIcon />
-                        </NavLink>
-                      </button>
-                      <button
-                        className="item__adjust--delete"
-                        onClick={() => handelRemoveProduct(product.id)}
-                      >
-                        <DeleteIcon />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
+      <>
+        <ToastContainer />
+        <div className="ListProductContainer">
+          <Top title="Products" to="/admin/product/newProduct" />
+          <div className="main">
+            <div className="header">
+              <CategorySelect />
             </div>
-          ) : (
-            <div className="noProductList">Hiện tại k có sản phẩm nào 😓</div>
+            <hr />
+            {productList?.length > 0 ? (
+              <div className="content">
+                {productList.map((product, index) => {
+                  return (
+                    <div className="item" key={index}>
+                      <div className="item__img">
+                        <img src={product.images[0]} alt="" />
+                      </div>
+
+                      <span className="item__title">{product.name}</span>
+                      <span className="item__price">
+                        <Price
+                          price={product.price}
+                          price_sale={product.price_sale}
+                        />
+                      </span>
+                      <div className="item__adjust">
+                        <button className="item__adjust--update">
+                          <NavLink to={`/admin/product/${product.id}`}>
+                            <CreateIcon />
+                          </NavLink>
+                        </button>
+                        <button
+                          className="item__adjust--delete"
+                          onClick={() => handelRemoveProduct(product.id)}
+                        >
+                          <DeleteIcon />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="noProductList">Hiện tại k có sản phẩm nào 😓</div>
+            )}
+          </div>
+          {totalPages > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           )}
         </div>
-        {totalPages > 0 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
-        )}
-      </div>
+      </>
     );
   };
 
