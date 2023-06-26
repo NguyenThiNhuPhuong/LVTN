@@ -219,8 +219,9 @@ export default function PageDetailProduct() {
                 </div>
                 <button
                   onClick={() => {
-                    dispatch(resetCart()); dispatch(addCart(productSingle))}
-                  }
+                    dispatch(resetCart());
+                    dispatch(addCart(productSingle));
+                  }}
                 >
                   <NavLink to="/payment">Mua Ngay</NavLink>
                 </button>
@@ -228,7 +229,7 @@ export default function PageDetailProduct() {
             </div>
           </div>
         </div>
-        {productList.length > 0 ? (
+        {/* {productList.length > 0 ? (
           <div className="slider__container">
             <h1>Sản phẩm liên quan</h1>
             <Slider {...Settings}>
@@ -241,7 +242,7 @@ export default function PageDetailProduct() {
           </div>
         ) : (
           ""
-        )}
+        )} */}
       </div>
     );
   };

@@ -19,7 +19,6 @@ function PendingOrders() {
   const Order = () => {
     return (
       <div className="ListPendingOrderContainer">
-        <Top title="Orders" to="/admin/product/newProduct" />
         <div className="main">
           <div className="header">
             <div className="search">

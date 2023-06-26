@@ -9,14 +9,16 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import StoreIcon from "@mui/icons-material/Store";
 import { useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { logoutUser } from "~/redux/slice/auth/AuthSlice";
+import { NavLink, useNavigate } from "react-router-dom";
 import { resetCart } from "~/redux/slice/cart/CartSlice";
 import "./Sidebar.scss";
 import Item from "./component/Item/Item";
+import { logoutUser } from "~/redux/slice/user/UserSlice";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     <div className="sidebar">
       <div className="sidebar-top">
@@ -53,19 +55,19 @@ const Sidebar = () => {
           icon={<AccountCircleOutlinedIcon />}
           title="Profile"
         />
-        <button
+        {/* <button
           onClick={() => {
             dispatch(logoutUser());
             dispatch(resetCart());
           }}
-        >
-          <Item
-            to="/login"
-            icon={<ExitToAppIcon />}
-            title="Logout"
-            onclick="true"
-          />
-        </button>
+        > */}
+        <Item
+          to="/login"
+          icon={<ExitToAppIcon />}
+          title="Logout"
+          onclick="true"
+        />
+        {/* </button> */}
       </div>
     </div>
   );

@@ -118,7 +118,12 @@ const orderSlice = createSlice({
     },
   },
 });
-export const { setParams, resetParams, resetAlert, resetIsSuccess } =
-  orderSlice.actions;
+export const {
+  setParams,
+  resetParams,
+  resetAlert,
+  resetIsSuccess,
+  setNewOrder,
+} = orderSlice.actions;
 
 export default orderSlice.reducer;

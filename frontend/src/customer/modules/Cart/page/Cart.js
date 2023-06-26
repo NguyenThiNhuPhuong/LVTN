@@ -8,11 +8,14 @@ import { FormatNumber } from "../../Home/component/products/component/Price/Pric
 import CartItem from "../component/CartItem/CartItem";
 import CartNoProduct from "../component/CartNoProduct/CartNoProduct";
 import "./Cart.scss";
+import { newOrder, setNewOrder } from "~/redux/slice/order/OrderSlice";
 
 function Cart() {
   TabTitle("Giỏ hàng");
-  const { listCart, priceCart } = useSelector((state) => state.cart);
+  const { listCart } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
+  const { orderNew } = useSelector((state) => state.order);
+
   const dispatch = useDispatch();
 
   /// total bill
@@ -25,7 +28,7 @@ function Cart() {
           : item.price * item.cartNum)
       );
     }, 0);
-    dispatch(totalCart(res));
+    dispatch(setNewOrder({ price_product: res }));
   }, [listCart, dispatch]);
   if (listCart.length === 0) {
     return <CartNoProduct />;
@@ -69,7 +72,7 @@ function Cart() {
                 <p className="cart__footer--total--title">
                   <span>Tổng tiền:</span>
                   <span className="h3">
-                    <FormatNumber price={priceCart} />
+                    <FormatNumber price={orderNew.price_product} />
                   </span>
                 </p>
                 <div className="cart__footer--total--btn">

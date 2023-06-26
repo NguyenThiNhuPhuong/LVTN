@@ -61,6 +61,9 @@ function NewProduct() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(clearFiles());
+  }, [dispatch]);
   //handel when submit form success
   useEffect(() => {
     dispatch(getCategory({ params }));
@@ -72,7 +75,6 @@ function NewProduct() {
       const timeout = setTimeout(() => navigate("/admin/product"), 3000);
       return () => {
         dispatch(resetNewProduct());
-        dispatch(clearFiles());
 
         clearTimeout(timeout);
       };

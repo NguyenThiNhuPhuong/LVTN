@@ -16,6 +16,7 @@ function CartItem() {
   const cart = useSelector((state) => state.cart.listCart);
 
   const dispatch = useDispatch();
+
   const removeCartItem = (item) => {
     dispatch(removeCart(item));
   };

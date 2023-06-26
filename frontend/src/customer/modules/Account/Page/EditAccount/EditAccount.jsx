@@ -8,28 +8,38 @@ import Loading from "~/admin/component/Loading/Loading";
 import { addFile, removeFile } from "~/redux/slice/file/FileSlice";
 import {
   getAUser,
+  getUserProfile,
   resetUpdateUser,
   setUpdateUser,
   updateUser,
 } from "~/redux/slice/user/UserSlice";
-import { MenuUser } from "~/admin/modules/users/component/Menu";
+import { MenuUser, MenuUserEdit } from "~/admin/modules/users/component/Menu";
 import InputUser from "~/admin/modules/users/component/InputUser/InputUser";
 import SideBar from "../../component/SideBar/SideBar";
 import "./EditAccount.scss";
+import Address from "../../component/address/Address";
 function EditAccount() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { userUpdate, singleUser, isLoading } = useSelector(
+  const { userUpdate, userProfile, isLoading, err } = useSelector(
     (state) => state.user
   );
   const { fileList } = useSelector((state) => state.file);
 
   useEffect(() => {
     dispatch(removeFile());
-    dispatch(getAUser(id));
-  }, [dispatch, id]);
+    dispatch(getUserProfile());
+  }, [dispatch]);
+  useEffect(() => {
+    if (err !== "") {
+      toast.error(`Bạn vui lòng đăng nhập lại`, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setTimeout(() => navigate("/login"), 5000);
+    }
+  }, [dispatch, err, navigate]);
   //-------------call api update success
   useEffect(() => {
     if (Object.keys(userUpdate).length !== 0) {
@@ -56,10 +66,14 @@ function EditAccount() {
     e.preventDefault();
 
     const data = getFormData({
-      name: singleUser.name,
-      phone: singleUser.phone,
-      email: singleUser.email,
-      type: singleUser.type,
+      name: userProfile.name,
+      phone: userProfile.phone,
+      email: userProfile.email,
+      type: userProfile.type,
+      province_id: userProfile.province_id,
+      district_id: userProfile.district_id,
+      ward_id: userProfile.ward_id,
+      address: userProfile.address,
       _method: "PUT",
     });
     dispatch(updateUser({ data, id }));
@@ -69,7 +83,7 @@ function EditAccount() {
   const handelInput = (e, name) => {
     dispatch(
       setUpdateUser({
-        ...singleUser,
+        ...userProfile,
         [name]: e.target.value,
       })
     );
@@ -93,8 +107,8 @@ function EditAccount() {
                   src={
                     fileList[0]
                       ? URL.createObjectURL(fileList[0])
-                      : singleUser.avatar
-                      ? singleUser.avatar
+                      : userProfile.avatar
+                      ? userProfile.avatar
                       : "https://demos.themeselection.com/materio-mui-react-nextjs-admin-template-free/images/avatars/1.png"
                   }
                 />
@@ -125,16 +139,17 @@ function EditAccount() {
               </div>
             </div>
             <div className="content">
-              {MenuUser.map((item) => {
+              {MenuUserEdit.map((item) => {
                 return (
                   <InputUser
                     name={item.name}
-                    value={singleUser ? singleUser[item?.name] : ""}
+                    value={userProfile ? userProfile[item?.name] : ""}
                     onChange={(e) => handelInput(e, item.name)}
                     label={item.label}
                   />
                 );
               })}
+              <Address />
             </div>
 
             <div className="bottom">

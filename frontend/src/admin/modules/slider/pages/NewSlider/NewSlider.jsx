@@ -19,8 +19,11 @@ function NewSlider() {
       toast.success(`Bạn đã tạo mới Slider thành công`, {
         position: toast.POSITION.TOP_RIGHT,
       });
-      dispatch(resetNewSlider());
-      setTimeout(() => navigate("/admin/slider"), 5000);
+
+      setTimeout(() => {
+        dispatch(resetNewSlider());
+        navigate("/admin/slider");
+      }, 5000);
     }
   }, [dispatch, navigate, sliderNew]);
 

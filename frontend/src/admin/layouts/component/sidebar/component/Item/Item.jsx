@@ -1,25 +1,18 @@
-import React from "react";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import "./Item.scss";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "~/redux/slice/auth/AuthSlice";
-function Item({ to, icon, title, onclick }) {
-  const dispatch = useDispatch();
+function Item({ to, icon, title }) {
   return (
     <div className="ItemContainer">
-      <button
-        onClick={() => (onclick === "true" ? dispatch(logoutUser()) : "")}
+      <NavLink
+        to={to}
+        className={(navData) => (navData.isActive ? "active" : "")}
       >
-        <NavLink
-          to={to}
-          className={(navData) => (navData.isActive ? "active" : "")}
-        >
-          <div className="ItemContainer__link">
-            {icon}
-            <span>{title}</span>
-          </div>
-        </NavLink>
-      </button>
+        <div className="ItemContainer__link">
+          {icon}
+          <span>{title}</span>
+        </div>
+      </NavLink>
     </div>
   );
 }

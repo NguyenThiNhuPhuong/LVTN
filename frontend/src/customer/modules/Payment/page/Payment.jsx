@@ -18,7 +18,8 @@ import Discount from "../component/discount/Discount";
 import DiscountInput from "../component/discountInput/DiscountInput";
 import Header from "../component/header/Header";
 import Product from "../component/product/Product";
-import { resetIsSuccess } from "~/redux/slice/order/OrderSlice";
+import { resetIsSuccess, setNewOrder } from "~/redux/slice/order/OrderSlice";
+import { getUserProfile } from "~/redux/slice/user/UserSlice";
 //----------------------get date
 const getCurrentDateTime = () => {
   const now = new Date();
@@ -38,6 +39,9 @@ export default function Payment() {
   const { discount, ListDiscountValid } = useSelector(
     (state) => state.discount
   );
+  const { orderNew } = useSelector((state) => state.order);
+  const { userProfile } = useSelector((state) => state.user);
+
   const { isSuccessNew } = useSelector((state) => state.order);
   const { token } = useSelector((state) => state.auth);
   //--------------------declare variable
@@ -53,27 +57,44 @@ export default function Payment() {
         navigate("/product/shop");
         dispatch(resetCart());
         dispatch(resetIsSuccess());
-
       }, 3000);
     }
   }, [isSuccessNew, dispatch, navigate]);
   //----------------------total cart
   useEffect(() => {
-    dispatch(
-      totalAllCart(
-        priceCart - discount > 0 ? priceCart - discount + priceShip : priceShip
-      )
-    );
-  }, [discount, dispatch, priceCart, priceShip]);
+    dispatch(getUserProfile());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (Object.keys(userProfile).length !== 0) {
+      dispatch(
+        setNewOrder({
+          ...orderNew,
+          name: userProfile.name,
+          phone: userProfile.phone,
+          email: userProfile.email,
+          address: userProfile.address,
+          province_id: userProfile.province_id,
+          province_name: userProfile.province_name,
+          district_id: userProfile.province_id,
+          district_name: userProfile.district_name,
+          ward_id: userProfile.ward_id,
+          ward_name: userProfile.ward_name,
+        })
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
+  console.log(orderNew);
   //----------------------call api check valid discount
   useEffect(() => {
     dispatch(
       listDiscountValid({
         date_time: getCurrentDateTime(),
-        price_product: priceCart,
+        price_product: orderNew.price_product,
       })
     );
-  }, [dispatch, priceCart]);
+  }, [dispatch, orderNew.price_product, priceCart]);
 
   return token ? (
     <div className="PaymentContainer">

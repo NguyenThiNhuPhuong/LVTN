@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as userService from "../../../services/userService";
+import Cookies from "js-cookie";
 //GET LIST USER
 export const getListUser = createAsyncThunk("user/getListUser", async () => {
   const response = await userService.getListUser();
@@ -24,12 +25,20 @@ export const updateUser = createAsyncThunk("user/updateUser", async (user) => {
 export const getUserProfile = createAsyncThunk(
   "user/getUserProfile",
   async () => {
-    const response = await userService.getUserProfile();
-    return response.user;
+    try {
+      const response = await userService.getUserProfile();
+      return response.user;
+    } catch (error) {
+      const customError = {
+        message: "Error fetching user profile",
+        error: error.message,
+      };
+      throw customError;
+    }
   }
 );
 const userSlice = createSlice({
-  name: "auth",
+  name: "user",
   initialState: {
     isLoading: false,
     userList: [],
@@ -41,16 +50,18 @@ const userSlice = createSlice({
     userProfile: {},
 
     singleUser: {},
+    err: "",
   },
   reducers: {
-    logout(state) {
+    logoutUser(state) {
       state.userProfile = {};
+      Cookies.remove("token");
     },
     resetNewUser(state) {
       state.userNew = {};
     },
     setUpdateUser(state, action) {
-      state.singleUser = action.payload;
+      state.userProfile = action.payload;
     },
     resetUpdateUser(state) {
       state.userUpdate = {};
@@ -90,8 +101,12 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.userProfile = action.payload;
     },
+    [getUserProfile.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.err = action.error;
+    },
   },
 });
-export const { logout, resetNewUser, setUpdateUser, resetUpdateUser } =
+export const { logoutUser, resetNewUser, setUpdateUser, resetUpdateUser } =
   userSlice.actions;
 export default userSlice.reducer;

@@ -93,7 +93,10 @@ const DetailOrder = () => {
                     <div className="info__item--label">Order info</div>
                     <button
                       onClick={() => setIsModal(true)}
-                      disabled={orderSingle.order_status_id === 5}
+                      disabled={
+                        orderSingle.order_status_id === 5 ||
+                        orderSingle.order_status_id === 6
+                      }
                     >
                       <div className="info__item--name">
                         {orderSingle.approval?.length > 0 &&

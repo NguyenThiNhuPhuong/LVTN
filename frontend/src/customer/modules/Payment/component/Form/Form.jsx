@@ -10,19 +10,25 @@ function Form() {
   const { priceCart, listCart, priceShip, priceAllCart } = useSelector(
     (state) => state.cart
   );
+
+  const { orderNew } = useSelector((state) => state.order);
   const { code_id, discount } = useSelector((state) => state.discount);
-  const { userInfo } = useSelector((state) => state.auth);
+  //   const { code_id, discount } = useSelector((state) => state.discount);
   //------------handelSubmit
-  console.log(discount);
+  //   console.log(discount);
+  console.log(orderNew);
+
   const handelSubmit = (e) => {
     e.preventDefault();
-    const { updated_at, ...user } = userInfo;
     dispatch(
       newOrder({
-        ...user,
-        price_product: priceCart - discount,
+        ...orderNew,
+        price_product: orderNew.price_product - discount,
         price_ship: priceShip,
-        price_all: priceCart - discount + priceShip,
+        price_all:
+          orderNew.price_product - discount > 0
+            ? orderNew.price_product - discount + priceShip
+            : priceShip,
         cart: listCart,
         discount_id: code_id,
       })

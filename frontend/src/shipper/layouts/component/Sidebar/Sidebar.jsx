@@ -6,7 +6,7 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import "./Sidebar.scss";
 import Item from "./component/Item/Item";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "~/redux/slice/auth/AuthSlice";
+import { logoutUser } from "~/redux/slice/user/UserSlice";
 export default function Sidebar() {
   const dispatch = useDispatch();
   return (

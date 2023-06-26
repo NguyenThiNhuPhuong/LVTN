@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as registerService from "../../../services/registerService";
 import Cookies from "js-cookie";
+import * as registerService from "../../../services/registerService";
 //REGISTER
 export const signUpUser = createAsyncThunk("user/signUpUser", async (user) => {
   const response = await registerService.signUpUser(user);
@@ -56,13 +56,6 @@ const authSlice = createSlice({
     valuesChangePassword: {},
   },
   reducers: {
-    logoutUser: (state) => {
-      state.userInfo = "";
-      state.role = "";
-      state.token = null;
-      Cookies.remove("token");
-      localStorage.removeItem("userInfo");
-    },
     resetRegister: (state) => {
       state.isSusses = false;
     },
@@ -133,10 +126,5 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const {
-  logoutUser,
-  resetRegister,
-  getToken,
-  setUserInfo,
-  setValueChangePassword,
-} = authSlice.actions;
+export const { resetRegister, getToken, setUserInfo, setValueChangePassword } =
+  authSlice.actions;

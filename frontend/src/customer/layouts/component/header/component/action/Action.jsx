@@ -1,36 +1,34 @@
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import classNames from "classnames/bind";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { MENU_ITEMS, USER_MENU } from "~/components/constant/Menu";
 import Image from "~/components/image/Image";
-import { getUserProfile } from "~/redux/slice/user/UserSlice";
 import images from "~/ultil/images";
 import styles from "./Action.module.scss";
 import AvatarUser from "./component/avatarUser/AvatarUser";
 import MenuList from "./component/menuList/MenuList";
 function Action() {
   const cx = classNames.bind(styles);
-  const { userInfo } = useSelector((state) => state.auth);
 
+  const { userProfile } = useSelector((state) => state.user);
   const cartQuantity = useSelector((state) => state.cart.listCart?.length);
 
   return (
     <div className={cx("action")}>
       <div className={cx("action__dropdown")}>
         <button>
-          {userInfo?.avatar ? (
+          {userProfile?.avatar ? (
             <img
               className={cx("action__dropdown--avatar")}
               src={
-                userInfo.avatar ||
+                userProfile.avatar ||
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5jdCRwv_UItyMFSKNJSxp6f6lgMi1DRz3LV3neY8t6A&s"
               }
               alt=""
             />
-          ) : userInfo?.name ? (
-            <AvatarUser Auth={userInfo?.name} />
+          ) : userProfile?.name ? (
+            <AvatarUser Auth={userProfile?.name} />
           ) : (
             <Image
               src={images.noImage}
@@ -40,7 +38,7 @@ function Action() {
           )}
 
           <div className={cx("action__dropdown--content")}>
-            <MenuList items={userInfo?.name ? USER_MENU : MENU_ITEMS} />
+            <MenuList items={userProfile?.name ? USER_MENU : MENU_ITEMS} />
           </div>
         </button>
       </div>

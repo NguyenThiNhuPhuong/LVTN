@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import Login from "~/customer/modules/Auth/page/login/Login";
 import * as httpRequest from "~/httpRequest/httpRequest";
 
 //GET LIST USER
@@ -39,10 +40,6 @@ export const updateUser = async ({ data, id }) => {
 };
 //GET USER PROFILE
 export const getUserProfile = async () => {
-  try {
-    const res = await httpRequest.get(`auth/user-profile`);
-    return res;
-  } catch (error) {
-    console.log(error);
-  }
+  const res = await httpRequest.get(`auth/user-profile`);
+  return res;
 };

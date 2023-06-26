@@ -14,6 +14,7 @@ import FormRegister from "../../component/FormRegister/FormRegister";
 import Modal1 from "../../component/Modal1/Modal1";
 import Modal2 from "../../component/Modal2/Modal2";
 import Modal3 from "../../component/Modal3/Modal3";
+import { getUserProfile } from "~/redux/slice/user/UserSlice";
 
 const cx = classNames.bind(styles);
 
@@ -57,15 +58,20 @@ export default function Login() {
   //-----authorization---------
   useEffect(() => {
     if (role === 1) {
+      dispatch(getUserProfile());
       navigate("/admin/dashboard");
     } else if (role === 2) {
+      dispatch(getUserProfile());
+
       navigate("/product/shop");
     } else if (role === 3) {
+      dispatch(getUserProfile());
+
       navigate("/shipper/dashboard");
     } else {
       navigate("/login");
     }
-  }, [navigate, role]);
+  }, [dispatch, navigate, role]);
 
   const formik = useFormik({
     initialValues: {

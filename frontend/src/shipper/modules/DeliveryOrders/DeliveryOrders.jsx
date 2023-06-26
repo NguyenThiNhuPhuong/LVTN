@@ -22,7 +22,6 @@ function DeliveryOrders() {
     <Loading />
   ) : (
     <div className="ListDeliveryOrderContainer">
-      <Top title="Orders" to="/admin/product/newProduct" />
       <div className="main">
         <div className="header">
           <div className="search">
